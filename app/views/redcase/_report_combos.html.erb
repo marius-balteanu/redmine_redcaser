@@ -13,8 +13,8 @@
             'name',
             @version.id
           ),
-          :style => 'width: 225px',
-          :class => 'report_combo'
+          style: 'width: 225px',
+          class: 'report_combo'
         ) if @version
         # TODO: If this view is called with no project version provided,
         #       we need to make sure that it will not crash. This
@@ -39,8 +39,8 @@
             'name',
             get_id_or_default(@root_execution_suite, -1)
           ),
-          :style => 'width: 225px',
-          :class => 'report_combo'
+          style: 'width: 225px',
+          class: 'report_combo'
         )
       %>
     </td>
@@ -59,8 +59,8 @@
             'name',
             @environment.id
           ),
-          :style => 'width: 225px',
-          :class => 'report_combo'
+          style: 'width: 225px',
+          class: 'report_combo'
         )
       %>
     </td>

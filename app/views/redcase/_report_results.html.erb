@@ -25,8 +25,8 @@
           ExecutionResult.all.collect { |x|
             [x.name, x.id]
           } << ['All results', 0] << ['Not passed'],
-          { :selected => 0 },
-          { :style => 'width: 100%' }
+          { selected: 0 },
+          { style: 'width: 100%' }
         )
       %>
     </td>
@@ -52,11 +52,11 @@
       <%=
         link_to(
           x.test_case.issue.id, {
-            :controller => '/issues',
-            :action => :show,
-            :id => x.test_case.issue.id
+            controller: '/issues',
+            action: :show,
+            id: x.test_case.issue.id
           },
-          :target => '_blank'
+          target: '_blank'
         )
       %>
     </td>
@@ -64,11 +64,11 @@
       <%=
         link_to(
           x.test_case.issue.subject, {
-            :controller => '/issues',
-            :action => :show,
-            :id => x.test_case.issue.id
+            controller: '/issues',
+            action: :show,
+            id: x.test_case.issue.id
           },
-          :target => '_blank'
+          target: '_blank'
         )
       %>
     </td>
@@ -78,11 +78,11 @@
       <%=
         link_to(
           x.executor, {
-            :controller => '/users',
-            :action => :show,
-            :id => x.executor.id
+            controller: '/users',
+            action: :show,
+            id: x.executor.id
           },
-          :target => '_blank'
+          target: '_blank'
         )
       %>
     </td>
@@ -93,11 +93,11 @@
           link_to(
             image_tag(
               'info.png',
-              :plugin => 'redcase',
-              :size=> '16x16'
+              plugin: 'redcase',
+              size: '16x16'
             ),
             {},
-            :onclick => "jQuery2('##{x.id}').toggle(150); return false;"
+            onclick: "jQuery2('##{x.id}').toggle(150); return false;"
           )
         %>
       </small>

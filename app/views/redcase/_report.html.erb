@@ -5,7 +5,7 @@
     <td align="right" colspan="2">
       <div id="spec_button_id"
          style="display: inline-block; vertical-align: middle">
-        <%= render :partial => 'report_spec_button' %>
+        <%= render partial: 'report_spec_button' %>
       </div>
     </td>
     <td>&nbsp;</td>
@@ -21,14 +21,14 @@
             <td align="center" valign="middle">
               <div id="combos_id"
                    style="display: inline-block; vertical-align: middle">
-                <%= render :partial => 'report_combos' %>
+                <%= render partial: 'report_combos' %>
               </div>
               &nbsp;
               <div id="download_button_id"
                    style="display: inline-block; vertical-align: middle">
                 <%=
                   render(
-                    :partial => 'report_download_button'
+                    partial: 'report_download_button'
                   )
                 %>
               </div>
@@ -49,7 +49,7 @@
     </td>
     <!-- Test case execution results table -->
     <td id="report_results_table_id">
-      <%= render :partial => 'report_results' %>
+      <%= render partial: 'report_results' %>
     </td>
     <td>&nbsp;</td>
   </tr>

@@ -4,15 +4,15 @@
 <%=
   form_for(
     :list,
-    :remote => true,
-    :url => {
-      :controller => 'redcase/executionsuites',
-      :action => 'update',
-      :project_id => @project.id
+    remote: true,
+    url: {
+      controller: 'redcase/executionsuites',
+      action: 'update',
+      project_id: @project.id
     },
-    :update => :management_execution_suites_id,
-    :complete => 'Redcase.full()',
-    :html => { :id => 'list_form' }
+    update: :management_execution_suites_id,
+    complete: 'Redcase.full()',
+    html: { id: 'list_form' }
   ) do |f|
 %>
   <h3>
@@ -25,9 +25,9 @@
       <%=
         image_tag(
           'save.png',
-          :plugin => 'redcase',
-          :size=> '20x20',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '20x20',
+          style: 'vertical-align: middle'
         )
       %>
     </a>
@@ -35,9 +35,9 @@
       <%=
         image_tag(
           'add.jpg',
-          :plugin => 'redcase',
-          :size=> '13x13',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '13x13',
+          style: 'vertical-align: middle'
         )
       %>
     </a>
@@ -46,9 +46,9 @@
       <%=
         image_tag(
           'delete.jpg',
-          :plugin => 'redcase',
-          :size=> '13x13',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '13x13',
+          style: 'vertical-align: middle'
         )
       %>
     </a>

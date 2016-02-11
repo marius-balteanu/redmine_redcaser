@@ -23,7 +23,7 @@
     <!-- Execution suites management -->
     <td>
       <div id="management_execution_suites_id">
-        <%= render :partial => 'management_execution_suites' %>
+        <%= render partial: 'management_execution_suites' %>
       </div>
       <div id="management_execution_suite_tree_id" class="redcase_tree" />
     </td>
@@ -31,10 +31,10 @@
     <td id="management_environments_id">
       <%=
         render(
-          :partial => 'management_environments',
-          :locals => {
-            :project => @project,
-            :environment => @environment
+          partial: 'management_environments',
+          locals: {
+            project: @project,
+            environment: @environment
           }
         )
       %>

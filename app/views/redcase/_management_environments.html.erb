@@ -4,15 +4,15 @@
 <%=
   form_for(
     environment,
-    :remote => true,
-    :url => {
-      :controller => 'redcase/environments',
-      :action => :create,
-      :project_id => project.id
+    remote: true,
+    url: {
+      controller: 'redcase/environments',
+      action: :create,
+      project_id: project.id
     },
-    :update => :management_environments_id,
-    :complete => 'Redcase.full()',
-    :html => { :id => 'environment_form_id' }
+    update: :management_environments_id,
+    complete: 'Redcase.full()',
+    html: { id: 'environment_form_id' }
   ) do |f|
 %>
   <h3>
@@ -25,9 +25,9 @@
       <%=
         image_tag(
           'save.png',
-          :plugin => 'redcase',
-          :size=> '20x20',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '20x20',
+          style: 'vertical-align: middle'
         )
       %>
     </a>
@@ -35,9 +35,9 @@
       <%=
         image_tag(
           'add.jpg',
-          :plugin => 'redcase',
-          :size=> '13x13',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '13x13',
+          style: 'vertical-align: middle'
         )
       %>
     </a>
@@ -46,9 +46,9 @@
       <%=
         image_tag(
           'delete.jpg',
-          :plugin => 'redcase',
-          :size=> '13x13',
-          :style => 'vertical-align: middle'
+          plugin: 'redcase',
+          size: '13x13',
+          style: 'vertical-align: middle'
         )
       %>
     </a>

@@ -2,7 +2,7 @@
   <tr>
     <td id="execution_test_cases_id">
       <div id="execution_settings_id">
-        <%= render :partial => 'execution_list' %>
+        <%= render partial: 'execution_list' %>
       </div>
       <div id='execution_test_cases_tree_id' class="redcase_tree"/>
     </td>
@@ -29,8 +29,8 @@
           text_area_tag(
             'exec-comment',
             nil,
-            :rows => 4,
-            :style => 'width: 95%'
+            rows: 4,
+            style: 'width: 95%'
           )
         %>
         <br/>
@@ -49,7 +49,7 @@
         <%=
           submit_tag(
             l(:label_button_save),
-            :onclick => 'Redcase.executionTree.execute()'
+            onclick: 'Redcase.executionTree.execute()'
           )
         %>
         <br/>
