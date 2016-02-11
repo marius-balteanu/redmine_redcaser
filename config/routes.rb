@@ -13,5 +13,5 @@ resources :projects do
   end
 end
 
-get 'projects/:id/redcase', :to => 'redcase#index'
-get 'projects/:id/redcase/get_attachment_urls', :to => 'redcase#get_attachment_urls'
+get 'projects/:id/redcase', to: 'redcase#index'
+get 'projects/:id/redcase/get_attachment_urls', to: 'redcase#get_attachment_urls'

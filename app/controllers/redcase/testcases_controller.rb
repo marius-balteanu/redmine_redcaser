@@ -4,7 +4,7 @@ class Redcase::TestcasesController < ApplicationController
   def index
     # TODO: What if there is none?
     test_case = TestCase.where({ issue_id: params[:object_id] }).first
-    render :json => test_case.to_json(view_context)
+    render json: test_case.to_json(view_context)
   end
 
   def copy
@@ -15,7 +15,7 @@ class Redcase::TestcasesController < ApplicationController
     # TODO: What if there is none?
     test_case = TestCase.where({ issue_id: params[:id] }).first
     test_case.copy_to(destination_project)
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   def update
@@ -49,7 +49,7 @@ class Redcase::TestcasesController < ApplicationController
 
     if params[:result].nil?
       test_case.save
-      render :json => {:success => success}
+      render json: {success: success}
     else
       execute(test_case)
     end
@@ -78,7 +78,7 @@ class Redcase::TestcasesController < ApplicationController
       executor: User.current,
       environment: environment
     )
-    render :json => ExecutionJournal
+    render json: ExecutionJournal
       .order('created_on desc')
       .where({ test_case_id: test_case.id })
       .collect { |ej| ej.to_json }

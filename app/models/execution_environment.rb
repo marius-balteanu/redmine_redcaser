@@ -2,9 +2,9 @@ class ExecutionEnvironment < ActiveRecord::Base
   belongs_to :project
   has_many(
     :journals,
-    :class_name => 'ExecutionJournal',
-    :foreign_key => 'environment_id',
-    :dependent => :destroy
+    class_name: 'ExecutionJournal',
+    foreign_key: 'environment_id',
+    dependent: :destroy
   )
   attr_protected :id
 
@@ -12,9 +12,9 @@ class ExecutionEnvironment < ActiveRecord::Base
     env = ExecutionEnvironment.where({ project_id: project.id }).first
     if env.nil?
       env = ExecutionEnvironment.create(
-        :name => 'Default',
-        :description => 'Default environment',
-        :project => project
+        name: 'Default',
+        description: 'Default environment',
+        project: project
       )
     end
     env

@@ -7,8 +7,8 @@ class Redcase::EnvironmentsController < ApplicationController
       params[:execution_environment_id]
     )
     render(
-      :partial => 'redcase/management_environments',
-      :locals => { :project => @project, :environment => environment }
+      partial: 'redcase/management_environments',
+      locals: { project: @project, environment: environment }
     )
   end
 
@@ -16,7 +16,7 @@ class Redcase::EnvironmentsController < ApplicationController
     environment = ExecutionEnvironment.new(params[:execution_environment])
     environment.project_id = @project.id
     environment.save
-    render :json => environment
+    render json: environment
   end
 
   def update
@@ -27,14 +27,14 @@ class Redcase::EnvironmentsController < ApplicationController
     end
     environment.save
     # TODO: Properly handle the case when this fails.
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   def destroy
     environment = ExecutionEnvironment.find(params[:id])
     environment.destroy
     # TODO: Properly handle the case when this fails.
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   # TODO: This one is being used across all the controllers, a good sign for

@@ -5,15 +5,15 @@ class Redcase::TestsuitesController < ApplicationController
     testsuites = TestSuite
       .get_root_for_project(@project)
       .to_json(view_context)
-    render :json => testsuites
+    render json: testsuites
   end
 
   def create
     created = TestSuite.create(
-      :name => params[:name],
-      :parent_id => params[:parent_id]
+      name: params[:name],
+      parent_id: params[:parent_id]
     )
-    render :json => created.to_json(view_context)
+    render json: created.to_json(view_context)
   end
 
   def update
@@ -24,13 +24,13 @@ class Redcase::TestsuitesController < ApplicationController
     testSuite.name = params[:new_name] unless (params[:new_name].nil?)
     testSuite.save
     # TODO: Properly handle if failed.
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   def destroy
     TestSuite.destroy(params[:id])
     # TODO: Properly handle if failed.
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   # TODO: Extract to a base controller.

@@ -10,7 +10,7 @@ class Redcase::GraphController < ApplicationController
     #       anyway, but we need to polish the API and return a JSON data
     #       with an error so the client could handle it properly.
     if !environment
-      render :json => {}
+      render json: {}
       return
     end
     version = Version.find(params[:version_id])
@@ -21,7 +21,7 @@ class Redcase::GraphController < ApplicationController
       root_execution_suite.nil? ? -1 : root_execution_suite.id,
       @project.id
     )
-    render :json => get_json(graph_data)
+    render json: get_json(graph_data)
   end
 
   private
@@ -47,10 +47,10 @@ class Redcase::GraphController < ApplicationController
   def get_json(counts)
     counts.inject([]) { |results, (result_name, count)|
       result = {
-        :value => count,
-        :color => COLORS[result_name],
-        :highlight => HIGHLIGHT_COLORS[result_name],
-        :label => result_name
+        value: count,
+        color: COLORS[result_name],
+        highlight: HIGHLIGHT_COLORS[result_name],
+        label: result_name
       }
       results << result
     }

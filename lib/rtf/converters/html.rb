@@ -25,18 +25,18 @@ module RTF::Converters
     protected
       def clean(html, options = {})
         defaults = {
-          :doctype          => 'omit',
-          :bare             => true,
-          :clean            => true,
-          :drop_empty_paras => true,
-          :logical_emphasis => true,
-          :lower_literals   => true,
-          :merge_spans      => 1,
-          :merge_divs       => 1,
-          :output_html      => true,
-          :indent           => 0,
-          :wrap             => 0,
-          :char_encoding    => 'utf8'
+          doctype: 'omit',
+          bare: true,
+          clean: true,
+          drop_empty_paras: true,
+          logical_emphasis: true,
+          lower_literals: true,
+          merge_spans: 1,
+          merge_divs: 1,
+          output_html: true,
+          indent: 0,
+          wrap: 0,
+          char_encoding: 'utf8'
         }
 
         tidy = Tidy.new defaults.merge(options)

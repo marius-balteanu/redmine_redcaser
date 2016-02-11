@@ -1,6 +1,6 @@
 class TestSuite < ActiveRecord::Base
-  acts_as_tree :order => "name"
-  has_many :test_cases, :dependent => :destroy
+  acts_as_tree order: "name"
+  has_many :test_cases, dependent: :destroy
   belongs_to :project
   attr_protected :id
 
@@ -10,10 +10,10 @@ class TestSuite < ActiveRecord::Base
   def self.get_root_for_project(project)
     test_suite = TestSuite.find_by_project_id(project.id)
     if test_suite.nil?
-      test_suite = TestSuite.create(:name => 'Root')
+      test_suite = TestSuite.create(name: 'Root')
       test_suite.project = project
-      test_suite.children << TestSuite.create(:name => '.Obsolete')
-      test_suite.children << TestSuite.create(:name => '.Unsorted')
+      test_suite.children << TestSuite.create(name: '.Obsolete')
+      test_suite.children << TestSuite.create(name: '.Unsorted')
       test_suite.save
     end
     test_suite

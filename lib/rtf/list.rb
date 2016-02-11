@@ -94,9 +94,9 @@ module RTF
     attr_reader :id
 
     Markers = {
-      :disc    => ListMarker.new('disc',    0x2022),
-      :hyphen  => ListMarker.new('hyphen',  0x2043),
-      :decimal => ListMarker.new('decimal'        )
+      disc: ListMarker.new('disc',    0x2022),
+      hyphen: ListMarker.new('hyphen',  0x2043),
+      decimal: ListMarker.new('decimal'        )
     }
 
     def initialize(id)

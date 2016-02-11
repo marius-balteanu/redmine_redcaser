@@ -7,7 +7,7 @@ class Redcase::ExecutionsuitesController < ApplicationController
       @version = Version
         .order('created_on desc')
         .find_by_project_id(@project.id)
-      render :partial => 'redcase/execution_list'
+      render partial: 'redcase/execution_list'
     else
       @environment = ExecutionEnvironment.find(params[:environment_id])
       @version = Version.find(params[:version_id])
@@ -18,7 +18,7 @@ class Redcase::ExecutionsuitesController < ApplicationController
         params[:suite_id].to_i,
         @project.id
       )
-      render :partial => 'redcase/report_results'
+      render partial: 'redcase/report_results'
     end
   end
 
@@ -33,7 +33,7 @@ class Redcase::ExecutionsuitesController < ApplicationController
       environment = ExecutionEnvironment.find(params[:environment])
     end
 
-    render :json => ExecutionSuite.find(params[:id]).to_json(
+    render json: ExecutionSuite.find(params[:id]).to_json(
       view_context, version, environment
     )
   end
@@ -44,16 +44,16 @@ class Redcase::ExecutionsuitesController < ApplicationController
       #       just once.
       if params[:parent_id].nil?
         ExecutionSuite.create(
-          :name => params[:name],
-          :project_id => @project.id
+          name: params[:name],
+          project_id: @project.id
         )
       else
         ExecutionSuite.create(
-          :name => params[:name],
-          :parent_id => params[:parent_id]
+          name: params[:name],
+          parent_id: params[:parent_id]
         )
       end
-    render :json => execution_suite.to_json(view_context)
+    render json: execution_suite.to_json(view_context)
   end
 
   def update
@@ -62,12 +62,12 @@ class Redcase::ExecutionsuitesController < ApplicationController
       .find(params[:parent_id]) unless params[:parent_id].nil?
     execution_suite.name = params[:new_name] unless params[:new_name].nil?
     execution_suite.save
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   def destroy
     ExecutionSuite.destroy(params[:id])
-    render :json => { :success => true }
+    render json: { success: true }
   end
 
   # TODO: Extract to a base controller.

@@ -27,9 +27,9 @@ class Redcase::CombosController < ApplicationController
       end
     # TODO: Looks like two different partial views, should be separated.
     if params[:button]
-      render :partial => 'redcase/report_download_button'
+      render partial: 'redcase/report_download_button'
     else
-      render :partial => 'redcase/report_combos'
+      render partial: 'redcase/report_combos'
     end
   end
 

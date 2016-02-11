@@ -8,7 +8,7 @@ class Redcase::ExecutionjournalsController < ApplicationController
       else
         ExecutionJournal.order('created_on desc')
       end
-    render :json => journals.map(&:to_json)
+    render json: journals.map(&:to_json)
   end
 
   # TODO: Extract to a base controller.

@@ -1,7 +1,7 @@
 class RedcaseEnvironment < ActiveRecord::Migration
   def self.up
     create_table :execution_environments do |t|
-      t.string  :name, :null => false, :limit => 128
+      t.string  :name, null: false, limit: 128
       t.string  :description
       t.integer :project_id
     end

@@ -44,16 +44,16 @@ class RedcaseController < ApplicationController
   def get_attachment_urls
     issue = Issue.find(params[:issue_id])
     result =  issue.attachments.collect { |a| {
-      :url => url_for(
+      url: url_for(
         # TODO: This probably will fail if Redmine is running not in the
         #       root context. Shouldn't we remove '/'?
-        :controller => '/attachments',
-        :action => :show,
-        :id => a.id
+        controller: '/attachments',
+        action: :show,
+        id: a.id
       ),
-      :name => a.filename
+      name: a.filename
     } }
-    render :json => result
+    render json: result
   end
 
   private

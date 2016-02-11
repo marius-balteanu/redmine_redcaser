@@ -13,7 +13,7 @@ Redmine::Plugin.register :redcase do
   version '1.0'
 
   permission :view_test_cases, {
-    :redcase => [
+    redcase: [
       :index,
       :get_attachment_urls
     ],
@@ -45,7 +45,7 @@ Redmine::Plugin.register :redcase do
   }
 
   permission :edit_test_cases, {
-    :redcase => [
+    redcase: [
       :index,
       :get_attachment_urls
     ],
@@ -89,7 +89,7 @@ Redmine::Plugin.register :redcase do
   }
 
   permission :execute_test_cases, {
-    :redcase => [
+    redcase: [
       :index,
       :get_attachment_urls
     ],
@@ -116,17 +116,17 @@ Redmine::Plugin.register :redcase do
 
   menu :project_menu,
     :redcase, {
-      :controller => 'redcase',
-      :action => 'index'
+      controller: 'redcase',
+      action: 'index'
     }, {
-      :if => proc { |p|
+      if: proc { |p|
         can_view = User.current.allowed_to?(:view_test_cases, p)
         can_edit = User.current.allowed_to?(:edit_test_cases, p)
         tracker_exists = p.trackers.any? { |t| (t.name == 'Test case') }
         (can_view || can_edit) && tracker_exists
       },
-      :caption => 'Test cases',
-      :after => :new_issue
+      caption: 'Test cases',
+      after: :new_issue
     }
 
   Rails.configuration.to_prepare do

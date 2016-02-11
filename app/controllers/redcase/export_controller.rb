@@ -13,7 +13,7 @@ class Redcase::ExportController < ApplicationController
     end
     send_data(
       doc[:document], {
-        :filename => "#{filename}.#{doc[:extension]}"
+        filename: "#{filename}.#{doc[:extension]}"
       }
     )
   end
@@ -28,8 +28,8 @@ class Redcase::ExportController < ApplicationController
       params[:environment_id]
     )
     {
-      :document => excelDoc,
-      :extension => 'csv'
+      document: excelDoc,
+      extension: 'csv'
     }
   end
 
@@ -39,8 +39,8 @@ class Redcase::ExportController < ApplicationController
       @project
     )
     {
-      :document => rtfDoc,
-      :extension => 'rtf'
+      document: rtfDoc,
+      extension: 'rtf'
     }
   end
 
