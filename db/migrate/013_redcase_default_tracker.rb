@@ -1,6 +1,4 @@
-
 class RedcaseDefaultTracker < ActiveRecord::Migration
-
   def self.up
     new_status = IssueStatus.where(
       :name => "New",
@@ -28,5 +26,4 @@ class RedcaseDefaultTracker < ActiveRecord::Migration
 
   def self.down
   end
-    
 end

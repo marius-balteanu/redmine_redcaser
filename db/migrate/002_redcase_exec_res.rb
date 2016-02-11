@@ -1,6 +1,4 @@
-
 class RedcaseExecRes < ActiveRecord::Migration
-
   def self.up
     create_table :execution_results do |t|
       t.string :name, :null => false
@@ -12,9 +10,8 @@ class RedcaseExecRes < ActiveRecord::Migration
     ExecutionResult.create(:name => 'Not Run')
     ExecutionResult.create(:name => 'Not Available')
   end
-  
+
   def self.down
     drop_table :execution_results
   end
-  
 end

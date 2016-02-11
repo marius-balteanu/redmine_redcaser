@@ -1,12 +1,9 @@
-
 # Callback methods to subscribe on Redmine events
 
 require File.expand_path("../../app/helpers/redcase_helper", __FILE__)
 
 module RedcaseOverride
-
   class RO < Redmine::Hook::ViewListener
-  
     include RedcaseHelper
 
     def controller_issues_edit_after_save(context = { })
@@ -50,7 +47,5 @@ module RedcaseOverride
       end
       txt = txt + "<br/>"
     end
-
   end
-
 end

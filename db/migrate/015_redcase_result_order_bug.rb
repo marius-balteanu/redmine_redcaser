@@ -1,6 +1,4 @@
-
 class RedcaseResultOrderBug < ActiveRecord::Migration
-
   def self.up
     rename_column :execution_results, :order, :order_num
   end
@@ -8,5 +6,4 @@ class RedcaseResultOrderBug < ActiveRecord::Migration
   def self.down
     rename_column :execution_results, :order_num, :order
   end
-
 end

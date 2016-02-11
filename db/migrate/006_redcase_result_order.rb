@@ -1,6 +1,4 @@
-
 class RedcaseResultOrder < ActiveRecord::Migration
-
   def self.up
     add_column :execution_results, :order, :integer, :unique => true
     res = ExecutionResult.find_by_name('Not Run')
@@ -18,10 +16,9 @@ class RedcaseResultOrder < ActiveRecord::Migration
     res.order = 4
     res.save
   end
-  
+
   def self.down
     remove_column :execution_results, :order
     ExecutionResult.create(:name => 'Not Run')
   end
-  
 end

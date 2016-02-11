@@ -1,6 +1,4 @@
-
 class RedcaseSetup < ActiveRecord::Migration
-
   def self.up
     create_table :test_suites do |t|
       t.string  :name, :null => false, :limit => 128
@@ -35,7 +33,7 @@ class RedcaseSetup < ActiveRecord::Migration
     end
     add_index :execution_suite_test_case, [:execution_suite_id, :test_case_id], :unique => true, :name => "execution_suite_test_case_index"
   end
-  
+
   def self.down
     drop_table :execution_suite_test_case
     drop_table :test_cases
@@ -44,5 +42,4 @@ class RedcaseSetup < ActiveRecord::Migration
     drop_table :test_suite_project
     drop_table :test_suites
   end
-  
 end

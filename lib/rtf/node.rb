@@ -8,7 +8,7 @@ module RTF
    class Node
       # Node parent.
       attr_accessor :parent
-      
+
       # Constructor for the Node class.
       #
       # ==== Parameters
@@ -1374,7 +1374,7 @@ module RTF
       def to_rtf
         text  = StringIO.new
         count = 0
-  
+
         #text << '{\pard{\*\shppict{\pict'
         text << '{\*\shppict{\pict'
         text << "\\picscalex#{@x_scaling}" if @x_scaling != nil
@@ -1384,15 +1384,15 @@ module RTF
         text << "\\piccropt#{@top_crop}" if @top_crop != nil
         text << "\\piccropb#{@bottom_crop}" if @bottom_crop != nil
         text << "\\picwgoal#{@displayed_width}" if @displayed_width != nil
-        text << "\\pichgoal#{@displayed_height}" if @displayed_height != nil        
+        text << "\\pichgoal#{@displayed_height}" if @displayed_height != nil
         text << "\\picw#{@width}\\pich#{@height}\\bliptag#{@id}"
         text << "\\#{@type.id2name}\n"
-  
+
         open_file do |file|
           file.each_byte do |byte|
             hex_str = byte.to_s(16)
             hex_str.insert(0,'0') if hex_str.length == 1
-            text << hex_str    
+            text << hex_str
             count += 1
             if count == 40
               text << "\n"

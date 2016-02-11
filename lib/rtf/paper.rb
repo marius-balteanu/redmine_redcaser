@@ -7,8 +7,7 @@ module RTF
    class Paper
       # Attribute accessor.
       attr_reader :name, :width, :height
-      
-      
+
       # This is the constructor for the Paper class. All dimension parameters
       # to this method are in twips.
       #
