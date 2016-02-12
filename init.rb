@@ -11,6 +11,10 @@ Redmine::Plugin.register :redmine_redcaser do
   author      'Zitec'
   version     '0.0.1'
 
+  requires_redmine version_or_higher: '3.0.0'
+
+  settings partial: 'redmine_redcaser/plugin_settings'
+
   permission :view_test_cases, {
     redcase:                       [:index, :get_attachment_urls],
     'redcase/environments'      => [:index],
