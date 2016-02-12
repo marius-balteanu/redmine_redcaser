@@ -6,7 +6,7 @@ module RedcaseOverride
   class RO < Redmine::Hook::ViewListener
     include RedcaseHelper
 
-    def controller_issues_edit_after_save(context = { })
+    def controller_issues_edit_after_save(context = {})
       journal_details = JournalDetail.find_by_journal_id(context[:journal])
       if journal_details.nil? then
         # ???
@@ -22,7 +22,7 @@ module RedcaseOverride
       end
     end
 
-    def controller_issues_new_after_save(context = { })
+    def controller_issues_new_after_save(context = {})
       if context[:issue].tracker.name != "Test case" then
         return
       end
@@ -31,7 +31,7 @@ module RedcaseOverride
       x = TestCase.create(issue: context[:issue], test_suite: root.children.detect { |o| o.name == ".Unsorted" } )
     end
 
-    def view_projects_roadmap_version_bottom(context = { })
+    def view_projects_roadmap_version_bottom(context = {})
       test_cases = ExecutionJournal.where({version_id: context[:version]}).map { |x| x.test_case }.uniq
       issues = Issue.where(fixed_version_id: context[:version].id).collect { |x| x.id }
       test_cases = TestCase.where({issue_id: issues})
