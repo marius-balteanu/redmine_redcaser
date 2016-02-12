@@ -6,11 +6,11 @@ require 'version_patch'
 require 'user_patch'
 require 'redcase_override'
 
-Redmine::Plugin.register :redcase do
-  name 'Redcase'
+Redmine::Plugin.register :redmine_redcaser do
+  name 'Redcaser'
   description 'Test cases management plugin for Redmine'
-  author 'Bugzinga Team'
-  version '1.0'
+  author 'Zitec'
+  version '0.0.1'
 
   permission :view_test_cases, {
     redcase: [
