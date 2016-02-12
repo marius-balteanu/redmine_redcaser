@@ -3,12 +3,12 @@
 
   <%= stylesheet_link_tag 'application' %>
   <!-- Redcase -->
-  <%= stylesheet_link_tag 'styles', plugin: 'redcase' %>
+  <%= stylesheet_link_tag 'styles', plugin: 'redmine_redcaser' %>
   <!-- jstree -->
   <%=
     stylesheet_link_tag(
       '../javascripts/jstree/themes/default/style.min.css',
-      plugin: 'redcase'
+      plugin: 'redmine_redcaser'
     )
   %>
 
@@ -16,18 +16,18 @@
   <%=
     javascript_include_tag(
       'jquery 2.1.3/jquery-2.1.3.min.js',
-      plugin: 'redcase'
+      plugin: 'redmine_redcaser'
     )
   %>
   <!-- jQuery UI -->
   <%=
     javascript_include_tag(
       'jquery-ui 1.11.4/jquery-ui.min.js',
-      plugin: 'redcase'
+      plugin: 'redmine_redcaser'
     )
   %>
   <!-- jstree -->
-  <%= javascript_include_tag 'jstree/jstree.min.js', plugin: 'redcase' %>
+  <%= javascript_include_tag 'jstree/jstree.min.js', plugin: 'redmine_redcaser' %>
 
 <script type="text/javascript">
   // NonConflict jQuery
@@ -39,16 +39,16 @@
 </script>
 
 <!-- Redcase -->
-  <%= javascript_include_tag 'logging', plugin: 'redcase' %>
-  <%= javascript_include_tag 'api', plugin: 'redcase' %>
-  <%= javascript_include_tag 'main', plugin: 'redcase' %>
-  <%= javascript_include_tag 'testSuiteTree', plugin: 'redcase' %>
-  <%= javascript_include_tag 'executionSuiteTree', plugin: 'redcase' %>
-  <%= javascript_include_tag 'executionTree', plugin: 'redcase' %>
-  <%= javascript_include_tag 'environments', plugin: 'redcase' %>
-  <%= javascript_include_tag 'combos', plugin: 'redcase' %>
-  <%= javascript_include_tag 'chartjs/Chart.min.js', plugin: 'redcase' %>
-  <%= javascript_include_tag 'chart.js', plugin: 'redcase' %>
+  <%= javascript_include_tag 'logging',              plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'api',                  plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'main',                 plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'testSuiteTree',        plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'executionSuiteTree',   plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'executionTree',        plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'environments',         plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'combos',               plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'chartjs/Chart.min.js', plugin: 'redmine_redcaser' %>
+  <%= javascript_include_tag 'chart.js',             plugin: 'redmine_redcaser' %>
 <% end %>
 
 <script type="text/javascript">
@@ -60,12 +60,7 @@
 
 <% html_title "Test cases" %>
 
-<h2>Test cases
-    <!-- Temporary plugin version output (only for testing) -->
-    <span style="color: gray">
-        (Plugin version: <%= Redmine::Plugin.all.detect { |x| x.name == 'Redcase' }.version %>)
-    </span>
-</h2>
+<h2>Test cases</h2>
 
 <% if @version.nil? then %>
   <div style="color: #bbbbbb; text-align: center">

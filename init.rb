@@ -1,5 +1,3 @@
-require 'redcase_override'
-
 ActionDispatch::Callbacks.to_prepare do
   paths = '/lib/redmine_redcaser/{patches/*_patch,hooks/*_hook}.rb'
   Dir.glob(File.dirname(__FILE__) + paths).each do |file|
@@ -8,10 +6,10 @@ ActionDispatch::Callbacks.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_redcaser do
-  name 'Redcaser'
+  name        'Redcaser'
   description 'Test cases management plugin for Redmine'
-  author 'Zitec'
-  version '0.0.1'
+  author      'Zitec'
+  version     '0.0.1'
 
   permission :view_test_cases, {
     redcase:                       [:index, :get_attachment_urls],
@@ -64,7 +62,7 @@ Redmine::Plugin.register :redmine_redcaser do
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = { redmine_testing_gems: '1.1.1' }
+  test_dependencies = { redmine_testing_gems: '1.3.0' }
   current_plugin = Redmine::Plugin.find(:redmine_redcaser)
   check_dependencies = proc do |plugin, version|
     begin
