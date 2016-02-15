@@ -57,7 +57,7 @@ Redmine::Plugin.register :redmine_redcaser do
       if: proc { |p|
         can_view = User.current.allowed_to?(:view_test_cases, p)
         can_edit = User.current.allowed_to?(:edit_test_cases, p)
-        tracker_exists = p.trackers.any? { |t| (t.name == 'Test case') }
+        tracker_exists = p.trackers.where(id: RedcaserSettings.tracker_id).first
         (can_view || can_edit) && tracker_exists
       },
       caption: 'Test cases',

@@ -14,9 +14,9 @@ module RedmineRedcaser
           return
         end
         if journal_details.prop_key == 'tracker_id' then
-          if journal_details.value == Tracker.find_by_name('Test case').id.to_s then
+          if journal_details.value == RedcaserSettings.tracker_id.to_s then
             controller_issues_new_after_save(context)
-          elsif journal_details.old_value == Tracker.find_by_name('Test case').id.to_s then
+          elsif journal_details.old_value == RedcaserSettings.tracker_id.to_s then
             tc = TestCase.find_by_issue_id(context[:issue].id)
             tc.destroy if !tc.nil?
           end
@@ -24,7 +24,7 @@ module RedmineRedcaser
       end
 
       def controller_issues_new_after_save(context = {})
-        if context[:issue].tracker.name != "Test case" then
+        if context[:issue].tracker.id != RedcaserSettings.tracker_id then
           return
         end
         root = TestSuite.get_root_for_project(context[:issue].project)

@@ -45,7 +45,7 @@ class TestCase < ActiveRecord::Base
   def self.remove_orphaned(issues)
     missed_tc = issues.collect { |issue|
       tc = issue.test_case
-      tc if (tc && (issue.tracker.name != 'Test case'))
+      tc if (tc && (issue.tracker.id != RedcaserSettings.tracker_id))
     }.compact
     missed_tc.each { |tc| tc.destroy }
   end
@@ -54,7 +54,7 @@ class TestCase < ActiveRecord::Base
   # ".Unsorted" test suite.
   def self.move_unsorted(issues, project)
     unlinked_issues = issues.select { |issue|
-      (issue.tracker.name == 'Test case') && issue.test_case.nil?
+      (issue.tracker.id == RedcaserSettings.tracker_id) && issue.test_case.nil?
     }
     unlinked_issues.each { |issue|
       x = TestCase.create(
@@ -70,7 +70,7 @@ class TestCase < ActiveRecord::Base
     # Move all test cases with status "Obsolete" to ".Obsolete" test suite
     # if they aren't already there.
     obsoleted_issues = issues.select { |issue|
-      (issue.tracker.name == 'Test case') && (issue.status.name == 'Obsolete')
+      (issue.tracker.id == RedcaserSettings.tracker_id) && (issue.status.id == RedcaserSettings.status_obsolete_id)
     }
     obsoleted_issues.each { |issue|
       if !issue.test_case.nil?
