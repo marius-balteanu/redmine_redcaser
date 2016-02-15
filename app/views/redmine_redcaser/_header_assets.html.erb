@@ -1,0 +1,55 @@
+<%= stylesheet_link_tag 'application' %>
+<!-- Redcase -->
+<%= stylesheet_link_tag 'styles', plugin: 'redmine_redcaser' %>
+<!-- jstree -->
+<%=
+  stylesheet_link_tag(
+    '../javascripts/jstree/themes/default/style.min.css',
+    plugin: 'redmine_redcaser'
+  )
+%>
+
+<!-- jQuery 2 -->
+<%=
+  javascript_include_tag(
+    'jquery 2.1.3/jquery-2.1.3.min.js',
+    plugin: 'redmine_redcaser'
+  )
+%>
+<!-- jQuery UI -->
+<%=
+  javascript_include_tag(
+    'jquery-ui 1.11.4/jquery-ui.min.js',
+    plugin: 'redmine_redcaser'
+  )
+%>
+<!-- jstree -->
+<%= javascript_include_tag 'jstree/jstree.min.js', plugin: 'redmine_redcaser' %>
+
+<script type="text/javascript">
+// NonConflict jQuery
+var jQuery2 = $.noConflict(true);
+
+function getIssueUrl(issueId) {
+  return '<%= issue_path('issue_id') %>'.replace('issue_id', issueId);
+}
+</script>
+
+<!-- Redcase -->
+<%= javascript_include_tag 'logging',              plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'api',                  plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'main',                 plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'testSuiteTree',        plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'executionSuiteTree',   plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'executionTree',        plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'environments',         plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'combos',               plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'chartjs/Chart.min.js', plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'chart.js',             plugin: 'redmine_redcaser' %>
+
+<script type="text/javascript">
+  // Project identifier
+  jsProjectId = <%= @project.id %>;
+  // User access rights
+  jsCanEdit = <%= User.current.allowed_to?(:edit_test_cases, @project) != false %>;
+</script>
