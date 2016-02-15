@@ -18,13 +18,15 @@ class RedcaserSetup < ActiveRecord::Migration
       column.integer :test_suite_id, null: false
       column.integer :issue_id, null: false
     end
-    add_index :test_cases, [:test_suite_id, :issue_id], unique: true
+    add_index :test_cases, [:test_suite_id, :issue_id], unique: true,
+      name: 'test_suite_test_case_index'
 
     create_table :execution_suite_test_case, id: false do |column|
       column.integer :execution_suite_id, null: false
       column.integer :test_case_id, null: false
     end
-    add_index :execution_suite_test_case, [:execution_suite_id, :test_case_id], unique: true
+    add_index :execution_suite_test_case, [:execution_suite_id, :test_case_id],
+      unique: true, name: 'execution_suite_test_case_index'
 
     create_table :execution_results do |column|
       column.string  :name, null: false
