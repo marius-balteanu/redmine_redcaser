@@ -1,6 +1,8 @@
-<% trackers = Tracker.select([:id, :name])
-   statuses = IssueStatus.select([:id, :name])
-   settings = {} if !settings || settings.blank? %>
+<%
+  trackers = Tracker.select([:id, :name])
+  statuses = IssueStatus.select([:id, :name])
+  settings = {} if !settings || settings.blank?
+%>
 
 <table>
   <thead>
