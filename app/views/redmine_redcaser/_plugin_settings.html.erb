@@ -1,1 +1,46 @@
-Plugin settings go here
+<% trackers = Tracker.select([:id, :name])
+   statuses = IssueStatus.select([:id, :name])
+   settings = {} if !settings || settings.blank? %>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        Test case tracker:
+      </td>
+      <td>
+        <%= select_tag 'settings[tracker]', options_from_collection_for_select(trackers, :id, :name, settings['tracker'].to_i), include_blank: true %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        New test case status:
+      </td>
+      <td>
+        <%= select_tag 'settings[status_new]', options_from_collection_for_select(statuses, :id, :name, settings['status_new'].to_i), include_blank: true %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Active test case status:
+      </td>
+      <td>
+        <%= select_tag 'settings[status_active]', options_from_collection_for_select(statuses, :id, :name, settings['status_active'].to_i), include_blank: true %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Obsolete test case status:
+      </td>
+      <td>
+        <%= select_tag 'settings[status_obsolete]', options_from_collection_for_select(statuses, :id, :name, settings['status_obsolete'].to_i), include_blank: true %>
+      </td>
+    </tr>
+  </tbody>
+</table>

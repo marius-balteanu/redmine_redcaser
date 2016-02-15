@@ -15,7 +15,7 @@ task 'redmine_redcaser:default_data' => :environment do
     is_closed: false
   ).first_or_create!
 
-  obsoleted_status = IssueStatus.where(
+  obsolete_status = IssueStatus.where(
     name:      'Obsolete',
     is_closed: false
   ).first_or_create!
@@ -42,12 +42,12 @@ task 'redmine_redcaser:default_data' => :environment do
       tracker:    tracker,
       role:       role,
       old_status: active_status,
-      new_status: obsoleted_status
+      new_status: obsolete_status
     )
     WorkflowTransition.create!(
       tracker:    tracker,
       role:       role,
-      old_status: obsoleted_status,
+      old_status: obsolete_status,
       new_status: new_status
     )
   end

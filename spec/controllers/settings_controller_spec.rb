@@ -13,24 +13,22 @@ describe SettingsController, type: :controller do
     end
 
     context 'GET #plugin without initial settigns' do
-      before :example do
-        create_base_setup_without_settings
-        get :plugin, id: 'redmine_redcaser'
-      end
-
       it 'responds with the plugin settings page' do
+        clear_plugin_settings
+
+        get :plugin, id: 'redmine_redcaser'
+
         expect(response).to have_http_status(:ok)
         expect(response).to render_template(:plugin)
       end
     end
 
     context 'GET #plugin with initial settigns' do
-      before :example do
-        create_base_setup_with_settings
-        get :plugin, id: 'redmine_redcaser'
-      end
-
       it 'responds with the plugin settings page' do
+        create_base_setup_with_settings
+
+        get :plugin, id: 'redmine_redcaser'
+
         expect(response).to have_http_status(:ok)
         expect(response).to render_template(:plugin)
       end
