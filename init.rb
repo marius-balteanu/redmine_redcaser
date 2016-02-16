@@ -6,7 +6,7 @@ ActionDispatch::Callbacks.to_prepare do
 end
 
 Redmine::Plugin.register :redmine_redcaser do
-  name        'Redcaser'
+  name        'Redmine Redcaser'
   description 'Test cases management plugin for Redmine'
   author      'Zitec'
   version     '0.0.1'
@@ -60,7 +60,7 @@ Redmine::Plugin.register :redmine_redcaser do
         tracker_exists = p.trackers.where(id: RedcaserSettings.tracker_id).first
         (can_view || can_edit) && tracker_exists
       },
-      caption: 'Test cases',
+      caption: proc { RedcaserSettings.tracker_name.pluralize },
       after: :new_issue
     }
 end

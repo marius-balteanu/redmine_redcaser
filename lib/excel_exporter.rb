@@ -1,4 +1,6 @@
-class Excel_Exporter
+require 'csv'
+
+class ExcelExporter
   def self.exportTestResults(project_id, suite_id, version_id, environment_id)
     issues = Issue
       .order('id asc')
@@ -48,7 +50,7 @@ class Excel_Exporter
     }
     bom = "\357\273\277"
     bom + rows.inject('') { |buffer, row|
-      buffer += CSV.generate_line(row)
+      buffer += ::CSV.generate_line(row)
       buffer
     }.force_encoding('utf-8')
   end

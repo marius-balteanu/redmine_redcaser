@@ -21,7 +21,7 @@ class Redcase::ExportController < ApplicationController
   private
 
   def export_to_excel
-    excelDoc = Excel_Exporter.exportTestResults(
+    excelDoc = ExcelExporter.exportTestResults(
       @project.id,
       params[:suite_id],
       params[:version_id],
@@ -34,7 +34,7 @@ class Redcase::ExportController < ApplicationController
   end
 
   def export_to_rtf
-    rtfDoc = Rtf_Exporter.exportTestSuiteSpec(
+    rtfDoc = RTFExporter.exportTestSuiteSpec(
       params[:suite_id].to_i,
       @project
     )

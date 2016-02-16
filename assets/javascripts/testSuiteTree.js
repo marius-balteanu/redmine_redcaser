@@ -105,7 +105,8 @@ var RedcaseTestSuiteTree = function($) {
           newInstance.delete_node(newNode);
         },
         errorMessage: (
-          "Test case '" + orgNode.text + "' can't be moved"
+          Redcaser.tracker_name
+          + " '" + orgNode.text + "' can't be moved"
         )
       }
     );
@@ -241,7 +242,8 @@ var RedcaseTestSuiteTree = function($) {
           console.log('newId = ' + newId);
         },
         errorMessage: (
-          "Test case '" + node.text + "' can't be deleted"
+          Redcaser.tracker_name
+          + " '" + node.text + "' can't be deleted"
         )
       }
     );

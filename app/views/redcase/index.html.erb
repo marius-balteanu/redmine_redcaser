@@ -1,11 +1,10 @@
-<% html_title "Test cases" %>
+<% html_title RedcaserSettings.tracker_name.pluralize %>
 
-<h2>Test cases</h2>
+<h2><%= RedcaserSettings.tracker_name.pluralize %></h2>
 
 <% if @version.nil? then %>
   <div style="color: #bbbbbb; text-align: center">
-    (There are no <b>versions</b> for this project. If you need to execute
-    test cases please create one...)
+    (There are no <b>versions</b> for this project, please create one...)
   </div>
 <% end %>
 

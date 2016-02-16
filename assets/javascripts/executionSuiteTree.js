@@ -239,7 +239,8 @@ var RedcaseExecutionSuiteTree = function($) {
           Redcase.full();
         },
         errorMessage: (
-          "Test case '"
+          Redcaser.tracker_name
+          + " '"
           + node.text
           + "' can't be deleted"
         )
@@ -357,7 +358,8 @@ var RedcaseExecutionSuiteTree = function($) {
           newInstance.delete_node(newNode);
         },
         errorMessage: (
-          "Test case '"
+          Redcaser.tracker_name
+          + " '"
           + orgNode.text
           + "' can't be moved"
         )
@@ -425,7 +427,8 @@ var RedcaseExecutionSuiteTree = function($) {
             } else {
               newInstance.delete_node(newNode);
               Redcase.errorBox(
-                "Test case '"
+                Redcaser.tracker_name
+                + " '"
                 + orgNode.text
                 + "' can't be added"
               );
@@ -435,7 +438,8 @@ var RedcaseExecutionSuiteTree = function($) {
             newInstance.delete_node(newNode);
           },
           errorMessage: (
-            "Test case '" + orgNode.text + "' can't be added"
+            Redcaser.tracker_name
+            + " '" + orgNode.text + "' can't be added"
           )
         }
       );

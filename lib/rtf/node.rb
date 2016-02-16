@@ -121,7 +121,7 @@ module RTF
         # Ruby 1.9 is safe, cause detect original encoding
         # and convert text to utf-16 first
         if RUBY_VERSION>"1.9.0"
-          return rtf.encode("UTF-16LE", undef::replace).each_codepoint.map(&f).join('')
+          return rtf.encode("UTF-16LE", undef: :replace).each_codepoint.map(&f).join('')
         else
           # You SHOULD use UTF-8 as input, ok?
           return rtf.unpack('U*').map(&f).join('')

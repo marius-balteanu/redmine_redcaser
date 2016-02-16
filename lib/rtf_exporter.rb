@@ -1,4 +1,4 @@
-class Rtf_Exporter
+class RTFExporter
   include RTF
 
   @@cStyles = {}

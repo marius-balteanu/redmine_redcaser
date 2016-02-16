@@ -168,7 +168,9 @@ var RedcaseExecutionTree = function($) {
             Redcase.api.apiCall(apiParms);
           },
           errorMessage: (
-            "Information about test case '"
+            "Information about "
+            + Redcaser.tracker_name
+            + " '"
             + node.text
             + "' can't be obtained"
           )

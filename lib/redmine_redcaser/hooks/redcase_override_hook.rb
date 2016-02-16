@@ -37,7 +37,7 @@ module RedmineRedcaser
         issues = Issue.where(fixed_version_id: context[:version].id).collect { |x| x.id }
         test_cases = TestCase.where({issue_id: issues})
         results = ExecutionResult.all
-        txt = "<span style='color: red'>Total test cases:</span> <b>" + test_cases.size.to_s + "</b>"
+        txt = "<span style='color: red'>Total #{RedcaserSettings.tracker_name.downcase.pluralize}:</span> <b>" + test_cases.size.to_s + "</b>"
         for r in results do
           count = 0
           for t in test_cases do
