@@ -1,9 +1,9 @@
 desc 'Populates the redcaser tables with default data'
 task 'redmine_redcaser:default_data' => :environment do
-  ExecutionResult.create!(name: 'Passed', order: 1)
-  ExecutionResult.create!(name: 'Failed', order: 2)
-  ExecutionResult.create!(name: 'Blocked', order: 3)
-  ExecutionResult.create!(name: 'Not Available', order:4)
+  ExecutionResult.create!(name: 'Passed', order_number: 1)
+  ExecutionResult.create!(name: 'Failed', order_number: 2)
+  ExecutionResult.create!(name: 'Blocked', order_number: 3)
+  ExecutionResult.create!(name: 'Not Available', order_number: 4)
 
   new_status = IssueStatus.where(
     name:      'New',
