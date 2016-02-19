@@ -8,8 +8,11 @@ class TestSuite < ActiveRecord::Base
   # 'system' test suites (for 'obsolete' and 'unsorted' test cases) if they
   # don't exist yet.
   def self.get_root_for_project(project)
-    test_suite = TestSuite.find_by_project_id(project.id)
-    if test_suite.nil?
+    test_suite = TestSuite
+      .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
+      .where(project_id: project.id)
+      .first
+    unless test_suite
       test_suite = TestSuite.create(name: 'Root')
       test_suite.project = project
       test_suite.children << TestSuite.create(name: '.Obsolete')
@@ -20,37 +23,30 @@ class TestSuite < ActiveRecord::Base
   end
 
   def self.get_obsolete(project)
-    TestSuite.get_root_for_project(project).children.detect { |o|
-      (o.name == '.Obsolete')
-    }
+    TestSuite.get_root_for_project(project).children.where(name: '.Obsolete')
   end
 
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json(context)
     if parent_id
-      kids = children.collect { |s|
-        s.to_json(context)
-      } + test_cases.sort_by { |x|
-        x.issue.subject
-      }.collect { |tc|
-        tc.to_json(context)
-      }
+      kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
+          .map { |s| s.to_json(context) } \
+        + test_cases
+          .sort_by { |x| x.issue.subject }
+          .map { |tc| tc.to_json(context) }
     else
-      kids = children.select { |x|
-        (x.name != '.Obsolete') && (x.name != '.Unsorted')
-      }.collect { |s|
-        s.to_json(context)
-      } + test_cases.sort_by { |x|
-        x.issue.subject
-      }.collect { |tc|
-        tc.to_json(context)
-      } + children.select { |x|
-        (x.name == '.Obsolete') || (x.name == '.Unsorted')
-      }.collect { |s|
-        s.to_json(context)
-      }
+      kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
+          .select { |x| (x.name != '.Obsolete') && (x.name != '.Unsorted')}
+          .map { |s| s.to_json(context) } \
+        + test_cases
+          .sort_by { |x| x.issue.subject }
+          .map { |tc| tc.to_json(context) } \
+        + children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
+          .select { |x| (x.name == '.Obsolete') || (x.name == '.Unsorted')}
+          .map { |s| s.to_json(context) }
     end
+
     {
       'suite_id'       => id,
       'text'           => name,

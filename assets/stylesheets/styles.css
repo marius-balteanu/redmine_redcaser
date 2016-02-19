@@ -94,6 +94,9 @@
 #management_test_suites_id h3 {
   color: navy;
 }
+#management_test_suites_id h3 a {
+  float: right;
+}
 #management_execution_suites_id h3 select {
   border: 1px maroon solid;
 }
