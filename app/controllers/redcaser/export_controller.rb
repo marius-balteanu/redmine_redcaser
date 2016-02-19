@@ -1,4 +1,4 @@
-class Redcase::ExportController < ApplicationController
+class Redcaser::ExportController < ApplicationController
   before_filter :find_project, :authorize
 
   def index

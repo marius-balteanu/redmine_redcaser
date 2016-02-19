@@ -2,8 +2,8 @@
 #       better one. As this controller generates output for reports, it could be
 #       ReportController which would had two separate methods to generate two
 #       different kind of data (for the download button and the combo controls).
-class Redcase::CombosController < ApplicationController
-  helper RedcaseHelper
+class Redcaser::CombosController < ApplicationController
+  helper RedcaserHelper
   before_filter :find_project, :authorize
 
   def index
@@ -27,9 +27,9 @@ class Redcase::CombosController < ApplicationController
       end
     # TODO: Looks like two different partial views, should be separated.
     if params[:button]
-      render partial: 'redcase/report_download_button'
+      render partial: 'redcaser/report_download_button'
     else
-      render partial: 'redcase/report_combos'
+      render partial: 'redcaser/report_combos'
     end
   end
 

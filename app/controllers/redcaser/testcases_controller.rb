@@ -1,4 +1,4 @@
-class Redcase::TestcasesController < ApplicationController
+class Redcaser::TestcasesController < ApplicationController
   before_filter :find_project, :authorize
 
   def index

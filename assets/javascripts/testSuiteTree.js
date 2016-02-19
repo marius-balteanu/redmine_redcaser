@@ -1,4 +1,4 @@
-var RedcaseTestSuiteTree = function () {
+var RedcaserTestSuiteTree = function () {
 
   self = this;
 
@@ -424,5 +424,5 @@ $(function () {
   if (Redcase.testSuiteTree) {
     return;
   }
-  Redcase.testSuiteTree = new RedcaseTestSuiteTree();
+  Redcase.testSuiteTree = new RedcaserTestSuiteTree();
 });

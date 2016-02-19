@@ -1,4 +1,4 @@
-class Redcase::ExecutionsuitesController < ApplicationController
+class Redcaser::ExecutionsuitesController < ApplicationController
   before_filter :find_project, :authorize
 
   def index
@@ -7,7 +7,7 @@ class Redcase::ExecutionsuitesController < ApplicationController
       @version = Version
         .order('created_on desc')
         .find_by_project_id(@project.id)
-      render partial: 'redcase/execution_list'
+      render partial: 'redcaser/execution_list'
     else
       @environment = ExecutionEnvironment.find(params[:environment_id])
       @version = Version.find(params[:version_id])
@@ -18,7 +18,7 @@ class Redcase::ExecutionsuitesController < ApplicationController
         params[:suite_id].to_i,
         @project.id
       )
-      render partial: 'redcase/report_results'
+      render partial: 'redcaser/report_results'
     end
   end
 

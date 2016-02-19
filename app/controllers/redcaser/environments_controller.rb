@@ -1,5 +1,5 @@
-class Redcase::EnvironmentsController < ApplicationController
-  helper RedcaseHelper
+class Redcaser::EnvironmentsController < ApplicationController
+  helper RedcaserHelper
   before_filter :find_project, :authorize
 
   def index
@@ -7,7 +7,7 @@ class Redcase::EnvironmentsController < ApplicationController
       params[:execution_environment_id]
     )
     render(
-      partial: 'redcase/management_environments',
+      partial: 'redcaser/management_environments',
       locals: { project: @project, environment: environment }
     )
   end

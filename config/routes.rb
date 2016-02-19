@@ -1,10 +1,10 @@
 resources :projects do
   member do
-    get :redcaser, to: 'redcase#index'
-    get 'redcaser/get_attachment_urls', to: 'redcase#get_attachment_urls'
+    get :redcaser, to: 'redcaser#index'
+    get 'redcaser/get_attachment_urls', to: 'redcaser#get_attachment_urls'
   end
 
-  namespace :redcase do
+  namespace :redcaser do
     resources :environments, only: [:index, :create, :update, :destroy]
     resources :testsuites, only: [:index, :create, :update, :destroy]
 

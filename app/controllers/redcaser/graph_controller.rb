@@ -1,4 +1,4 @@
-class Redcase::GraphController < ApplicationController
+class Redcaser::GraphController < ApplicationController
   before_filter :find_project, :authorize
 
   def show

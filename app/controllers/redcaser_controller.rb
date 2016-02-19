@@ -1,5 +1,5 @@
-class RedcaseController < ApplicationController
-  helper RedcaseHelper
+class RedcaserController < ApplicationController
+  helper RedcaserHelper
   before_filter :find_project, :authorize
 
   def index
@@ -34,7 +34,7 @@ class RedcaseController < ApplicationController
       #        properly.
       @version,
       # FIXME: Get rid of the magic number -1.
-      RedcaseHelper.get_id_or_default(@root_execution_suite, -1),
+      RedcaserHelper.get_id_or_default(@root_execution_suite, -1),
       # TODO: More OOP kind of style would be to supply a Project object
       #       instead of an indentifier.
       @project.id

@@ -1,4 +1,4 @@
-var RedcaseExecutionTree = function () {
+var RedcaserExecutionTree = function () {
 
   var tree;
 
@@ -233,5 +233,5 @@ $(function () {
   if (Redcase.executionTree) {
     return;
   }
-  Redcase.executionTree = new RedcaseExecutionTree();
+  Redcase.executionTree = new RedcaserExecutionTree();
 });

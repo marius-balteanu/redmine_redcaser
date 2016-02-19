@@ -1,6 +1,6 @@
 <%=
   form_tag({
-    controller: 'redcase/export',
+    controller: 'redcaser/export',
     action: :index,
     export_to: :excel,
     project_id: @project.id,
@@ -16,7 +16,7 @@
     size: '95x36',
     style: 'vertical-align: middle'
   ), {
-    controller: 'redcase/export',
+    controller: 'redcaser/export',
     action: :index,
     export_to: :excel,
     project_id: @project.id,

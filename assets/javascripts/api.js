@@ -1,8 +1,8 @@
-var RedcaseApi = function () {
+var RedcaserAPI = function () {
 
-  var log = LogManager.getLog('redcase.api');
+  var log = LogManager.getLog('redcaser.api');
 
-  this.context = 'redcase/';
+  this.context = 'redcaser/';
 
   this.core = new function () {
 
@@ -250,5 +250,5 @@ $(function () {
   if (Redcase.api) {
     return;
   }
-  Redcase.api = new RedcaseApi();
+  Redcase.api = new RedcaserAPI();
 });

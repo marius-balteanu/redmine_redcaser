@@ -1,6 +1,6 @@
 require 'application_helper'
 
-module RedcaseHelper
+module RedcaserHelper
   def get_id_or_default(obj, default_value)
     if obj.respond_to?(:id)
       return obj.id
@@ -12,10 +12,10 @@ module RedcaseHelper
   module_function :get_id_or_default
 
   def get_plugin_tabs(project)
-    unless Version.where({ project_id: project.id }).exists
+    unless Version.where({ project_id: project.id }).exists?
       [{
         name: 'Management',
-        partial: 'redcase/management',
+        partial: 'redcaser/management',
         label: :label_test_case_management
       }]
     else
@@ -25,17 +25,17 @@ module RedcaseHelper
       tabs = []
       tabs << {
         name: 'Management',
-        partial: 'redcase/management',
+        partial: 'redcaser/management',
         label: :label_test_case_management
       } if can_edit
       tabs << {
         name: 'Execution',
-        partial: 'redcase/execution',
+        partial: 'redcaser/execution',
         label: :label_test_case_execution
       } if can_execute
       tabs << {
         name: 'Report',
-        partial: 'redcase/report',
+        partial: 'redcaser/report',
         label: :label_test_case_report
       } if (can_edit || can_execute || can_view )
       tabs

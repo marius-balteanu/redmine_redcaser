@@ -1,6 +1,6 @@
 <%=
   form_tag({
-    controller: 'redcase/export',
+    controller: 'redcaser/export',
     action: :index,
     export_to: :rtf,
     project_id: @project.id,
@@ -13,7 +13,7 @@
     plugin: 'redmine_redcaser',
     size: '180x36'
   ), {
-    controller: 'redcase/export',
+    controller: 'redcaser/export',
     action: :index,
     export_to: :rtf,
     project_id: @project.id,

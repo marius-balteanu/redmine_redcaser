@@ -16,50 +16,52 @@ Redmine::Plugin.register :redmine_redcaser do
   settings partial: 'redmine_redcaser/plugin_settings'
 
   permission :view_test_cases, {
-    redcase:                       [:index, :get_attachment_urls],
-    'redcase/environments'      => [:index],
-    'redcase/testsuites'        => [:index],
-    'redcase/testcases'         => [:index],
-    'redcase/executionjournals' => [:index],
-    'redcase/export'            => [:index],
-    'redcase/executionsuites'   => [:index, :show],
-    'redcase/graph'             => [:show],
-    'redcase/combos'            => [:index]
+    redcaser:                       [:index, :get_attachment_urls],
+    'redcaser/environments'      => [:index],
+    'redcaser/testsuites'        => [:index],
+    'redcaser/testcases'         => [:index],
+    'redcaser/executionjournals' => [:index],
+    'redcaser/export'            => [:index],
+    'redcaser/executionsuites'   => [:index, :show],
+    'redcaser/graph'             => [:show],
+    'redcaser/combos'            => [:index]
   }
 
   permission :edit_test_cases, {
-    redcase:                       [:index, :get_attachment_urls],
-    'redcase/environments'      => [:index, :update, :destroy, :create],
-    'redcase/testsuites'        => [:index, :update, :destroy, :create],
-    'redcase/testcases'         => [:index, :update, :destroy, :copy],
-    'redcase/executionjournals' => [:index],
-    'redcase/export'            => [:index],
-    'redcase/executionsuites'   => [:index, :update, :destroy, :create, :show],
-    'redcase/graph'             => [:show],
-    'redcase/combos'            => [:index]
+    redcaser:                       [:index, :get_attachment_urls],
+    'redcaser/environments'      => [:index, :update, :destroy, :create],
+    'redcaser/testsuites'        => [:index, :update, :destroy, :create],
+    'redcaser/testcases'         => [:index, :update, :destroy, :copy],
+    'redcaser/executionjournals' => [:index],
+    'redcaser/export'            => [:index],
+    'redcaser/executionsuites'   => [:index, :update, :destroy, :create, :show],
+    'redcaser/graph'             => [:show],
+    'redcaser/combos'            => [:index]
   }
 
   permission :execute_test_cases, {
-    redcase:                       [:index, :get_attachment_urls],
-    'redcase/environments'      => [:index],
-    'redcase/testsuites'        => [:index],
-    'redcase/testcases'         => [:index, :update],
-    'redcase/executionjournals' => [:index],
-    'redcase/export'            => [:index],
-    'redcase/executionsuites'   => [:index]
+    redcaser:                       [:index, :get_attachment_urls],
+    'redcaser/environments'      => [:index],
+    'redcaser/testsuites'        => [:index],
+    'redcaser/testcases'         => [:index, :update],
+    'redcaser/executionjournals' => [:index],
+    'redcaser/export'            => [:index],
+    'redcaser/executionsuites'   => [:index]
   }
 
   menu :project_menu,
-    :redcase,
+    :redcaser,
     {
-      controller: 'redcase',
+      controller: 'redcaser',
       action: 'index'
     },
     {
-      if: proc { |p|
-        can_view = User.current.allowed_to?(:view_test_cases, p)
-        can_edit = User.current.allowed_to?(:edit_test_cases, p)
-        tracker_exists = p.trackers.where(id: RedcaserSettings.tracker_id).exists
+      if: proc { |project|
+        can_view = User.current.allowed_to?(:view_test_cases, project)
+        can_edit = User.current.allowed_to?(:edit_test_cases, project)
+
+        tracker_exists = project.trackers.where(id: RedcaserSettings.tracker_id).exists?
+
         (can_view || can_edit) && tracker_exists
       },
       caption: proc { RedcaserSettings.tracker_name.pluralize },
@@ -75,7 +77,7 @@ Rails.application.config.after_initialize do
       current_plugin.requires_redmine_plugin(plugin, version)
     rescue Redmine::PluginNotFound
       raise Redmine::PluginNotFound,
-        "Redcaser depends on plugin: #{plugin} version: #{version}"
+        "Redmine Redcaser depends on plugin: #{plugin} version: #{version}"
     end
   end
   test_dependencies.each(&check_dependencies) if Rails.env.test?

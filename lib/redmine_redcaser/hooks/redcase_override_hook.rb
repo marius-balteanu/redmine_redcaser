@@ -1,11 +1,11 @@
 # Callback methods to subscribe on Redmine events
 
-require File.expand_path("../../../../app/helpers/redcase_helper", __FILE__)
+require File.expand_path("../../../../app/helpers/redcaser_helper", __FILE__)
 
 module RedmineRedcaser
   module Hooks
     class RedcaseOverrideHook < Redmine::Hook::ViewListener
-      include RedcaseHelper
+      include RedcaserHelper
 
       def controller_issues_edit_after_save(context = {})
         journal_details = JournalDetail.find_by_journal_id(context[:journal])

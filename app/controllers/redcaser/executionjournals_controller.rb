@@ -1,4 +1,4 @@
-class Redcase::ExecutionjournalsController < ApplicationController
+class Redcaser::ExecutionjournalsController < ApplicationController
   before_filter :find_project, :authorize
 
   def index

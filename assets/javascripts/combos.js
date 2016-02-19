@@ -1,4 +1,4 @@
-var RedcaseCombos = function () {
+var RedcaserCombos = function () {
 
   var self = this;
 
@@ -86,5 +86,5 @@ $(function () {
   if (Redcase.combos) {
     return;
   }
-  Redcase.combos = new RedcaseCombos();
+  Redcase.combos = new RedcaserCombos();
 });

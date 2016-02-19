@@ -1,4 +1,4 @@
-var RedcaseEnvironments = function () {
+var RedcaserEnvironments = function () {
   var bind = function () {
     $('#btn_save_environment').on('click', onButtonSaveClicked);
     $('#btn_create_environment').on('click', onButtonCreateClicked);
@@ -114,5 +114,5 @@ $(function () {
   if (Redcase.environments) {
     return;
   }
-  Redcase.environments = new RedcaseEnvironments();
+  Redcase.environments = new RedcaserEnvironments();
 });

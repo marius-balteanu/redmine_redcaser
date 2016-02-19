@@ -1,4 +1,4 @@
-var RedcaseGraph = function() {
+var RedcaserGraph = function() {
 
   var self = this;
 
@@ -80,5 +80,5 @@ $(function () {
   if (Redcase.graph) {
     return;
   }
-  Redcase.graph = new RedcaseGraph();
+  Redcase.graph = new RedcaserGraph();
 });
