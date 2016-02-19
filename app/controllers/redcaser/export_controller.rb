@@ -1,6 +1,4 @@
-class Redcaser::ExportController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::ExportController < RedcaserBaseController
   def index
     project_name = @project.name.gsub(' ', '_');
     current_time = Time.now.strftime('%d%m%Y-%I%M%S')
@@ -42,10 +40,5 @@ class Redcaser::ExportController < ApplicationController
       document: rtfDoc,
       extension: 'rtf'
     }
-  end
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end

@@ -1,6 +1,4 @@
-class Redcaser::ExecutionsuitesController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     if params[:get_results].nil?
       @list2 = ExecutionSuite.find_by_project_id(@project.id)
@@ -68,10 +66,5 @@ class Redcaser::ExecutionsuitesController < ApplicationController
   def destroy
     ExecutionSuite.destroy(params[:id])
     render json: { success: true }
-  end
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end

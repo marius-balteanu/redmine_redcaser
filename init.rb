@@ -53,7 +53,7 @@ Redmine::Plugin.register :redmine_redcaser do
     :redcaser,
     {
       controller: 'redcaser',
-      action: 'index'
+      action:     'index'
     },
     {
       if: proc { |project|

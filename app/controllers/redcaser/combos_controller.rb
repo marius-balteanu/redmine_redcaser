@@ -2,9 +2,8 @@
 #       better one. As this controller generates output for reports, it could be
 #       ReportController which would had two separate methods to generate two
 #       different kind of data (for the download button and the combo controls).
-class Redcaser::CombosController < ApplicationController
+class Redcaser::CombosController < RedcaserBaseController
   helper RedcaserHelper
-  before_filter :find_project, :authorize
 
   def index
     @environment =
@@ -31,12 +30,5 @@ class Redcaser::CombosController < ApplicationController
     else
       render partial: 'redcaser/report_combos'
     end
-  end
-
-  private
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id] || params[:id])
   end
 end

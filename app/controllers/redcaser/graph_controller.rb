@@ -1,6 +1,4 @@
-class Redcaser::GraphController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::GraphController < RedcaserBaseController
   def show
     environment = ExecutionEnvironment.find_by_id(params[:environment_id])
     # TODO: This is not supposed to happen in general, only if this
@@ -54,10 +52,5 @@ class Redcaser::GraphController < ApplicationController
       }
       results << result
     }
-  end
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end

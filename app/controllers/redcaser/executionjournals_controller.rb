@@ -1,6 +1,4 @@
-class Redcaser::ExecutionjournalsController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::ExecutionjournalsController < RedcaserBaseController
   def index
     journals =
       if !params[:issue_id].nil?
@@ -9,10 +7,5 @@ class Redcaser::ExecutionjournalsController < ApplicationController
         ExecutionJournal.order('created_on desc')
       end
     render json: journals.map(&:to_json)
-  end
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end

@@ -1,6 +1,5 @@
-<!-- Loading test environments for project every time when this form is reloading -->
 <% environments = ExecutionEnvironment.where({ project_id: project.id }) %>
-<!-- AJAX form to manage test environments -->
+
 <%=
   form_for(
     environment,

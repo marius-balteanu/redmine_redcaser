@@ -1,6 +1,6 @@
 <% html_title RedcaserSettings.tracker_name.pluralize %>
 
-<% if @version.nil? then %>
+<% if @version.nil? %>
   <div style="color: #bbbbbb; text-align: center">
     (There are no <b>versions</b> for this project, please create one...)
   </div>
@@ -10,12 +10,14 @@
 <%= render_tabs get_plugin_tabs(@project) %>
 
 <div id="redcase-dialog" style="display: none">
-  <label for="name">Name:</label>
+  <label for="name">
+    Name:
+  </label>
   <input type="text"
          name="redcase-dialog-value"
-       id="redcase-dialog-value"
-       class="text ui-widget-content ui-corner-all">
+         id="redcase-dialog-value"
+         class="text ui-widget-content ui-corner-all">
 </div>
 <div id="redcase-error" style="display: none" title="Error">
-  <p id="redcase-error-message" />
+  <p id="redcase-error-message"></p>
 </div>

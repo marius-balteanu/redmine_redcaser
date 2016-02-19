@@ -1,5 +1,5 @@
-<!-- Loading execution suites for project every time when this form is reloading -->
 <% lists2 = ExecutionSuite.where({project_id: @project.id}) %>
+
 <div>
   <table>
     <tr>
@@ -10,7 +10,6 @@
       </td>
       <td>
         <h3 id="execution-settings-suite">
-          <!-- f.select :id, lists2.collect { |e| [ e.name, e.id ] } -->
           <%=
             select_tag(
               'list2_id',

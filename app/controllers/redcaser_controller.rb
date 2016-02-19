@@ -1,6 +1,5 @@
-class RedcaserController < ApplicationController
+class RedcaserController < RedcaserBaseController
   helper RedcaserHelper
-  before_filter :find_project, :authorize
 
   def index
     # TODO: Consider extending Project class instead to request a root
@@ -41,7 +40,7 @@ class RedcaserController < ApplicationController
     )
   end
 
-  def get_attachment_urls
+  def attachment_urls
     issue = Issue.find(params[:issue_id])
     result =  issue.attachments.collect { |a| {
       url: url_for(
@@ -54,14 +53,5 @@ class RedcaserController < ApplicationController
       name: a.filename
     } }
     render json: result
-  end
-
-  private
-
-  def find_project
-    @project = Project.find(params[:id] || params[:project_id])
-    can_view = User.current.allowed_to?(:view_test_cases, @project)
-    can_edit = User.current.allowed_to?(:edit_test_cases, @project)
-    render_403 unless (can_view || can_edit)
   end
 end

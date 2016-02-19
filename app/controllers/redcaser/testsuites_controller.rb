@@ -1,6 +1,4 @@
-class Redcaser::TestsuitesController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::TestsuitesController < RedcaserBaseController
   def index
     testsuites = TestSuite
       .get_root_for_project(@project)
@@ -31,10 +29,5 @@ class Redcaser::TestsuitesController < ApplicationController
     TestSuite.destroy(params[:id])
     # TODO: Properly handle if failed.
     render json: { success: true }
-  end
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end

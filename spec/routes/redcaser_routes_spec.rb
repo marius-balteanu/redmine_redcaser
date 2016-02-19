@@ -5,7 +5,7 @@ RSpec.describe 'routes for Redcaser', type: :routing do
     response = get('/projects/1/redcaser')
 
     expect(response).to route_to(
-      controller: 'redcase',
+      controller: 'redcaser',
       action:     'index',
       id:         '1'
     )
@@ -15,7 +15,7 @@ RSpec.describe 'routes for Redcaser', type: :routing do
     response = get('/projects/1/redcaser/get_attachment_urls')
 
     expect(response).to route_to(
-      controller: 'redcase',
+      controller: 'redcaser',
       action:     'get_attachment_urls',
       id:         '1'
     )

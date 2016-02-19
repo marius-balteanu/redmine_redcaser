@@ -1,6 +1,4 @@
-class Redcaser::TestcasesController < ApplicationController
-  before_filter :find_project, :authorize
-
+class Redcaser::TestcasesController < RedcaserBaseController
   def index
     # TODO: What if there is none?
     test_case = TestCase.where({ issue_id: params[:object_id] }).first
@@ -56,11 +54,6 @@ class Redcaser::TestcasesController < ApplicationController
   end
 
   private
-
-  # TODO: Extract to a base controller.
-  def find_project
-    @project = Project.find(params[:project_id])
-  end
 
   def execute(test_case)
     version = Version.find_by_name_and_project_id(

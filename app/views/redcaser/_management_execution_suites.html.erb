@@ -1,6 +1,5 @@
-<!-- Loading execution suites for project every time when this form is reloading -->
 <% @lists = ExecutionSuite.where({project_id: @project.id}) %>
-<!-- AJAX form to manage execution suites -->
+
 <%=
   form_for(
     :list,

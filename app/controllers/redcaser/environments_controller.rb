@@ -1,6 +1,5 @@
-class Redcaser::EnvironmentsController < ApplicationController
+class Redcaser::EnvironmentsController < RedcaserBaseController
   helper RedcaserHelper
-  before_filter :find_project, :authorize
 
   def index
     environment = ExecutionEnvironment.find(
@@ -35,12 +34,5 @@ class Redcaser::EnvironmentsController < ApplicationController
     environment.destroy
     # TODO: Properly handle the case when this fails.
     render json: { success: true }
-  end
-
-  # TODO: This one is being used across all the controllers, a good sign for
-  #       creating a common (parent) controller with this method in it to
-  #       share in descendants.
-  def find_project
-    @project = Project.find(params[:project_id])
   end
 end
