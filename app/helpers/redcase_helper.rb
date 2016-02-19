@@ -12,7 +12,7 @@ module RedcaseHelper
   module_function :get_id_or_default
 
   def get_plugin_tabs(project)
-    if Version.where({ project_id: project.id }).empty?
+    unless Version.where({ project_id: project.id }).exists
       [{
         name: 'Management',
         partial: 'redcase/management',
