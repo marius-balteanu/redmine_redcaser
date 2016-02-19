@@ -1,17 +1,16 @@
-
-var RedcaseExecutionTree = function($) {
+var RedcaseExecutionTree = function ($) {
 
   var tree;
 
   var currentIssueId;
 
-  this.refresh = function() {
+  this.refresh = function () {
     if (tree) {
       tree.refresh();
     }
   };
 
-  this.execute = function() {
+  this.execute = function () {
     var issueId = currentIssueId;
     if (!issueId) {
       // TODO: Log something.
@@ -19,8 +18,7 @@ var RedcaseExecutionTree = function($) {
     }
     var selectedNode = tree.get_node(tree.get_selected(true)[0], true);
     var result = $('#results').val();
-    var apiParams = $.extend(
-      {},
+    var apiParams = $.extend({},
       Redcase.api.testCase.update(issueId), {
         params: {
           version: $('#version').val(),
@@ -28,13 +26,12 @@ var RedcaseExecutionTree = function($) {
           envs: $('#environments').val(),
           comment: $('#exec-comment').val()
         },
-        success: function(data) {
+        success: function (data) {
           $('#all-results-d').toggle(data.length > 0);
           $('#all-results').html(getHistory(data));
           tree.set_icon(
             selectedNode, (
-              'testcase-result-icon-'
-              + result.replace(/\s*/g, '')
+              'testcase-result-icon-' + result.replace(/\s*/g, '')
             )
           );
           selectNextNode();
@@ -53,21 +50,20 @@ var RedcaseExecutionTree = function($) {
     Redcase.api.apiCall(apiParams);
   };
 
-  var build = function(params) {
+  var build = function (params) {
     tree = $('#execution_test_cases_tree_id').jstree({
       core: {
-        check_callback: function() {
+        check_callback: function () {
           return false;
         },
         data: {
           type: 'GET',
-          url: function() {
-            return Redcase.api.context
-              + Redcase.api.executionSuite.show(
-                $('#list2_id').val()
-              ).method
+          url: function () {
+            return Redcase.api.context + Redcase.api.executionSuite.show(
+              $('#list2_id').val()
+            ).method
           },
-          data: function() {
+          data: function () {
             return {
               version: $('#version').val(),
               environment: $('#environments').val()
@@ -81,19 +77,18 @@ var RedcaseExecutionTree = function($) {
     tree = $.jstree.reference(tree);
   };
 
-  var selectionChange = function(event, params) {
+  var selectionChange = function (event, params) {
     var node = params.node;
     var edit = $('#test-case-edit');
     edit.hide();
     $('#all-results-d').hide();
     if (node.original.type == 'case') {
-      var apiParms = $.extend(
-        {},
+      var apiParms = $.extend({},
         Redcase.api.testCase.index(), {
           params: {
             "object_id": node.original.issue_id
           },
-          success: function(data) {
+          success: function (data) {
             currentIssueId = data.issue_id;
             $('#exec_descr_id').toggle(
               data.desc !== undefined
@@ -102,25 +97,20 @@ var RedcaseExecutionTree = function($) {
             var subj = $('#test-case-subj');
             var issueUrl = getIssueUrl(data.issue_id);
             subj.html(
-              '<a href="'
-              + issueUrl
-              + '">'
-              + data.text
-              + '</a>'
+              '<a href="' + issueUrl + '">' + data.text + '</a>'
             );
             desc.html(data.desc);
             edit.show();
             var results = $('#results');
             results.val('Passed');
             var version = $('#version');
-            var apiParms = $.extend(
-              {},
+            var apiParms = $.extend({},
               Redcase.api.executionJournal.index(), {
                 params: {
                   "issue_id": node.original.issue_id,
                   "version": version.val()
                 },
-                success: function(data) {
+                success: function (data) {
                   $('#all-results-d').toggle(
                     data.length > 0
                   );
@@ -135,29 +125,19 @@ var RedcaseExecutionTree = function($) {
               }
             );
             Redcase.api.apiCall(apiParms);
-            apiParms = $.extend(
-              {},
+            apiParms = $.extend({},
               Redcase.api.core.getAttachmentURLs(), {
                 params: {
                   "issue_id": node.original.issue_id
                 },
-                success: function(data) {
+                success: function (data) {
                   $('#test-case-attach').toggle(
                     data.length > 0
                   );
                   if (data.length > 0) {
                     var txt = "";
                     for (i = 0; i < data.length; i++) {
-                      txt += "<a href='"
-                        + data[i].url
-                        + "' target='_blank'>"
-                        + "<img src="
-                        + '"'
-                        + "/images/attachment.png"
-                        + '"'
-                        + "></img>"
-                        + data[i].name
-                        + "</a><br/>";
+                      txt += "<a href='" + data[i].url + "' target='_blank'>" + "<img src=" + '"' + "/images/attachment.png" + '"' + "></img>" + data[i].name + "</a><br/>";
                     }
                     $('#test-case-attach').html(txt);
                   }
@@ -168,11 +148,7 @@ var RedcaseExecutionTree = function($) {
             Redcase.api.apiCall(apiParms);
           },
           errorMessage: (
-            "Information about "
-            + Redcaser.tracker_name
-            + " '"
-            + node.text
-            + "' can't be obtained"
+            "Information about " + Redcaser.tracker_name + " '" + node.text + "' can't be obtained"
           )
         }
       );
@@ -180,17 +156,9 @@ var RedcaseExecutionTree = function($) {
     }
   };
 
-  var getHistory = function(data) {
+  var getHistory = function (data) {
     var unique = {};
-    var txt = "<table class='redcase-row' width='100%'>"
-      + "<tr style='font-weight: bold; background-color: #eeeeee'>"
-      + "<td>date</td>"
-      + "<td>result</td>"
-      + "<td>comments</td>"
-      + "<td>executor</td>"
-      + "<td>environment</td>"
-      + "<td>version</td>"
-      + "</tr>";
+    var txt = "<table class='redcase-row' width='100%'>" + "<tr style='font-weight: bold; background-color: #eeeeee'>" + "<td>date</td>" + "<td>result</td>" + "<td>comments</td>" + "<td>executor</td>" + "<td>environment</td>" + "<td>version</td>" + "</tr>";
     for (var i = 0; i < data.length; i++) {
       var color;
       switch (data[i].result) {
@@ -211,16 +179,9 @@ var RedcaseExecutionTree = function($) {
           break;
       }
       var notFirst = (unique[data[i].environment + data[i].version]);
-      txt += "<tr"
-        + (notFirst
-          ? " style='background-color: " + color + "'"
-          : (
-            " style='background-color: "
-            + color
-            + "; font-weight: bold'"
-          )
-        )
-        + ">";
+      txt += "<tr" + (notFirst ? " style='background-color: " + color + "'" : (
+        " style='background-color: " + color + "; font-weight: bold'"
+      )) + ">";
       txt += "<td>" + data[i].created_on + "</td>";
       txt += "<td>" + data[i].result + "</td>";
       txt += "<td>" + data[i].comment + "</td>";
@@ -236,7 +197,7 @@ var RedcaseExecutionTree = function($) {
     return txt;
   };
 
-  var selectNextNode = function() {
+  var selectNextNode = function () {
     var nextNode = tree.get_node(
       tree.get_next_dom(tree.get_selected(true)[0], false)
     );
@@ -253,20 +214,20 @@ var RedcaseExecutionTree = function($) {
     tree.select_node(nextNode);
   };
 
-  (function() {
+  (function () {
     build();
     $('#execution_settings_id').on(
       'change',
       'select',
-      function() {
+      function () {
         tree.refresh();
       }
     );
   })();
 };
 
-jQuery2(function($) {
-  if (typeof(Redcase) === 'undefined') {
+$(function ($) {
+  if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.executionTree) {

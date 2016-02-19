@@ -1,4 +1,4 @@
-var RedcaseTestSuiteTree = function($) {
+var RedcaseTestSuiteTree = function () {
 
   self = this;
 
@@ -12,12 +12,12 @@ var RedcaseTestSuiteTree = function($) {
 
   var suiteItems;
 
-  this.initialize = function() {
+  this.initialize = function () {
     prepareContextItems();
     build();
   };
 
-  this.getSelectionType = function(tree) {
+  this.getSelectionType = function (tree) {
     var selectionType = -1;
     var selection = tree.get_selected(true);
     for (var i = 0; i < selection.length; i++) {
@@ -36,20 +36,15 @@ var RedcaseTestSuiteTree = function($) {
           }
         }
       }
-      if ((selection[i].parents.length === 1)
-        || (selection[i].text === '.Obsolete')
-        || (selection[i].text === '.Unsorted')
-      ) {
-        selectionType = (selection.length === 1)
-          ? 3
-          : 4;
+      if ((selection[i].parents.length === 1) || (selection[i].text === '.Obsolete') || (selection[i].text === '.Unsorted')) {
+        selectionType = (selection.length === 1) ? 3 : 4;
         break;
       }
     }
     return selectionType;
   };
 
-  var checkCallback = function(
+  var checkCallback = function (
     operation,
     node,
     nodeParent,
@@ -67,30 +62,25 @@ var RedcaseTestSuiteTree = function($) {
     return isOK;
   };
 
-  var isDraggable = function(nodes) {
+  var isDraggable = function (nodes) {
     // Make sure the user can't drag the root node, "default" nodes,
     // the "unsorted" node, and disabled nodes.
     for (var i = 0; i < nodes.length; i++) {
-      if ((nodes[i].parents.length < 2)
-        || (nodes[i].type === 'default')
-        || (nodes[i].text === '.Unsorted')
-        || (nodes[i].state.disabled === true)
-      ) {
+      if ((nodes[i].parents.length < 2) || (nodes[i].type === 'default') || (nodes[i].text === '.Unsorted') || (nodes[i].state.disabled === true)) {
         return false;
       }
     }
     return true;
   };
 
-  var moveTestCase = function(
+  var moveTestCase = function (
     newNode,
     orgNode,
     newInstance,
     oldInstance
   ) {
     newNode.original = orgNode.original;
-    var apiParms = $.extend(
-      {},
+    var apiParms = $.extend({},
       Redcase.api.testCase.update(orgNode.original.issue_id), {
         params: {
           parent_id: newInstance
@@ -98,30 +88,28 @@ var RedcaseTestSuiteTree = function($) {
             .original
             .suite_id
         },
-        success: function() {
+        success: function () {
           oldInstance.delete_node(orgNode);
         },
-        error: function() {
+        error: function () {
           newInstance.delete_node(newNode);
         },
         errorMessage: (
-          Redcaser.tracker_name
-          + " '" + orgNode.text + "' can't be moved"
+          Redcaser.tracker_name + " '" + orgNode.text + "' can't be moved"
         )
       }
     );
     Redcase.api.apiCall(apiParms);
   };
 
-  var moveTestSuite = function(
+  var moveTestSuite = function (
     newNode,
     orgNode,
     newInstance,
     oldInstance
   ) {
     newNode.original = orgNode.original;
-    var apiParms = $.extend(
-      {},
+    var apiParms = $.extend({},
       Redcase.api.testSuite.update(orgNode.original.suite_id), {
         params: {
           parent_id: newInstance
@@ -143,39 +131,38 @@ var RedcaseTestSuiteTree = function($) {
     Redcase.api.apiCall(apiParms);
   };
 
-  var onCopy = function(event, object) {
+  var onCopy = function (event, object) {
     // Fields: is_foreign, is_multi, new_instance, node,old_instance,
     //         old_parent (ID), old_position (index), original (node),
     //         parent (id), position (index (altid 0?))
     // Internal drag + drop
     if (object.old_instance === object.new_instance) {
       switch (object.original.type) {
-      case 'case':
-        moveTestCase(
-          object.node,
-          object.original,
-          object.new_instance,
-          object.old_instance
-        );
-        break;
-      case 'suite':
-        moveTestSuite(
-          object.node,
-          object.original,
-          object.new_instance,
-          object.old_instance
-        );
-        break;
+        case 'case':
+          moveTestCase(
+            object.node,
+            object.original,
+            object.new_instance,
+            object.old_instance
+          );
+          break;
+        case 'suite':
+          moveTestSuite(
+            object.node,
+            object.original,
+            object.new_instance,
+            object.old_instance
+          );
+          break;
       }
     }
   };
 
-  var contextCopyTo = function(params) {
+  var contextCopyTo = function (params) {
     var node = self.tree.get_node(params.reference);
-    var apiParms = $.extend(
-      {},
+    var apiParms = $.extend({},
       Redcase.api.testCase.copy(node.original.issue_id), {
-        params : {
+        params: {
           dest_project: params.item.id
         },
         errorMessage: ("Can't copy '" + node.text + "'")
@@ -184,7 +171,7 @@ var RedcaseTestSuiteTree = function($) {
     Redcase.api.apiCall(apiParms);
   };
 
-  var prepareContextItems = function() {
+  var prepareContextItems = function () {
     var tmpObj = {};
     var copyItems = {};
     for (var i = 0; i < Redcase.jsCopyToMenuItems.length; i++) {
@@ -225,14 +212,13 @@ var RedcaseTestSuiteTree = function($) {
     };
   };
 
-  var deleteCase = function(node) {
-    var apiParms = $.extend(
-      {},
+  var deleteCase = function (node) {
+    var apiParms = $.extend({},
       Redcase.api.testCase.update(node.original.issue_id), {
         params: {
           obsolesce: true
         },
-        success: function() {
+        success: function () {
           var org = $.extend({}, node.original);
           self.tree.delete_node(node);
           var newId = self.tree.create_node(
@@ -242,29 +228,22 @@ var RedcaseTestSuiteTree = function($) {
           console.log('newId = ' + newId);
         },
         errorMessage: (
-          Redcaser.tracker_name
-          + " '" + node.text + "' can't be deleted"
+          Redcaser.tracker_name + " '" + node.text + "' can't be deleted"
         )
       }
     );
     Redcase.api.apiCall(apiParms);
   };
 
-  var deleteSuite = function(node) {
-    if ((node.parents.length > 1)
-      && (node.text !== '.Unsorted')
-      && (node.text !== '.Obsolete')
-    ) {
-      var apiParms = $.extend(
-        {},
+  var deleteSuite = function (node) {
+    if ((node.parents.length > 1) && (node.text !== '.Unsorted') && (node.text !== '.Obsolete')) {
+      var apiParms = $.extend({},
         Redcase.api.testSuite.destroy(node.original.suite_id), {
           success: function () {
             self.tree.delete_node(node);
           },
           errorMessage: (
-            "Execution suite '"
-            + node.text
-            + "' can't be deleted"
+            "Execution suite '" + node.text + "' can't be deleted"
           )
         }
       );
@@ -275,7 +254,7 @@ var RedcaseTestSuiteTree = function($) {
     }
   };
 
-  var deleteItem = function(params) {
+  var deleteItem = function (params) {
     var selected = self.tree.get_selected(true);
     for (var i = 0; i < selected.length; i++) {
       if (selected[i].type === 'case') {
@@ -286,31 +265,28 @@ var RedcaseTestSuiteTree = function($) {
     }
   };
 
-  var addSuite = function(params) {
+  var addSuite = function (params) {
     var node = self.tree.get_node(params.reference);
     $('#redcase-dialog').dialog({
       title: 'New test suite name',
       modal: true,
       resizable: false,
       buttons: {
-        OK: function() {
+        OK: function () {
           var name = $('#redcase-dialog-value').val();
-          var apiParms = $.extend(
-            {},
+          var apiParms = $.extend({},
             Redcase.api.testSuite.create(), {
               params: {
                 name: name,
                 parent_id: node.original.suite_id
               },
-              success: function(newNode) {
+              success: function (newNode) {
                 self.tree.create_node(node, newNode);
               },
               errorMessage: (
-                "Test suite '"
-                + name
-                + "' can't be created"
+                "Test suite '" + name + "' can't be created"
               ),
-              complete: function() {
+              complete: function () {
                 $('#redcase-dialog').dialog('close');
               }
             }
@@ -321,30 +297,29 @@ var RedcaseTestSuiteTree = function($) {
     });
   };
 
-  var renameSuite = function(params) {
+  var renameSuite = function (params) {
     var node = self.tree.get_node(params.reference);
     $('#redcase-dialog').dialog({
       title: 'Rename test suite',
       modal: true,
       resizable: false,
       buttons: {
-        OK: function() {
+        OK: function () {
           var name = $('#redcase-dialog-value').val();
-          var apiParms = $.extend(
-            {},
+          var apiParms = $.extend({},
             Redcase.api.testSuite.update(
               node.original.suite_id
             ), {
               params: {
                 new_name: name
               },
-              success: function() {
+              success: function () {
                 self.tree.set_text(node, name);
               },
               errorMessage: (
                 "Can't rename '" + node.text + "'"
               ),
-              complete: function() {
+              complete: function () {
                 $('#redcase-dialog').dialog('close');
               }
             }
@@ -368,12 +343,12 @@ var RedcaseTestSuiteTree = function($) {
     });
   };
 
-  var viewCase = function(params) {
+  var viewCase = function (params) {
     var node = self.tree.get_node(params.reference);
     window.open('../../issues/' + node.original.issue_id, 'test');
   };
 
-  var getItems = function(node) {
+  var getItems = function (node) {
     var items = {};
     var selectionType = self.getSelectionType(self.tree);
     if (selectionType < 3) {
@@ -394,7 +369,7 @@ var RedcaseTestSuiteTree = function($) {
     return items;
   };
 
-  var build = function(params) {
+  var build = function (params) {
     var tree = $('#management_test_suite_tree_id')
       .jstree({
         core: {
@@ -402,8 +377,7 @@ var RedcaseTestSuiteTree = function($) {
           data: {
             type: 'GET',
             url: (
-              Redcase.api.context
-              + Redcase.api.testSuite.controller
+              Redcase.api.context + Redcase.api.testSuite.controller
             )
           }
         },
@@ -443,12 +417,12 @@ var RedcaseTestSuiteTree = function($) {
 
 };
 
-jQuery2(function($) {
-  if (typeof(Redcase) === 'undefined') {
+$(function () {
+  if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.testSuiteTree) {
     return;
   }
-  Redcase.testSuiteTree = new RedcaseTestSuiteTree($);
+  Redcase.testSuiteTree = new RedcaseTestSuiteTree();
 });

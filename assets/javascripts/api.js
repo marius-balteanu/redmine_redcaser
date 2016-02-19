@@ -1,16 +1,16 @@
-var RedcaseApi = function($) {
+var RedcaseApi = function ($) {
 
   var log = LogManager.getLog('redcase.api');
 
   this.context = 'redcase/';
 
-  this.core = new function() {
+  this.core = new function () {
 
     var self = this;
 
     this.controller = '';
 
-    this.getAttachmentURLs = function() {
+    this.getAttachmentURLs = function () {
       return {
         method: (self.controller + '/get_attachment_urls'),
         httpMethod: 'GET'
@@ -19,34 +19,34 @@ var RedcaseApi = function($) {
 
   };
 
-  this.testSuite = new function() {
+  this.testSuite = new function () {
 
     var self = this;
 
     this.controller = 'testsuites';
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
       };
     };
 
-    this.destroy = function(id) {
+    this.destroy = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'DELETE'
       };
     };
 
-    this.update = function(id) {
+    this.update = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'PUT'
       };
     };
 
-    this.create = function() {
+    this.create = function () {
       return {
         method: self.controller,
         httpMethod: 'POST'
@@ -55,41 +55,41 @@ var RedcaseApi = function($) {
 
   };
 
-  this.executionSuite = new function() {
+  this.executionSuite = new function () {
 
     var self = this;
 
     this.controller = 'executionsuites';
 
-    this.create = function() {
+    this.create = function () {
       return {
         method: self.controller,
         httpMethod: 'POST'
       };
     };
 
-    this.update = function(id) {
+    this.update = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'PUT'
       };
     };
 
-    this.destroy = function(id) {
+    this.destroy = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'DELETE'
       };
     };
 
-    this.show = function(id) {
+    this.show = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'GET'
       };
     };
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
@@ -98,13 +98,13 @@ var RedcaseApi = function($) {
 
   };
 
-  this.executionJournal = new function() {
+  this.executionJournal = new function () {
 
     var self = this;
 
     this.controller = 'executionjournals';
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
@@ -113,34 +113,34 @@ var RedcaseApi = function($) {
 
   };
 
-  this.environments = new function() {
+  this.environments = new function () {
 
     var self = this;
 
     this.controller = 'environments';
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
       };
     };
 
-    this.update = function(id) {
+    this.update = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'PUT'
       };
     };
 
-    this.create = function() {
+    this.create = function () {
       return {
         method: self.controller,
         httpMethod: 'POST'
       };
     };
 
-    this.destroy = function(id) {
+    this.destroy = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'DELETE'
@@ -149,27 +149,27 @@ var RedcaseApi = function($) {
 
   };
 
-  this.testCase = new function() {
+  this.testCase = new function () {
 
     var self = this;
 
     this.controller = 'testcases';
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
       };
     };
 
-    this.update = function(id) {
+    this.update = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'PUT',
       };
     };
 
-    this.copy = function(id) {
+    this.copy = function (id) {
       return {
         method: (self.controller + '/' + id + '/copy'),
         httpMethod: 'POST',
@@ -178,13 +178,13 @@ var RedcaseApi = function($) {
 
   };
 
-  this.combos = new function() {
+  this.combos = new function () {
 
     var self = this;
 
     this.controller = 'combos';
 
-    this.index = function() {
+    this.index = function () {
       return {
         method: self.controller,
         httpMethod: 'GET'
@@ -193,13 +193,13 @@ var RedcaseApi = function($) {
 
   };
 
-  this.graph = new function() {
+  this.graph = new function () {
 
     var self = this;
 
     this.controller = 'graph';
 
-    this.show = function(id) {
+    this.show = function (id) {
       return {
         method: (self.controller + '/' + id),
         httpMethod: 'GET'
@@ -208,11 +208,10 @@ var RedcaseApi = function($) {
 
   };
 
-  this.apiCall = function(parameters) {
+  this.apiCall = function (parameters) {
     var url = (this.context + parameters.method);
     var token = $("meta[name='csrf-token']").attr('content');
-    var params = $.extend(
-      {},
+    var params = $.extend({},
       parameters.params, {
         authenticity_token: token
       }
@@ -222,19 +221,19 @@ var RedcaseApi = function($) {
     $.ajax(url, {
       type: (parameters.httpMethod ? parameters.httpMethod : 'GET'),
       data: params,
-      success: function(data, textStatus, jqXHR) {
+      success: function (data, textStatus, jqXHR) {
         if (parameters.success) {
           parameters.success(data, textStatus, jqXHR);
         }
       },
-      error: function(jqXHR, textStatus, errorThrown) {
+      error: function (jqXHR, textStatus, errorThrown) {
         if (parameters.error) {
           parameters.error(errorThrown, textStatus, jqXHR);
         }
         Redcase.errorBox(parameters.errorMessage);
         log.debug(errorThrown);
       },
-      complete: function() {
+      complete: function () {
         if (parameters.complete) {
           parameters.complete();
         }
@@ -244,8 +243,8 @@ var RedcaseApi = function($) {
   };
 };
 
-jQuery2(function($) {
-  if (typeof(Redcase) === 'undefined') {
+$(function ($) {
+  if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.api) {

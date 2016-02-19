@@ -16,30 +16,25 @@ var RedcaseGraph = function($) {
         '<% } %>' +
       '</table>'
   };
-
-  this.isRendered = function() {
-    var computeDimension = function(element, dimension) {
-      return element['offset' + dimension]
-        || document.defaultView
-          .getComputedStyle(element)
-          .getPropertyValue(dimension);
+  this.isRendered = function () {
+    var computeDimension = function (element, dimension) {
+      return element['offset' + dimension] || document.defaultView
+        .getComputedStyle(element)
+        .getPropertyValue(dimension);
     };
     var graphElement = $('#jschart_id').get(0);
-    return graphElement
-      && !isNaN(computeDimension(graphElement, 'Height'))
-      && !isNaN(computeDimension(graphElement, 'Width'));
+    return graphElement && !isNaN(computeDimension(graphElement, 'Height')) && !isNaN(computeDimension(graphElement, 'Width'));
   };
 
-  this.update = function() {
-    var apiParams = $.extend(
-      {},
+  this.update = function () {
+    var apiParams = $.extend({},
       Redcase.api.graph.show(0), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
           version_id: $('#versionx').val()
         },
-        success: function(data) {
+        success: function (data) {
           self.refresh(data);
         },
         errorMessage: "Couldn't load graph"
@@ -48,7 +43,7 @@ var RedcaseGraph = function($) {
     Redcase.api.apiCall(apiParams);
   };
 
-  this.refresh = function(data) {
+  this.refresh = function (data) {
     if (self.chart) {
       self.chart.destroy();
     }
@@ -69,8 +64,8 @@ var RedcaseGraph = function($) {
     }
   };
 
-  (function() {
-    $('#tab-Report').click(function() {
+  (function () {
+    $('#tab-Report').click(function () {
       self.update();
     });
     self.update();
@@ -78,8 +73,8 @@ var RedcaseGraph = function($) {
 
 }
 
-jQuery2(function($) {
-  if (typeof(Redcase) === 'undefined') {
+$(function ($) {
+  if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.graph) {

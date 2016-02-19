@@ -1,8 +1,8 @@
-var LogManager = new function() {
+var LogManager = new function () {
 
   var loggers = {};
 
-  this.getLog = function(context) {
+  this.getLog = function (context) {
     if (!(context in loggers)) {
       loggers[context] = new Log(context);
     }
@@ -11,29 +11,29 @@ var LogManager = new function() {
 
 };
 
-var Log = function(context) {
+var Log = function (context) {
 
   var LevelFieldWidth = 5;
 
   var context = context;
 
-  this.debug = function(message) {
+  this.debug = function (message) {
     trace(message, 'DEBUG');
   }
 
-  this.info = function(message) {
+  this.info = function (message) {
     trace(message, 'INFO');
   };
 
-  this.warn = function(message) {
+  this.warn = function (message) {
     trace(message, 'WARN');
   }
 
-  this.error = function(message) {
+  this.error = function (message) {
     trace(message, 'ERROR');
   }
 
-  var trace = function(message, level) {
+  var trace = function (message, level) {
     if (!console || !console.log) {
       return;
     }

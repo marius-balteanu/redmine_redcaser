@@ -1,29 +1,26 @@
-var RedcaseEnvironments = function($) {
-  var bind = function() {
+var RedcaseEnvironments = function ($) {
+  var bind = function () {
     $('#btn_save_environment').on('click', onButtonSaveClicked);
     $('#btn_create_environment').on('click', onButtonCreateClicked);
     $('#btn_destroy_environment').on('click', onButtonDestroyClicked);
     $('#execution_environment_id').on('change', onComboChanged);
   };
 
-  var onComboChanged = function() {
+  var onComboChanged = function () {
     var environmentId = $('#execution_environment_id').val();
-    var apiParams = $.extend(
-      {},
+    var apiParams = $.extend({},
       Redcase.api.environments.index(), {
         params: {
           execution_environment_id: environmentId
         },
-        success: function(data, textStatus, request) {
+        success: function (data, textStatus, request) {
           $('#management_environments_id').html(data);
           bind();
         },
         errorMessage: (
-          "Environment '"
-          + $('#execution_environment_id option:selected').text()
-          + "' can't be loaded"
+          "Environment '" + $('#execution_environment_id option:selected').text() + "' can't be loaded"
         ),
-        complete: function() {
+        complete: function () {
           Redcase.full();
         }
       }
@@ -31,21 +28,18 @@ var RedcaseEnvironments = function($) {
     Redcase.api.apiCall(apiParams);
   };
 
-  var onButtonDestroyClicked = function(event) {
+  var onButtonDestroyClicked = function (event) {
     var environment_id = $('#execution_environment_id').val();
-    var apiParams = $.extend(
-      {},
+    var apiParams = $.extend({},
       Redcase.api.environments.destroy(environment_id), {
-        success: function(data, textStatus, request) {
+        success: function (data, textStatus, request) {
           $('#execution_environment_id option:selected').remove();
           $('#execution_environment_id').change();
         },
         errorMessage: (
-          "Environment '"
-          + $('#execution_environment_id option:selected').text()
-          + "' can't be deleted"
+          "Environment '" + $('#execution_environment_id option:selected').text() + "' can't be deleted"
         ),
-        complete: function() {
+        complete: function () {
           Redcase.full();
         }
       }
@@ -54,11 +48,10 @@ var RedcaseEnvironments = function($) {
     event.preventDefault();
   };
 
-  var onButtonCreateClicked = function(event) {
+  var onButtonCreateClicked = function (event) {
     var name = $('#execution_environment_name').val();
     var description = $('#execution_environment_description').val();
-    var apiParams = $.extend(
-      {},
+    var apiParams = $.extend({},
       Redcase.api.environments.create(), {
         params: {
           execution_environment: {
@@ -66,14 +59,16 @@ var RedcaseEnvironments = function($) {
             description: description
           }
         },
-        success: function(data, textStatus, request) {
+        success: function (data, textStatus, request) {
           $('#execution_environment_id').append(
-            $('<option>', { value : data.id }).text(name)
+            $('<option>', {
+              value: data.id
+            }).text(name)
           );
           $('#execution_environment_id').val(data.id);
         },
         errorMessage: ("Environment '" + name + "' can't be created"),
-        complete: function() {
+        complete: function () {
           Redcase.full();
         }
       }
@@ -82,12 +77,11 @@ var RedcaseEnvironments = function($) {
     event.preventDefault();
   };
 
-  var onButtonSaveClicked = function(event) {
+  var onButtonSaveClicked = function (event) {
     var environmentId = $('#execution_environment_id').val();
     var name = $('#execution_environment_name').val();
     var description = $('#execution_environment_description').val()
-    var apiParams = $.extend(
-      {},
+    var apiParams = $.extend({},
       Redcase.api.environments.update(environmentId), {
         params: {
           execution_environment: {
@@ -95,11 +89,11 @@ var RedcaseEnvironments = function($) {
             description: description
           }
         },
-        success: function(data, textStatus, request) {
+        success: function (data, textStatus, request) {
           $('#execution_environment_id option:selected').text(name);
         },
         errorMessage: ("Environment '" + name + "' can't be renamed"),
-        complete: function() {
+        complete: function () {
           Redcase.full();
         }
       }
@@ -108,13 +102,13 @@ var RedcaseEnvironments = function($) {
     event.preventDefault();
   };
 
-  (function() {
+  (function () {
     bind();
   })();
 }
 
-jQuery2(function($) {
-  if (typeof(Redcase) === 'undefined') {
+$(function ($) {
+  if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.environments) {

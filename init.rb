@@ -50,14 +50,16 @@ Redmine::Plugin.register :redmine_redcaser do
   }
 
   menu :project_menu,
-    :redcase, {
+    :redcase,
+    {
       controller: 'redcase',
       action: 'index'
-    }, {
+    },
+    {
       if: proc { |p|
         can_view = User.current.allowed_to?(:view_test_cases, p)
         can_edit = User.current.allowed_to?(:edit_test_cases, p)
-        tracker_exists = p.trackers.where(id: RedcaserSettings.tracker_id).first
+        tracker_exists = p.trackers.where(id: RedcaserSettings.tracker_id).exists
         (can_view || can_edit) && tracker_exists
       },
       caption: proc { RedcaserSettings.tracker_name.pluralize },
@@ -66,14 +68,14 @@ Redmine::Plugin.register :redmine_redcaser do
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = { redmine_testing_gems: '1.3.0' }
+  test_dependencies = {redmine_testing_gems: '1.3.1'}
   current_plugin = Redmine::Plugin.find(:redmine_redcaser)
   check_dependencies = proc do |plugin, version|
     begin
       current_plugin.requires_redmine_plugin(plugin, version)
-    rescue Redmine::PluginNotFound => error
+    rescue Redmine::PluginNotFound
       raise Redmine::PluginNotFound,
-        "Redcaser depends on plugin: #{ plugin } version: #{ version }"
+        "Redcaser depends on plugin: #{plugin} version: #{version}"
     end
   end
   test_dependencies.each(&check_dependencies) if Rails.env.test?

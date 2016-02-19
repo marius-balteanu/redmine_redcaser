@@ -1,6 +1,6 @@
 
 <script>
-  jQuery2(function() {
+  $(function() {
     // Collecting information about other projects (to copy test cases)...
 <% Project.allowed_to(:add_issues).where('id <> ?', @project.id).each { |op| %>
     Redcase.jsCopyToMenuItems.push({
