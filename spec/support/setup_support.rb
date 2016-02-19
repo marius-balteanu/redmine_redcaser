@@ -23,11 +23,11 @@ module SetupSupport
   end
 
   def use_default_settings
-    Setting.plugin_redmine_redcaser = {
-      'status_new'      => @status_new.id.to_s,
-      'status_active'   => @status_active.id.to_s,
-      'status_obsolete' => @status_obsolete.id.to_s,
-      'tracker'         => @tracker.id.to_s
-    }
+    Setting.plugin_redmine_redcaser = ActionController::Parameters.new(
+      status_new:      @status_new.id.to_s,
+      status_active:   @status_active.id.to_s,
+      status_obsolete: @status_obsolete.id.to_s,
+      tracker:         @tracker.id.to_s
+    )
   end
 end

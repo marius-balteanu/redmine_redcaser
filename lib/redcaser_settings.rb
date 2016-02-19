@@ -1,6 +1,6 @@
 class RedcaserSettings
   def self.tracker_id
-    setting = settings['tracker']
+    setting = settings[:tracker]
     setting.blank? ? nil : setting.to_i
   end
 
@@ -10,7 +10,7 @@ class RedcaserSettings
   end
 
   def self.status_new_id
-    setting = settings['status_new']
+    setting = settings[:status_new]
     setting.blank? ? nil : setting.to_i
   end
 
@@ -20,7 +20,7 @@ class RedcaserSettings
   end
 
   def self.status_active_id
-    setting = settings['status_active']
+    setting = settings[:status_active]
     setting.blank? ? nil : setting.to_i
   end
 
@@ -30,7 +30,7 @@ class RedcaserSettings
   end
 
   def self.status_obsolete_id
-    setting = settings['status_obsolete']
+    setting = settings[:status_obsolete]
     setting.blank? ? nil : setting.to_i
   end
 
@@ -43,6 +43,6 @@ class RedcaserSettings
 
   def self.settings
     @settings = Setting.plugin_redmine_redcaser
-    @settings.blank? ? {} : @settings
+    @settings.blank? ? ActionController::Parameters.new : @settings
   end
 end
