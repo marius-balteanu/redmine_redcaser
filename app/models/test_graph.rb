@@ -6,7 +6,7 @@ class TestGraph
     }
     un_count = 0
     TestCase
-      .includes(execution_journals: [ :result ])
+      .includes(execution_journals: [:result])
       .joins(:issue)
       .where({ 'issues.project_id' => project_id })
       .each { |tc|
