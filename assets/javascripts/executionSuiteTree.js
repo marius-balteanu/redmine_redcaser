@@ -1,4 +1,4 @@
-var RedcaseExecutionSuiteTree = function ($) {
+var RedcaseExecutionSuiteTree = function () {
 
   var tree;
 
@@ -518,12 +518,12 @@ var RedcaseExecutionSuiteTree = function ($) {
   })();
 };
 
-$(function ($) {
+$(function () {
   if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.executionSuiteTree) {
     return;
   }
-  Redcase.executionSuiteTree = new RedcaseExecutionSuiteTree($);
+  Redcase.executionSuiteTree = new RedcaseExecutionSuiteTree();
 });

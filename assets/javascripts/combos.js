@@ -1,4 +1,4 @@
-var RedcaseCombos = function ($) {
+var RedcaseCombos = function () {
 
   var self = this;
 
@@ -79,12 +79,12 @@ var RedcaseCombos = function ($) {
 
 };
 
-$(function ($) {
+$(function () {
   if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.combos) {
     return;
   }
-  Redcase.combos = new RedcaseCombos($);
+  Redcase.combos = new RedcaseCombos();
 });

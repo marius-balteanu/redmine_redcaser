@@ -1,4 +1,4 @@
-var RedcaseGraph = function($) {
+var RedcaseGraph = function() {
 
   var self = this;
 
@@ -73,12 +73,12 @@ var RedcaseGraph = function($) {
 
 }
 
-$(function ($) {
+$(function () {
   if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.graph) {
     return;
   }
-  Redcase.graph = new RedcaseGraph($);
+  Redcase.graph = new RedcaseGraph();
 });

@@ -1,4 +1,4 @@
-var RedcaseApi = function ($) {
+var RedcaseApi = function () {
 
   var log = LogManager.getLog('redcase.api');
 
@@ -243,12 +243,12 @@ var RedcaseApi = function ($) {
   };
 };
 
-$(function ($) {
+$(function () {
   if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.api) {
     return;
   }
-  Redcase.api = new RedcaseApi($);
+  Redcase.api = new RedcaseApi();
 });

@@ -1,4 +1,4 @@
-var RedcaseEnvironments = function ($) {
+var RedcaseEnvironments = function () {
   var bind = function () {
     $('#btn_save_environment').on('click', onButtonSaveClicked);
     $('#btn_create_environment').on('click', onButtonCreateClicked);
@@ -107,12 +107,12 @@ var RedcaseEnvironments = function ($) {
   })();
 }
 
-$(function ($) {
+$(function () {
   if (typeof (Redcase) === 'undefined') {
     Redcase = {};
   }
   if (Redcase.environments) {
     return;
   }
-  Redcase.environments = new RedcaseEnvironments($);
+  Redcase.environments = new RedcaseEnvironments();
 });
