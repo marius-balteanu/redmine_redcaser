@@ -1,7 +1,7 @@
 resources :projects do
   member do
     get :redcaser, to: 'redcaser#index'
-    get 'redcaser/get_attachment_urls', to: 'redcaser#get_attachment_urls'
+    get 'redcaser/attachment_urls', to: 'redcaser#attachment_urls'
   end
 
   namespace :redcaser do

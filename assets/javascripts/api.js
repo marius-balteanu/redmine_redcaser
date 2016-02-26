@@ -12,7 +12,7 @@ var RedcaserAPI = function () {
 
     this.getAttachmentURLs = function () {
       return {
-        method: (self.controller + '/get_attachment_urls'),
+        method: (self.controller + '/attachment_urls'),
         httpMethod: 'GET'
       };
     };

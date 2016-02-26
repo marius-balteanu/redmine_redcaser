@@ -16,7 +16,7 @@ Redmine::Plugin.register :redmine_redcaser do
   settings partial: 'redmine_redcaser/plugin_settings'
 
   permission :view_test_cases, {
-    redcaser:                       [:index, :get_attachment_urls],
+    redcaser:                       [:index, :attachment_urls],
     'redcaser/environments'      => [:index],
     'redcaser/testsuites'        => [:index],
     'redcaser/testcases'         => [:index],
@@ -28,7 +28,7 @@ Redmine::Plugin.register :redmine_redcaser do
   }
 
   permission :edit_test_cases, {
-    redcaser:                       [:index, :get_attachment_urls],
+    redcaser:                       [:index, :attachment_urls],
     'redcaser/environments'      => [:index, :update, :destroy, :create],
     'redcaser/testsuites'        => [:index, :update, :destroy, :create],
     'redcaser/testcases'         => [:index, :update, :destroy, :copy],
@@ -40,7 +40,7 @@ Redmine::Plugin.register :redmine_redcaser do
   }
 
   permission :execute_test_cases, {
-    redcaser:                       [:index, :get_attachment_urls],
+    redcaser:                       [:index, :attachment_urls],
     'redcaser/environments'      => [:index],
     'redcaser/testsuites'        => [:index],
     'redcaser/testcases'         => [:index, :update],
