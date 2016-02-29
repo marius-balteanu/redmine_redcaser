@@ -5,7 +5,6 @@ services:
     - postgresql
 
 rvm:
-    - 2.0.0
     - 2.1.8
     - 2.2.4
     - 2.3.0
@@ -36,8 +35,7 @@ before_install:
     - cd $REDMINE_PATH
 
 before_script:
-    - echo "config.active_record.schema_format = :sql" >> config/additional_environment.rb
-    - rake db:create db:migrate redmine:plugins:migrate db:structure:dump
+    - rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
 
 script:
     - rake redmine:plugins:spec RAILS_ENV=test NAME=$PLUGIN_NAME
