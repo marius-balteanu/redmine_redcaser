@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Redcaser::TestcasesController, type: :controller do
   include LoginSupport
   include SetupSupport
-  # render_views
 
   context 'logged in as admin' do
     let(:admin) { create :user, :admin }
