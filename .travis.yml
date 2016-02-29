@@ -10,10 +10,6 @@ rvm:
     - 2.3.0
     - jruby
 
-matrix:
-  allow_failures:
-    - rvm: jruby
-
 gemfile:
     - $REDMINE_PATH/Gemfile
 
