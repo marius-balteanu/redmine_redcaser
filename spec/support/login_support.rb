@@ -3,6 +3,7 @@ module LoginSupport
 
   def login_as(user)
     @request.session[:user_id] = user.id
+    allow(User).to receive(:current).and_return(user)
   end
 
   def ui_login_user(login, password)

@@ -119,9 +119,9 @@ var RedcaserAPI = function () {
 
     this.controller = 'environments';
 
-    this.index = function () {
+    this.show = function (id) {
       return {
-        method: self.controller,
+        method: (self.controller + '/' + id),
         httpMethod: 'GET'
       };
     };

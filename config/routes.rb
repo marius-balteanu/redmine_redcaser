@@ -5,7 +5,7 @@ resources :projects do
   end
 
   namespace :redcaser do
-    resources :environments, only: [:index, :create, :update, :destroy]
+    resources :environments, only: [:show, :create, :update, :destroy]
     resources :testsuites,   only: [:index, :create, :update, :destroy]
 
     resources :testcases, only: [:index, :update] do

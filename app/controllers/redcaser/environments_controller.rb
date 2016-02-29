@@ -1,10 +1,8 @@
 class Redcaser::EnvironmentsController < RedcaserBaseController
   helper RedcaserHelper
 
-  def index
-    environment = ExecutionEnvironment.find(
-      params[:execution_environment_id]
-    )
+  def show
+    environment = ExecutionEnvironment.find(params[:id])
     render(
       partial: 'redcaser/management_environments',
       locals: { project: @project, environment: environment }

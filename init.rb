@@ -17,7 +17,7 @@ Redmine::Plugin.register :redmine_redcaser do
 
   permission :view_test_cases, {
     redcaser:                       [:index, :attachment_urls],
-    'redcaser/environments'      => [:index],
+    'redcaser/environments'      => [:show],
     'redcaser/testsuites'        => [:index],
     'redcaser/testcases'         => [:index],
     'redcaser/executionjournals' => [:index],
@@ -29,7 +29,7 @@ Redmine::Plugin.register :redmine_redcaser do
 
   permission :edit_test_cases, {
     redcaser:                       [:index, :attachment_urls],
-    'redcaser/environments'      => [:index, :update, :destroy, :create],
+    'redcaser/environments'      => [:show, :update, :destroy, :create],
     'redcaser/testsuites'        => [:index, :update, :destroy, :create],
     'redcaser/testcases'         => [:index, :update, :destroy, :copy],
     'redcaser/executionjournals' => [:index],
@@ -41,7 +41,7 @@ Redmine::Plugin.register :redmine_redcaser do
 
   permission :execute_test_cases, {
     redcaser:                       [:index, :attachment_urls],
-    'redcaser/environments'      => [:index],
+    'redcaser/environments'      => [:show],
     'redcaser/testsuites'        => [:index],
     'redcaser/testcases'         => [:index, :update],
     'redcaser/executionjournals' => [:index],
@@ -70,7 +70,7 @@ Redmine::Plugin.register :redmine_redcaser do
 end
 
 Rails.application.config.after_initialize do
-  test_dependencies = {redmine_testing_gems: '1.3.1'}
+  test_dependencies = {redmine_testing_gems: '1.3.2'}
   current_plugin = Redmine::Plugin.find(:redmine_redcaser)
   check_dependencies = proc do |plugin, version|
     begin

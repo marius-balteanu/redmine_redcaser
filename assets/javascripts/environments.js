@@ -9,10 +9,7 @@ var RedcaserEnvironments = function () {
   var onComboChanged = function () {
     var environmentId = $('#execution_environment_id').val();
     var apiParams = $.extend({},
-      Redcase.api.environments.index(), {
-        params: {
-          execution_environment_id: environmentId
-        },
+      Redcase.api.environments.show(environmentId), {
         success: function (data, textStatus, request) {
           $('#management_environments_id').html(data);
           bind();

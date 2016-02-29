@@ -33,7 +33,7 @@ describe RedcaserController, type: :controller do
         expect(response).to render_template('common/error')
       end
 
-      it 'responds with forbidden when plugin setting are set' do
+      it 'responds with index when plugin setting are set' do
         create_project_setup_with_settings
 
         get :index, id: @project.id
