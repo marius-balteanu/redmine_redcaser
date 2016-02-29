@@ -11,14 +11,12 @@ describe Redcaser::EnvironmentsController, type: :controller do
       create :execution_environment, project_id: @project.id
     end
 
-    before :example do
-      login_as admin
-    end
+    before(:example) { login_as admin }
 
     context 'without initial settigns' do
-      it 'GET #show responds with forbidden' do
-        create_project_setup_without_settings
+      before(:example) { create_project_setup_without_settings }
 
+      it 'GET #show responds with forbidden' do
         get :show, project_id: @project.id, id: environment.id
 
         expect(response).to have_http_status(:forbidden)
@@ -26,8 +24,6 @@ describe Redcaser::EnvironmentsController, type: :controller do
       end
 
       it 'POST #create responds with forbidden' do
-        create_project_setup_without_settings
-
         post :create, project_id: @project.id
 
         expect(response).to have_http_status(:forbidden)
@@ -35,8 +31,6 @@ describe Redcaser::EnvironmentsController, type: :controller do
       end
 
       it 'PATCH #update responds with forbidden' do
-        create_project_setup_without_settings
-
         patch :update, project_id: @project.id, id: environment.id
 
         expect(response).to have_http_status(:forbidden)
@@ -44,8 +38,6 @@ describe Redcaser::EnvironmentsController, type: :controller do
       end
 
       it 'PUT #update responds with forbidden' do
-        create_project_setup_without_settings
-
         put :update, project_id: @project.id, id: environment.id
 
         expect(response).to have_http_status(:forbidden)
@@ -53,8 +45,6 @@ describe Redcaser::EnvironmentsController, type: :controller do
       end
 
       it 'DELETE #destroy responds with forbidden' do
-        create_project_setup_without_settings
-
         delete :destroy, project_id: @project.id, id: environment.id
 
         expect(response).to have_http_status(:forbidden)
@@ -63,9 +53,9 @@ describe Redcaser::EnvironmentsController, type: :controller do
     end
 
     context 'with initial settigns' do
-      it 'GET #show responds with success' do
-        create_project_setup_with_settings
+      before(:example) { create_project_setup_with_settings }
 
+      it 'GET #show responds with success' do
         get :show, project_id: @project.id, id: environment.id
 
         expect(response).to have_http_status(:ok)
@@ -73,32 +63,24 @@ describe Redcaser::EnvironmentsController, type: :controller do
       end
 
       # it 'POST #create responds with success' do
-      #   create_project_setup_without_settings
-      #
       #   post :create, project_id: @project.id
       #
       #   expect(response).to have_http_status(:ok)
       # end
       #
       # it 'PATCH #update responds with success' do
-      #   create_project_setup_without_settings
-      #
       #   patch :update, project_id: @project.id, id: environment.id
       #
       #   expect(response).to have_http_status(:ok)
       # end
       #
       # it 'PUT #update responds with success' do
-      #   create_project_setup_without_settings
-      #
       #   put :update, project_id: @project.id, id: environment.id
       #
       #   expect(response).to have_http_status(:ok)
       # end
       #
       # it 'DELETE #destroy responds with success' do
-      #   create_project_setup_without_settings
-      #
       #   delete :destroy, project_id: @project.id, id: environment.id
       #
       #   expect(response).to have_http_status(:ok)

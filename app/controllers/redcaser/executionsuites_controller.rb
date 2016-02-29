@@ -1,15 +1,15 @@
 class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     if params[:get_results].nil?
-      @list2 = ExecutionSuite.find_by_project_id(@project.id)
+      @list2 = ExecutionSuite.where(project_id: @project.id)
       @version = Version
         .order('created_on desc')
-        .find_by_project_id(@project.id)
+        .where(project_id: @project.id)
       render partial: 'redcaser/execution_list'
     else
       @environment = ExecutionEnvironment.find(params[:environment_id])
       @version = Version.find(params[:version_id])
-      @root_execution_suite = ExecutionSuite.find_by_id(params[:suite_id])
+      @root_execution_suite = ExecutionSuite.where(id: params[:suite_id])
       @results = ExecutionSuite.get_results(
         @environment,
         @version,
@@ -22,9 +22,9 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
   def show
     unless params[:version].nil?
-      version = Version.find_by_name_and_project_id(
-        params[:version],
-        @project.id
+      version = Version.where(
+        name:       params[:version],
+        project_id: @project.id
       )
     end
     unless params[:environment].nil?
