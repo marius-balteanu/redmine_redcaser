@@ -4,10 +4,13 @@ class Redcaser::ExportController < RedcaserBaseController
     current_time = Time.now.strftime('%d%m%Y-%I%M%S')
     filename = "TCReport-#{project_name}-#{current_time}"
     case params[:export_to]
-      when 'excel'
-        doc = export_to_excel
-      when 'rtf'
-        doc = export_to_rtf
+    when 'excel'
+      doc = export_to_excel
+    when 'rtf'
+      doc = export_to_rtf
+    else
+      render json: {error: 'No format specified'}, status: 400
+      return
     end
     send_data(
       doc[:document], {
