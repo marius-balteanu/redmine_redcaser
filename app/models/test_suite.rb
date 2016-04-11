@@ -13,7 +13,7 @@ class TestSuite < ActiveRecord::Base
       .where(project_id: project.id)
       .first
     unless test_suite
-      test_suite = TestSuite.create(name: 'Root')
+      test_suite = TestSuite.create(name: project.name)
       test_suite.project = project
       test_suite.children << TestSuite.create(name: '.Obsolete')
       test_suite.children << TestSuite.create(name: '.Unsorted')

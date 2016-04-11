@@ -2,10 +2,10 @@
 
 en:
 
-  label_test_case_management    : "Management"
+  label_test_case_management    : "Test cases"
   label_test_case_execution     : "Execution"
   label_test_case_report        : "Report"
-  label_test_suites             : "Test suites"
+  label_test_suites             : "Test Suites & Cases"
   label_execution_suite         : "Execution suite"
   label_environment             : "Environment"
   label_version                 : "Version"
