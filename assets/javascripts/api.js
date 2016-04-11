@@ -2,207 +2,175 @@ var RedcaserAPI = function () {
   this.context = 'redcaser/';
 
   this.core = new function () {
-
-    var self = this;
-
     this.controller = '';
 
     this.getAttachmentURLs = function () {
       return {
-        method: (self.controller + '/attachment_urls'),
+        method: (this.controller + '/attachment_urls'),
         httpMethod: 'GET'
       };
-    };
-
+    }.bind(this);
   };
 
   this.testSuite = new function () {
-
-    var self = this;
-
     this.controller = 'testsuites';
 
     this.index = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'GET'
       };
-    };
+    }.bind(this);
 
     this.destroy = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'DELETE'
       };
-    };
+    }.bind(this);
 
     this.update = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'PUT'
       };
-    };
+    }.bind(this);
 
     this.create = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'POST'
       };
-    };
-
+    }.bind(this);
   };
 
   this.executionSuite = new function () {
-
-    var self = this;
-
     this.controller = 'executionsuites';
 
     this.create = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'POST'
       };
-    };
+    }.bind(this);
 
     this.update = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'PUT'
       };
-    };
+    }.bind(this);
 
     this.destroy = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'DELETE'
       };
-    };
+    }.bind(this);
 
     this.show = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'GET'
       };
-    };
+    }.bind(this);
 
     this.index = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'GET'
       };
-    };
-
+    }.bind(this);
   };
 
   this.executionJournal = new function () {
-
-    var self = this;
-
     this.controller = 'executionjournals';
 
     this.index = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'GET'
       };
-    };
-
+    }.bind(this);
   };
 
   this.environments = new function () {
-
-    var self = this;
-
     this.controller = 'environments';
 
     this.show = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'GET'
       };
-    };
+    }.bind(this);
 
     this.update = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'PUT'
       };
-    };
+    }.bind(this);
 
     this.create = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'POST'
       };
-    };
+    }.bind(this);
 
     this.destroy = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'DELETE'
       };
-    };
-
+    }.bind(this);
   };
 
   this.testCase = new function () {
-
-    var self = this;
-
     this.controller = 'testcases';
 
     this.index = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'GET'
       };
-    };
+    }.bind(this);
 
     this.update = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'PUT',
       };
-    };
+    }.bind(this);
 
     this.copy = function (id) {
       return {
-        method: (self.controller + '/' + id + '/copy'),
+        method: (this.controller + '/' + id + '/copy'),
         httpMethod: 'POST',
       };
-    };
-
+    }.bind(this);
   };
 
   this.combos = new function () {
-
-    var self = this;
-
     this.controller = 'combos';
 
     this.index = function () {
       return {
-        method: self.controller,
+        method: this.controller,
         httpMethod: 'GET'
       };
-    };
-
+    }.bind(this);
   };
 
   this.graph = new function () {
-
-    var self = this;
-
     this.controller = 'graph';
 
     this.show = function (id) {
       return {
-        method: (self.controller + '/' + id),
+        method: (this.controller + '/' + id),
         httpMethod: 'GET'
       };
-    };
-
+    }.bind(this);
   };
 
   this.apiCall = function (parameters) {
