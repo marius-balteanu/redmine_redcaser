@@ -1,26 +1,17 @@
 var RedcaserExecutionSuiteTree = function () {
-
-  var tree;
-
-  var caseItems;
-
-  var specialSuiteItems;
-
-  var suiteItems;
-
-  var commonItems;
+  var tree, caseItems, specialSuiteItems, suiteItems, commonItems;
 
   this.updateList2 = function () {
     var apiParms = $.extend({},
-      Redcase.api.executionSuite.index(), {
+      Redcaser.api.executionSuite.index(), {
         success: function (data, textStatus, request) {
           $('#execution_settings_id').html(data);
-          Redcase.executionTree.refresh();
+          Redcaser.executionTree.refresh();
         },
         errorMessage: "Couldn't load execution list"
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var saveExecSuiteClick = function (event) {
@@ -32,7 +23,7 @@ var RedcaserExecutionSuiteTree = function () {
       },
       function () {
         tree.refresh();
-        Redcase.full();
+        Redcaser.full();
       }
     );
     event.preventDefault();
@@ -52,7 +43,7 @@ var RedcaserExecutionSuiteTree = function () {
       },
       function () {
         tree.refresh();
-        Redcase.full();
+        Redcaser.full();
       }
     );
     event.preventDefault();
@@ -68,7 +59,7 @@ var RedcaserExecutionSuiteTree = function () {
           $("#list_id option:selected").text()
         );
         tree.refresh();
-        Redcase.full();
+        Redcaser.full();
       }
     );
     event.preventDefault();
@@ -140,7 +131,7 @@ var RedcaserExecutionSuiteTree = function () {
     completeCallback
   ) {
     var apiParms = $.extend({},
-      Redcase.api.executionSuite.create(), {
+      Redcaser.api.executionSuite.create(), {
         params: {
           name: name,
           parent_id: parentId
@@ -152,7 +143,7 @@ var RedcaserExecutionSuiteTree = function () {
         complete: completeCallback
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var addSuiteDialog = function (params) {
@@ -172,7 +163,7 @@ var RedcaserExecutionSuiteTree = function () {
                 node,
                 newNode
               );
-              Redcase.full();
+              Redcaser.full();
             },
             function () {
               $('#redcase-dialog').dialog('close');
@@ -189,14 +180,14 @@ var RedcaserExecutionSuiteTree = function () {
     successCallback
   ) {
     var apiParms = $.extend({},
-      Redcase.api.executionSuite.destroy(suiteId), {
+      Redcaser.api.executionSuite.destroy(suiteId), {
         success: successCallback,
         errorMessage: (
           "Execution suite '" + name + "' can't be deleted"
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var deleteSuiteNode = function (node) {
@@ -206,7 +197,7 @@ var RedcaserExecutionSuiteTree = function () {
         node.text,
         function () {
           tree.delete_node(node);
-          Redcase.full();
+          Redcaser.full();
         }
       );
     }
@@ -214,7 +205,7 @@ var RedcaserExecutionSuiteTree = function () {
 
   var deleteCase = function (node) {
     var apiParms = $.extend({},
-      Redcase.api.testCase.update(node.original.issue_id), {
+      Redcaser.api.testCase.update(node.original.issue_id), {
         params: {
           remove_from_exec_id: tree
             .get_node(node.parent)
@@ -223,14 +214,14 @@ var RedcaserExecutionSuiteTree = function () {
         },
         success: function () {
           tree.delete_node(node);
-          Redcase.full();
+          Redcaser.full();
         },
         errorMessage: (
           Redcaser.tracker_name + " '" + node.text + "' can't be deleted"
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var deleteItem = function (params) {
@@ -251,7 +242,7 @@ var RedcaserExecutionSuiteTree = function () {
     completeCallback
   ) {
     var apiParms = $.extend({},
-      Redcase.api.executionSuite.update(suiteId), {
+      Redcaser.api.executionSuite.update(suiteId), {
         params: {
           new_name: name
         },
@@ -262,7 +253,7 @@ var RedcaserExecutionSuiteTree = function () {
         complete: completeCallback
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var renameSuiteDialog = function (params) {
@@ -279,7 +270,7 @@ var RedcaserExecutionSuiteTree = function () {
             name,
             function () {
               tree.set_text(node, name);
-              Redcase.full();
+              Redcaser.full();
             },
             function () {
               $('#redcase-dialog').dialog('close')
@@ -292,7 +283,7 @@ var RedcaserExecutionSuiteTree = function () {
 
   var getItems = function () {
     var items = {};
-    var selectionType = Redcase.testSuiteTree.getSelectionType(tree);
+    var selectionType = Redcaser.testSuiteTree.getSelectionType(tree);
     if (selectionType < 3) {
       items = $.extend(items, commonItems);
     }
@@ -319,7 +310,7 @@ var RedcaserExecutionSuiteTree = function () {
   ) {
     newNode.original = orgNode.original;
     var apiParms = $.extend({},
-      Redcase.api.testCase.update(orgNode.original.issue_id), {
+      Redcaser.api.testCase.update(orgNode.original.issue_id), {
         params: {
           source_exec_id: oldInstance
             .get_node(orgNode.parent)
@@ -332,7 +323,7 @@ var RedcaserExecutionSuiteTree = function () {
         },
         success: function () {
           oldInstance.delete_node(orgNode);
-          Redcase.full();
+          Redcaser.full();
         },
         error: function () {
           newInstance.delete_node(newNode);
@@ -342,7 +333,7 @@ var RedcaserExecutionSuiteTree = function () {
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var moveTestSuite = function (
@@ -353,7 +344,7 @@ var RedcaserExecutionSuiteTree = function () {
   ) {
     newNode.original = orgNode.original;
     var apiParms = $.extend({},
-      Redcase.api.executionSuite.update(
+      Redcaser.api.executionSuite.update(
         orgNode.original.suite_id
       ), {
         params: {
@@ -364,7 +355,7 @@ var RedcaserExecutionSuiteTree = function () {
         },
         success: function () {
           oldInstance.delete_node(orgNode);
-          Redcase.full();
+          Redcaser.full();
         },
         error: function () {
           newInstance.delete_node(newNode);
@@ -374,7 +365,7 @@ var RedcaserExecutionSuiteTree = function () {
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var copyTestCase = function (
@@ -387,7 +378,7 @@ var RedcaserExecutionSuiteTree = function () {
       newNode.original = orgNode.original;
       newInstance.set_id(newNode, orgNode.id);
       var apiParms = $.extend({},
-        Redcase.api.testCase.update(orgNode.original.issue_id), {
+        Redcaser.api.testCase.update(orgNode.original.issue_id), {
           params: {
             dest_exec_id: newInstance
               .get_node(newNode.parent)
@@ -396,10 +387,10 @@ var RedcaserExecutionSuiteTree = function () {
           },
           success: function (data) {
             if (data.success === true) {
-              Redcase.full();
+              Redcaser.full();
             } else {
               newInstance.delete_node(newNode);
-              Redcase.errorBox(
+              Redcaser.errorBox(
                 Redcaser.tracker_name + " '" + orgNode.text + "' can't be added"
               );
             }
@@ -412,7 +403,7 @@ var RedcaserExecutionSuiteTree = function () {
           )
         }
       );
-      Redcase.api.apiCall(apiParms);
+      Redcaser.api.apiCall(apiParms);
     } else {
       newInstance.delete_node(newNode);
     }
@@ -464,7 +455,7 @@ var RedcaserExecutionSuiteTree = function () {
           type: 'GET',
           url: function () {
             return (
-              Redcase.api.context + Redcase.api.executionSuite.show(
+              Redcaser.api.context + Redcaser.api.executionSuite.show(
                 $('#list_id').val()
               ).method
             );
@@ -516,11 +507,5 @@ var RedcaserExecutionSuiteTree = function () {
 };
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.executionSuiteTree) {
-    return;
-  }
-  Redcase.executionSuiteTree = new RedcaserExecutionSuiteTree();
+  Redcaser.executionSuiteTree = new RedcaserExecutionSuiteTree();
 });

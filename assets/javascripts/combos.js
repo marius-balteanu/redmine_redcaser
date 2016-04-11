@@ -1,5 +1,4 @@
 var RedcaserCombos = function () {
-
   var self = this;
 
   var rebind = function () {
@@ -13,7 +12,7 @@ var RedcaserCombos = function () {
 
   this.update = function () {
     var apiParams = $.extend({},
-      Redcase.api.combos.index(), {
+      Redcaser.api.combos.index(), {
         success: function (data, textStatus, request) {
           $('#combos_id').html(data);
           rebind();
@@ -22,12 +21,12 @@ var RedcaserCombos = function () {
         errorMessage: 'An unknown error ocurred'
       }
     );
-    Redcase.api.apiCall(apiParams);
+    Redcaser.api.apiCall(apiParams);
   };
 
   this.refresh = function () {
     var apiParams = $.extend({},
-      Redcase.api.combos.index(), {
+      Redcaser.api.combos.index(), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -40,10 +39,10 @@ var RedcaserCombos = function () {
         errorMessage: 'An unknown error ocurred'
       }
     );
-    Redcase.api.apiCall(apiParams);
-    Redcase.graph.update();
+    Redcaser.api.apiCall(apiParams);
+    Redcaser.graph.update();
     apiParams = $.extend({},
-      Redcase.api.executionSuite.index(), {
+      Redcaser.api.executionSuite.index(), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -56,13 +55,13 @@ var RedcaserCombos = function () {
         errorMessage: "Couldn't load results"
       }
     );
-    Redcase.api.apiCall(apiParams);
+    Redcaser.api.apiCall(apiParams);
   };
 
   this.refreshFilter = function () {
     var filtered = $('#filter_id_ option:selected').text().trim();
-    for (var i = 0; i < Redcase.result_names.length; i++) {
-      var name = Redcase.result_names[i];
+    for (var i = 0; i < Redcaser.result_names.length; i++) {
+      var name = Redcaser.result_names[i];
       $.each($('[name="' + name + '"]'), function (index, value) {
         $(value).css(
           'display', (
@@ -80,11 +79,5 @@ var RedcaserCombos = function () {
 };
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.combos) {
-    return;
-  }
-  Redcase.combos = new RedcaserCombos();
+  Redcaser.combos = new RedcaserCombos();
 });

@@ -1,8 +1,5 @@
 var RedcaserExecutionTree = function () {
-
-  var tree;
-
-  var currentIssueId;
+  var tree, currentIssueId;
 
   this.refresh = function () {
     if (tree) {
@@ -19,7 +16,7 @@ var RedcaserExecutionTree = function () {
     var selectedNode = tree.get_node(tree.get_selected(true)[0], true);
     var result = $('#results').val();
     var apiParams = $.extend({},
-      Redcase.api.testCase.update(issueId), {
+      Redcaser.api.testCase.update(issueId), {
         params: {
           version: $('#version').val(),
           result: result,
@@ -42,12 +39,12 @@ var RedcaserExecutionTree = function () {
           //       controls' changes might be not the best
           //       solution, but at least it seems to fix the
           //       issue with updates.
-          Redcase.combos.refresh();
+          Redcaser.combos.refresh();
         },
         errorMessage: 'Execution failed'
       }
     );
-    Redcase.api.apiCall(apiParams);
+    Redcaser.api.apiCall(apiParams);
   };
 
   var build = function (params) {
@@ -59,7 +56,7 @@ var RedcaserExecutionTree = function () {
         data: {
           type: 'GET',
           url: function () {
-            return Redcase.api.context + Redcase.api.executionSuite.show(
+            return Redcaser.api.context + Redcaser.api.executionSuite.show(
               $('#list2_id').val()
             ).method
           },
@@ -84,7 +81,7 @@ var RedcaserExecutionTree = function () {
     $('#all-results-d').hide();
     if (node.original.type == 'case') {
       var apiParms = $.extend({},
-        Redcase.api.testCase.index(), {
+        Redcaser.api.testCase.index(), {
           params: {
             "object_id": node.original.issue_id
           },
@@ -105,7 +102,7 @@ var RedcaserExecutionTree = function () {
             results.val('Passed');
             var version = $('#version');
             var apiParms = $.extend({},
-              Redcase.api.executionJournal.index(), {
+              Redcaser.api.executionJournal.index(), {
                 params: {
                   "issue_id": node.original.issue_id,
                   "version": version.val()
@@ -124,9 +121,9 @@ var RedcaserExecutionTree = function () {
                 )
               }
             );
-            Redcase.api.apiCall(apiParms);
+            Redcaser.api.apiCall(apiParms);
             apiParms = $.extend({},
-              Redcase.api.core.getAttachmentURLs(), {
+              Redcaser.api.core.getAttachmentURLs(), {
                 params: {
                   "issue_id": node.original.issue_id
                 },
@@ -145,14 +142,14 @@ var RedcaserExecutionTree = function () {
                 errorMessage: "Getting attachments failed"
               }
             );
-            Redcase.api.apiCall(apiParms);
+            Redcaser.api.apiCall(apiParms);
           },
           errorMessage: (
             "Information about " + Redcaser.tracker_name + " '" + node.text + "' can't be obtained"
           )
         }
       );
-      Redcase.api.apiCall(apiParms);
+      Redcaser.api.apiCall(apiParms);
     }
   };
 
@@ -227,11 +224,5 @@ var RedcaserExecutionTree = function () {
 };
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.executionTree) {
-    return;
-  }
-  Redcase.executionTree = new RedcaserExecutionTree();
+  Redcaser.executionTree = new RedcaserExecutionTree();
 });

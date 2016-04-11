@@ -1,3 +1,5 @@
+var Redcaser = {};
+
 // TODO: Create a simple wrapper to keep all the functionality related to
 //       Redcase's dialog windows at the only place, and provide more
 //       OOP-like access to show/hide it.
@@ -12,11 +14,9 @@ $(function () {
       return false;
     }
   });
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  Redcase = $.extend(
-    Redcase, {
+
+  Redcaser = $.extend(
+    Redcaser, {
       jsCopyToMenuItems: [],
       errorBox: function (errorMessage) {
         $('#redcase-error-message').text(errorMessage);
@@ -30,8 +30,8 @@ $(function () {
         })
       },
       full: function () {
-        Redcase.executionSuiteTree.updateList2();
-        Redcase.combos.update();
+        Redcaser.executionSuiteTree.updateList2();
+        Redcaser.combos.update();
       }
     }
   );

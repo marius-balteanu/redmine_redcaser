@@ -81,7 +81,7 @@ var RedcaserTestSuiteTree = function () {
   ) {
     newNode.original = orgNode.original;
     var apiParms = $.extend({},
-      Redcase.api.testCase.update(orgNode.original.issue_id), {
+      Redcaser.api.testCase.update(orgNode.original.issue_id), {
         params: {
           parent_id: newInstance
             .get_node(newNode.parent)
@@ -99,7 +99,7 @@ var RedcaserTestSuiteTree = function () {
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var moveTestSuite = function (
@@ -110,7 +110,7 @@ var RedcaserTestSuiteTree = function () {
   ) {
     newNode.original = orgNode.original;
     var apiParms = $.extend({},
-      Redcase.api.testSuite.update(orgNode.original.suite_id), {
+      Redcaser.api.testSuite.update(orgNode.original.suite_id), {
         params: {
           parent_id: newInstance
             .get_node(newNode.parent)
@@ -128,7 +128,7 @@ var RedcaserTestSuiteTree = function () {
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var onCopy = function (event, object) {
@@ -161,23 +161,23 @@ var RedcaserTestSuiteTree = function () {
   var contextCopyTo = function (params) {
     var node = self.tree.get_node(params.reference);
     var apiParms = $.extend({},
-      Redcase.api.testCase.copy(node.original.issue_id), {
+      Redcaser.api.testCase.copy(node.original.issue_id), {
         params: {
           dest_project: params.item.id
         },
         errorMessage: ("Can't copy '" + node.text + "'")
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var prepareContextItems = function () {
     var tmpObj = {};
     var copyItems = {};
-    for (var i = 0; i < Redcase.jsCopyToMenuItems.length; i++) {
-      tmpObj['keyfor_' + Redcase.jsCopyToMenuItems[i].id] = {
-        label: Redcase.jsCopyToMenuItems[i].text,
-        id: Redcase.jsCopyToMenuItems[i].id,
+    for (var i = 0; i < Redcaser.jsCopyToMenuItems.length; i++) {
+      tmpObj['keyfor_' + Redcaser.jsCopyToMenuItems[i].id] = {
+        label: Redcaser.jsCopyToMenuItems[i].text,
+        id: Redcaser.jsCopyToMenuItems[i].id,
         action: contextCopyTo
       };
       $.extend(copyItems, tmpObj);
@@ -214,7 +214,7 @@ var RedcaserTestSuiteTree = function () {
 
   var deleteCase = function (node) {
     var apiParms = $.extend({},
-      Redcase.api.testCase.update(node.original.issue_id), {
+      Redcaser.api.testCase.update(node.original.issue_id), {
         params: {
           obsolesce: true
         },
@@ -231,13 +231,13 @@ var RedcaserTestSuiteTree = function () {
         )
       }
     );
-    Redcase.api.apiCall(apiParms);
+    Redcaser.api.apiCall(apiParms);
   };
 
   var deleteSuite = function (node) {
     if ((node.parents.length > 1) && (node.text !== '.Unsorted') && (node.text !== '.Obsolete')) {
       var apiParms = $.extend({},
-        Redcase.api.testSuite.destroy(node.original.suite_id), {
+        Redcaser.api.testSuite.destroy(node.original.suite_id), {
           success: function () {
             self.tree.delete_node(node);
           },
@@ -246,7 +246,7 @@ var RedcaserTestSuiteTree = function () {
           )
         }
       );
-      Redcase.api.apiCall(apiParms);
+      Redcaser.api.apiCall(apiParms);
     }
   };
 
@@ -271,7 +271,7 @@ var RedcaserTestSuiteTree = function () {
         OK: function () {
           var name = $('#redcase-dialog-value').val();
           var apiParms = $.extend({},
-            Redcase.api.testSuite.create(), {
+            Redcaser.api.testSuite.create(), {
               params: {
                 name: name,
                 parent_id: node.original.suite_id
@@ -287,7 +287,7 @@ var RedcaserTestSuiteTree = function () {
               }
             }
           );
-          Redcase.api.apiCall(apiParms);
+          Redcaser.api.apiCall(apiParms);
         }
       }
     });
@@ -303,7 +303,7 @@ var RedcaserTestSuiteTree = function () {
         OK: function () {
           var name = $('#redcase-dialog-value').val();
           var apiParms = $.extend({},
-            Redcase.api.testSuite.update(
+            Redcaser.api.testSuite.update(
               node.original.suite_id
             ), {
               params: {
@@ -320,7 +320,7 @@ var RedcaserTestSuiteTree = function () {
               }
             }
           );
-          Redcase.api.apiCall(apiParms);
+          Redcaser.api.apiCall(apiParms);
         }
       },
       open: function () {
@@ -373,7 +373,7 @@ var RedcaserTestSuiteTree = function () {
           data: {
             type: 'GET',
             url: (
-              Redcase.api.context + Redcase.api.testSuite.controller
+              Redcaser.api.context + Redcaser.api.testSuite.controller
             )
           }
         },
@@ -414,11 +414,5 @@ var RedcaserTestSuiteTree = function () {
 };
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.testSuiteTree) {
-    return;
-  }
-  Redcase.testSuiteTree = new RedcaserTestSuiteTree();
+  Redcaser.testSuiteTree = new RedcaserTestSuiteTree();
 });

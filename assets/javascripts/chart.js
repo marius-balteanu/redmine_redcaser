@@ -28,7 +28,7 @@ var RedcaserGraph = function() {
 
   this.update = function () {
     var apiParams = $.extend({},
-      Redcase.api.graph.show(0), {
+      Redcaser.api.graph.show(0), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -40,7 +40,7 @@ var RedcaserGraph = function() {
         errorMessage: "Couldn't load graph"
       }
     );
-    Redcase.api.apiCall(apiParams);
+    Redcaser.api.apiCall(apiParams);
   };
 
   this.refresh = function (data) {
@@ -74,11 +74,5 @@ var RedcaserGraph = function() {
 }
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.graph) {
-    return;
-  }
-  Redcase.graph = new RedcaserGraph();
+  Redcaser.graph = new RedcaserGraph();
 });

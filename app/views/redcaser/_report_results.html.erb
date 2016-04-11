@@ -1,7 +1,7 @@
 <script type="text/javascript">
   if (typeof(Redcase) === 'undefined') {
-    Redcase = {};
-    Redcase.result_names = <%=
+    Redcaser = {};
+    Redcaser.result_names = <%=
       ExecutionResult.all.collect { |x| x.name }.to_json.html_safe
     %>;
   }

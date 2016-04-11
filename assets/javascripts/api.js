@@ -194,7 +194,7 @@ var RedcaserAPI = function () {
         if (parameters.error) {
           parameters.error(errorThrown, textStatus, jqXHR);
         }
-        Redcase.errorBox(parameters.errorMessage);
+        Redcaser.errorBox(parameters.errorMessage);
       },
       complete: function () {
         if (parameters.complete) {
@@ -207,11 +207,5 @@ var RedcaserAPI = function () {
 };
 
 $(function () {
-  if (typeof (Redcase) === 'undefined') {
-    Redcase = {};
-  }
-  if (Redcase.api) {
-    return;
-  }
-  Redcase.api = new RedcaserAPI();
+  Redcaser.api = new RedcaserAPI();
 });
