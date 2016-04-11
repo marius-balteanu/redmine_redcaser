@@ -1,7 +1,4 @@
 var RedcaserAPI = function () {
-
-  var log = LogManager.getLog('redcaser.api');
-
   this.context = 'redcaser/';
 
   this.core = new function () {
@@ -216,7 +213,6 @@ var RedcaserAPI = function () {
         authenticity_token: token
       }
     );
-    log.info('API call: ' + url);
     $('#ajax-indicator').fadeIn(100);
     $.ajax(url, {
       type: (parameters.httpMethod ? parameters.httpMethod : 'GET'),
@@ -231,7 +227,6 @@ var RedcaserAPI = function () {
           parameters.error(errorThrown, textStatus, jqXHR);
         }
         Redcase.errorBox(parameters.errorMessage);
-        log.debug(errorThrown);
       },
       complete: function () {
         if (parameters.complete) {

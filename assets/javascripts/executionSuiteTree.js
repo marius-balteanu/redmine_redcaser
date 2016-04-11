@@ -209,9 +209,6 @@ var RedcaserExecutionSuiteTree = function () {
           Redcase.full();
         }
       );
-    } else {
-      // Error, can't delete root node.
-      console.log('Tried to delete suite: ' + node.text);
     }
   };
 

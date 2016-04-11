@@ -17,7 +17,6 @@ $(function () {
   }
   Redcase = $.extend(
     Redcase, {
-      log: LogManager.getLog('redcase'),
       jsCopyToMenuItems: [],
       errorBox: function (errorMessage) {
         $('#redcase-error-message').text(errorMessage);
@@ -31,7 +30,6 @@ $(function () {
         })
       },
       full: function () {
-        this.log.info('Running full update...');
         Redcase.executionSuiteTree.updateList2();
         Redcase.combos.update();
       }

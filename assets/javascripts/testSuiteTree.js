@@ -225,7 +225,6 @@ var RedcaserTestSuiteTree = function () {
             self.tree.get_node('.Obsolete'),
             org
           );
-          console.log('newId = ' + newId);
         },
         errorMessage: (
           Redcaser.tracker_name + " '" + node.text + "' can't be deleted"
@@ -248,9 +247,6 @@ var RedcaserTestSuiteTree = function () {
         }
       );
       Redcase.api.apiCall(apiParms);
-    } else {
-      // Error, can't delete root node.
-      console.log('Tried to delete suite: ' + node.text);
     }
   };
 
