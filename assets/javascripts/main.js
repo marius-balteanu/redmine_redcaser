@@ -1,5 +1,10 @@
 var Redcaser = {};
 
+$(function () {
+  Redcaser.testSuiteTree = new RedcaserTestSuiteTree();
+});
+
+
 // TODO: Create a simple wrapper to keep all the functionality related to
 //       Redcase's dialog windows at the only place, and provide more
 //       OOP-like access to show/hide it.
