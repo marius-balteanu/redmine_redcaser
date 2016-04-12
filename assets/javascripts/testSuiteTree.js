@@ -12,15 +12,13 @@ var RedcaserTestSuiteTree = (function () {
   };
 
   self.prepareContextItems = function () {
-    var tmpObj = {};
     var copyItems = {};
     for (var i = 0; i < Redcaser.jsCopyToMenuItems.length; i++) {
-      tmpObj['keyfor_' + Redcaser.jsCopyToMenuItems[i].id] = {
+      copyItems['keyfor_' + Redcaser.jsCopyToMenuItems[i].id] = {
         label:  Redcaser.jsCopyToMenuItems[i].text,
         id:     Redcaser.jsCopyToMenuItems[i].id,
         action: this.contextCopyTo.bind(this)
       };
-      $.extend(copyItems, tmpObj);
     }
     this.caseItems = {
       viewCase: {
