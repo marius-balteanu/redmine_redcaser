@@ -386,7 +386,7 @@ var RedcaserExecutionSuiteTree = function () {
     newInstance,
     oldInstance
   ) {
-    if (orgNode.original.status.name === 'In Progress') {
+    if (orgNode.original.status.name === Redcaser.status_active_name) {
       newNode.original = orgNode.original;
       newInstance.set_id(newNode, orgNode.id);
       var apiParms = $.extend({},
