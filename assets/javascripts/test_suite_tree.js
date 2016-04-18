@@ -328,7 +328,8 @@ var TestSuiteTree = (function () {
   }
 
   def.handleClick = function (event) {
-    alert('foo');
+    var content = event.target.textContent;
+    alert(content);
   };
 
   return self;
