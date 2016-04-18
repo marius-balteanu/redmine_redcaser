@@ -4,7 +4,8 @@ var TestSuiteTree = (function () {
   // self :: DOM
   var self = function (root) {
     this.root   = root;
-    this.layout = null;
+    this.header = null;
+    this.body   = null;
 
     this.initialize();
   };
@@ -12,7 +13,13 @@ var TestSuiteTree = (function () {
   var def = self.prototype;
 
   def.initialize = function () {
+    this.createTestSuiteHeader();
     this.getTestSuiteData();
+    this.addEventHandlers();
+  };
+
+  def.createTestSuiteHeader = function () {
+
   };
 
   def.getTestSuiteData = function () {
@@ -32,17 +39,17 @@ var TestSuiteTree = (function () {
 
     var tree = this.buildTree(response);
 
-    this.layout.appendChild(tree);
-    this.root.appendChild(this.layout);
+    this.body.appendChild(tree);
+    this.root.appendChild(this.body);
   };
 
   def.initializeLayout = function () {
-    if (this.layout) {
-      this.root.removeChild(this.layout);
+    if (this.body) {
+      this.root.removeChild(this.body);
     }
 
-    this.layout = document.createElement('div');
-    this.layout.classList.add('tree-layout');
+    this.body = document.createElement('div');
+    this.body.classList.add('tree-layout');
   };
 
   // buildTree :: Object -> DOM
@@ -296,6 +303,32 @@ var TestSuiteTree = (function () {
   // buildTestSuiteTree :: Object
   def.handleTestSuiteError = function (response) {
     console.log('Error!');
+  };
+
+  def.addEventHandlers = function () {
+    var handlers = this.eventHandlers();
+
+    handlers.forEach(this.addEventHandler.bind(this));
+  };
+
+  // eventHandlers :: -> [[String, String, (DOM -> *)]]
+  def.eventHandlers = function () {
+    return [
+      ['click', 'suite-title', this.handleClick]
+    ];
+  }
+
+  // addEventHandler :: [String, String, (DOM -> *)]
+  def.addEventHandler = function (config) {
+    this.root.addEventListener(config[0], function (event) {
+      if (event.target.classList.contains(config[1])) {
+        config[2].bind(this)(event);
+      }
+    }.bind(this))
+  }
+
+  def.handleClick = function (event) {
+    alert('foo');
   };
 
   return self;
