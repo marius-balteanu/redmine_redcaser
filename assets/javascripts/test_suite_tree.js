@@ -80,13 +80,7 @@ var TestSuiteTree = (function () {
     this.body.appendChild(tree);
     this.root.appendChild(this.body);
 
-    $('.suite-cases')
-      .sortable({
-        connectWith: '.suite-cases',
-        handle:      '.case-drag',
-        placeholder: 'suite-case-placeholder'
-      })
-      .disableSelection()
+    this.makeSuiteCasesSortable();
   };
 
   def.initializeBody = function () {
@@ -345,6 +339,18 @@ var TestSuiteTree = (function () {
     node.appendChild(text);
 
     return node;
+  };
+
+  def.makeSuiteCasesSortable = function () {
+    var cases = $('.suite-cases');
+
+    cases.sortable({
+      connectWith: '.suite-cases',
+      handle:      '.case-drag',
+      placeholder: 'suite-case-placeholder'
+    });
+
+    cases.disableSelection();
   };
 
   // buildTestSuiteTree :: Object
