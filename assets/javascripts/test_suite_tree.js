@@ -83,6 +83,7 @@ var TestSuiteTree = (function () {
     $('.suite-cases')
       .sortable({
         connectWith: '.suite-cases',
+        handle:      '.case-drag',
         placeholder: 'suite-case-placeholder'
       })
       .disableSelection()
