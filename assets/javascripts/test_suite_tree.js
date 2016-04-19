@@ -160,7 +160,7 @@ var TestSuiteTree = (function () {
     node.appendChild(this.buildSuiteHeaderDrag(element));
     node.appendChild(this.buildSuiteHeaderCheck(element));
     node.appendChild(this.buildSuiteHeaderId(element));
-    node.appendChild(this.buildSuiteHeaderTitle(element));
+    node.appendChild(this.buildSuiteHeaderLink(element));
     node.appendChild(this.buildSuiteHeaderActions(element));
 
     return node;
@@ -200,10 +200,10 @@ var TestSuiteTree = (function () {
     return node;
   };
 
-  // buildSuiteHeaderTitle :: Object -> DOM
-  def.buildSuiteHeaderTitle = function (element) {
+  // buildSuiteHeaderLink :: Object -> DOM
+  def.buildSuiteHeaderLink = function (element) {
     var node = document.createElement('span');
-    node.classList.add('suite-title');
+    node.classList.add('suite-link');
 
     var text = document.createTextNode('Title');
     node.appendChild(text);
@@ -239,7 +239,7 @@ var TestSuiteTree = (function () {
     link.href   = '/issues/new';
     link.target = '_blank';
 
-    var text = document.createTextNode('Add test case stuff');
+    var text = document.createTextNode('Add test case');
 
     link.appendChild(text);
     node.appendChild(link);
@@ -262,7 +262,7 @@ var TestSuiteTree = (function () {
     node.appendChild(this.buildCaseDrag(element));
     node.appendChild(this.buildCaseCheck(element));
     node.appendChild(this.buildCaseId(element));
-    node.appendChild(this.buildCaseTitle(element));
+    node.appendChild(this.buildCaseLink(element));
     node.appendChild(this.buildCaseActions(element));
 
     return node;
@@ -310,10 +310,10 @@ var TestSuiteTree = (function () {
     return node;
   };
 
-  // buildCaseTitle :: Object -> DOM
-  def.buildCaseTitle = function (element) {
+  // buildCaseLink :: Object -> DOM
+  def.buildCaseLink = function (element) {
     var node = document.createElement('span');
-    node.classList.add('case-title');
+    node.classList.add('case-link');
 
     var link    = document.createElement('a');
     link.href   = '/issues/' + element.issue_id;
@@ -367,7 +367,7 @@ var TestSuiteTree = (function () {
 
   def.handleClick = function (event) {
     var content = event.target.textContent;
-    alert(content);
+    console.log(content);
   };
 
   return self;

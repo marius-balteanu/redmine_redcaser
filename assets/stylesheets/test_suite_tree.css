@@ -1,0 +1,103 @@
+/*
+.tree-root
+  .tree-header
+    .tree-title
+    .tree-actions
+  .tree-body
+    .tree-suite
+      .suite-title
+      .suite-header
+        .suite-drag
+        .suite-check
+        .suite-id
+        .suite-link
+        .suite-actions
+      .suite-cases
+        .suite-case
+          .case-drag
+          .case-check
+          .case-id
+          .case-title
+          .case-actions
+      .suite-footer
+      .suite-children
+*/
+
+.tree-root .tree-title {
+  background-color: #D1E6FD;
+  padding: 15px 10px;
+}
+.tree-root .tree-actions {
+  background-color: #F5F5F5;
+  margin: 20px 10px;
+  padding: 10px 5px;
+}
+
+.tree-root .tree-body {
+  margin: 0px 10px;
+}
+
+.tree-root .tree-suite {
+  margin: 10px 0px;
+}
+
+.tree-root .suite-title {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 0px;
+}
+
+.tree-root .suite-header {
+  background-color: #F2F8FF;
+  border-top: 1px solid #E3E4E5;
+  border-bottom: 1px solid #E3E4E5;
+  padding: 5px 0px;
+}
+.tree-root .suite-drag {
+  margin: 0px 10px;
+}
+.tree-root .suite-check {
+  margin-right: 10px;
+}
+.tree-root .suite-id {
+  margin-right: 10px;
+}
+.tree-root .suite-link {
+  margin-right: 10px;
+}
+.tree-root .suite-actions {
+}
+
+.tree-root .suite-cases {
+
+}
+.tree-root .suite-case {
+  border-bottom: 1px solid #E3E4E5;
+  padding: 5px 0px;
+}
+.tree-root .suite-case:hover {
+  background-color: #F2F8FF;
+}
+
+.tree-root .case-drag {
+  margin: 0px 10px;
+}
+.tree-root .case-check {
+  margin-right: 10px;
+}
+.tree-root .case-id {
+  margin-right: 10px;
+}
+.tree-root .case-title {
+  margin-right: 10px;
+}
+.tree-root .case-actions {
+}
+
+.tree-root .suite-footer {
+
+}
+.tree-root .suite-children .tree-suite {
+  border-left: 1px solid #E3E4E5;
+  padding-left: 20px;
+}
