@@ -86,7 +86,13 @@
 
 .tree-root .case-drag {
   margin: 0px 10px;
+  cursor: pointer;
 }
+.tree-root .ui-sortable-helper .case-drag {
+  margin: 0px 10px;
+  cursor: move;
+}
+
 .tree-root .case-check {
   margin-right: 10px;
 }

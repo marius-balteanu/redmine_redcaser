@@ -349,8 +349,6 @@ var TestSuiteTree = (function () {
       handle:      '.case-drag',
       placeholder: 'suite-case-placeholder'
     });
-
-    cases.disableSelection();
   };
 
   // buildTestSuiteTree :: Object
