@@ -19,7 +19,45 @@ var TestSuiteTree = (function () {
   };
 
   def.createTestSuiteHeader = function () {
+    this.initializeHeader();
 
+    var title   = this.buildHeaderTitle();
+    var actions = this.buildHeaderActions();
+
+    this.header.appendChild(title);
+    this.header.appendChild(actions);
+    this.root.appendChild(this.header);
+  };
+
+  // buildHeaderTitle :: -> DOM
+  def.buildHeaderTitle = function () {
+    var node = document.createElement('div');
+    node.classList.add('tree-title');
+
+    var text = document.createTextNode('Test Cases');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  // buildHeaderActions :: -> DOM
+  def.buildHeaderActions = function () {
+    var node = document.createElement('div');
+    node.classList.add('tree-actions');
+
+    var text = document.createTextNode('Actions');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  def.initializeHeader = function () {
+    if (this.header) {
+      this.root.removeChild(this.header);
+    }
+
+    this.header = document.createElement('div');
+    this.header.classList.add('tree-header');
   };
 
   def.getTestSuiteData = function () {
@@ -35,7 +73,7 @@ var TestSuiteTree = (function () {
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (response) {
-    this.initializeLayout();
+    this.initializeBody();
 
     var tree = this.buildTree(response);
 
@@ -43,13 +81,13 @@ var TestSuiteTree = (function () {
     this.root.appendChild(this.body);
   };
 
-  def.initializeLayout = function () {
+  def.initializeBody = function () {
     if (this.body) {
       this.root.removeChild(this.body);
     }
 
     this.body = document.createElement('div');
-    this.body.classList.add('tree-layout');
+    this.body.classList.add('tree-body');
   };
 
   // buildTree :: Object -> DOM
@@ -233,7 +271,7 @@ var TestSuiteTree = (function () {
   // buildCaseNode :: Object -> DOM
   def.buildCaseNode = function (element) {
     var node = document.createElement('div');
-    node.classList.add('tree-case');
+    node.classList.add('suite-case');
 
     return node;
   };
