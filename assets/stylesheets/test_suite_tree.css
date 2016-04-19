@@ -69,12 +69,17 @@
 }
 
 .tree-root .suite-cases {
-
+  min-height: 10px;
 }
 .tree-root .suite-case {
   border-bottom: 1px solid #E3E4E5;
   padding: 5px 0px;
 }
+.tree-root .suite-case-placeholder {
+  height: 27px;
+  background-color: #F2FFF4;
+}
+
 .tree-root .suite-case:hover {
   background-color: #F2F8FF;
 }

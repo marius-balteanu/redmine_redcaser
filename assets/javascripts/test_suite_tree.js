@@ -79,10 +79,18 @@ var TestSuiteTree = (function () {
 
     this.body.appendChild(tree);
     this.root.appendChild(this.body);
+
+    $('.suite-cases')
+      .sortable({
+        connectWith: '.suite-cases',
+        placeholder: 'suite-case-placeholder'
+      })
+      .disableSelection()
   };
 
   def.initializeBody = function () {
     if (this.body) {
+      $('.suite-cases').sortable('destroy');
       this.root.removeChild(this.body);
     }
 
