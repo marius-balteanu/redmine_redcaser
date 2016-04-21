@@ -112,20 +112,20 @@ var TestSuiteTreeWidget = (function () {
     handlers.forEach(this.addEventHandler.bind(this));
   };
 
-  // eventHandlers :: -> [[String, String, (DOM -> *)]]
+  // eventHandlers :: -> [[String, String, (Event -> *)]]
   def.eventHandlers = function () {
     return [
-      ['click', 'suite-title',         this.handleClick],
-      ['click', 'suite-checkbox',      this.handleClick],
-      ['click', 'case-checkbox',       this.handleClick],
-      ['click', 'case-link-edit',      this.handleClick],
-      ['click', 'case-actions-edit',   this.handleClick],
-      ['click', 'case-actions-delete', this.handleClick],
-      ['click', 'case-actions-view',   this.handleClick]
+      ['click', 'suite-title',         this.handleClick   ],
+      ['click', 'suite-checkbox',      this.handleClick   ],
+      ['click', 'case-checkbox',       this.handleClick   ],
+      ['click', 'case-link-edit',      this.handleCaseEdit],
+      ['click', 'case-actions-edit',   this.handleClick   ],
+      ['click', 'case-actions-delete', this.handleClick   ],
+      ['click', 'case-actions-view',   this.handleClick   ]
     ];
   }
 
-  // addEventHandler :: [String, String, (DOM -> *)]
+  // addEventHandler :: [String, String, (Event -> *)]
   def.addEventHandler = function (config) {
     this.root.addEventListener(config[0], function (event) {
       if (event.target.classList.contains(config[1])) {
@@ -137,6 +137,12 @@ var TestSuiteTreeWidget = (function () {
   def.handleClick = function (event) {
     var content = event.target.textContent;
     console.log('Clicked ' + content);
+  };
+
+
+  // handleCaseEdit :: Event
+  def.handleCaseEdit = function (event) {
+    CaseDialog.create(this.root);
   };
 
   return self;
