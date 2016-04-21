@@ -117,7 +117,13 @@ var TestSuiteTreeWidget = (function () {
   // eventHandlers :: -> [[String, String, (DOM -> *)]]
   def.eventHandlers = function () {
     return [
-      ['click', 'suite-title', this.handleClick]
+      ['click', 'suite-title',         this.handleClick],
+      ['click', 'suite-checkbox',      this.handleClick],
+      ['click', 'case-checkbox',       this.handleClick],
+      ['click', 'case-link-edit',      this.handleClick],
+      ['click', 'case-actions-edit',   this.handleClick],
+      ['click', 'case-actions-delete', this.handleClick],
+      ['click', 'case-actions-view',   this.handleClick]
     ];
   }
 
@@ -132,7 +138,7 @@ var TestSuiteTreeWidget = (function () {
 
   def.handleClick = function (event) {
     var content = event.target.textContent;
-    console.log(content);
+    console.log('Clicked ' + content);
   };
 
   return self;

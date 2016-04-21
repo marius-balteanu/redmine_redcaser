@@ -72,6 +72,8 @@ var TestSuite = (function () {
 
     var check  = document.createElement('input');
     check.type = 'checkbox';
+    check.classList.add('suite-checkbox');
+
     node.appendChild(check);
 
     return node;
