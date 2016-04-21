@@ -136,8 +136,7 @@ var TestSuiteTree = (function () {
     node.classList.add('tree-suite');
 
     node.appendChild(this.buildSuiteTitle(element));
-    node.appendChild(this.buildSuiteHeader(element));
-    node.appendChild(this.buildSuiteCases(element));
+    node.appendChild(this.buildSuiteTable(element));
     node.appendChild(this.buildSuiteFooter(element));
     node.appendChild(this.buildSuiteChildren(element));
 
@@ -154,6 +153,19 @@ var TestSuiteTree = (function () {
 
     return node;
   };
+
+
+  // buildSuiteTable :: Object -> DOM
+  def.buildSuiteTable = function (element) {
+    var node = document.createElement('div');
+    node.classList.add('suite-table');
+
+    node.appendChild(this.buildSuiteHeader(element));
+    node.appendChild(this.buildSuiteCases(element));
+
+    return node;
+  };
+
 
   // buildSuiteHeader :: Object -> DOM
   def.buildSuiteHeader = function (element) {
