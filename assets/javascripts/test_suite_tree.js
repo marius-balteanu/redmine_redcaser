@@ -365,7 +365,41 @@ var TestSuiteTree = (function () {
     var node = document.createElement('span');
     node.classList.add('case-actions');
 
-    var text = document.createTextNode('a');
+    node.appendChild(this.buildCaseActionEdit());
+    node.appendChild(this.buildCaseActionDelete());
+    node.appendChild(this.buildCaseActionView());
+
+    return node;
+  };
+
+  def.buildCaseActionEdit = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('case-actions-edit');
+
+    var text = document.createTextNode('Edit');
+
+    node.appendChild(text);
+
+    return node;
+  };
+
+  def.buildCaseActionDelete = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('case-actions-delete');
+
+    var text = document.createTextNode('Delete');
+
+    node.appendChild(text);
+
+    return node;
+  };
+
+  def.buildCaseActionView = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('case-actions-view');
+
+    var text = document.createTextNode('View');
+
     node.appendChild(text);
 
     return node;

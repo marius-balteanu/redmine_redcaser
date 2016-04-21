@@ -103,6 +103,7 @@
   margin-right: 10px;
 }
 .tree-root .case-actions {
+  float: right;
 }
 
 .tree-root .suite-footer {
