@@ -1,3 +1,5 @@
+/*
+
 var RedcaserCombos = function () {
   var self = this;
 
@@ -81,3 +83,5 @@ var RedcaserCombos = function () {
 $(function () {
   Redcaser.combos = new RedcaserCombos();
 });
+
+*/

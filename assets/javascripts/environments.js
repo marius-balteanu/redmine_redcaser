@@ -1,3 +1,4 @@
+/*
 var RedcaserEnvironments = function () {
   var bind = function () {
     $('#btn_save_environment').on('click', onButtonSaveClicked);
@@ -107,3 +108,4 @@ var RedcaserEnvironments = function () {
 $(function () {
   Redcaser.environments = new RedcaserEnvironments();
 });
+*/
