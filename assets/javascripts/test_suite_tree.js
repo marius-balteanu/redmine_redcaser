@@ -330,14 +330,32 @@ var TestSuiteTree = (function () {
     var node = document.createElement('span');
     node.classList.add('case-link');
 
-    var link    = document.createElement('a');
-    link.href   = '/issues/' + element.issue_id;
-    link.target = '_blank';
+
+    node.appendChild(this.buildCaseLinkText(element));
+    node.appendChild(this.buildCaseLinkEdit(element));
+
+    return node;
+  };
+
+  def.buildCaseLinkText = function (element) {
+    var node    = document.createElement('a');
+    node.href   = '/issues/' + element.issue_id;
+    node.target = '_blank';
 
     var text = document.createTextNode(element.text);
 
-    link.appendChild(text);
-    node.appendChild(link);
+    node.appendChild(text);
+
+    return node;
+  };
+
+  def.buildCaseLinkEdit = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('case-link-edit');
+
+    var text = document.createTextNode('Edit');
+
+    node.appendChild(text);
 
     return node;
   };
