@@ -1,3 +1,5 @@
+/*
+
 var RedcaserGraph = function() {
 
   var self = this;
@@ -76,3 +78,4 @@ var RedcaserGraph = function() {
 $(function () {
   Redcaser.graph = new RedcaserGraph();
 });
+*/

@@ -1,3 +1,41 @@
+var RedcaserAPI = (function () {
+  'use strict';
+
+  var self = {};
+
+  self.testSuites = new function () {
+    this.index = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/testsuites'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
+    this.create = function () {
+      var request = null;
+    };
+
+    this.update = function () {
+      var request = null;
+    };
+
+    this.destroy = function () {
+      var request = null;
+    }
+  };
+
+  return self;
+})();
+
+
+/*
 var RedcaserAPI = function () {
   this.context = 'redcaser/';
 
@@ -209,3 +247,4 @@ var RedcaserAPI = function () {
 $(function () {
   Redcaser.api = new RedcaserAPI();
 });
+*/

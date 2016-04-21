@@ -22,14 +22,14 @@
   // User access rights
   jsCanEdit = <%= User.current.allowed_to?(:edit_test_cases, project) != false %>;
 
-    var Redcaser = {
-      tracker_id:           <%= RedcaserSettings.tracker_id %>,
-      tracker_name:         "<%= RedcaserSettings.tracker_name %>",
-      status_new_id:        <%= RedcaserSettings.status_new_id %>,
-      status_new_name:      "<%= RedcaserSettings.status_new_name %>",
-      status_active_id:     <%= RedcaserSettings.status_active_id %>,
-      status_active_name:   "<%= RedcaserSettings.status_active_name %>",
-      status_obsolete_id:   <%= RedcaserSettings.status_obsolete_id %>,
-      status_obsolete_name: "<%= RedcaserSettings.status_obsolete_name %>"
-    };
+  var Redcaser = Redcaser || {};
+
+  Redcaser.tracker_id           =  <%= RedcaserSettings.tracker_id %>;
+  Redcaser.tracker_name         =  "<%= RedcaserSettings.tracker_name %>";
+  Redcaser.status_new_id        =  <%= RedcaserSettings.status_new_id %>;
+  Redcaser.status_new_name      =  "<%= RedcaserSettings.status_new_name %>";
+  Redcaser.status_active_id     =  <%= RedcaserSettings.status_active_id %>;
+  Redcaser.status_active_name   =  "<%= RedcaserSettings.status_active_name %>";
+  Redcaser.status_obsolete_id   =  <%= RedcaserSettings.status_obsolete_id %>;
+  Redcaser.status_obsolete_name =  "<%= RedcaserSettings.status_obsolete_name %>";
 </script>

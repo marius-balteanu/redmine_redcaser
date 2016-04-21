@@ -61,14 +61,12 @@ var TestSuiteTreeWidget = (function () {
   };
 
   def.getTestSuiteData = function () {
-    var request = $.ajax({
-      dataType: 'json',
-      method:   'GET',
-      url:      'redcaser/testsuites'
-    });
+    var params = {
+      done: this.createTestSuiteTree.bind(this),
+      fail: this.handleTestSuiteError.bind(this)
+    }
 
-    request.done(this.createTestSuiteTree.bind(this));
-    request.fail(this.handleTestSuiteError.bind(this));
+    Redcaser.api.testSuites.index(params);
   };
 
   // createTestSuiteTree :: Object
