@@ -1,4 +1,6 @@
 var TestCase = (function () {
+  'use strict';
+
   var self = {};
 
   // build :: Object -> DOM

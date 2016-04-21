@@ -1,4 +1,6 @@
 var TestSuite = (function () {
+  'use strict';
+
   var self = {};
 
   // build :: Object -> DOM
