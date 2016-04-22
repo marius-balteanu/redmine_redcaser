@@ -18,8 +18,8 @@ var TestSuiteTreeWidget = (function () {
   def.initialize = function () {
     this.createTestSuiteHeader();
     this.createDialogs();
-    this.getTestSuiteData();
     this.addEventHandlers();
+    this.getTestSuiteData();
   };
 
   def.createTestSuiteHeader = function () {
@@ -98,61 +98,7 @@ var TestSuiteTreeWidget = (function () {
   };
 
   def.addEventHandlers = function () {
-    var handlers = this.eventHandlers();
-
-    handlers.forEach(this.addEventHandler.bind(this));
-  };
-
-  // eventHandlers :: -> [[String, String, (Event -> *)]]
-  def.eventHandlers = function () {
-    return [
-      ['click', 'suite-title',         this.handleSuiteEdit    ],
-      ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
-      ['click', 'suite-case',          this.handleCaseClick    ],
-      ['click', 'case-link-edit',      this.handleCaseEdit     ],
-      ['click', 'case-actions-edit',   this.handleCaseEdit     ],
-      ['click', 'case-actions-delete', this.handleCaseDelete   ],
-      ['click', 'case-actions-view',   this.handleCaseView     ]
-    ];
-  }
-
-  // addEventHandler :: [String, String, (Event -> *)]
-  def.addEventHandler = function (config) {
-    this.root.addEventListener(config[0], function (event) {
-      if (event.target.classList.contains(config[1])) {
-        config[2].bind(this)(event);
-      }
-    }.bind(this))
-  }
-
-  // handleSuiteEdit :: Event
-  def.handleSuiteEdit = function (event) {
-    SuiteDialog.forCreate(this.suiteEditDialog);
-  };
-
-  // handleSuiteCheckbox :: Event
-  def.handleSuiteCheckbox = function (event) {
-
-  };
-
-  // handleCaseClick :: Event
-  def.handleCaseClick = function () {
-
-  };
-
-  // handleCaseEdit :: Event
-  def.handleCaseEdit = function (event) {
-    CaseDialog.forCreate(this.caseEditDialog);
-  };
-
-  // handleCaseDelete :: Event
-  def.handleCaseDelete = function (event) {
-
-  };
-
-  // handleCaseView :: Event
-  def.handleCaseView = function (event) {
-
+    TreeEvents.attach(this);
   };
 
   return self;
