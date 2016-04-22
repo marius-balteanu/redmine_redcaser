@@ -25,9 +25,9 @@ var TestSuiteTreeWidget = (function () {
   def.createTestSuiteHeader = function () {
     this.resetHeader();
 
-    var header = TestSuiteHeader.build();
+    this.header = TestSuiteHeader.build();
 
-    this.root.appendChild(header);
+    this.root.appendChild(this.header);
   };
 
   def.resetHeader = function () {

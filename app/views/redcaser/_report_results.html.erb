@@ -1,11 +1,3 @@
-<script type="text/javascript">
-  if (typeof(Redcase) === 'undefined') {
-    Redcaser = {};
-    Redcaser.result_names = <%=
-      ExecutionResult.all.collect { |x| x.name }.to_json.html_safe
-    %>;
-  }
-</script>
 <table class="redcase-row" style="width: 100%; margin: 0px; text-align: center">
   <tr style="font-weight: bold; background-color: #507aaa; color: white; text-align: center; vertical-align: top">
     <td style="width: 45px; vertical-align: middle; border-left-width: 0px; border-top-width: 0px; padding: 6px">
