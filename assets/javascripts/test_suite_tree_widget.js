@@ -7,6 +7,9 @@ var TestSuiteTreeWidget = (function () {
     this.header = null;
     this.body   = null;
 
+    this.caseEditDialog   = null;
+    this.suiteEditDialog  = null;
+
     this.initialize();
   };
 
@@ -63,11 +66,17 @@ var TestSuiteTreeWidget = (function () {
 
   def.createDialogs = function () {
     this.createCaseEditDialog();
+    this.createSuiteEditDialog();
   };
 
   def.createCaseEditDialog = function () {
     this.caseEditDialog = CaseDialog.build();
     CaseDialog.initialize(this.caseEditDialog);
+  };
+
+  def.createSuiteEditDialog = function () {
+    this.suiteEditDialog = SuiteDialog.build();
+    SuiteDialog.initialize(this.suiteEditDialog);
   };
 
   def.getTestSuiteData = function () {
@@ -125,13 +134,13 @@ var TestSuiteTreeWidget = (function () {
   // eventHandlers :: -> [[String, String, (Event -> *)]]
   def.eventHandlers = function () {
     return [
-      ['click', 'suite-title',         this.handleClick   ],
-      ['click', 'suite-checkbox',      this.handleClick   ],
-      ['click', 'case-checkbox',       this.handleClick   ],
-      ['click', 'case-link-edit',      this.handleCaseEdit],
-      ['click', 'case-actions-edit',   this.handleClick   ],
-      ['click', 'case-actions-delete', this.handleClick   ],
-      ['click', 'case-actions-view',   this.handleClick   ]
+      ['click', 'suite-title',         this.handleSuiteEdit],
+      ['click', 'suite-checkbox',      this.handleClick    ],
+      ['click', 'case-checkbox',       this.handleClick    ],
+      ['click', 'case-link-edit',      this.handleCaseEdit ],
+      ['click', 'case-actions-edit',   this.handleCaseEdit ],
+      ['click', 'case-actions-delete', this.handleClick    ],
+      ['click', 'case-actions-view',   this.handleClick    ]
     ];
   }
 
@@ -152,6 +161,11 @@ var TestSuiteTreeWidget = (function () {
   // handleCaseEdit :: Event
   def.handleCaseEdit = function (event) {
     CaseDialog.forCreate(this.caseEditDialog);
+  };
+
+  // handleSuiteEdit :: Event
+  def.handleSuiteEdit = function (event) {
+    SuiteDialog.forCreate(this.suiteEditDialog);
   };
 
   return self;
