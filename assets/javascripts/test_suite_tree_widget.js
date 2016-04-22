@@ -134,13 +134,12 @@ var TestSuiteTreeWidget = (function () {
   // eventHandlers :: -> [[String, String, (Event -> *)]]
   def.eventHandlers = function () {
     return [
-      ['click', 'suite-title',         this.handleSuiteEdit],
-      ['click', 'suite-checkbox',      this.handleClick    ],
-      ['click', 'case-checkbox',       this.handleClick    ],
-      ['click', 'case-link-edit',      this.handleCaseEdit ],
-      ['click', 'case-actions-edit',   this.handleCaseEdit ],
-      ['click', 'case-actions-delete', this.handleClick    ],
-      ['click', 'case-actions-view',   this.handleClick    ]
+      ['click', 'suite-title',         this.handleSuiteEdit    ],
+      ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
+      ['click', 'case-link-edit',      this.handleCaseEdit     ],
+      ['click', 'case-actions-edit',   this.handleCaseEdit     ],
+      ['click', 'case-actions-delete', this.handleCaseDelete   ],
+      ['click', 'case-actions-view',   this.handleCaseView     ]
     ];
   }
 
@@ -153,9 +152,14 @@ var TestSuiteTreeWidget = (function () {
     }.bind(this))
   }
 
-  def.handleClick = function (event) {
-    var content = event.target.textContent;
-    console.log('Clicked ' + content);
+  // handleSuiteEdit :: Event
+  def.handleSuiteEdit = function (event) {
+    SuiteDialog.forCreate(this.suiteEditDialog);
+  };
+
+  // handleSuiteCheckbox :: Event
+  def.handleSuiteCheckbox = function (event) {
+
   };
 
   // handleCaseEdit :: Event
@@ -163,9 +167,14 @@ var TestSuiteTreeWidget = (function () {
     CaseDialog.forCreate(this.caseEditDialog);
   };
 
-  // handleSuiteEdit :: Event
-  def.handleSuiteEdit = function (event) {
-    SuiteDialog.forCreate(this.suiteEditDialog);
+  // handleCaseDelete :: Event
+  def.handleCaseDelete = function (event) {
+
+  };
+
+  // handleCaseView :: Event
+  def.handleCaseView = function (event) {
+
   };
 
   return self;
