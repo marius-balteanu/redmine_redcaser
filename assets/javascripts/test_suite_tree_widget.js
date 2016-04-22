@@ -23,45 +23,17 @@ var TestSuiteTreeWidget = (function () {
   };
 
   def.createTestSuiteHeader = function () {
-    this.initializeHeader();
+    this.resetHeader();
 
-    var title   = this.buildHeaderTitle();
-    var actions = this.buildHeaderActions();
+    var header = TestSuiteHeader.build();
 
-    this.header.appendChild(title);
-    this.header.appendChild(actions);
-    this.root.appendChild(this.header);
+    this.root.appendChild(header);
   };
 
-  // buildHeaderTitle :: -> DOM
-  def.buildHeaderTitle = function () {
-    var node = document.createElement('div');
-    node.classList.add('tree-title');
-
-    var text = document.createTextNode('Test Cases');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  // buildHeaderActions :: -> DOM
-  def.buildHeaderActions = function () {
-    var node = document.createElement('div');
-    node.classList.add('tree-actions');
-
-    var text = document.createTextNode('Actions');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  def.initializeHeader = function () {
+  def.resetHeader = function () {
     if (this.header) {
       this.root.removeChild(this.header);
     }
-
-    this.header = document.createElement('div');
-    this.header.classList.add('tree-header');
   };
 
   def.createDialogs = function () {
@@ -136,6 +108,7 @@ var TestSuiteTreeWidget = (function () {
     return [
       ['click', 'suite-title',         this.handleSuiteEdit    ],
       ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
+      ['click', 'suite-case',          this.handleCaseClick    ],
       ['click', 'case-link-edit',      this.handleCaseEdit     ],
       ['click', 'case-actions-edit',   this.handleCaseEdit     ],
       ['click', 'case-actions-delete', this.handleCaseDelete   ],
@@ -159,6 +132,11 @@ var TestSuiteTreeWidget = (function () {
 
   // handleSuiteCheckbox :: Event
   def.handleSuiteCheckbox = function (event) {
+
+  };
+
+  // handleCaseClick :: Event
+  def.handleCaseClick = function () {
 
   };
 
