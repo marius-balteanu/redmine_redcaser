@@ -1,35 +1,38 @@
 var CaseDialog = (function () {
   var self = {};
 
-  self.create = function (parent) {
-    var dialog = this.buildDialog();
-
-    parent.appendChild(dialog);
-
-    this.initialize();
-  };
-
-  self.update = function () {
-
-  };
-
-  self.buildDialog = function () {
+  // build :: -> DOM
+  self.build = function () {
     var node = document.createElement('div');
     node.classList.add('case-dialog');
 
     return node;
   };
 
-  self.initialize = function () {
+  self.initialize = function (dialog) {
     var params = {
-      autoOpen: true,
+      autoOpen: false,
       height:   300,
       width:    350,
       modal:    true
     };
 
-    $('.case-dialog').dialog(params);
+    $(dialog).dialog(params);
   };
+
+  self.forCreate = function (dialog) {
+
+    this.openDialog(dialog);
+  };
+
+  self.forUpdate = function (dialog) {
+
+    this.showDialog(dialog);
+  };
+
+  self.openDialog = function (dialog) {
+    $(dialog).dialog('open');
+  }
 
   return self;
 })();

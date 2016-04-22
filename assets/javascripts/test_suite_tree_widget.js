@@ -14,6 +14,7 @@ var TestSuiteTreeWidget = (function () {
 
   def.initialize = function () {
     this.createTestSuiteHeader();
+    this.createDialogs();
     this.getTestSuiteData();
     this.addEventHandlers();
   };
@@ -58,6 +59,15 @@ var TestSuiteTreeWidget = (function () {
 
     this.header = document.createElement('div');
     this.header.classList.add('tree-header');
+  };
+
+  def.createDialogs = function () {
+    this.createCaseEditDialog();
+  };
+
+  def.createCaseEditDialog = function () {
+    this.caseEditDialog = CaseDialog.build();
+    CaseDialog.initialize(this.caseEditDialog);
   };
 
   def.getTestSuiteData = function () {
@@ -139,10 +149,9 @@ var TestSuiteTreeWidget = (function () {
     console.log('Clicked ' + content);
   };
 
-
   // handleCaseEdit :: Event
   def.handleCaseEdit = function (event) {
-    CaseDialog.create(this.root);
+    CaseDialog.forCreate(this.caseEditDialog);
   };
 
   return self;
