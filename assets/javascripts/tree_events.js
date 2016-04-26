@@ -16,9 +16,10 @@ var TreeEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'suite-title',         this.handleSuiteEdit    ],
-      ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
       ['click', 'suite-case',          this.handleCaseClick    ],
+      ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
+      ['click', 'suite-create',        this.handleSuiteCreate  ],
+      ['click', 'suite-title',         this.handleSuiteEdit    ],
       ['click', 'case-link-edit',      this.handleCaseEdit     ],
       ['click', 'case-actions-edit',   this.handleCaseEdit     ],
       ['click', 'case-actions-delete', this.handleCaseDelete   ],
@@ -68,6 +69,11 @@ var TreeEvents = (function () {
   self.handleCaseView = function (event, context) {
 
   };
+
+  // handleSuiteCreate :: Event, Object
+  self.handleSuiteCreate = function (event, context) {
+    SuiteDialog.forCreate(context.suiteEditDialog);
+  }
 
   return self;
 })();

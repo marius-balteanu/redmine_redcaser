@@ -127,14 +127,34 @@ var TestSuite = (function () {
     var node = document.createElement('div');
     node.classList.add('suite-footer');
 
-    var link    = document.createElement('a');
-    link.href   = '/issues/new';
-    link.target = '_blank';
+    node.appendChild(this.buildSuiteFooterCaseLink(element));
+    node.appendChild(document.createTextNode(' | '));
+    node.appendChild(this.buildSuiteFooterSuiteLink(element));
+
+    return node;
+  };
+
+  // buildSuiteFooterCaseLink :: Object -> DOM
+  self.buildSuiteFooterCaseLink = function (element) {
+    var node = document.createElement('a');
+    node.href   = '/issues/new';
+    node.target = '_blank';
 
     var text = document.createTextNode('Add test case');
+    node.appendChild(text);
 
-    link.appendChild(text);
-    node.appendChild(link);
+    return node;
+  };
+
+  // buildSuiteFooterSuiteLink :: Object -> DOM
+  self.buildSuiteFooterSuiteLink = function (element) {
+    var node = document.createElement('a');
+    node.classList.add('suite-create');
+    node.href = '#';
+    node.dataset.parentId = element.suite_id;
+
+    var text = document.createTextNode('Add test suite');
+    node.appendChild(text);
 
     return node;
   };

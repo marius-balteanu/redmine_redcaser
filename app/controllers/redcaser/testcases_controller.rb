@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::TestcasesController < RedcaserBaseController
   before_action :find_test_case, only: :update
 
@@ -27,45 +29,6 @@ class Redcaser::TestcasesController < RedcaserBaseController
       render json: {errors: @test_case.error_messages}, status: 400
     end
   end
-
-=begin
-  def update
-    # TODO: What if there is none?
-    test_case = TestCase.where({ issue_id: params[:id] }).first
-    if test_case.nil?
-      success = false
-    else
-      unless params[:parent_id].nil?
-        test_case.test_suite = TestSuite.find(params[:parent_id])
-      end
-      unless (params[:source_exec_id].nil? || params[:dest_exec_id].nil?)
-        success = test_case.change_execution_suite?(
-          params[:source_exec_id], params[:dest_exec_id]
-        )
-      end
-      unless (!params[:source_exec_id].nil? || params[:dest_exec_id].nil?)
-        success = test_case.add_to_execution_suite?(
-          params[:dest_exec_id]
-        )
-      end
-      unless params[:remove_from_exec_id].nil?
-        test_case.remove_from_execution_suite(
-          params[:remove_from_exec_id]
-        )
-      end
-      unless params[:obsolesce].nil?
-        test_case.test_suite = TestSuite.get_obsolete(@project)
-      end
-    end
-
-    if params[:result].nil?
-      test_case.save
-      render json: {success: success}
-    else
-      execute(test_case)
-    end
-  end
-=end
 
   private
 

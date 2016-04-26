@@ -40,7 +40,21 @@ var TestSuiteHeader = (function () {
     var text = document.createTextNode('Actions');
     node.appendChild(text);
 
+    node.appendChild(this.buildHeaderActionsCreate());
+
     return node;
+  };
+
+  // buildHeaderActionsCreate :: -> DOM
+  self.buildHeaderActionsCreate = function () {
+    var node = document.createElement('a');
+    node.classList.add('suite-create');
+    node.href = '#';
+
+    var text = document.createTextNode('Add test suite');
+    node.appendChild(text);
+
+    return node
   };
 
   return self;

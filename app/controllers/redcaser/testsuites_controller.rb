@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::TestsuitesController < RedcaserBaseController
   def index
     testsuites = TestSuite.for_project(@project).to_json

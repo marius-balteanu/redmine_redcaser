@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TestSuite < ActiveRecord::Base
   acts_as_tree order: 'name'
   has_many :test_cases, dependent: :destroy
@@ -8,11 +10,8 @@ class TestSuite < ActiveRecord::Base
     TestSuite
       .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
       .where(project_id: project.id)
+      .to_a
       .first
-  end
-
-  def self.get_obsolete(project)
-    TestSuite.get_root_for_project(project).children.where(name: '.Obsolete').first
   end
 
   # TODO: Move to view f.ex. using JBuilder

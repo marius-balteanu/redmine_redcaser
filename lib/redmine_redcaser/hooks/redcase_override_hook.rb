@@ -27,7 +27,7 @@ module RedmineRedcaser
         if context[:issue].tracker.id != RedcaserSettings.tracker_id then
           return
         end
-        root = TestSuite.get_root_for_project(context[:issue].project)
+        root = TestSuite.for_project(context[:issue].project)
         root_execution_suite = ExecutionSuite.get_root_for_project(context[:issue].project)
         x = TestCase.create(issue: context[:issue], test_suite: root.children.detect { |o| o.name == ".Unsorted" } )
       end
