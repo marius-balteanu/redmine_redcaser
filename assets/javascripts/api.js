@@ -163,7 +163,7 @@ var RedcaserAPI = (function () {
     }
   };
 
-  self.testCase = new function () {
+  self.testCases = new function () {
     // index :: Object
     this.index = function (params) {
       var done = params.done;
@@ -199,7 +199,7 @@ var RedcaserAPI = (function () {
         data:     data,
         dataType: 'json',
         method:   'PATCH',
-        url:      'redcaser/testcases/' + data.id
+        url:      'redcaser/testcases/' + params.id
       });
 
       request.done(done);

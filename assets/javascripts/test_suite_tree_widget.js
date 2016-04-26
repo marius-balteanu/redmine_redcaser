@@ -110,14 +110,23 @@ var TestSuiteTreeWidget = (function () {
     if (isRightEvent) {
       console.log(event, ui);
 
+      var testCaseId = event.toElement.parentNode.dataset.id;
+      var testSuiteId = event.target.parentNode.dataset.id;
+
+      var data = {
+        test_case: {
+          test_suite_id: testSuiteId
+        }
+      }
+
       var params = {
-        id:    1,
-        data: {},
+        id:   testCaseId,
+        data: data,
         done: function () { console.log("Done!"); },
         fail: function () { console.log("Fail!"); }
       };
 
-      Redcaser.api.testSuites.update(params);
+      Redcaser.api.testCases.update(params);
     }
   }
 

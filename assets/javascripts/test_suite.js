@@ -33,6 +33,8 @@ var TestSuite = (function () {
     var node = document.createElement('div');
     node.classList.add('suite-table');
 
+    node.dataset.id = element.suite_id;
+
     node.appendChild(this.buildSuiteHeader(element));
     node.appendChild(this.buildSuiteCases(element));
 

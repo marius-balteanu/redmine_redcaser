@@ -21,6 +21,8 @@ var TestCase = (function () {
     var node = document.createElement('div');
     node.classList.add('suite-case');
 
+    node.dataset.id = element.issue_id;
+
     return node;
   };
 

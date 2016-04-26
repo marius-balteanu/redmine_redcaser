@@ -1,4 +1,6 @@
 class Redcaser::TestcasesController < RedcaserBaseController
+  before_action :find_test_case, only: :update
+
   def index
     # TODO: What if there is none?
     test_case = TestCase.where({ issue_id: params[:object_id] }).first
@@ -16,6 +18,17 @@ class Redcaser::TestcasesController < RedcaserBaseController
     render json: { success: true }
   end
 
+  def update
+    result = @test_case.update_attributes(test_case_params)
+
+    if result
+      render json: {success: 'Test Case updated!'}
+    else
+      render json: {errors: @test_case.error_messages}, status: 400
+    end
+  end
+
+=begin
   def update
     # TODO: What if there is none?
     test_case = TestCase.where({ issue_id: params[:id] }).first
@@ -52,8 +65,21 @@ class Redcaser::TestcasesController < RedcaserBaseController
       execute(test_case)
     end
   end
+=end
 
   private
+
+  def find_test_case
+    @test_case = TestCase.where(id: params[:id]).first
+
+    unless @test_case
+      render json: {error: 'Test Case not found'}, status: 404
+    end
+  end
+
+  def test_case_params
+    params.require(:test_case).permit(:id, :test_suite_id)
+  end
 
   def execute(test_case)
     version = Version.find_by_name_and_project_id(
