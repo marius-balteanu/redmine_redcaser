@@ -21,18 +21,19 @@ var CaseDialog = (function () {
   };
 
   self.forCreate = function (dialog) {
+    var object = $(dialog);
 
-    this.openDialog(dialog);
+    object.dialog('option', 'title', 'Create Test Case');
+    object.dialog('open');
   };
 
   self.forUpdate = function (dialog) {
+    var object = $(dialog);
 
-    this.showDialog(dialog);
+    object.dialog('option', 'title', 'Update Test Case');
+    object.dialog('open');
   };
 
-  self.openDialog = function (dialog) {
-    $(dialog).dialog('open');
-  }
 
   return self;
 })();

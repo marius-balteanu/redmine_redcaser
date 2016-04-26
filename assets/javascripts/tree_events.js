@@ -42,7 +42,7 @@ var TreeEvents = (function () {
 
   // handleSuiteEdit :: Event, Object
   self.handleSuiteEdit = function (event, context) {
-    SuiteDialog.forCreate(context.suiteEditDialog);
+    SuiteDialog.forUpdate(context.suiteEditDialog);
   };
 
   // handleSuiteCheckbox :: Event, Object
@@ -57,7 +57,7 @@ var TreeEvents = (function () {
 
   // handleCaseEdit :: Event, Object
   self.handleCaseEdit = function (event, context) {
-    CaseDialog.forCreate(context.caseEditDialog);
+    CaseDialog.forUpdate(context.caseEditDialog);
   };
 
   // handleCaseDelete :: Event, Object

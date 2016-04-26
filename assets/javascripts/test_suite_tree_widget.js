@@ -108,9 +108,7 @@ var TestSuiteTreeWidget = (function () {
     var isRightEvent = event.toElement.parentNode.parentNode === event.target;
 
     if (isRightEvent) {
-      console.log(event, ui);
-
-      var testCaseId = event.toElement.parentNode.dataset.id;
+      var testCaseId  = event.toElement.parentNode.dataset.id;
       var testSuiteId = event.target.parentNode.dataset.id;
 
       var data = {
