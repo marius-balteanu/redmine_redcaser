@@ -88,7 +88,8 @@ var TestSuiteTreeWidget = (function () {
     cases.sortable({
       connectWith: '.suite-cases',
       handle:      '.case-drag',
-      placeholder: 'suite-case-placeholder'
+      placeholder: 'suite-case-placeholder',
+      update :     this.handleCaseMove.bind(this)
     });
   };
 
@@ -100,6 +101,25 @@ var TestSuiteTreeWidget = (function () {
   def.addEventHandlers = function () {
     TreeEvents.attach(this);
   };
+
+  def.handleCaseMove =  function (event, ui) {
+    // jQuery UI fires two events when moving an element from one container
+    // to another. We need to handle the event from the new container.
+    var isRightEvent = event.toElement.parentNode.parentNode === event.target;
+
+    if (isRightEvent) {
+      console.log(event, ui);
+
+      var params = {
+        id:    1,
+        data: {},
+        done: function () { console.log("Done!"); },
+        fail: function () { console.log("Fail!"); }
+      };
+
+      Redcaser.api.testSuites.update(params);
+    }
+  }
 
   return self;
 })();

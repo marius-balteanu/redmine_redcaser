@@ -14,6 +14,7 @@ var TreeEvents = (function () {
 
   // eventHandlers :: -> [[String, String, (Event -> *)]]
   self.eventHandlers = function () {
+    // [event name, class, handler]
     return [
       ['click', 'suite-title',         this.handleSuiteEdit    ],
       ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
@@ -27,9 +28,13 @@ var TreeEvents = (function () {
 
   // addEventHandler :: [String, String, (Event -> *)], Object
   self.addEventHandler = function (config, context) {
-    context.root.addEventListener(config[0], function (event) {
+    context.root.addEventListener(config[0], function (event, ui) {
       if (event.target.classList.contains(config[1])) {
-        config[2].bind(this)(event, context);
+        if (ui) {
+          config[2].bind(this)(event, ui, context);
+        } else {
+          config[2].bind(this)(event, context);
+        }
       }
     }.bind(this))
   }
