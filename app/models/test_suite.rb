@@ -4,22 +4,11 @@ class TestSuite < ActiveRecord::Base
   belongs_to :project
   attr_protected :id
 
-  # Returns root test suite linked to the project and creates one and nested
-  # 'system' test suites (for 'obsolete' and 'unsorted' test cases) if they
-  # don't exist yet.
-  def self.get_root_for_project(project)
-    test_suite = TestSuite
+  def self.for_project(project)
+    TestSuite
       .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
       .where(project_id: project.id)
       .first
-    unless test_suite
-      test_suite = TestSuite.create(name: project.name)
-      test_suite.project = project
-      test_suite.children << TestSuite.create(name: '.Obsolete')
-      test_suite.children << TestSuite.create(name: '.Unsorted')
-      test_suite.save
-    end
-    test_suite
   end
 
   def self.get_obsolete(project)
@@ -28,23 +17,19 @@ class TestSuite < ActiveRecord::Base
 
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
-  def to_json(context)
+  def to_json
     if parent_id
       kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
-          .map { |s| s.to_json(context) } \
+          .map { |s| s.to_json } \
         + test_cases
           .sort_by { |x| x.issue.subject }
-          .map { |tc| tc.to_json(context) }
+          .map { |tc| tc.to_json }
     else
       kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
-          .select { |x| (x.name != '.Obsolete') && (x.name != '.Unsorted')}
-          .map { |s| s.to_json(context) } \
+          .map { |s| s.to_json } \
         + test_cases
           .sort_by { |x| x.issue.subject }
-          .map { |tc| tc.to_json(context) } \
-        + children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
-          .select { |x| (x.name == '.Obsolete') || (x.name == '.Unsorted')}
-          .map { |s| s.to_json(context) }
+          .map { |tc| tc.to_json }
     end
 
     {

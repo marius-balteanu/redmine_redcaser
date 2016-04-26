@@ -114,22 +114,15 @@ class TestCase < ActiveRecord::Base
 
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
-  def to_json(context, version = nil, environment = nil)
+  def to_json(version = nil, environment = nil)
     atext = "#{issue_id}-#{issue.subject}"
     last_result = get_last_result(version, environment)
 
-    textilized_description =
-      if issue.description
-        context.textilizable(issue, :description, {}) rescue issue.description
-      else
-        ''
-      end
     {
       'id'        => "issue_#{issue_id}",
       'issue_id'  => issue_id,
       'text'      => atext,
       'editable'  => false,
-      'desc'      => textilized_description,
       'leaf'      => true,
       'status'    => issue.status,
       'iconCls'   => "testcase-result-icon-#{last_result}",
@@ -139,16 +132,6 @@ class TestCase < ActiveRecord::Base
         cls: 'test',
         width: '500',
         closable: 'true',
-        text: (
-          "\"#{issue.subject}\"<br/>" + (
-            issue.description.nil? ? '' : (
-              "<br/><b>Description:</b><br/>#{textilized_description}"
-            )
-          ) +
-          "<br/><b>Priority:</b> #{issue.priority.name}" +
-          "<br/><b>Author:</b> #{issue.author.name}" +
-          "<br/><b>Created:</b> #{issue.created_on.strftime('%d.%m.%Y %H:%M')}"
-        ),
         title: "Issue ##{issue.id}",
         dismissDelay: 30000
       },

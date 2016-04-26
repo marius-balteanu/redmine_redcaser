@@ -1,8 +1,7 @@
 class Redcaser::TestsuitesController < RedcaserBaseController
   def index
-    testsuites = TestSuite
-      .get_root_for_project(@project)
-      .to_json(view_context)
+    testsuites = TestSuite.for_project(@project).to_json
+
     render json: testsuites
   end
 
