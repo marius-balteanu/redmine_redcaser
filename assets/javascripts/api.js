@@ -60,7 +60,17 @@ var RedcaserAPI = (function () {
 
     // destroy :: Object
     this.destroy = function (params) {
-      var request = null;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'DELETE',
+        url:      'redcaser/testsuites/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
     }
   };
 
@@ -232,7 +242,17 @@ var RedcaserAPI = (function () {
 
     // destroy :: Object
     this.destroy = function (params) {
-      var request = null;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'DELETE',
+        url:      'redcaser/testcases/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
     }
   };
 

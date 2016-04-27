@@ -108,7 +108,31 @@ var TestSuite = (function () {
     var node = document.createElement('span');
     node.classList.add('suite-actions');
 
-    var text = document.createTextNode('A');
+    node.appendChild(this.buildSuiteHeaderEdit(element));
+    node.appendChild(this.buildSuiteHeaderDelete(element));
+
+    return node;
+  };
+
+  // buildSuiteHeaderEdit :: Object -> DOM
+  self.buildSuiteHeaderEdit = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('suite-actions-edit');
+
+    var text = document.createTextNode('Edit');
+
+    node.appendChild(text);
+
+    return node;
+  };
+
+  // buildSuiteHeaderDelete :: Object -> DOM
+  self.buildSuiteHeaderDelete = function (element) {
+    var node = document.createElement('button');
+    node.classList.add('suite-actions-delete');
+
+    var text = document.createTextNode('Delete');
+
     node.appendChild(text);
 
     return node;

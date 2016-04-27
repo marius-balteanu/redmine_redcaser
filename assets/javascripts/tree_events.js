@@ -16,14 +16,14 @@ var TreeEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'suite-case',          this.handleCaseClick    ],
-      ['click', 'suite-checkbox',      this.handleSuiteCheckbox],
-      ['click', 'suite-create',        this.handleSuiteCreate  ],
-      ['click', 'suite-title',         this.handleSuiteEdit    ],
-      ['click', 'case-link-edit',      this.handleCaseEdit     ],
-      ['click', 'case-actions-edit',   this.handleCaseEdit     ],
-      ['click', 'case-actions-delete', this.handleCaseDelete   ],
-      ['click', 'case-actions-view',   this.handleCaseView     ]
+      ['click', 'suite-case',           this.handleCaseClick    ],
+      ['click', 'suite-checkbox',       this.handleSuiteCheckbox],
+      ['click', 'suite-create',         this.handleSuiteCreate  ],
+      ['click', 'suite-actions-edit',   this.handleSuiteEdit    ],
+      ['click', 'suite-actions-delete', this.handleSuiteDelete  ],
+      ['click', 'case-actions-edit',    this.handleCaseEdit     ],
+      ['click', 'case-actions-delete',  this.handleCaseDelete   ],
+      ['click', 'case-actions-view',    this.handleCaseView     ]
     ];
   }
 
@@ -44,8 +44,6 @@ var TreeEvents = (function () {
   self.handleSuiteEdit = function (event, context) {
     var suiteId = event.target.parentNode.dataset.id;
 
-    console.log(suiteId);
-
     SuiteDialog.forUpdate(context.suiteEditDialog, suiteId);
   };
 
@@ -63,14 +61,20 @@ var TreeEvents = (function () {
   self.handleCaseEdit = function (event, context) {
     var caseId = event.target.parentNode.parentNode.dataset.id;
 
-    console.log(caseId);
-
     CaseDialog.forUpdate(context.caseEditDialog, caseId);
   };
 
   // handleCaseDelete :: Event, Object
   self.handleCaseDelete = function (event, context) {
+    var id = event.target.parentNode.parentNode.dataset.id;
 
+    var params = {
+      id:   id,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    Redcaser.api.testCases.destroy(params);
   };
 
   // handleCaseView :: Event, Object
@@ -81,6 +85,19 @@ var TreeEvents = (function () {
   // handleSuiteCreate :: Event, Object
   self.handleSuiteCreate = function (event, context) {
     SuiteDialog.forCreate(context.suiteEditDialog);
+  }
+
+  // handleSuiteDelete :: Event, Object
+  self.handleSuiteDelete = function (event, context) {
+    var id = event.target.parentNode.dataset.id;
+
+    var params = {
+      id:   id,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    Redcaser.api.testSuites.destroy(params);
   }
 
   return self;

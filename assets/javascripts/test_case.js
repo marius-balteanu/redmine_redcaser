@@ -67,9 +67,7 @@ var TestCase = (function () {
     var node = document.createElement('span');
     node.classList.add('case-link');
 
-
     node.appendChild(this.buildCaseLinkText(element));
-    node.appendChild(this.buildCaseLinkEdit(element));
 
     return node;
   };
@@ -80,17 +78,6 @@ var TestCase = (function () {
     node.target = '_blank';
 
     var text = document.createTextNode(element.text);
-
-    node.appendChild(text);
-
-    return node;
-  };
-
-  self.buildCaseLinkEdit = function (element) {
-    var node = document.createElement('button');
-    node.classList.add('case-link-edit');
-
-    var text = document.createTextNode('Edit');
 
     node.appendChild(text);
 
