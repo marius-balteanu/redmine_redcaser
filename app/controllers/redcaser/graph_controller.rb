@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::GraphController < RedcaserBaseController
   def show
     environment = ExecutionEnvironment.where(id: params[:environment_id]).first

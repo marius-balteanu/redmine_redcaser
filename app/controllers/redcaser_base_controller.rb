@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RedcaserBaseController < ApplicationController
   before_action :find_project, :authorize, :check_project_tracker
 

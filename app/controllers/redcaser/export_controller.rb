@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::ExportController < RedcaserBaseController
   def index
     project_name = @project.name.gsub(' ', '_');

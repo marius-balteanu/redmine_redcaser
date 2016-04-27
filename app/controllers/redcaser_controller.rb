@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RedcaserController < RedcaserBaseController
   helper RedcaserHelper
 
@@ -19,7 +21,7 @@ class RedcaserController < RedcaserBaseController
     # TODO: Move maintenance() method in here as it seems to be not test
     #       case specific, but rather provides general kind of
     #       functionality. Or move it to some shared plugin entry point.
-    TestCase.maintenance(@project)
+    # TestCase.maintenance(@project)
     # TODO: Rename to execution_suites. Be aware that this name seems to
     #       affect some names in views.
     @list = ExecutionSuite

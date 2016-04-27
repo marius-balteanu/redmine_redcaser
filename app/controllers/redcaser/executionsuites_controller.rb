@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     if params[:get_results].nil?

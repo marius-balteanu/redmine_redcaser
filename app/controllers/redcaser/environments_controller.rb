@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redcaser::EnvironmentsController < RedcaserBaseController
   helper RedcaserHelper
 
