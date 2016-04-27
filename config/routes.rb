@@ -8,7 +8,7 @@ resources :projects do
     resources :environments, only: [:show, :create, :update, :destroy]
     resources :testsuites,   only: [:index, :create, :update, :destroy]
 
-    resources :testcases, only: [:index, :update] do
+    resources :testcases, only: [:index, :update, :destroy] do
       member do
         post :copy
       end

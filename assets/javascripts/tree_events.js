@@ -89,7 +89,7 @@ var TreeEvents = (function () {
 
   // handleSuiteDelete :: Event, Object
   self.handleSuiteDelete = function (event, context) {
-    var id = event.target.parentNode.dataset.id;
+    var id = event.target.dataset.id;
 
     var params = {
       id:   id,

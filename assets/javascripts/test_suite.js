@@ -118,6 +118,7 @@ var TestSuite = (function () {
   self.buildSuiteHeaderEdit = function (element) {
     var node = document.createElement('button');
     node.classList.add('suite-actions-edit');
+    node.dataset.id = element.suite_id;
 
     var text = document.createTextNode('Edit');
 
@@ -130,6 +131,7 @@ var TestSuite = (function () {
   self.buildSuiteHeaderDelete = function (element) {
     var node = document.createElement('button');
     node.classList.add('suite-actions-delete');
+    node.dataset.id = element.suite_id;
 
     var text = document.createTextNode('Delete');
 

@@ -62,7 +62,7 @@ class TestCase < ActiveRecord::Base
       x = TestCase.create(
         issue: issue,
         test_suite: TestSuite
-          .get_root_for_project(project)
+          .for_project(project)
           .children.detect { |o| o.name == '.Unsorted' }
       )
     }

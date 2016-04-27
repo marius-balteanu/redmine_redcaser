@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Redcaser::TestcasesController < RedcaserBaseController
-  before_action :find_test_case, only: :update
+  before_action :find_test_case, only: [:update, :destroy]
 
   def index
     # TODO: What if there is none?
@@ -21,10 +21,18 @@ class Redcaser::TestcasesController < RedcaserBaseController
   end
 
   def update
-    result = @test_case.update_attributes(test_case_params)
+    @test_case.assign_attributes(test_case_params)
 
-    if result
-      render json: {success: 'Test Case updated!'}
+    if @test_case.save
+      render json: {success: 'Test Case updated.'}
+    else
+      render json: {errors: @test_case.error_messages}, status: 400
+    end
+  end
+
+  def destroy
+    if @test_case.destroy
+      render json: {success: 'Test Case deleted.'}
     else
       render json: {errors: @test_case.error_messages}, status: 400
     end
@@ -32,16 +40,16 @@ class Redcaser::TestcasesController < RedcaserBaseController
 
   private
 
+  def test_case_params
+    params.require(:test_case).permit(:id, :test_suite_id)
+  end
+
   def find_test_case
     @test_case = TestCase.where(id: params[:id]).first
 
     unless @test_case
-      render json: {error: 'Test Case not found'}, status: 404
+      render json: {error: 'Test Case not found.'}, status: 404
     end
-  end
-
-  def test_case_params
-    params.require(:test_case).permit(:id, :test_suite_id)
   end
 
   def execute(test_case)

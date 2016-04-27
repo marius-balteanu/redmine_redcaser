@@ -89,9 +89,9 @@ var TestCase = (function () {
     var node = document.createElement('span');
     node.classList.add('case-actions');
 
-    node.appendChild(this.buildCaseActionEdit());
-    node.appendChild(this.buildCaseActionDelete());
-    node.appendChild(this.buildCaseActionView());
+    node.appendChild(this.buildCaseActionEdit(element));
+    node.appendChild(this.buildCaseActionDelete(element));
+    node.appendChild(this.buildCaseActionView(element));
 
     return node;
   };
@@ -99,6 +99,7 @@ var TestCase = (function () {
   self.buildCaseActionEdit = function (element) {
     var node = document.createElement('button');
     node.classList.add('case-actions-edit');
+    node.dataset.id = element.issue_id;
 
     var text = document.createTextNode('Edit');
 
@@ -110,6 +111,7 @@ var TestCase = (function () {
   self.buildCaseActionDelete = function (element) {
     var node = document.createElement('button');
     node.classList.add('case-actions-delete');
+    node.dataset.id = element.issue_id;
 
     var text = document.createTextNode('Delete');
 
