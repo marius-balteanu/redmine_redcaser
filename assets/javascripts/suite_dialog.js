@@ -136,7 +136,7 @@ var SuiteDialog = (function () {
 
     console.log(params);
 
-    Redcaser.api.testSuites.create(params);
+    Redcaser.API.testSuites.create(params);
   }
 
   // submitForUpdate :: Event
@@ -155,7 +155,7 @@ var SuiteDialog = (function () {
 
     console.log(params);
 
-    Redcaser.api.testSuites.update(params);
+    Redcaser.API.testSuites.update(params);
   }
 
   // gatherDataFrom :: DOM -> Object

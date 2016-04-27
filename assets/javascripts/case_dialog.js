@@ -134,7 +134,7 @@ var CaseDialog = (function () {
       fail: function () { console.log("Fail!"); }
     };
 
-    Redcaser.api.testCases.create(params);
+    Redcaser.API.testCases.create(params);
   }
 
   self.submitForUpdate = function (event) {
@@ -152,7 +152,7 @@ var CaseDialog = (function () {
 
     console.log(params);
 
-    Redcaser.api.testCases.update(params);
+    Redcaser.API.testCases.update(params);
   }
 
   // gatherDataFrom :: DOM -> Object

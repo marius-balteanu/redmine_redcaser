@@ -1,4 +1,6 @@
-var TestSuiteTree = (function () {
+var Redcaser = Redcaser || {};
+
+Redcaser.SuiteTreeBuilder = (function () {
   'use strict';
 
   // self :: DOM
@@ -10,7 +12,7 @@ var TestSuiteTree = (function () {
     var node, suiteCases, suiteChildren;
 
     if (type === 'suite') {
-      node = TestSuite.build(element);
+      node = Redcaser.TestSuiteBuilder.build(element);
 
       suiteCases    = node.getElementsByClassName('suite-cases')[0];
       suiteChildren = node.getElementsByClassName('suite-children')[0];
@@ -31,7 +33,7 @@ var TestSuiteTree = (function () {
       }.bind(this));
     }
     else if (type === 'case') {
-      node = TestCase.build(element);
+      node = Redcaser.TestCaseBuilder.build(element);
     }
     else {
       console.log('Bad Node data:');

@@ -57,14 +57,14 @@ var TestSuiteTreeWidget = (function () {
       fail: this.handleTestSuiteError.bind(this)
     }
 
-    Redcaser.api.testSuites.index(params);
+    Redcaser.API.testSuites.index(params);
   };
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (response) {
     this.initializeBody();
 
-    var tree = TestSuiteTree.build(response);
+    var tree = Redcaser.SuiteTreeBuilder.build(response);
 
     this.body.appendChild(tree);
     this.root.appendChild(this.body);
@@ -124,7 +124,7 @@ var TestSuiteTreeWidget = (function () {
         fail: function () { console.log("Fail!"); }
       };
 
-      Redcaser.api.testCases.update(params);
+      Redcaser.API.testCases.update(params);
     }
   }
 

@@ -1,4 +1,6 @@
-var RedcaserAPI = (function () {
+var Redcaser = Redcaser || {};
+
+Redcaser.API = (function () {
   'use strict';
 
   var self = {};

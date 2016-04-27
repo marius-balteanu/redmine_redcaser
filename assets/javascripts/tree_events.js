@@ -74,7 +74,7 @@ var TreeEvents = (function () {
       fail: function () { console.log("Fail!"); }
     };
 
-    Redcaser.api.testCases.destroy(params);
+    Redcaser.API.testCases.destroy(params);
   };
 
   // handleCaseView :: Event, Object
@@ -97,7 +97,7 @@ var TreeEvents = (function () {
       fail: function () { console.log("Fail!"); }
     };
 
-    Redcaser.api.testSuites.destroy(params);
+    Redcaser.API.testSuites.destroy(params);
   }
 
   return self;

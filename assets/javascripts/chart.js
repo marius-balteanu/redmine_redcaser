@@ -30,7 +30,7 @@ var RedcaserGraph = function() {
 
   this.update = function () {
     var apiParams = $.extend({},
-      Redcaser.api.graph.show(0), {
+      Redcaser.API.graph.show(0), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -42,7 +42,7 @@ var RedcaserGraph = function() {
         errorMessage: "Couldn't load graph"
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
   };
 
   this.refresh = function (data) {

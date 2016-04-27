@@ -10,7 +10,7 @@ var RedcaserEnvironments = function () {
   var onComboChanged = function () {
     var environmentId = $('#execution_environment_id').val();
     var apiParams = $.extend({},
-      Redcaser.api.environments.show(environmentId), {
+      Redcaser.API.environments.show(environmentId), {
         success: function (data, textStatus, request) {
           $('#management_environments_id').html(data);
           bind();
@@ -23,13 +23,13 @@ var RedcaserEnvironments = function () {
         }
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
   };
 
   var onButtonDestroyClicked = function (event) {
     var environment_id = $('#execution_environment_id').val();
     var apiParams = $.extend({},
-      Redcaser.api.environments.destroy(environment_id), {
+      Redcaser.API.environments.destroy(environment_id), {
         success: function (data, textStatus, request) {
           $('#execution_environment_id option:selected').remove();
           $('#execution_environment_id').change();
@@ -42,7 +42,7 @@ var RedcaserEnvironments = function () {
         }
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
     event.preventDefault();
   };
 
@@ -50,7 +50,7 @@ var RedcaserEnvironments = function () {
     var name = $('#execution_environment_name').val();
     var description = $('#execution_environment_description').val();
     var apiParams = $.extend({},
-      Redcaser.api.environments.create(), {
+      Redcaser.API.environments.create(), {
         params: {
           execution_environment: {
             name: name,
@@ -71,7 +71,7 @@ var RedcaserEnvironments = function () {
         }
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
     event.preventDefault();
   };
 
@@ -80,7 +80,7 @@ var RedcaserEnvironments = function () {
     var name = $('#execution_environment_name').val();
     var description = $('#execution_environment_description').val()
     var apiParams = $.extend({},
-      Redcaser.api.environments.update(environmentId), {
+      Redcaser.API.environments.update(environmentId), {
         params: {
           execution_environment: {
             name: name,
@@ -96,7 +96,7 @@ var RedcaserEnvironments = function () {
         }
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
     event.preventDefault();
   };
 

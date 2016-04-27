@@ -14,7 +14,7 @@ var RedcaserCombos = function () {
 
   this.update = function () {
     var apiParams = $.extend({},
-      Redcaser.api.combos.index(), {
+      Redcaser.API.combos.index(), {
         success: function (data, textStatus, request) {
           $('#combos_id').html(data);
           rebind();
@@ -23,12 +23,12 @@ var RedcaserCombos = function () {
         errorMessage: 'An unknown error ocurred'
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
   };
 
   this.refresh = function () {
     var apiParams = $.extend({},
-      Redcaser.api.combos.index(), {
+      Redcaser.API.combos.index(), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -41,10 +41,10 @@ var RedcaserCombos = function () {
         errorMessage: 'An unknown error ocurred'
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
     Redcaser.graph.update();
     apiParams = $.extend({},
-      Redcaser.api.executionSuite.index(), {
+      Redcaser.API.executionSuite.index(), {
         params: {
           environment_id: $('#environment').val(),
           suite_id: $('#suite').val(),
@@ -57,7 +57,7 @@ var RedcaserCombos = function () {
         errorMessage: "Couldn't load results"
       }
     );
-    Redcaser.api.apiCall(apiParams);
+    Redcaser.API.apiCall(apiParams);
   };
 
   this.refreshFilter = function () {
