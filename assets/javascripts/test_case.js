@@ -91,7 +91,6 @@ var TestCase = (function () {
 
     node.appendChild(this.buildCaseActionEdit(element));
     node.appendChild(this.buildCaseActionDelete(element));
-    node.appendChild(this.buildCaseActionView(element));
 
     return node;
   };
@@ -114,17 +113,6 @@ var TestCase = (function () {
     node.dataset.id = element.issue_id;
 
     var text = document.createTextNode('Delete');
-
-    node.appendChild(text);
-
-    return node;
-  };
-
-  self.buildCaseActionView = function (element) {
-    var node = document.createElement('button');
-    node.classList.add('case-actions-view');
-
-    var text = document.createTextNode('View');
 
     node.appendChild(text);
 
