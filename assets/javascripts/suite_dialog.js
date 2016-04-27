@@ -114,10 +114,12 @@ var SuiteDialog = (function () {
   };
 
   self.submitForCreate = function (event) {
+    console.log(event);
     console.log('Create');
   }
 
   self.submitForUpdate = function (event) {
+    console.log(event);
     console.log('Update');
   }
 
