@@ -36,6 +36,7 @@ var SuiteDialog = (function () {
   // buildNameInput :: -> DOM
   self.buildNameInput = function () {
     var node  = document.createElement('input');
+    node.classList.add('name-field');
     node.type = 'text'
 
     return node;
@@ -65,6 +66,7 @@ var SuiteDialog = (function () {
   // buildParentInput :: -> DOM
   self.buildParentInput = function () {
     var node = document.createElement('input');
+    node.classList.add('parent-field');
     node.type = 'text'
 
     return node;
@@ -81,8 +83,11 @@ var SuiteDialog = (function () {
     $(dialog).dialog(params);
   };
 
+  // forCreate :: DOM
   self.forCreate = function (dialog) {
     var object = $(dialog);
+
+    object.parent().data('suite-id', null);
 
     object.dialog('option', 'title', 'Create Test Suite');
     object.dialog(
@@ -97,8 +102,11 @@ var SuiteDialog = (function () {
     object.dialog('open');
   };
 
-  self.forUpdate = function (dialog) {
+  // forUpdate :: DOM
+  self.forUpdate = function (dialog, id) {
     var object = $(dialog);
+
+    object.parent().data('suite-id', id);
 
     object.dialog('option', 'title', 'Update Test Suite');
     object.dialog(
@@ -113,15 +121,57 @@ var SuiteDialog = (function () {
     object.dialog('open');
   };
 
+  //submitForCreate :: Event
   self.submitForCreate = function (event) {
+    var data = this.gatherDataFrom(event.target);
+
     console.log(event);
     console.log('Create');
+
+    var params = {
+      data: data.params,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    console.log(params);
+
+    Redcaser.api.testSuites.create(params);
   }
 
+  // submitForUpdate :: Event
   self.submitForUpdate = function (event) {
+    var data = this.gatherDataFrom(event.target);
+
     console.log(event);
     console.log('Update');
+
+    var params = {
+      id:   data.id,
+      data: data.params,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    console.log(params);
+
+    Redcaser.api.testSuites.update(params);
   }
+
+  // gatherDataFrom :: DOM -> Object
+  self.gatherDataFrom = function (target) {
+    var root = $(target).closest('.ui-dialog');
+
+    return {
+      id: root.data('suite-id'),
+      params: {
+        test_suite: {
+          name:      root.find('.name-field').val(),
+          parent_id: root.find('.parent-field').val()
+        }
+      }
+    };
+  };
 
   return self;
 })();

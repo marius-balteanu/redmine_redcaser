@@ -8,6 +8,8 @@ var TestSuite = (function () {
     var node = document.createElement('div');
     node.classList.add('tree-suite');
 
+    node.dataset.id = element.suite_id;
+
     node.appendChild(this.buildSuiteTitle(element));
     node.appendChild(this.buildSuiteTable(element));
     node.appendChild(this.buildSuiteFooter(element));
@@ -32,8 +34,6 @@ var TestSuite = (function () {
   self.buildSuiteTable = function (element) {
     var node = document.createElement('div');
     node.classList.add('suite-table');
-
-    node.dataset.id = element.suite_id;
 
     node.appendChild(this.buildSuiteHeader(element));
     node.appendChild(this.buildSuiteCases(element));

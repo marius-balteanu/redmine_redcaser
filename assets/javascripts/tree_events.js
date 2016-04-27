@@ -42,7 +42,11 @@ var TreeEvents = (function () {
 
   // handleSuiteEdit :: Event, Object
   self.handleSuiteEdit = function (event, context) {
-    SuiteDialog.forUpdate(context.suiteEditDialog);
+    var suiteId = event.target.parentNode.dataset.id;
+
+    console.log(suiteId);
+
+    SuiteDialog.forUpdate(context.suiteEditDialog, suiteId);
   };
 
   // handleSuiteCheckbox :: Event, Object
@@ -57,7 +61,11 @@ var TreeEvents = (function () {
 
   // handleCaseEdit :: Event, Object
   self.handleCaseEdit = function (event, context) {
-    CaseDialog.forUpdate(context.caseEditDialog);
+    var caseId = event.target.parentNode.parentNode.dataset.id;
+
+    console.log(caseId);
+
+    CaseDialog.forUpdate(context.caseEditDialog, caseId);
   };
 
   // handleCaseDelete :: Event, Object

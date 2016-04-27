@@ -36,6 +36,7 @@ var CaseDialog = (function () {
   // buildNameInput :: -> DOM
   self.buildNameInput = function () {
     var node  = document.createElement('input');
+    node.classList.add('name-field');
     node.type = 'text'
 
     return node;
@@ -65,6 +66,7 @@ var CaseDialog = (function () {
   // buildParentInput :: -> DOM
   self.buildParentInput = function () {
     var node = document.createElement('input');
+    node.classList.add('parent-field');
     node.type = 'text'
 
     return node;
@@ -81,8 +83,11 @@ var CaseDialog = (function () {
     $(dialog).dialog(params);
   };
 
+  // forCreate :: DOM
   self.forCreate = function (dialog) {
     var object = $(dialog);
+
+    object.parent().data('suite-id', null);
 
     object.dialog('option', 'title', 'Create Test Case');
     object.dialog(
@@ -97,8 +102,11 @@ var CaseDialog = (function () {
     object.dialog('open');
   };
 
-  self.forUpdate = function (dialog) {
+  // forUpdate :: DOM, Integer
+  self.forUpdate = function (dialog, id) {
     var object = $(dialog);
+
+    object.parent().data('suite-id', id);
 
     object.dialog('option', 'title', 'Update Test Case');
     object.dialog(
@@ -114,14 +122,55 @@ var CaseDialog = (function () {
   };
 
   self.submitForCreate = function (event) {
+    var data = this.gatherDataFrom(event.target);
+
     console.log(event);
     console.log('Create');
+
+    var params = {
+      id:   data.id,
+      data: data.params,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    Redcaser.api.testCases.create(params);
   }
 
   self.submitForUpdate = function (event) {
+    var data = this.gatherDataFrom(event.target);
+
     console.log(event);
     console.log('Update');
+
+    var params = {
+      id:   data.id,
+      data: data.params,
+      done: function () { console.log("Done!"); },
+      fail: function () { console.log("Fail!"); }
+    };
+
+    console.log(params);
+
+    Redcaser.api.testCases.update(params);
   }
+
+  // gatherDataFrom :: DOM -> Object
+  self.gatherDataFrom = function (target) {
+    var root = $(target).closest('.ui-dialog');
+
+    return {
+      id: root.data('.case-id'),
+      params: {
+        test_case: {
+          test_suite_id: root.find('.parent-field').val(),
+          issue: {
+            subject: root.find('.name-field').val()
+          }
+        }
+      }
+    };
+  };
 
   return self;
 })();
