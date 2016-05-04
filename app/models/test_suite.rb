@@ -11,7 +11,6 @@ class TestSuite < ActiveRecord::Base
       .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
       .where(project_id: project.id)
       .to_a
-      .first
   end
 
   # TODO: Move to view f.ex. using JBuilder

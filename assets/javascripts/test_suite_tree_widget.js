@@ -64,9 +64,12 @@ var TestSuiteTreeWidget = (function () {
   def.createTestSuiteTree = function (response) {
     this.initializeBody();
 
-    var tree = Redcaser.SuiteTreeBuilder.build(response);
+    var nodes = Redcaser.SuiteTreeBuilder.build(response);
 
-    this.body.appendChild(tree);
+    nodes.forEach(function (element) {
+      this.body.appendChild(element);
+    }.bind(this));
+
     this.root.appendChild(this.body);
 
     this.makeSuiteCasesSortable();

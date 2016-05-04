@@ -5,9 +5,11 @@ class Redcaser::TestsuitesController < RedcaserBaseController
   before_action :provided_parent_exists?, only: [:create, :update]
 
   def index
-    testsuites = TestSuite.for_project(@project).to_json
+    testsuites = TestSuite.for_project(@project)
 
-    render json: testsuites
+    elements = testsuites.map(&:to_json)
+
+    render json: elements
   end
 
   def create

@@ -7,7 +7,17 @@ Redcaser.SuiteTreeBuilder = (function () {
   var self = {};
 
   // build :: Object -> DOM
-  self.build = function (element) {
+  self.build = function (elements) {
+    var nodes = [];
+
+    elements.forEach(function (element) {
+      nodes.push(this.buildNode(element));
+    }.bind(this));
+
+    return nodes;
+  };
+
+  self.buildNode = function (element) {
     var type = element.type;
     var node, suiteCases, suiteChildren;
 
@@ -18,7 +28,7 @@ Redcaser.SuiteTreeBuilder = (function () {
       suiteChildren = node.getElementsByClassName('suite-children')[0];
 
       element.children.forEach(function (child) {
-        var childNode = this.build(child);
+        var childNode = this.buildNode(child);
 
         if (child.type === 'suite') {
           suiteChildren.appendChild(childNode);
