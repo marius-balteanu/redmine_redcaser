@@ -110,10 +110,18 @@ var SuiteDialog = (function () {
   };
 
   // forUpdate :: DOM
-  self.forUpdate = function (dialog, id) {
+  self.forUpdate = function (dialog, id, data) {
     var object = $(dialog);
 
     object.parent().data('suite-id', id);
+
+    var select = $('.parent-field');
+    select.empty();
+
+    select.append('<option value=""></option>');
+    data.test_suites.forEach(function (element) {
+      select.append('<option value="' + element.id + '">' + element.name + '</option>');
+    }.bind(this));
 
     object.dialog('option', 'title', 'Update Test Suite');
     object.dialog(
@@ -138,7 +146,7 @@ var SuiteDialog = (function () {
     var params = {
       data: data.params,
       done: function () { location.reload(true); },
-      fail: function () { console.log("Fail!"); }
+      fail: function () { console.log('Fail!'); }
     };
 
     console.log(params);
@@ -157,7 +165,7 @@ var SuiteDialog = (function () {
       id:   data.id,
       data: data.params,
       done: function () { location.reload(true); },
-      fail: function () { console.log("Fail!"); }
+      fail: function () { console.log('Fail!'); }
     };
 
     console.log(params);

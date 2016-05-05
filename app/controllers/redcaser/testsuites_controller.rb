@@ -2,10 +2,12 @@
 
 class Redcaser::TestsuitesController < RedcaserBaseController
   before_action :find_test_suite,         only: [:edit, :update, :destroy]
-  before_action :find_test_suites,        only: [:index, :new, :edit]
+  before_action :find_all_test_suites,    only: [:new, :edit]
   before_action :provided_parent_exists?, only: [:create, :update]
 
   def index
+    @test_suites = TestSuite.for_project(@project)
+
     render json: @test_suites.map(&:to_json)
   end
 
@@ -64,8 +66,8 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     render json: {error: 'Test Suite not found.'}, status: 404
   end
 
-  def find_test_suites
-    @test_suites = TestSuite.for_project(@project)
+  def find_all_test_suites
+    @test_suites = TestSuite.where(project: @project).to_a
   end
 
   def provided_parent_exists?
