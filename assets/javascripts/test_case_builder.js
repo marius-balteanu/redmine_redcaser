@@ -92,7 +92,6 @@ Redcaser.TestCaseBuilder = (function () {
     node.classList.add('case-actions');
 
     node.appendChild(this.buildCaseActionEdit(element));
-    node.appendChild(this.buildCaseActionDelete(element));
 
     return node;
   };
@@ -103,18 +102,6 @@ Redcaser.TestCaseBuilder = (function () {
     node.dataset.id = element.issue_id;
 
     var text = document.createTextNode('Edit');
-
-    node.appendChild(text);
-
-    return node;
-  };
-
-  self.buildCaseActionDelete = function (element) {
-    var node = document.createElement('button');
-    node.classList.add('case-actions-delete');
-    node.dataset.id = element.issue_id;
-
-    var text = document.createTextNode('Delete');
 
     node.appendChild(text);
 
