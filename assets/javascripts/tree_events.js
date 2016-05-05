@@ -47,8 +47,7 @@ var TreeEvents = (function () {
     var params = {
       id:   suiteId,
       done: function (response) {
-        SuiteDialog.forCreate(context.suiteEditDialog, response);
-        SuiteDialog.forUpdate(context.suiteEditDialog, response);
+        SuiteDialog.forUpdate(context.suiteEditDialog, event.target, response);
       },
       fail: function () { console.log('Fail!'); }
     };
@@ -96,7 +95,7 @@ var TreeEvents = (function () {
   self.handleSuiteCreate = function (event, context) {
     var params = {
       done: function (response) {
-        SuiteDialog.forCreate(context.suiteEditDialog, response);
+        SuiteDialog.forCreate(context.suiteEditDialog, event.target, response);
       },
       fail: function () { console.log('Fail!'); }
     };

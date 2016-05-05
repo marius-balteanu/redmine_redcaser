@@ -83,17 +83,25 @@ var SuiteDialog = (function () {
   };
 
   // forCreate :: DOM
-  self.forCreate = function (dialog, data) {
+  self.forCreate = function (dialog, target, data) {
     var object = $(dialog);
+    var parentId = target.dataset.parent_id;
 
     object.parent().data('suite-id', null);
+
+    $('.name-field').val('');
 
     var select = $('.parent-field');
     select.empty();
 
     select.append('<option value=""></option>');
     data.test_suites.forEach(function (element) {
-      select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      if (element.id == parentId) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
     }.bind(this));
 
     object.dialog('option', 'title', 'Create Test Suite');
@@ -110,8 +118,10 @@ var SuiteDialog = (function () {
   };
 
   // forUpdate :: DOM
-  self.forUpdate = function (dialog, id, data) {
+  self.forUpdate = function (dialog, target, data) {
     var object = $(dialog);
+    var id       = target.dataset.id;
+    var parentId = target.dataset.parent_id;
 
     object.parent().data('suite-id', id);
 
@@ -120,8 +130,15 @@ var SuiteDialog = (function () {
 
     select.append('<option value=""></option>');
     data.test_suites.forEach(function (element) {
-      select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      if (element.id == parentId) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
     }.bind(this));
+
+    $('.name-field').val(data.name);
 
     object.dialog('option', 'title', 'Update Test Suite');
     object.dialog(

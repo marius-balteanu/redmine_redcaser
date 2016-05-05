@@ -121,6 +121,7 @@ Redcaser.TestSuiteBuilder = (function () {
     var node = document.createElement('button');
     node.classList.add('suite-actions-edit');
     node.dataset.id = element.id;
+    node.dataset.parent_id = element.parent_id;
 
     var text = document.createTextNode('Edit');
 
@@ -179,7 +180,7 @@ Redcaser.TestSuiteBuilder = (function () {
     var node = document.createElement('a');
     node.classList.add('suite-create');
     node.href = '#';
-    node.dataset.parentId = element.id;
+    node.dataset.parent_id = element.id;
 
     var text = document.createTextNode('Add test suite');
     node.appendChild(text);

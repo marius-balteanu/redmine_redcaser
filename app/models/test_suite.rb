@@ -31,11 +31,12 @@ class TestSuite < ActiveRecord::Base
     end
 
     {
-      'id'       => id,
-      'name'     => name,
-      'children' => kids,
-      'state'    => { 'opened' => parent.nil? },
-      'type'     => 'suite'
+      'id'        => id,
+      'parent_id' => parent_id,
+      'name'      => name,
+      'children'  => kids,
+      'state'     => { 'opened' => parent.nil? },
+      'type'      => 'suite'
     }
   end
 end
