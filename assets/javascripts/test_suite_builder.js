@@ -10,7 +10,7 @@ Redcaser.TestSuiteBuilder = (function () {
     var node = document.createElement('div');
     node.classList.add('tree-suite');
 
-    node.dataset.id = element.suite_id;
+    node.dataset.id = element.id;
 
     node.appendChild(this.buildSuiteTitle(element));
     node.appendChild(this.buildSuiteTable(element));
@@ -120,7 +120,7 @@ Redcaser.TestSuiteBuilder = (function () {
   self.buildSuiteHeaderEdit = function (element) {
     var node = document.createElement('button');
     node.classList.add('suite-actions-edit');
-    node.dataset.id = element.suite_id;
+    node.dataset.id = element.id;
 
     var text = document.createTextNode('Edit');
 
@@ -133,7 +133,7 @@ Redcaser.TestSuiteBuilder = (function () {
   self.buildSuiteHeaderDelete = function (element) {
     var node = document.createElement('button');
     node.classList.add('suite-actions-delete');
-    node.dataset.id = element.suite_id;
+    node.dataset.id = element.id;
 
     var text = document.createTextNode('Delete');
 
@@ -179,7 +179,7 @@ Redcaser.TestSuiteBuilder = (function () {
     var node = document.createElement('a');
     node.classList.add('suite-create');
     node.href = '#';
-    node.dataset.parentId = element.suite_id;
+    node.dataset.parentId = element.id;
 
     var text = document.createTextNode('Add test suite');
     node.appendChild(text);

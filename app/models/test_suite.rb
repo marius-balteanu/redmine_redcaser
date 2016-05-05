@@ -31,20 +31,9 @@ class TestSuite < ActiveRecord::Base
     end
 
     {
-      'suite_id'       => id,
+      'id'             => id,
       'text'           => name,
-      'id'             => ((name != '.Obsolete') && (name != '.Unsorted')) ? "suite_#{id}" : name,
-      'expandable'     => true,
-      'expanded'       => false,
-      'editable'       => !(
-        ((name == '.Unsorted') || (name == '.Obsolete')) && parent.parent.nil?
-      ) && !parent.nil?,
       'children'       => kids,
-      'draggable'      => (
-        !parent.nil? && !(
-          ((name == '.Unsorted') || (name == '.Obsolete')) && parent.parent.nil?
-        )
-      ),
       'state'          => { 'opened' => parent.nil? },
       'type'           => 'suite'
     }

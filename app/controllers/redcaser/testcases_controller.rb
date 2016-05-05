@@ -41,7 +41,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
   private
 
   def test_case_params
-    params.require(:test_case).permit(:id, :test_suite_id)
+    params.require(:test_case).permit(:test_suite_id)
   end
 
   def find_test_case

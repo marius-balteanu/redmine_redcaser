@@ -35,61 +35,6 @@ class TestCase < ActiveRecord::Base
     new_issue.save
   end
 
-  def self.maintenance(project)
-    all_issues = Issue
-      .includes(:tracker, :test_case, :status)
-      .where({ project_id: project.id })
-    cleanup_obsolete(all_issues, project)
-    move_unsorted(all_issues, project)
-    remove_orphaned(all_issues)
-  end
-
-  def self.remove_orphaned(issues)
-    missed_tc = issues.collect { |issue|
-      tc = issue.test_case
-      tc if (tc && (issue.tracker.id != RedcaserSettings.tracker_id))
-    }.compact
-    missed_tc.each { |tc| tc.destroy }
-  end
-
-  # Move all test cases that aren't assigned to a test suite to the
-  # ".Unsorted" test suite.
-  def self.move_unsorted(issues, project)
-    unlinked_issues = issues.select { |issue|
-      (issue.tracker.id == RedcaserSettings.tracker_id) && issue.test_case.nil?
-    }
-    unlinked_issues.each { |issue|
-      x = TestCase.create(
-        issue: issue,
-        test_suite: TestSuite
-          .for_project(project)
-          .children.detect { |o| o.name == '.Unsorted' }
-      )
-    }
-  end
-
-  def self.cleanup_obsolete(issues, project)
-    # Move all test cases with status "Obsolete" to ".Obsolete" test suite
-    # if they aren't already there.
-    obsoleted_issues = issues.select { |issue|
-      (issue.tracker.id == RedcaserSettings.tracker_id) && (issue.status.id == RedcaserSettings.status_obsolete_id)
-    }
-    obsoleted_issues.each { |issue|
-      if !issue.test_case.nil?
-        if issue.test_case.test_suite.name != '.Obsolete'
-          issue.test_case.test_suite = TestSuite.get_obsolete(project)
-          issue.test_case.save()
-        end
-        # Remove test_case from all execution suites.
-        if !issue.test_case.execution_suites.nil?
-          issue.test_case.execution_suites.each { |x|
-            x.test_cases.delete(issue.test_case)
-          }
-        end
-      end
-    }
-  end
-
   def in_suite?(suite_id, project_id)
     # Is the test case directly in the suite?
     included = execution_suites.any? { |es|
@@ -117,26 +62,17 @@ class TestCase < ActiveRecord::Base
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json(version = nil, environment = nil)
-    atext = "#{issue_id}-#{issue.subject}"
+    atext = "##{issue_id} - #{issue.subject}"
     last_result = get_last_result(version, environment)
 
     {
-      'id'        => "issue_#{issue_id}",
+      'id'        => id,
       'issue_id'  => issue_id,
       'text'      => atext,
       'editable'  => false,
       'leaf'      => true,
       'status'    => issue.status,
-      'iconCls'   => "testcase-result-icon-#{last_result}",
-      'icon'      => "testcase-result-icon-#{last_result}",
       'draggable' => true,
-      'qtipCfg'   => {
-        cls: 'test',
-        width: '500',
-        closable: 'true',
-        title: "Issue ##{issue.id}",
-        dismissDelay: 30000
-      },
       'type'      => 'case',
       'state'     => {
         'disabled' => (issue.status.id != RedcaserSettings.status_active_id)

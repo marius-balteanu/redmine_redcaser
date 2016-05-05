@@ -23,7 +23,7 @@ Redcaser.TestCaseBuilder = (function () {
     var node = document.createElement('div');
     node.classList.add('suite-case');
 
-    node.dataset.id = element.issue_id;
+    node.dataset.id = element.id;
 
     return node;
   };
@@ -58,7 +58,7 @@ Redcaser.TestCaseBuilder = (function () {
     var node = document.createElement('span');
     node.classList.add('case-id');
 
-    var text = document.createTextNode(element.issue_id);
+    var text = document.createTextNode(element.id);
     node.appendChild(text);
 
     return node;
@@ -99,7 +99,7 @@ Redcaser.TestCaseBuilder = (function () {
   self.buildCaseActionEdit = function (element) {
     var node = document.createElement('button');
     node.classList.add('case-actions-edit');
-    node.dataset.id = element.issue_id;
+    node.dataset.issue_id = element.issue_id;
 
     var text = document.createTextNode('Edit');
 

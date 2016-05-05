@@ -28,8 +28,7 @@ module RedmineRedcaser
           return
         end
         root = TestSuite.for_project(context[:issue].project)
-        root_execution_suite = ExecutionSuite.get_root_for_project(context[:issue].project)
-        x = TestCase.create(issue: context[:issue], test_suite: root.children.detect { |o| o.name == ".Unsorted" } )
+        x = TestCase.create(issue: context[:issue])
       end
 
       def view_projects_roadmap_version_bottom(context = {})
