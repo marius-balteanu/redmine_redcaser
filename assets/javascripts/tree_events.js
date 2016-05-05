@@ -42,9 +42,18 @@ var TreeEvents = (function () {
 
   // handleSuiteEdit :: Event, Object
   self.handleSuiteEdit = function (event, context) {
-    var suiteId = event.target.parentNode.dataset.id;
+    var suiteId = event.target.dataset.id;
 
-    SuiteDialog.forUpdate(context.suiteEditDialog, suiteId);
+    var params = {
+      id:   suiteId,
+      done: function (response) {
+        SuiteDialog.forCreate(context.suiteEditDialog, response);
+        SuiteDialog.forUpdate(context.suiteEditDialog, response);
+      },
+      fail: function () { console.log('Fail!'); }
+    };
+
+    Redcaser.API.testSuites.edit(params);
   };
 
   // handleSuiteCheckbox :: Event, Object
@@ -70,8 +79,8 @@ var TreeEvents = (function () {
 
     var params = {
       id:   id,
-      done: function () { console.log("Done!"); },
-      fail: function () { console.log("Fail!"); }
+      done: function () { console.log('Done!'); },
+      fail: function () { console.log('Fail!'); }
     };
 
     Redcaser.API.testCases.destroy(params);
@@ -84,7 +93,14 @@ var TreeEvents = (function () {
 
   // handleSuiteCreate :: Event, Object
   self.handleSuiteCreate = function (event, context) {
-    SuiteDialog.forCreate(context.suiteEditDialog);
+    var params = {
+      done: function (response) {
+        SuiteDialog.forCreate(context.suiteEditDialog, response);
+      },
+      fail: function () { console.log('Fail!'); }
+    };
+
+    Redcaser.API.testSuites.new(params);
   }
 
   // handleSuiteDelete :: Event, Object
@@ -93,8 +109,8 @@ var TreeEvents = (function () {
 
     var params = {
       id:   id,
-      done: function () { console.log("Done!"); },
-      fail: function () { console.log("Fail!"); }
+      done: function () { console.log('Done!'); },
+      fail: function () { console.log('Fail!'); }
     };
 
     Redcaser.API.testSuites.destroy(params);

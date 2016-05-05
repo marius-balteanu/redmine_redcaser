@@ -1,15 +1,25 @@
 # frozen_string_literal: true
 
 class Redcaser::TestsuitesController < RedcaserBaseController
-  before_action :find_test_suite,         only: [:update, :destroy]
+  before_action :find_test_suite,         only: [:edit, :update, :destroy]
+  before_action :find_test_suites,        only: [:index, :new, :edit]
   before_action :provided_parent_exists?, only: [:create, :update]
 
   def index
-    testsuites = TestSuite.for_project(@project)
+    render json: @test_suites.map(&:to_json)
+  end
 
-    elements = testsuites.map(&:to_json)
+  def new
+    render json: {test_suites: @test_suites.map(&:to_json)}
+  end
 
-    render json: elements
+  def edit
+    result = {
+      test_suite:  @test_suite.to_json,
+      test_suites: @test_suites.map(&:to_json)
+    }
+
+    render json: result
   end
 
   def create
@@ -52,6 +62,10 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     return if @test_suite
 
     render json: {error: 'Test Suite not found.'}, status: 404
+  end
+
+  def find_test_suites
+    @test_suites = TestSuite.for_project(@project)
   end
 
   def provided_parent_exists?

@@ -30,7 +30,7 @@ Redmine::Plugin.register :redmine_redcaser do
   permission :edit_test_cases, {
     redcaser:                       [:index, :attachment_urls],
     'redcaser/environments'      => [:show, :update, :destroy, :create],
-    'redcaser/testsuites'        => [:index, :update, :destroy, :create],
+    'redcaser/testsuites'        => [:index, :new, :edit, :update, :destroy, :create],
     'redcaser/testcases'         => [:index, :update, :destroy, :copy],
     'redcaser/executionjournals' => [:index],
     'redcaser/export'            => [:index],

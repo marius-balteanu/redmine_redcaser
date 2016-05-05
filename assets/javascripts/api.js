@@ -26,6 +26,36 @@ Redcaser.API = (function () {
       var request = null;
     };
 
+    // new :: Object
+    this.new = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/testsuites/new'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
+    // edit :: Object
+    this.edit = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/testsuites/' + params.id + '/edit'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
     // create :: Object
     this.create = function (params) {
       var data = params.data;

@@ -6,7 +6,7 @@ resources :projects do
 
   namespace :redcaser do
     resources :environments, only: [:show, :create, :update, :destroy]
-    resources :testsuites,   only: [:index, :create, :update, :destroy]
+    resources :testsuites,   except: [:show]
 
     resources :testcases, only: [:index, :update, :destroy] do
       member do

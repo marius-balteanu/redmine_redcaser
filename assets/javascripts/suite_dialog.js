@@ -84,10 +84,12 @@ var SuiteDialog = (function () {
   };
 
   // forCreate :: DOM
-  self.forCreate = function (dialog) {
+  self.forCreate = function (dialog, data) {
     var object = $(dialog);
 
     object.parent().data('suite-id', null);
+
+    console.log(data);
 
     object.dialog('option', 'title', 'Create Test Suite');
     object.dialog(
