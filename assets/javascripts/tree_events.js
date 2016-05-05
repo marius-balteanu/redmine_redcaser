@@ -110,7 +110,7 @@ var TreeEvents = (function () {
 
     var params = {
       id:   id,
-      done: function () { console.log('Done!'); },
+      done: function () { location.reload(true); },
       fail: function () { console.log('Fail!'); }
     };
 

@@ -65,9 +65,8 @@ var SuiteDialog = (function () {
 
   // buildParentInput :: -> DOM
   self.buildParentInput = function () {
-    var node = document.createElement('input');
+    var node = document.createElement('select');
     node.classList.add('parent-field');
-    node.type = 'text'
 
     return node;
   }
@@ -89,7 +88,13 @@ var SuiteDialog = (function () {
 
     object.parent().data('suite-id', null);
 
-    console.log(data);
+    var select = $('.parent-field');
+    select.empty();
+
+    select.append('<option value=""></option>');
+    data.test_suites.forEach(function (element) {
+      select.append('<option value="' + element.id + '">' + element.name + '</option>');
+    }.bind(this));
 
     object.dialog('option', 'title', 'Create Test Suite');
     object.dialog(
@@ -132,7 +137,7 @@ var SuiteDialog = (function () {
 
     var params = {
       data: data.params,
-      done: function () { console.log("Done!"); },
+      done: function () { location.reload(true); },
       fail: function () { console.log("Fail!"); }
     };
 
@@ -151,7 +156,7 @@ var SuiteDialog = (function () {
     var params = {
       id:   data.id,
       data: data.params,
-      done: function () { console.log("Done!"); },
+      done: function () { location.reload(true); },
       fail: function () { console.log("Fail!"); }
     };
 

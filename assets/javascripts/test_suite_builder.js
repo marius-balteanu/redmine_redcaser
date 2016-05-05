@@ -25,7 +25,7 @@ Redcaser.TestSuiteBuilder = (function () {
     var node = document.createElement('div');
     node.classList.add('suite-title');
 
-    var text = document.createTextNode(element.text);
+    var text = document.createTextNode(element.name);
     node.appendChild(text);
 
     return node;

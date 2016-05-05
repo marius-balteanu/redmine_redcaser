@@ -9,7 +9,7 @@ class TestSuite < ActiveRecord::Base
   def self.for_project(project)
     TestSuite
       .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
-      .where(project_id: project.id)
+      .where(project_id: project.id, parent_id: nil)
       .to_a
   end
 
@@ -31,11 +31,11 @@ class TestSuite < ActiveRecord::Base
     end
 
     {
-      'id'             => id,
-      'text'           => name,
-      'children'       => kids,
-      'state'          => { 'opened' => parent.nil? },
-      'type'           => 'suite'
+      'id'       => id,
+      'name'     => name,
+      'children' => kids,
+      'state'    => { 'opened' => parent.nil? },
+      'type'     => 'suite'
     }
   end
 end
