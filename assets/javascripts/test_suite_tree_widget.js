@@ -105,13 +105,14 @@ var TestSuiteTreeWidget = (function () {
     TreeEvents.attach(this);
   };
 
-  def.handleCaseMove =  function (event, ui) {
+  def.handleCaseMove = function (event, ui) {
+    var toElement = event.toElement;
     // jQuery UI fires two events when moving an element from one container
     // to another. We need to handle the event from the new container.
-    var isRightEvent = event.toElement.parentNode.parentNode === event.target;
+    var isRightEvent = toElement.parentNode.parentNode === event.target;
 
     if (isRightEvent) {
-      var testCaseId  = event.toElement.parentNode.dataset.id;
+      var testCaseId  = toElement.parentNode.dataset.id;
       var testSuiteId = event.target.parentNode.parentNode.dataset.id;
 
       var data = {
@@ -123,7 +124,9 @@ var TestSuiteTreeWidget = (function () {
       var params = {
         id:   testCaseId,
         data: data,
-        done: function () { console.log("Done!"); },
+        done: function () {
+          toElement.parentNode.getElementsByClassName('case-actions-edit')[0].dataset.test_suite_id = testSuiteId;
+        },
         fail: function () { console.log("Fail!"); }
       };
 

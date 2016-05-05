@@ -69,8 +69,9 @@ var TreeEvents = (function () {
   // handleCaseEdit :: Event, Object
   self.handleCaseEdit = function (event, context) {
     var issueId = event.target.dataset.issue_id;
+    var testSuiteId = event.target.dataset.test_suite_id;
 
-    location.href = '/issues/' + issueId + '/edit';
+    location.href = '/issues/' + issueId + '/edit?test_suite_id=' + testSuiteId;
   };
 
   // handleCaseDelete :: Event, Object

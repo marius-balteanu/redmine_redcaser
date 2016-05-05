@@ -100,6 +100,7 @@ Redcaser.TestCaseBuilder = (function () {
     var node = document.createElement('button');
     node.classList.add('case-actions-edit');
     node.dataset.issue_id = element.issue_id;
+    node.dataset.test_suite_id = element.test_suite_id;
 
     var text = document.createTextNode('Edit');
 

@@ -66,15 +66,16 @@ class TestCase < ActiveRecord::Base
     last_result = get_last_result(version, environment)
 
     {
-      'id'        => id,
-      'issue_id'  => issue_id,
-      'text'      => atext,
-      'editable'  => false,
-      'leaf'      => true,
-      'status'    => issue.status,
-      'draggable' => true,
-      'type'      => 'case',
-      'state'     => {
+      'id'            => id,
+      'issue_id'      => issue_id,
+      'test_suite_id' => test_suite_id,
+      'text'          => atext,
+      'editable'      => false,
+      'leaf'          => true,
+      'status'        => issue.status,
+      'draggable'     => true,
+      'type'          => 'case',
+      'state'         => {
         'disabled' => (issue.status.id != RedcaserSettings.status_active_id)
       }
     }
