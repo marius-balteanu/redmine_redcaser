@@ -125,6 +125,8 @@ var SuiteDialog = (function () {
 
     object.parent().data('suite-id', id);
 
+    $('.name-field').val(data.test_suite.name);
+
     var select = $('.parent-field');
     select.empty();
 
@@ -138,7 +140,6 @@ var SuiteDialog = (function () {
       }
     }.bind(this));
 
-    $('.name-field').val(data.name);
 
     object.dialog('option', 'title', 'Update Test Suite');
     object.dialog(
