@@ -165,7 +165,7 @@ Redcaser.TestSuiteBuilder = (function () {
   // buildSuiteFooterCaseLink :: Object -> DOM
   self.buildSuiteFooterCaseLink = function (element) {
     var node = document.createElement('a');
-    node.href   = '/issues/new';
+    node.href   = '/issues/new/?issue[tracker_id]=' + Redcaser.tracker_id + '&test_suite_id=' + element.id ;
     node.target = '_blank';
 
     var text = document.createTextNode('Add test case');
