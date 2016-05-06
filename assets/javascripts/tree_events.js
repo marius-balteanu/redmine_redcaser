@@ -110,7 +110,12 @@ var TreeEvents = (function () {
     var params = {
       id:   id,
       done: function () { location.reload(true); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) {
+        var errors = response.responseJSON.errors;
+
+        console.log(errors);
+        alert(errors);
+      }
     };
 
     Redcaser.API.testSuites.destroy(params);

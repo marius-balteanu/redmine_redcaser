@@ -13,6 +13,14 @@ class TestSuite < ActiveRecord::Base
       .to_a
   end
 
+  def has_children?
+    TestSuite.where(parent_id: id).exists?
+  end
+
+  def has_cases?
+    TestCase.where(test_suite_id: id).exists?
+  end
+
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json

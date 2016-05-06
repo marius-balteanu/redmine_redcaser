@@ -31,7 +31,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     if @test_suite.save
       render json: {success: 'Test Suite created.'}
     else
-      render json: {errors: @test_suite.error_messages}
+      render json: {errors: @test_suite.error_messages}, status: 400
     end
   end
 
@@ -41,15 +41,21 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     if @test_suite.save
       render json: {success: 'Test Suite updated.'}
     else
-      render json: {errors: @test_suite.error_messages}
+      render json: {errors: @test_suite.error_messages}, status: 400
     end
   end
 
   def destroy
+    if @test_suite.has_children? || @test_suite.has_cases?
+      render json: {errors: ['Test Suite is not empty']}, status: 400
+
+      return
+    end
+
     if @test_suite.destroy
       render json: {success: 'Test Suite deleted.'}
     else
-      render json: {errors: @test_suite.error_messages}
+      render json: {errors: @test_suite.error_messages}, status: 400
     end
   end
 
