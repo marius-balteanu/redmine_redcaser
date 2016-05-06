@@ -72,7 +72,7 @@ module RedmineRedcaser
         select = create_test_suite_id_select(test_suites, selected: test_suite)
         fields = create_test_suite_text_fields(test_case)
 
-        return fields + select
+        return select + fields
       end
 
       def view_issues_show_description_bottom(context)
@@ -152,6 +152,21 @@ module RedmineRedcaser
         field  += h(test_case.expected_results) if test_case
         field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
+
+        result += <<-SCRIPT
+          <script>
+            var wikiToolbar;
+
+            wikiToolbar = new jsToolBar(document.getElementById('test_case_preconditions'));
+            wikiToolbar.draw();
+
+            wikiToolbar = new jsToolBar(document.getElementById('test_case_steps'));
+            wikiToolbar.draw();
+
+            wikiToolbar = new jsToolBar(document.getElementById('test_case_expected_results'));
+            wikiToolbar.draw();
+          </script>
+        SCRIPT
       end
     end
   end
