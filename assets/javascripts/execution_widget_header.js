@@ -50,7 +50,7 @@ Redcaser.ExecutionWidgetHeader = (function () {
   // buildHeaderActionsCreate :: -> DOM
   self.buildHeaderActionsCreate = function () {
     var node = document.createElement('a');
-    node.classList.add('suite-create');
+    node.classList.add('execution-create');
     node.href = '#';
 
     var text = document.createTextNode('Add execution suite');

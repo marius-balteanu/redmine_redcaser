@@ -5,6 +5,8 @@ Redcaser.ExecutionWidget = (function () {
 
   var ExecutionWidgetHeader = Redcaser.ExecutionWidgetHeader;
   var ExecutionSuiteBuilder = Redcaser.ExecutionSuiteBuilder;
+  var ExecutionEvents       = Redcaser.ExecutionEvents;
+
 
   // self :: DOM
   var self = function (root) {
@@ -21,6 +23,8 @@ Redcaser.ExecutionWidget = (function () {
 
   def.initialize = function () {
     this.createWidgetHeader();
+    this.createDialogs();
+    this.addEventHandlers();
     this.getExecutionSuites();
   };
 
@@ -36,6 +40,26 @@ Redcaser.ExecutionWidget = (function () {
     if (this.header) {
       this.root.removeChild(this.header);
     }
+  };
+
+  def.createDialogs = function () {
+    this.createExecutionEditDialog();
+    this.createEnvironmentEditDialog();
+  };
+
+  def.createExecutionEditDialog = function () {
+    this.executionEditDialog = ExecutionDialog.build();
+    ExecutionDialog.initialize(this.executionEditDialog);
+  };
+
+  def.createEnvironmentEditDialog = function () {
+    this.environmentEditDialog = EnvironmentDialog.build();
+    EnvironmentDialog.initialize(this.environmentEditDialog);
+  };
+
+
+  def.addEventHandlers = function () {
+    ExecutionEvents.attach(this);
   };
 
   def.getExecutionSuites = function () {
