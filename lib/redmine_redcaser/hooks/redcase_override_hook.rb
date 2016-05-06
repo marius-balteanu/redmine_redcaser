@@ -75,6 +75,21 @@ module RedmineRedcaser
         return fields + select
       end
 
+      def view_issues_show_description_bottom(context)
+        issue, controller = context[:issue], context[:controller]
+
+        test_case = issue.test_case
+
+        if test_case
+          controller.render_to_string(
+            partial: 'hooks/redmine_redcaser/view_issues_show_description_bottom',
+            locals:  {test_case: issue.test_case}
+          )
+        else
+          ''
+        end
+      end
+
       def view_projects_roadmap_version_bottom(context = {})
         test_cases = ExecutionJournal.where({version_id: context[:version]}).map { |x| x.test_case }.uniq
         issues = Issue.where(fixed_version_id: context[:version].id).collect { |x| x.id }
