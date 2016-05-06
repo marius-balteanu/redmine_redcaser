@@ -75,7 +75,22 @@ module RedmineRedcaser
         return select + fields
       end
 
-      def view_issues_show_description_bottom(context)
+      def view_issues_show_details_bottom(context = {})
+        issue, controller = context[:issue], context[:controller]
+
+        test_case = issue.test_case
+
+        if test_case
+          controller.render_to_string(
+            partial: 'hooks/redmine_redcaser/view_issues_show_details_bottom',
+            locals:  {test_case: issue.test_case}
+          )
+        else
+          ''
+        end
+      end
+
+      def view_issues_show_description_bottom(context = {})
         issue, controller = context[:issue], context[:controller]
 
         test_case = issue.test_case
