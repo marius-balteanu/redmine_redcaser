@@ -72,7 +72,7 @@ module RedmineRedcaser
         select = create_test_suite_id_select(test_suites, selected: test_suite)
         fields = create_test_suite_text_fields(test_case)
 
-        return (fields + select).html_safe
+        return fields + select
       end
 
       def view_projects_roadmap_version_bottom(context = {})
@@ -102,7 +102,7 @@ module RedmineRedcaser
         label = '<label for="test_suite_id">Test Suite</label>'
 
         options = test_suites.reduce('') do |total, element|
-          name = escape_javascript(element.name)
+          name = h(element.name)
 
           result = if selected && selected.id == element.id
               '<option value="' + element.id.to_s + '" selected="selected">' + name + '</option>'
@@ -122,19 +122,19 @@ module RedmineRedcaser
 
         label  = '<label for="test_case_preconditions">Preconditions</label>'
         field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[preconditions]" id="test_case_preconditions">'
-        field  += escape_javascript(test_case.preconditions) if test_case
+        field  += h(test_case.preconditions) if test_case
         field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
 
         label  = '<label for="test_case_steps">Steps</label>'
         field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[steps]" id="test_case_steps">'
-        field  += escape_javascript(test_case.steps) if test_case
+        field  += h(test_case.steps) if test_case
         field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
 
         label  = '<label for="test_case_expected_results">Expected Results</label>'
         field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results">'
-        field  += escape_javascript(test_case.expected_results) if test_case
+        field  += h(test_case.expected_results) if test_case
         field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
       end
