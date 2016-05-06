@@ -106,7 +106,7 @@ Redcaser.API = (function () {
     }
   };
 
-  self.executionSuite = new function () {
+  self.executionSuites = new function () {
     // index :: Object
     this.index = function (params) {
       var done = params.done;
@@ -143,7 +143,7 @@ Redcaser.API = (function () {
     }
   };
 
-  self.executionJournal = new function () {
+  self.executionJournals = new function () {
     // index :: Object
     this.index = function (params) {
       var done = params.done;

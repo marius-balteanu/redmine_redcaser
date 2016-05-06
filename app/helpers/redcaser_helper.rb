@@ -19,9 +19,9 @@ module RedcaserHelper
         label: :label_test_case_management
       }]
     else
-      can_edit = User.current.allowed_to?(:edit_test_cases, project)
+      can_edit    = User.current.allowed_to?(:edit_test_cases, project)
       can_execute = User.current.allowed_to?(:execute_test_cases, project)
-      can_view = User.current.allowed_to?(:view_test_cases, project)
+      can_view    = User.current.allowed_to?(:view_test_cases, project)
 
       tabs = []
 
@@ -38,14 +38,6 @@ module RedcaserHelper
           name:    'Execution',
           partial: 'redcaser/execution',
           label:   :label_test_case_execution
-        }
-      end
-
-      if can_edit || can_execute || can_view
-        tabs << {
-          name:    'Report',
-          partial: 'redcaser/report',
-          label:   :label_test_case_report
         }
       end
 
