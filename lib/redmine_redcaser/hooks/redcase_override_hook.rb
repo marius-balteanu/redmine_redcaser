@@ -26,13 +26,18 @@ module RedmineRedcaser
       end
 
       def controller_issues_new_after_save(context = {})
-        if context[:issue].tracker.id != RedcaserSettings.tracker_id then
+        issue = context[:issue]
+
+        if issue.tracker.id != RedcaserSettings.tracker_id then
           return
         end
 
         params = context[:params]
 
-        x = TestCase.create(issue: context[:issue], test_suite_id: params[:test_suite_id])
+        test_case = TestCase.new(test_case_params(params))
+        test_case.assign_attributes(issue: context[:issue], test_suite_id: params[:test_suite][:id])
+
+        test_case.save!
       end
 
       def view_issues_form_details_bottom(context = {})
@@ -40,27 +45,15 @@ module RedmineRedcaser
 
         return '' unless issue.tracker_id == RedcaserSettings.tracker_id
 
-        test_suite_id = context[:request][:test_suite_id]
+        test_suite_id = context[:request][:test_suite].try(:id)
         test_suite = TestSuite.where(id: test_suite_id).first
 
         test_suites = TestSuite.select(:id, :name).order(:name).to_a
 
-        label = '<label for="test_suite_id">Test Suite</label>'
+        select = create_test_suite_id_select(test_suites, selected: test_suite)
+        fields = create_test_suite_text_fields
 
-        options = test_suites.reduce('') do |total, element|
-          name = CGI::escapeHTML(element.name)
-
-          result = if test_suite && test_suite.id == element.id
-              '<option value="' + element.id.to_s + '" selected="selected">' + name + '</option>'
-            else
-              '<option value="' + element.id.to_s + '">' + name + '</option>'
-            end
-          total += result
-        end
-
-        select = '<select id="test_suite_id" name="test_suite_id">' + options + '</select>'
-
-        return '<p>' + label + select + '</p>'.html_safe
+        return (fields + select).html_safe
       end
 
       def view_projects_roadmap_version_bottom(context = {})
@@ -78,6 +71,47 @@ module RedmineRedcaser
           txt = txt + " [" + r.name + "=" + count.to_s + "]"
         end
         txt = txt + "<br/>"
+      end
+
+      private
+
+      def test_case_params(params)
+        params.require(:test_case).permit(:preconditions, :steps, :expected_results)
+      end
+
+      def create_test_suite_id_select(test_suites, selected:)
+        label = '<label for="test_suite_id">Test Suite</label>'
+
+        options = test_suites.reduce('') do |total, element|
+          name = CGI::escapeHTML(element.name)
+
+          result = if selected && selected.id == element.id
+              '<option value="' + element.id.to_s + '" selected="selected">' + name + '</option>'
+            else
+              '<option value="' + element.id.to_s + '">' + name + '</option>'
+            end
+          total += result
+        end
+
+        select = '<select id="test_suite_id" name="test_suite[id]">' + options + '</select>'
+
+        '<p>' + label + select + '</p>'
+      end
+
+      def create_test_suite_text_fields
+        result = ''
+
+        label = '<label for="test_case_preconditions">Preconditions</label>'
+        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[preconditions]" id="test_case_preconditions"></textarea>'
+        result += '<p>' + label + field + '</p>'
+
+        label = '<label for="test_case_steps">Steps</label>'
+        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[steps]" id="test_case_steps"></textarea>'
+        result += '<p>' + label + field + '</p>'
+
+        label = '<label for="test_case_expected_results">Expected Results</label>'
+        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results"></textarea>'
+        result += '<p>' + label + field + '</p>'
       end
     end
   end
