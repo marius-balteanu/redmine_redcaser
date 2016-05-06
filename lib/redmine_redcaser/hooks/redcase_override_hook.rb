@@ -42,16 +42,21 @@ module RedmineRedcaser
 
       def view_issues_form_details_bottom(context = {})
         issue, form = context[:issue], context[:form]
-
         return '' unless issue.tracker_id == RedcaserSettings.tracker_id
 
-        test_suite_id = context[:request][:test_suite].try(:id)
-        test_suite = TestSuite.where(id: test_suite_id).first
+        test_case = issue.test_case
+
+        test_suite = if test_case
+            test_case.test_suite
+          else
+            test_suite_id = context[:request][:test_suite].try(:id)
+            TestSuite.where(id: test_suite_id).first
+          end
 
         test_suites = TestSuite.select(:id, :name).order(:name).to_a
 
         select = create_test_suite_id_select(test_suites, selected: test_suite)
-        fields = create_test_suite_text_fields
+        fields = create_test_suite_text_fields(test_case)
 
         return (fields + select).html_safe
       end
@@ -98,19 +103,25 @@ module RedmineRedcaser
         '<p>' + label + select + '</p>'
       end
 
-      def create_test_suite_text_fields
+      def create_test_suite_text_fields(test_case)
         result = ''
 
-        label = '<label for="test_case_preconditions">Preconditions</label>'
-        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[preconditions]" id="test_case_preconditions"></textarea>'
+        label  = '<label for="test_case_preconditions">Preconditions</label>'
+        field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[preconditions]" id="test_case_preconditions">'
+        field  += CGI::escapeHTML(test_case.preconditions) if test_case
+        field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
 
-        label = '<label for="test_case_steps">Steps</label>'
-        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[steps]" id="test_case_steps"></textarea>'
+        label  = '<label for="test_case_steps">Steps</label>'
+        field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[steps]" id="test_case_steps">'
+        field  += CGI::escapeHTML(test_case.steps) if test_case
+        field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
 
-        label = '<label for="test_case_expected_results">Expected Results</label>'
-        field = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results"></textarea>'
+        label  = '<label for="test_case_expected_results">Expected Results</label>'
+        field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results">'
+        field  += CGI::escapeHTML(test_case.expected_results) if test_case
+        field  += '</textarea>'
         result += '<p>' + label + field + '</p>'
       end
     end
