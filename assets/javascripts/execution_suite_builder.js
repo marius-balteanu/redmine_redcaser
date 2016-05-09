@@ -28,7 +28,13 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     node.appendChild(text);
 
     return node;
-  }
+  };
+
+  self.buildExecutionSuiteBody = function (data) {
+    var node = document.createElement('div');
+
+    return node;
+  };
 
   return self;
 })();

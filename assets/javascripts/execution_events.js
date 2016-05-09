@@ -46,7 +46,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       id:   executionId,
       done: function (response) {
-        context.createExecutionSuiteContent(response);
+        context.createExecutionSuiteBody(response);
       },
       fail: function () { console.log('Fail!'); }
     };

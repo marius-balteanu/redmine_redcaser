@@ -4,38 +4,9 @@ class RedcaserController < RedcaserBaseController
   helper RedcaserHelper
 
   def index
-    # TODO: Consider extending Project class instead to request a root
-    #       execution suite from there.
-    #       -- Example: @project.root_execution_suite
-    @root_execution_suite = ExecutionSuite.get_root_for_project(@project)
-    # TODO: Project class probably provides functionality to obtain all
-    #       available versions. That can be used, or the class can be
-    #       extended to provide a move convenient method.
-    #       -- Example: @project.last_version
     @version = Version
       .order('created_on desc')
       .find_by_project_id(@project.id)
-    # TODO: Request a default environment from a project.
-    #       -- Example: @project.default_environment
-    @environment = ExecutionEnvironment.get_default_for_project(@project)
-    # TODO: Rename to execution_suites. Be aware that this name seems to
-    #       affect some names in views.
-    @list = ExecutionSuite
-      .where({ project: @project })
-      .detect { |es| es.parent.nil? }
-    @results = ExecutionSuite.get_results(
-      @environment,
-      # FIXME: The page can be opened when the project has no versions
-      #        yet. That might be the cause of some error messages that
-      #        appear in popups if get_results() does not handle this case
-      #        properly.
-      @version,
-      # FIXME: Get rid of the magic number -1.
-      RedcaserHelper.get_id_or_default(@root_execution_suite, -1),
-      # TODO: More OOP kind of style would be to supply a Project object
-      #       instead of an indentifier.
-      @project.id
-    )
   end
 
   def attachment_urls

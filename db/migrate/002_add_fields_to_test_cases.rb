@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFieldsToTestCases < ActiveRecord::Migration
   def change
     add_column :test_cases, :preconditions,    :text

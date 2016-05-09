@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RedcaserSetup < ActiveRecord::Migration
   def up
     create_table :test_suites do |column|

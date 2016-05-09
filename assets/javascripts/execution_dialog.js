@@ -128,7 +128,7 @@ Redcaser.ExecutionDialog = (function () {
   // buildQueriesInput :: -> DOM
   self.buildQueriesInput = function () {
     var node = document.createElement('select');
-    node.classList.add('queries-field');
+    node.classList.add('query-field');
 
     return node;
   };
@@ -176,7 +176,7 @@ Redcaser.ExecutionDialog = (function () {
       }
     }.bind(this));
 
-    select = $('.queries-field');
+    select = $('.query-field');
     select.empty();
 
     data.queries.forEach(function (element) {
@@ -280,8 +280,10 @@ Redcaser.ExecutionDialog = (function () {
       id: root.data('execution-id'),
       params: {
         execution_suite: {
-          name:       root.find('.name-field').val(),
-          version_id: root.find('.version-field').val()
+          environment_id: root.find('.environment-field').val(),
+          name:           root.find('.name-field').val(),
+          query_id:       root.find('.query-field').val(),
+          version_id:     root.find('.version-field').val()
         }
       }
     };

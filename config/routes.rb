@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 resources :projects do
   member do
     get :redcaser, to: 'redcaser#index'

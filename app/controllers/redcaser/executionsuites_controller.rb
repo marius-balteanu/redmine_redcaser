@@ -10,7 +10,21 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   end
 
   def show
-    render json: @execution_suite
+    @query = @execution_suite.query
+
+    issues    = @query.issues
+    issue_ids = issues.map(&:id).uniq.select { |a| !a.nil? }
+
+    @test_cases    = TestCase.where(issue_id: issue_ids).to_a
+    test_suite_ids = @test.map(&:test_suite_id).uniq.select { |a| !a.nil? }
+
+    @test_suites = TestSuite.where(id: test_suite_ids).to_a
+
+    render json: {
+      execution_suite: @execution_suite,
+      test_cases:      @test_cases,
+      test_suites:     @test_suites
+    }
   end
 
   def new
@@ -38,7 +52,9 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   private
 
   def execution_suite_params
-    params.require(:execution_suite).permit(:name)
+    params.require(:execution_suite).permit(
+      :environment_id, :name, :query_id, :version_id
+    )
   end
 
   def find_execution_suite
