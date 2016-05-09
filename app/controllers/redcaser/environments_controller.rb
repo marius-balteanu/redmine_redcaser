@@ -1,38 +1,20 @@
 # frozen_string_literal: true
 
 class Redcaser::EnvironmentsController < RedcaserBaseController
-  helper RedcaserHelper
-
-  def show
-    environment = ExecutionEnvironment.find(params[:id])
-    render(
-      partial: 'redcaser/management_environments',
-      locals: { project: @project, environment: environment }
-    )
-  end
-
   def create
-    environment = ExecutionEnvironment.new(params[:execution_environment])
-    environment.project_id = @project.id
-    environment.save
-    render json: environment
-  end
+    @environment = ExecutionEnvironment.new(environment_params)
+    @environment.project = @project
 
-  def update
-    environment = ExecutionEnvironment.find(params[:id])
-    environment.update_attributes params[:execution_environment]
-    if params[:execution_environment][:project_id]
-      environment.project_id = params[:execution_environment][:project_id]
+    if @environment.save
+      render json: {success: 'Environment created'}
+    else
+      render json: {errors: @environment.error_messages}, status: 400
     end
-    environment.save
-    # TODO: Properly handle the case when this fails.
-    render json: { success: true }
   end
 
-  def destroy
-    environment = ExecutionEnvironment.find(params[:id])
-    environment.destroy
-    # TODO: Properly handle the case when this fails.
-    render json: { success: true }
+  private
+
+  def environment_params
+    params.require(:environment).permit(:name)
   end
 end

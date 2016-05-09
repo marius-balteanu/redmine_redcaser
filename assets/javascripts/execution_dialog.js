@@ -146,22 +146,47 @@ Redcaser.ExecutionDialog = (function () {
 
   // forCreate :: DOM
   self.forCreate = function (dialog, target, data) {
-    var object = $(dialog);
+    var object, select;
+
+    object = $(dialog);
 
     $('.name-field').val('');
 
-    // var select = $('.version-field');
-    // select.empty();
-    //
-    // select.append('<option value=""></option>');
-    // data.execution_suites.forEach(function (element) {
-    //   if (element.id == 0) {
-    //     select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-    //   }
-    //   else {
-    //     select.append('<option value="' + element.id + '">' + element.name + '</option>');
-    //   }
-    // }.bind(this));
+    select = $('.version-field');
+    select.empty();
+
+    data.versions.forEach(function (element) {
+      if (element.id == 0) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
+    }.bind(this));
+
+    select = $('.environment-field');
+    select.empty();
+
+    data.environments.forEach(function (element) {
+      if (element.id == 0) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
+    }.bind(this));
+
+    select = $('.queries-field');
+    select.empty();
+
+    data.queries.forEach(function (element) {
+      if (element.id == 0) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
+    }.bind(this));
 
     object.dialog('option', 'title', 'Create Execution Suite');
     object.dialog(

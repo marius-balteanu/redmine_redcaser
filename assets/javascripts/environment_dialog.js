@@ -6,10 +6,9 @@ Redcaser.EnvironmentDialog = (function () {
   // build :: -> DOM
   self.build = function () {
     var node = document.createElement('div');
-    node.classList.add('suite-dialog');
+    node.classList.add('environment-dialog');
 
     node.appendChild(this.buildNameFields());
-    node.appendChild(this.buildParentFields());
 
     return node;
   };
@@ -17,7 +16,7 @@ Redcaser.EnvironmentDialog = (function () {
   // buildNameFields :: -> DOM
   self.buildNameFields = function () {
     var node = document.createElement('div');
-    node.classList.add('suite-dialog-name');
+    node.classList.add('environment-dialog-name');
 
     node.appendChild(this.buildNameLabel());
     node.appendChild(this.buildNameInput());
@@ -42,36 +41,7 @@ Redcaser.EnvironmentDialog = (function () {
     node.type = 'text'
 
     return node;
-  }
-
-  // buildParentFields :: -> DOM
-  self.buildParentFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('suite-dialog-parent');
-
-    node.appendChild(this.buildParentLabel());
-    node.appendChild(this.buildParentInput());
-
-    return node;
   };
-
-  // buildParentLabel :: -> DOM
-  self.buildParentLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Parent');
-    node.appendChild(text);
-
-    return node;
-  }
-
-  // buildParentInput :: -> DOM
-  self.buildParentInput = function () {
-    var node = document.createElement('select');
-    node.classList.add('parent-field');
-
-    return node;
-  }
 
   self.initialize = function (dialog) {
     var params = {
@@ -87,31 +57,15 @@ Redcaser.EnvironmentDialog = (function () {
   // forCreate :: DOM
   self.forCreate = function (dialog, target, data) {
     var object = $(dialog);
-    var parentId = target.dataset.parent_id;
-
-    object.parent().data('suite-id', null);
 
     $('.name-field').val('');
 
-    var select = $('.parent-field');
-    select.empty();
-
-    select.append('<option value=""></option>');
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
-
-    object.dialog('option', 'title', 'Create Test Suite');
+    object.dialog('option', 'title', 'Create Environment');
     object.dialog(
       'option',
       'buttons',
       [{
-        class: 'suite-submit',
+        class: 'environment-submit',
         text:  'OK',
         click: this.submitForCreate.bind(this)
       }]
@@ -122,33 +76,16 @@ Redcaser.EnvironmentDialog = (function () {
   // forUpdate :: DOM
   self.forUpdate = function (dialog, target, data) {
     var object = $(dialog);
-    var id       = target.dataset.id;
-    var parentId = target.dataset.parent_id;
+    var id     = target.dataset.id;
 
-    object.parent().data('suite-id', id);
+    $('.name-field').val(data.environment.name);
 
-    $('.name-field').val(data.test_suite.name);
-
-    var select = $('.parent-field');
-    select.empty();
-
-    select.append('<option value=""></option>');
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
-
-
-    object.dialog('option', 'title', 'Update Test Suite');
+    object.dialog('option', 'title', 'Update Environment');
     object.dialog(
       'option',
       'buttons',
       [{
-        class: 'suite-submit',
+        class: 'environment-submit',
         text:  'OK',
         click: this.submitForUpdate.bind(this)
       }]
@@ -171,7 +108,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     console.log(params);
 
-    Redcaser.API.testSuites.create(params);
+    Redcaser.API.environments.create(params);
   }
 
   // submitForUpdate :: Event
@@ -190,7 +127,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     console.log(params);
 
-    Redcaser.API.testSuites.update(params);
+    Redcaser.API.environments.update(params);
   }
 
   // gatherDataFrom :: DOM -> Object
@@ -198,11 +135,10 @@ Redcaser.EnvironmentDialog = (function () {
     var root = $(target).closest('.ui-dialog');
 
     return {
-      id: root.data('suite-id'),
+      id: root.data('environment-id'),
       params: {
-        test_suite: {
-          name:      root.find('.name-field').val(),
-          parent_id: root.find('.parent-field').val()
+        environment: {
+          name: root.find('.name-field').val(),
         }
       }
     };

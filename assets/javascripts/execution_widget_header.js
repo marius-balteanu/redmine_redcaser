@@ -43,6 +43,7 @@ Redcaser.ExecutionWidgetHeader = (function () {
     node.appendChild(text);
 
     node.appendChild(this.buildHeaderActionsCreate());
+    node.appendChild(this.buildHeaderActionsEnvironment());
 
     return node;
   };
@@ -54,6 +55,18 @@ Redcaser.ExecutionWidgetHeader = (function () {
     node.href = '#';
 
     var text = document.createTextNode('Add execution suite');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  // buildHeaderActionsEnvironment :: -> DOM
+  self.buildHeaderActionsEnvironment = function () {
+    var node = document.createElement('a');
+    node.classList.add('environment-create');
+    node.href = '#';
+
+    var text = document.createTextNode('Add environment');
     node.appendChild(text);
 
     return node;

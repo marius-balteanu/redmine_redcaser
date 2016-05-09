@@ -8,10 +8,14 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   end
 
   def new
-    @versions     = Version.where(project: @project).to_a
     @environments = ExecutionEnvironment.where(project: @project).to_a
-    @queries      = Query.all
+    @queries      = Query.all.to_a
+    @versions     = Version.where(project: @project).to_a
 
-    render json: nil
+    render json: {
+      environments: @environments,
+      queries:      @queries,
+      versions:     @versions
+    }
   end
 end

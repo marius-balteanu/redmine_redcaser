@@ -3,7 +3,8 @@ var Redcaser = Redcaser || {};
 Redcaser.ExecutionEvents = (function () {
   'use strict';
 
-  var ExecutionDialog = Redcaser.ExecutionDialog;
+  var ExecutionDialog   = Redcaser.ExecutionDialog;
+  var EnvironmentDialog = Redcaser.EnvironmentDialog;
 
   var self = {};
 
@@ -20,9 +21,10 @@ Redcaser.ExecutionEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'execution-create', this.handleExecutionCreate],
+      ['click', 'execution-create',   this.handleExecutionCreate  ],
+      ['click', 'environment-create', this.handleEnvironmentCreate],
     ];
-  }
+  };
 
   // addEventHandler :: [String, String, (Event -> *)], Object
   self.addEventHandler = function (config, context) {
@@ -35,7 +37,7 @@ Redcaser.ExecutionEvents = (function () {
         }
       }
     }.bind(this))
-  }
+  };
 
   // handleExecutionCreate :: Event, Object
   self.handleExecutionCreate = function (event, context) {
@@ -47,7 +49,12 @@ Redcaser.ExecutionEvents = (function () {
     };
 
     Redcaser.API.executionSuites.new(params);
-  }
+  };
+
+  // handleEnvironmentCreate :: Event, Object
+  self.handleEnvironmentCreate = function (event, context) {
+    EnvironmentDialog.forCreate(context.environmentEditDialog, event.target);
+  };
 
   return self;
 })();
