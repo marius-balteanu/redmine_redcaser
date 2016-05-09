@@ -21,8 +21,9 @@ Redcaser.ExecutionEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'execution-create',   this.handleExecutionCreate  ],
-      ['click', 'environment-create', this.handleEnvironmentCreate],
+      ['change', 'execution-select',   this.handleExecutionChange  ],
+      ['click',  'execution-create',   this.handleExecutionCreate  ],
+      ['click',  'environment-create', this.handleEnvironmentCreate],
     ];
   };
 
@@ -37,6 +38,20 @@ Redcaser.ExecutionEvents = (function () {
         }
       }
     }.bind(this))
+  };
+
+  self.handleExecutionChange = function (event, context) {
+    var executionId = event.target.value;
+
+    var params = {
+      id:   executionId,
+      done: function (response) {
+        context.createExecutionSuiteContent(response);
+      },
+      fail: function () { console.log('Fail!'); }
+    };
+
+    Redcaser.API.executionSuites.show(params);
   };
 
   // handleExecutionCreate :: Event, Object

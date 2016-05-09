@@ -93,25 +93,4 @@ class ExecutionSuite < ActiveRecord::Base
     end
     result
   end
-
-  # TODO: Move to view f.ex. using JBuilder
-  #       (https://github.com/rails/jbuilder).
-  def to_json(context, version = nil, environment = nil)
-    {
-      'suite_id'   => id,
-      'text'       => name,
-      'id'         => id,
-      'expandable' => true,
-      'expanded'   => (children.count + test_cases.count) == 0,
-      'state'      => { 'opened' => parent.nil? },
-      'editable'   => !parent.nil?,
-      'children'   => (
-        children.collect { |s| s.to_json(context, version, environment) } +
-        test_cases
-          .sort_by { |x| x.issue.subject }
-          .collect { |tc| tc.to_json(context, version, environment) }
-      ),
-      'type'      => 'suite'
-    }
-  end
 end

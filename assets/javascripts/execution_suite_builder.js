@@ -8,6 +8,10 @@ Redcaser.ExecutionSuiteBuilder = (function () {
 
   self.buildExecutionSuiteSelect = function (data) {
     var node = document.createElement('select');
+    node.classList.add('execution-select');
+
+    var empty = document.createElement('option');
+    node.appendChild(empty);
 
     data.forEach(function (element) {
       node.appendChild(this.buildExecutionSuiteOption(element));

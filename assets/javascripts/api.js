@@ -124,7 +124,17 @@ Redcaser.API = (function () {
 
     // show :: Object
     this.show = function (params) {
-      var request = null;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/executionsuites/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
     };
 
     // new :: Object

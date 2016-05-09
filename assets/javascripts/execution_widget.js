@@ -95,5 +95,9 @@ Redcaser.ExecutionWidget = (function () {
     console.log(response);
   };
 
+  def.createExecutionSuiteContent = function (data) {
+    console.log(data);
+  };
+
   return self;
 })();
