@@ -46,7 +46,7 @@ Redcaser.ExecutionEvents = (function () {
       fail: function () { console.log('Fail!'); }
     };
 
-    Redcaser.API.testSuites.new(params);
+    Redcaser.API.executionSuites.new(params);
   }
 
   return self;

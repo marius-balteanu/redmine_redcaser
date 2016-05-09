@@ -6,10 +6,12 @@ Redcaser.ExecutionDialog = (function () {
   // build :: -> DOM
   self.build = function () {
     var node = document.createElement('div');
-    node.classList.add('suite-dialog');
+    node.classList.add('execution-dialog');
 
     node.appendChild(this.buildNameFields());
-    node.appendChild(this.buildParentFields());
+    node.appendChild(this.buildVersionFields());
+    node.appendChild(this.buildEnvironmentFields());
+    node.appendChild(this.buildQueriesFields());
 
     return node;
   };
@@ -17,7 +19,7 @@ Redcaser.ExecutionDialog = (function () {
   // buildNameFields :: -> DOM
   self.buildNameFields = function () {
     var node = document.createElement('div');
-    node.classList.add('suite-dialog-name');
+    node.classList.add('execution-dialog-name');
 
     node.appendChild(this.buildNameLabel());
     node.appendChild(this.buildNameInput());
@@ -33,7 +35,7 @@ Redcaser.ExecutionDialog = (function () {
     node.appendChild(text);
 
     return node;
-  }
+  };
 
   // buildNameInput :: -> DOM
   self.buildNameInput = function () {
@@ -42,36 +44,94 @@ Redcaser.ExecutionDialog = (function () {
     node.type = 'text'
 
     return node;
-  }
+  };
 
-  // buildParentFields :: -> DOM
-  self.buildParentFields = function () {
+  // buildVersionFields :: -> DOM
+  self.buildVersionFields = function () {
     var node = document.createElement('div');
-    node.classList.add('suite-dialog-parent');
+    node.classList.add('execution-dialog-version');
 
-    node.appendChild(this.buildParentLabel());
-    node.appendChild(this.buildParentInput());
+    node.appendChild(this.buildVersionLabel());
+    node.appendChild(this.buildVersionInput());
 
     return node;
   };
 
-  // buildParentLabel :: -> DOM
-  self.buildParentLabel = function () {
+  // buildVersionLabel :: -> DOM
+  self.buildVersionLabel = function () {
     var node = document.createElement('label');
 
-    var text = document.createTextNode('Parent');
+    var text = document.createTextNode('Version');
     node.appendChild(text);
 
     return node;
-  }
+  };
 
-  // buildParentInput :: -> DOM
-  self.buildParentInput = function () {
+  // buildVersionInput :: -> DOM
+  self.buildVersionInput = function () {
     var node = document.createElement('select');
-    node.classList.add('parent-field');
+    node.classList.add('version-field');
 
     return node;
-  }
+  };
+
+  // buildEnvironmentFields :: -> DOM
+  self.buildEnvironmentFields = function () {
+    var node = document.createElement('div');
+    node.classList.add('execution-dialog-environment');
+
+    node.appendChild(this.buildEnvironmentLabel());
+    node.appendChild(this.buildEnvironmentInput());
+
+    return node;
+  };
+
+  // buildEnvironmentLabel :: -> DOM
+  self.buildEnvironmentLabel = function () {
+    var node = document.createElement('label');
+
+    var text = document.createTextNode('Environment');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  // buildEnvironmentInput :: -> DOM
+  self.buildEnvironmentInput = function () {
+    var node = document.createElement('select');
+    node.classList.add('environment-field');
+
+    return node;
+  };
+
+  // buildQueriesFields :: -> DOM
+  self.buildQueriesFields = function () {
+    var node = document.createElement('div');
+    node.classList.add('execution-dialog-queries');
+
+    node.appendChild(this.buildQueriesLabel());
+    node.appendChild(this.buildQueriesInput());
+
+    return node;
+  };
+
+  // buildQueriesLabel :: -> DOM
+  self.buildQueriesLabel = function () {
+    var node = document.createElement('label');
+
+    var text = document.createTextNode('Queries');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  // buildQueriesInput :: -> DOM
+  self.buildQueriesInput = function () {
+    var node = document.createElement('select');
+    node.classList.add('queries-field');
+
+    return node;
+  };
 
   self.initialize = function (dialog) {
     var params = {
@@ -87,31 +147,28 @@ Redcaser.ExecutionDialog = (function () {
   // forCreate :: DOM
   self.forCreate = function (dialog, target, data) {
     var object = $(dialog);
-    var parentId = target.dataset.parent_id;
-
-    object.parent().data('suite-id', null);
 
     $('.name-field').val('');
 
-    var select = $('.parent-field');
-    select.empty();
+    // var select = $('.version-field');
+    // select.empty();
+    //
+    // select.append('<option value=""></option>');
+    // data.execution_suites.forEach(function (element) {
+    //   if (element.id == 0) {
+    //     select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+    //   }
+    //   else {
+    //     select.append('<option value="' + element.id + '">' + element.name + '</option>');
+    //   }
+    // }.bind(this));
 
-    select.append('<option value=""></option>');
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
-
-    object.dialog('option', 'title', 'Create Test Suite');
+    object.dialog('option', 'title', 'Create Execution Suite');
     object.dialog(
       'option',
       'buttons',
       [{
-        class: 'suite-submit',
+        class: 'execution-submit',
         text:  'OK',
         click: this.submitForCreate.bind(this)
       }]
@@ -123,32 +180,29 @@ Redcaser.ExecutionDialog = (function () {
   self.forUpdate = function (dialog, target, data) {
     var object = $(dialog);
     var id       = target.dataset.id;
-    var parentId = target.dataset.parent_id;
-
-    object.parent().data('suite-id', id);
 
     $('.name-field').val(data.test_suite.name);
 
-    var select = $('.parent-field');
-    select.empty();
+    // var select = $('.parent-field');
+    // select.empty();
+    //
+    // select.append('<option value=""></option>');
+    // data.test_suites.forEach(function (element) {
+    //   if (element.id == 0) {
+    //     select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+    //   }
+    //   else {
+    //     select.append('<option value="' + element.id + '">' + element.name + '</option>');
+    //   }
+    // }.bind(this));
 
-    select.append('<option value=""></option>');
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
 
-
-    object.dialog('option', 'title', 'Update Test Suite');
+    object.dialog('option', 'title', 'Update Execution Suite');
     object.dialog(
       'option',
       'buttons',
       [{
-        class: 'suite-submit',
+        class: 'execution-submit',
         text:  'OK',
         click: this.submitForUpdate.bind(this)
       }]
@@ -171,7 +225,7 @@ Redcaser.ExecutionDialog = (function () {
 
     console.log(params);
 
-    Redcaser.API.testSuites.create(params);
+    Redcaser.API.executionSuites.create(params);
   }
 
   // submitForUpdate :: Event
@@ -190,7 +244,7 @@ Redcaser.ExecutionDialog = (function () {
 
     console.log(params);
 
-    Redcaser.API.testSuites.update(params);
+    Redcaser.API.executionSuites.update(params);
   }
 
   // gatherDataFrom :: DOM -> Object
@@ -198,11 +252,11 @@ Redcaser.ExecutionDialog = (function () {
     var root = $(target).closest('.ui-dialog');
 
     return {
-      id: root.data('suite-id'),
+      id: root.data('execution-id'),
       params: {
-        test_suite: {
-          name:      root.find('.name-field').val(),
-          parent_id: root.find('.parent-field').val()
+        execution_suite: {
+          name:       root.find('.name-field').val(),
+          version_id: root.find('.version-field').val()
         }
       }
     };

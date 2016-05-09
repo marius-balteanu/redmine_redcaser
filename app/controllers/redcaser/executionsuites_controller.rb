@@ -6,4 +6,12 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
     render json: @execution_suites
   end
+
+  def new
+    @versions     = Version.where(project: @project).to_a
+    @environments = ExecutionEnvironment.where(project: @project).to_a
+    @queries      = Query.all
+
+    render json: nil
+  end
 end

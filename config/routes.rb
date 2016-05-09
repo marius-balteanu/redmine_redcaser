@@ -14,7 +14,7 @@ resources :projects do
       end
     end
 
-    resources :executionsuites, except: [:new, :edit]
+    resources :executionsuites
 
     resources :executionjournals, only: :index
     resources :export,            only: :index

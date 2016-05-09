@@ -127,19 +127,83 @@ Redcaser.API = (function () {
       var request = null;
     };
 
+    // new :: Object
+    this.new = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/executionsuites/new'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
+    // edit :: Object
+    this.edit = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/executionsuites/' + params.id + '/edit'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
     // create :: Object
     this.create = function (params) {
-      var request = null;
+      var data = params.data;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        data:     data,
+        dataType: 'json',
+        method:   'POST',
+        url:      'redcaser/executionsuites'
+      });
+
+      request.done(done);
+      request.fail(fail);
     };
 
     // update :: Object
     this.update = function (params) {
-      var request = null;
+      var data = params.data;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        data:     data,
+        dataType: 'json',
+        method:   'PATCH',
+        url:      'redcaser/executionsuites/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
     };
 
     // destroy :: Object
     this.destroy = function (params) {
-      var request = null;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'DELETE',
+        url:      'redcaser/executionsuites/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
     }
   };
 

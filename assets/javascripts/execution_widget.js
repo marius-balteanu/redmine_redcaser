@@ -6,7 +6,8 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionWidgetHeader = Redcaser.ExecutionWidgetHeader;
   var ExecutionSuiteBuilder = Redcaser.ExecutionSuiteBuilder;
   var ExecutionEvents       = Redcaser.ExecutionEvents;
-
+  var ExecutionDialog       = Redcaser.ExecutionDialog;
+  var EnvironmentDialog     = Redcaser.EnvironmentDialog;
 
   // self :: DOM
   var self = function (root) {
