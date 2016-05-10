@@ -13,13 +13,25 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     @query = @execution_suite.query
 
     issues    = @query.issues
-    issue_ids = issues.map(&:id).uniq.select { |a| !a.nil? }
+    issue_ids = issues.map(&:id).uniq
 
-    @test_cases    = TestCase.where(issue_id: issue_ids).to_a
+    @test_cases   = TestCase.where(issue_id: issue_ids).to_a
+    test_case_ids = @test_cases.map(&:id).uniq
+
+    @statuses = TestCaseStatus
+      .includes(:execution_result)
+      .where(id: test_case_ids, execution_suite: @execution_suite)
+      .to_a
+      .reduce({}) { |total, element| total[element.id] = element; total }
+
+    test_cases = @test_cases.map(&:to_json).map do |element|
+      element['status'] = @statuses[element['id']]
+      element
+    end
 
     render json: {
       execution_suite: @execution_suite,
-      test_cases:      @test_cases
+      test_cases:      test_cases
     }
   end
 

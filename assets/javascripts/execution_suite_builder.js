@@ -165,7 +165,7 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     var node = document.createElement('span');
     node.classList.add('list-item-name');
 
-    var text = document.createTextNode('Name');
+    var text = document.createTextNode(element.name);
 
     node.appendChild(text);
 
@@ -176,7 +176,7 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     var node = document.createElement('span');
     node.classList.add('list-item-status');
 
-    var text = document.createTextNode('Status');
+    var text = document.createTextNode(element.status);
 
     node.appendChild(text);
 

@@ -79,7 +79,7 @@ Redcaser.TestCaseBuilder = (function () {
     node.href   = '/issues/' + element.issue_id;
     node.target = '_blank';
 
-    var text = document.createTextNode(element.text);
+    var text = document.createTextNode(element.name);
 
     node.appendChild(text);
 
