@@ -164,6 +164,7 @@ Redcaser.ExecutionSuiteBuilder = (function () {
   self.buildCaseListItemName = function (element) {
     var node = document.createElement('span');
     node.classList.add('list-item-name');
+    node.dataset.id = element.id;
 
     var text = document.createTextNode(element.name);
 

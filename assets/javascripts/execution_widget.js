@@ -3,11 +3,12 @@ var Redcaser = Redcaser || {};
 Redcaser.ExecutionWidget = (function () {
   'use strict';
 
-  var ExecutionWidgetHeader = Redcaser.ExecutionWidgetHeader;
-  var ExecutionSuiteBuilder = Redcaser.ExecutionSuiteBuilder;
-  var ExecutionEvents       = Redcaser.ExecutionEvents;
-  var ExecutionDialog       = Redcaser.ExecutionDialog;
-  var EnvironmentDialog     = Redcaser.EnvironmentDialog;
+  var ExecutionWidgetHeader  = Redcaser.ExecutionWidgetHeader;
+  var ExecutionSuiteBuilder  = Redcaser.ExecutionSuiteBuilder;
+  var ExecutionEvents        = Redcaser.ExecutionEvents;
+  var ExecutionDialog        = Redcaser.ExecutionDialog;
+  var EnvironmentDialog      = Redcaser.EnvironmentDialog;
+  var TestCasePreviewBuilder = Redcaser.TestCasePreviewBuilder;
 
   // self :: DOM
   var self = function (root) {
@@ -108,6 +109,20 @@ Redcaser.ExecutionWidget = (function () {
 
     this.body.appendChild(node);
     this.root.appendChild(this.body);
+  };
+
+  def.displayCasePreview = function (id) {
+    this.initializePreview();
+
+    this.preview = TestCasePreviewBuilder.build(this.testCases[parseInt(id)]);
+
+    this.root.appendChild(this.preview);
+  };
+
+  def.initializePreview = function () {
+    if (this.preview) {
+      this.root.removeChild(this.preview);
+    }
   };
 
   return self;
