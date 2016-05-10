@@ -16,14 +16,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     issue_ids = issues.map(&:id).uniq.select { |a| !a.nil? }
 
     @test_cases    = TestCase.where(issue_id: issue_ids).to_a
-    test_suite_ids = @test.map(&:test_suite_id).uniq.select { |a| !a.nil? }
-
-    @test_suites = TestSuite.where(id: test_suite_ids).to_a
 
     render json: {
       execution_suite: @execution_suite,
-      test_cases:      @test_cases,
-      test_suites:     @test_suites
+      test_cases:      @test_cases
     }
   end
 

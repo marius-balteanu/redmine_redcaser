@@ -96,7 +96,7 @@ Redcaser.ExecutionWidget = (function () {
   def.createExecutionSuiteBody = function (data) {
     this.initializeBody();
 
-    var node = ExecutionSuiteBuilder.buildExecutionSuiteBody();
+    var node = ExecutionSuiteBuilder.buildExecutionSuiteBody(data);
 
     this.body.appendChild(node);
     this.root.appendChild(this.body);
