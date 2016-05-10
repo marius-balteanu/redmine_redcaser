@@ -25,13 +25,23 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       .reduce({}) { |total, element| total[element.id] = element; total }
 
     test_cases = @test_cases.map(&:to_json).map do |element|
-      element['status'] = @statuses[element['id']]
+      status = @statuses[element['id']]
+
+      if status
+        name = status.execution_result.name
+
+        element['status'] = {id: status.id, name: name}
+      end
+
       element
     end
 
+    @execution_results = ExecutionResult.all.to_a
+
     render json: {
-      execution_suite: @execution_suite,
-      test_cases:      test_cases
+      execution_results: @execution_results,
+      execution_suite:   @execution_suite,
+      test_cases:        test_cases
     }
   end
 

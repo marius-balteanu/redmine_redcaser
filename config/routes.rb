@@ -15,6 +15,7 @@ resources :projects do
         post :copy
       end
     end
+    resources :testcasestatuses, only: [:create, :update]
 
     resources :executionsuites
 

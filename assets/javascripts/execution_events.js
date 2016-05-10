@@ -22,6 +22,7 @@ Redcaser.ExecutionEvents = (function () {
     // [event name, class, handler]
     return [
       ['change', 'execution-select',   this.handleExecutionChange  ],
+      ['change', 'list-item-select',   this.handleStatusChange     ],
       ['click',  'execution-create',   this.handleExecutionCreate  ],
       ['click',  'environment-create', this.handleEnvironmentCreate],
     ];
@@ -40,6 +41,7 @@ Redcaser.ExecutionEvents = (function () {
     }.bind(this))
   };
 
+  // handleExecutionChange :: Event, Object
   self.handleExecutionChange = function (event, context) {
     var executionId = event.target.value;
 
@@ -52,6 +54,37 @@ Redcaser.ExecutionEvents = (function () {
     };
 
     Redcaser.API.executionSuites.show(params);
+  };
+
+  // handleStatusChange :: Event, Object
+  self.handleStatusChange = function (event, context) {
+    var id = event.target.dataset.id;
+
+    var test_case = context.testCases[id];
+
+    var data = {
+      test_case_status: {
+        execution_suite_id:  context.selectedExecutionSuite.id,
+        execution_result_id: event.target.value,
+        test_case_id:        id
+      }
+    };
+
+    var params = {
+      data: data,
+      done: function (response) { location.reload(true); },
+      fail: function () { console.log('Fail!'); }
+    };
+
+    if (test_case.status) {
+      params.id = id;
+
+      Redcaser.API.testSuiteStatuses.update(params);
+    }
+    else {
+      Redcaser.API.testSuiteStatuses.create(params);
+    }
+
   };
 
   // handleExecutionCreate :: Event, Object

@@ -15,8 +15,9 @@ Redcaser.ExecutionWidget = (function () {
     this.body   = null;
     this.header = null;
 
-    this.testSuites = null;
-    this.testCases  = null;
+    this.testCases = null;
+
+    this.selectedExecutionSuite = null;
 
     this.initialize();
   };
@@ -94,8 +95,15 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.createExecutionSuiteBody = function (data) {
-    this.initializeBody();
+    this.testCases = data.test_cases.reduce(function (total, element) {
+      total[element.id] = element;
 
+      return total;
+    }, {});
+
+    this.selectedExecutionSuite = data.execution_suite;
+
+    this.initializeBody();
     var node = ExecutionSuiteBuilder.buildExecutionSuiteBody(data);
 
     this.body.appendChild(node);

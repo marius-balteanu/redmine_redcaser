@@ -106,6 +106,43 @@ Redcaser.API = (function () {
     }
   };
 
+  self.testSuiteStatuses = new function () {
+    // create :: Object
+    this.create = function (params) {
+      var data = params.data;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        data:     data,
+        dataType: 'json',
+        method:   'POST',
+        url:      'redcaser/testcasestatuses'
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+
+    // update :: Object
+    this.update = function (params) {
+      var data = params.data;
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        data:     data,
+        dataType: 'json',
+        method:   'PATCH',
+        url:      'redcaser/testcasestatuses/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+  };
+
+
   self.executionSuites = new function () {
     // index :: Object
     this.index = function (params) {

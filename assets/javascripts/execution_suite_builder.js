@@ -120,20 +120,20 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     var elements = data.test_cases;
 
     elements.forEach(function (element) {
-      node.appendChild(this.buildCaseListItem(element));
+      node.appendChild(this.buildCaseListItem(element, data));
     }.bind(this));
 
     return node;
   };
 
-  self.buildCaseListItem = function (element) {
+  self.buildCaseListItem = function (element, data) {
     var node = document.createElement('div');
     node.classList.add('list-item');
 
     node.appendChild(this.buildCaseListItemCheckbox(element));
     node.appendChild(this.buildCaseListItemId(element));
     node.appendChild(this.buildCaseListItemName(element));
-    node.appendChild(this.buildCaseListItemStatus(element));
+    node.appendChild(this.buildCaseListItemStatus(element, data));
 
     return node;
   };
@@ -172,13 +172,42 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     return node;
   };
 
-  self.buildCaseListItemStatus = function (element) {
+  self.buildCaseListItemStatus = function (element, data) {
     var node = document.createElement('span');
     node.classList.add('list-item-status');
 
-    var text = document.createTextNode(element.status);
+    var status;
 
+    if (element.status) {
+      status = element.status.name;
+    }
+    else {
+      status = 'Untested';
+    }
+
+    var text = document.createTextNode(status);
     node.appendChild(text);
+
+    var select = document.createElement('select');
+    select.classList.add('list-item-select');
+    select.dataset.id = element.id;
+
+    select.appendChild(document.createElement('option'));
+    data.execution_results.forEach(function (execution_result) {
+      var option = document.createElement('option');
+      option.value = execution_result.id;
+
+      if (element.status && element.status.id == execution_result.id) {
+        option.selected = true;
+      }
+
+      var option_text = document.createTextNode(execution_result.name);
+
+      option.appendChild(option_text);
+      select.appendChild(option);
+    });
+
+    node.appendChild(select);
 
     return node;
   };
