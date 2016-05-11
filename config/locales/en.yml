@@ -1,7 +1,7 @@
 # English strings go here for Rails i18n
 
 en:
-
+  field_test_case_status_name   : "Test case status"
   label_test_case_management    : "Test cases"
   label_test_case_execution     : "Test Execution & Results"
   label_test_case_report        : "Report"

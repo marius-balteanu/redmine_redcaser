@@ -126,7 +126,11 @@ Redcaser.ExecutionEvents = (function () {
   self.handleExecutionCreate = function (event, context) {
     var params = {
       done: function (response) {
-        ExecutionDialog.forCreate(context.executionEditDialog, event.target, response);
+        ExecutionDialog.forCreate(
+          context.executionEditDialog,
+          event.target,
+          response
+        );
       },
       fail: function () { console.log('Fail!'); }
     };
