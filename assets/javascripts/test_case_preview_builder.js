@@ -101,10 +101,13 @@ Redcaser.TestCasePreviewBuilder = (function () {
     var node = document.createElement('select');
     node.classList.add('case-footer-select');
 
-    node.appendChild(document.createElement('option'));
     statuses.forEach(function (status) {
       var option = document.createElement('option');
       option.value = status.id;
+
+      if (status.id === element.status.id) {
+        option.selected = true;
+      }
 
       var text = document.createTextNode(status.name);
 
@@ -119,6 +122,7 @@ Redcaser.TestCasePreviewBuilder = (function () {
     var node = document.createElement('input');
     node.classList.add('case-footer-submit');
     node.type = 'submit';
+    node.dataset.id = element.id;
 
     return node;
   };

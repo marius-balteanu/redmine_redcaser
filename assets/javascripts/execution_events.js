@@ -23,6 +23,7 @@ Redcaser.ExecutionEvents = (function () {
     return [
       ['change', 'execution-select',   this.handleExecutionChange  ],
       ['change', 'list-item-select',   this.handleStatusChange     ],
+      ['click',  'case-footer-submit', this.handlePreviewSubmit    ],
       ['click',  'execution-create',   this.handleExecutionCreate  ],
       ['click',  'environment-create', this.handleEnvironmentCreate],
       ['click',  'list-item-name',     this.handleListItemClick    ],
@@ -85,7 +86,40 @@ Redcaser.ExecutionEvents = (function () {
     else {
       Redcaser.API.testSuiteStatuses.create(params);
     }
+  };
 
+  // handlePreviewSubmit :: Event, Object
+  self.handlePreviewSubmit = function (event, context) {
+    var id      = event.target.dataset.id;
+    var parent  = event.target.parentNode;
+    var comment = parent.getElementsByClassName('case-footer-comment')[0].value;
+    var status  = parent.getElementsByClassName('case-footer-select')[0].value;
+
+    var test_case = context.testCases[id];
+
+    var data = {
+      test_case_status: {
+        execution_suite_id:  context.selectedExecutionSuite.id,
+        execution_result_id: status,
+        test_case_id:        id
+      },
+      comment: comment
+    };
+
+    var params = {
+      data: data,
+      done: function (response) { location.reload(true); },
+      fail: function () { console.log('Fail!'); }
+    };
+
+    if (test_case.status) {
+      params.id = id;
+
+      Redcaser.API.testSuiteStatuses.update(params);
+    }
+    else {
+      Redcaser.API.testSuiteStatuses.create(params);
+    }
   };
 
   // handleExecutionCreate :: Event, Object
