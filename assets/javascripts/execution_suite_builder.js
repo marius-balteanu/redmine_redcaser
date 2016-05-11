@@ -198,7 +198,7 @@ Redcaser.ExecutionSuiteBuilder = (function () {
       var option = document.createElement('option');
       option.value = execution_result.id;
 
-      if (element.status && element.status.id == execution_result.id) {
+      if (element.status && element.status.id === execution_result.id) {
         option.selected = true;
       }
 

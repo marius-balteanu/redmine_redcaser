@@ -30,7 +30,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       if status
         name = status.execution_result.name
 
-        element['status'] = {id: status.id, name: name}
+        element['status'] = {id: status.execution_result_id, name: name}
       end
 
       element
