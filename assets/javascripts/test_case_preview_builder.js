@@ -4,12 +4,13 @@ Redcaser.TestCasePreviewBuilder = (function () {
   var self = {};
 
   // build :: Object -> DOM
-  self.build = function (element) {
+  self.build = function (element, statuses) {
     var node = document.createElement('div');
     node.classList.add('case-preview');
 
     node.appendChild(this.buildHeader(element));
     node.appendChild(this.buildBody(element));
+    node.appendChild(this.buildFooter(element, statuses));
 
     return node;
   };
@@ -72,6 +73,52 @@ Redcaser.TestCasePreviewBuilder = (function () {
 
     var text = document.createTextNode('Expected results: ' + element.expected_results);
     node.appendChild(text);
+
+    return node;
+  };
+
+  // buildFooter :: Object -> DOM
+  self.buildFooter = function (element, statuses) {
+    var node = document.createElement('div');
+    node.classList.add('case-footer');
+
+    node.appendChild(this.buildFooterComment(element));
+    node.appendChild(this.buildFooterSelect(element, statuses));
+    node.appendChild(this.buildFooterSubmit(element));
+
+    return node;
+  };
+
+  self.buildFooterComment = function (element) {
+    var node = document.createElement('input');
+    node.classList.add('case-footer-comment');
+    node.type = 'text';
+
+    return node;
+  };
+
+  self.buildFooterSelect = function (element, statuses) {
+    var node = document.createElement('select');
+    node.classList.add('case-footer-select');
+
+    node.appendChild(document.createElement('option'));
+    statuses.forEach(function (status) {
+      var option = document.createElement('option');
+      option.value = status.id;
+
+      var text = document.createTextNode(status.name);
+
+      option.appendChild(text);
+      node.appendChild(option);
+    });
+
+    return node;
+  };
+
+  self.buildFooterSubmit = function (element) {
+    var node = document.createElement('input');
+    node.classList.add('case-footer-submit');
+    node.type = 'submit';
 
     return node;
   };

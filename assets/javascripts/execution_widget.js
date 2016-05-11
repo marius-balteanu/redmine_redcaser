@@ -18,6 +18,7 @@ Redcaser.ExecutionWidget = (function () {
 
     this.testCases = null;
 
+    this.statuses = null;
     this.selectedExecutionSuite = null;
 
     this.initialize();
@@ -102,6 +103,7 @@ Redcaser.ExecutionWidget = (function () {
       return total;
     }, {});
 
+    this.statuses = data.execution_results;
     this.selectedExecutionSuite = data.execution_suite;
 
     this.initializeBody();
@@ -114,7 +116,10 @@ Redcaser.ExecutionWidget = (function () {
   def.displayCasePreview = function (id) {
     this.initializePreview();
 
-    this.preview = TestCasePreviewBuilder.build(this.testCases[parseInt(id)]);
+    this.preview = TestCasePreviewBuilder.build(
+      this.testCases[parseInt(id)],
+      this.statuses
+    );
 
     this.root.appendChild(this.preview);
   };
