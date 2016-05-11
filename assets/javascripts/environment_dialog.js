@@ -103,7 +103,7 @@ Redcaser.EnvironmentDialog = (function () {
     var params = {
       data: data.params,
       done: function () { location.reload(true); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     console.log(params);
@@ -122,7 +122,7 @@ Redcaser.EnvironmentDialog = (function () {
       id:   data.id,
       data: data.params,
       done: function () { location.reload(true); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     console.log(params);

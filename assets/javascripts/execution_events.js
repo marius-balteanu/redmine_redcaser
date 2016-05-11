@@ -52,7 +52,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         context.createExecutionSuiteBody(response);
       },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.executionSuites.show(params);
@@ -75,7 +75,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       data: data,
       done: function (response) { location.reload(true); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     if (test_case.status) {
@@ -109,7 +109,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       data: data,
       done: function (response) { location.reload(true); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     if (test_case.status) {
@@ -132,7 +132,7 @@ Redcaser.ExecutionEvents = (function () {
           response
         );
       },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.executionSuites.new(params);

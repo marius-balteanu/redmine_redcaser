@@ -49,7 +49,7 @@ var TreeEvents = (function () {
       done: function (response) {
         SuiteDialog.forUpdate(context.suiteEditDialog, event.target, response);
       },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.testSuites.edit(params);
@@ -80,7 +80,7 @@ var TreeEvents = (function () {
     var params = {
       id:   id,
       done: function () { console.log('Done!'); },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.testCases.destroy(params);
@@ -97,7 +97,7 @@ var TreeEvents = (function () {
       done: function (response) {
         SuiteDialog.forCreate(context.suiteEditDialog, event.target, response);
       },
-      fail: function () { console.log('Fail!'); }
+      fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.testSuites.new(params);
