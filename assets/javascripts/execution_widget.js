@@ -83,7 +83,7 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.initializeBody = function () {
-    if (this.body) {
+    if (this.body && this.body.parentNode === this.root) {
       this.root.removeChild(this.body);
     }
 
@@ -97,6 +97,11 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.createExecutionSuiteBody = function (data) {
+    this.initializeBody();
+    this.initializePreview();
+
+    if (!data.test_cases) return;
+
     this.testCases = data.test_cases.reduce(function (total, element) {
       total[element.id] = element;
 
@@ -106,7 +111,6 @@ Redcaser.ExecutionWidget = (function () {
     this.statuses = data.execution_results;
     this.selectedExecutionSuite = data.execution_suite;
 
-    this.initializeBody();
     var node = ExecutionSuiteBuilder.buildExecutionSuiteBody(data);
 
     this.body.appendChild(node);
@@ -125,7 +129,7 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.initializePreview = function () {
-    if (this.preview) {
+    if (this.preview && this.preview.parentNode === this.root) {
       this.root.removeChild(this.preview);
     }
   };
