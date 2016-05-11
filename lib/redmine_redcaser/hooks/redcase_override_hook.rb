@@ -55,7 +55,7 @@ module RedmineRedcaser
       end
 
       def view_issues_form_details_bottom(context = {})
-        issue, form = context[:issue], context[:form]
+        issue, form, request = context[:issue], context[:form], context[:request]
         return '' unless issue.tracker_id == RedcaserSettings.tracker_id
 
         test_case = issue.test_case
@@ -63,9 +63,10 @@ module RedmineRedcaser
         test_suite = if test_case
             test_case.test_suite
           else
-            test_suite_id = context[:request][:test_suite].try(:id)
+            test_suite_id = request.params[:test_suite].try(:[], :id)
             TestSuite.where(id: test_suite_id).first
           end
+
 
         test_suites = TestSuite.select(:id, :name).order(:name).to_a
 
