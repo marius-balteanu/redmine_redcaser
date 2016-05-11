@@ -105,7 +105,7 @@ Redcaser.TestCasePreviewBuilder = (function () {
       var option = document.createElement('option');
       option.value = status.id;
 
-      if (status.id === element.status.id) {
+      if (element.status && status.id === element.status.id) {
         option.selected = true;
       }
 
