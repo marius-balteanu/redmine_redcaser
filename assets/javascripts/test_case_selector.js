@@ -7,6 +7,7 @@ Redcaser.TestCaseSelector = (function () {
 
   var self = function (queries) {
     this.root = this.build(queries);
+    this.testCases = {};
 
     this.addEventHandlers();
   };
@@ -57,11 +58,47 @@ Redcaser.TestCaseSelector = (function () {
   def.getTestCaseList = function (id) {
     var params = {
       id:   id,
-      done: function (response) { console.log(response); },
+      done: this.displayTestCases.bind(this),
       fail: function (response) { console.log(response); }
     };
 
     Redcaser.API.queryTestCases.show(params);
+  };
+
+  def.displayTestCases = function (response) {
+    this.testCases = response.test_cases;
+
+    var cases = document.createElement('div')
+    cases.classList.add('case-list');
+
+    this.testCases.forEach(function (element) {
+      cases.appendChild(this.buildCaseElement(element));
+    }.bind(this));
+
+    this.root.appendChild(cases);
+  };
+
+  def.buildCaseElement = function (element) {
+    var node = document.createElement('div');
+    node.classList.add('case-element');
+
+    node.appendChild(this.buildCaseElementCheckbox(element));
+    node.appendChild(this.buildCaseElementName(element));
+
+    return node;
+  };
+
+  def.buildCaseElementCheckbox = function (element) {
+    var node = document.createElement('input');
+    node.type = 'checkbox';
+
+    return node;
+  };
+
+  def.buildCaseElementName = function (element) {
+    var node = document.createTextNode(element.name);
+
+    return node;
   };
 
   return self;

@@ -4,7 +4,12 @@ class Redcaser::QuerytestcasesController < RedcaserBaseController
   before_action :find_query
 
   def show
-    render json: {success: true}
+    issues    = @query.issues
+    issue_ids = issues.map(&:id).uniq
+
+    @test_cases = TestCase.where(issue_id: issue_ids).to_a.map(&:to_json)
+
+    render json: {test_cases: @test_cases}
   end
 
   private
