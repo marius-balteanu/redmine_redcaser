@@ -35,6 +35,7 @@ Redmine::Plugin.register :redmine_redcaser do
     'redcaser/testsuites'        => [:index, :new, :edit, :update, :destroy, :create],
     'redcaser/testcases'         => [:index, :update, :destroy, :copy],
     'redcaser/testcasestatuses'  => [:create, :update],
+    'redcaser/querytestcases'    => [:show],
     'redcaser/executionjournals' => [:index],
     'redcaser/export'            => [:index],
     'redcaser/executionsuites'   => [:index, :new, :update, :destroy, :create, :show],

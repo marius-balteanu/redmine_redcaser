@@ -63,7 +63,6 @@ Redcaser.ExecutionWidget = (function () {
     EnvironmentDialog.initialize(this.environmentEditDialog);
   };
 
-
   def.addEventHandlers = function () {
     ExecutionEvents.attach(this);
   };

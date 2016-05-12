@@ -1,6 +1,8 @@
 var Redcaser = Redcaser || {};
 
 Redcaser.ExecutionDialog = (function () {
+  var TestCaseSelector = Redcaser.TestCaseSelector;
+
   var self = {};
 
   // build :: -> DOM
@@ -109,27 +111,6 @@ Redcaser.ExecutionDialog = (function () {
     var node = document.createElement('div');
     node.classList.add('execution-dialog-queries');
 
-    node.appendChild(this.buildQueriesLabel());
-    node.appendChild(this.buildQueriesInput());
-
-    return node;
-  };
-
-  // buildQueriesLabel :: -> DOM
-  self.buildQueriesLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Queries');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  // buildQueriesInput :: -> DOM
-  self.buildQueriesInput = function () {
-    var node = document.createElement('select');
-    node.classList.add('query-field');
-
     return node;
   };
 
@@ -176,17 +157,12 @@ Redcaser.ExecutionDialog = (function () {
       }
     }.bind(this));
 
-    select = $('.query-field');
+    select = $('.execution-dialog-queries');
     select.empty();
 
-    data.queries.forEach(function (element) {
-      if (element.id == 0) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
+    var testCaseSelector = new TestCaseSelector(data.queries);
+
+    select.append(testCaseSelector.root);
 
     object.dialog('option', 'title', 'Create Execution Suite');
     object.dialog(

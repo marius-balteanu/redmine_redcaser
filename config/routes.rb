@@ -19,6 +19,8 @@ resources :projects do
 
     resources :executionsuites
 
+    resources :querytestcases, only: :show
+
     resources :executionjournals, only: :index
     resources :export,            only: :index
     resources :combos,            only: :index

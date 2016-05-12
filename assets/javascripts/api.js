@@ -537,5 +537,23 @@ Redcaser.API = (function () {
     }
   };
 
+  self.queryTestCases = new function () {
+    // show :: Object
+    this.show = function (params) {
+      var done = params.done;
+      var fail = params.fail;
+
+      var request = $.ajax({
+        dataType: 'json',
+        method:   'GET',
+        url:      'redcaser/querytestcases/' + params.id
+      });
+
+      request.done(done);
+      request.fail(fail);
+    };
+  };
+
+
   return self;
 })();
