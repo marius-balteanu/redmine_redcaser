@@ -5,8 +5,8 @@ Redcaser.TestSuiteBuilder = (function () {
 
   var self = {};
 
-  // build :: Object -> DOM
-  self.build = function (element) {
+  // build :: Object, Object -> DOM
+  self.build = function (element, data) {
     var node = document.createElement('div');
     node.classList.add('tree-suite');
 
@@ -14,7 +14,7 @@ Redcaser.TestSuiteBuilder = (function () {
 
     node.appendChild(this.buildSuiteTitle(element));
     node.appendChild(this.buildSuiteTable(element));
-    node.appendChild(this.buildSuiteFooter(element));
+    node.appendChild(this.buildSuiteFooter(element, data));
     node.appendChild(this.buildSuiteChildren(element));
 
     return node;
@@ -151,22 +151,28 @@ Redcaser.TestSuiteBuilder = (function () {
     return node;
   };
 
-  // buildSuiteFooter :: Object -> DOM
-  self.buildSuiteFooter = function (element) {
+  // buildSuiteFooter :: Object, Object -> DOM
+  self.buildSuiteFooter = function (element, data) {
     var node = document.createElement('div');
     node.classList.add('suite-footer');
 
-    node.appendChild(this.buildSuiteFooterCaseLink(element));
+    node.appendChild(this.buildSuiteFooterCaseLink(element, data));
     node.appendChild(document.createTextNode(' | '));
     node.appendChild(this.buildSuiteFooterSuiteLink(element));
 
     return node;
   };
 
-  // buildSuiteFooterCaseLink :: Object -> DOM
-  self.buildSuiteFooterCaseLink = function (element) {
-    var node = document.createElement('a');
-    node.href   = '/issues/new/?issue[tracker_id]=' + Redcaser.tracker_id + '&test_suite[id]=' + element.id ;
+  // buildSuiteFooterCaseLink :: Object, Object -> DOM
+  self.buildSuiteFooterCaseLink = function (element, data) {
+    var node  = document.createElement('a');
+    node.href = '/projects/'
+      + data.project.identifier
+      + '/issues/new/?issue[tracker_id]='
+      + Redcaser.tracker_id
+      + '&test_suite[id]='
+      + element.id;
+
     node.target = '_blank';
 
     var text = document.createTextNode('Add test case');

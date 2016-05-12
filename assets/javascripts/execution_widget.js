@@ -18,6 +18,7 @@ Redcaser.ExecutionWidget = (function () {
 
     this.testCases = null;
 
+    this.project  = null;
     this.statuses = null;
     this.selectedExecutionSuite = null;
 
@@ -77,7 +78,9 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.createExecuionSuiteSelect = function (response) {
-    var node = ExecutionSuiteBuilder.buildExecutionSuiteSelect(response);
+    this.project = response.project;
+
+    var node = ExecutionSuiteBuilder.buildExecutionSuiteSelect(response.execution_suites);
 
     this.header.appendChild(node);
   };
@@ -100,13 +103,16 @@ Redcaser.ExecutionWidget = (function () {
     this.initializeBody();
     this.initializePreview();
 
-    if (!data.test_cases) return;
+    if (data.test_cases) {
+      this.testCases = data.test_cases.reduce(function (total, element) {
+        total[element.id] = element;
 
-    this.testCases = data.test_cases.reduce(function (total, element) {
-      total[element.id] = element;
-
-      return total;
-    }, {});
+        return total;
+      }, {});
+    }
+    else {
+      this.testCases = {};
+    }
 
     this.statuses = data.execution_results;
     this.selectedExecutionSuite = data.execution_suite;

@@ -7,28 +7,30 @@ Redcaser.SuiteTreeBuilder = (function () {
   var self = {};
 
   // build :: Object -> DOM
-  self.build = function (elements) {
+  self.build = function (data) {
     var nodes = [];
 
+    var elements = data.test_suites;
+
     elements.forEach(function (element) {
-      nodes.push(this.buildNode(element));
+      nodes.push(this.buildNode(element, data));
     }.bind(this));
 
     return nodes;
   };
 
-  self.buildNode = function (element) {
+  self.buildNode = function (element, data) {
     var type = element.type;
     var node, suiteCases, suiteChildren;
 
     if (type === 'suite') {
-      node = Redcaser.TestSuiteBuilder.build(element);
+      node = Redcaser.TestSuiteBuilder.build(element, data);
 
       suiteCases    = node.getElementsByClassName('suite-cases')[0];
       suiteChildren = node.getElementsByClassName('suite-children')[0];
 
       element.children.forEach(function (child) {
-        var childNode = this.buildNode(child);
+        var childNode = this.buildNode(child, data);
 
         if (child.type === 'suite') {
           suiteChildren.appendChild(childNode);

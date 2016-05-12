@@ -6,7 +6,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     @execution_suites = ExecutionSuite.all
 
-    render json: @execution_suites
+    render json: {
+      project:          @project,
+      execution_suites: @execution_suites
+    }
   end
 
   def show

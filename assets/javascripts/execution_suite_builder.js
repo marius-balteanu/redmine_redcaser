@@ -34,9 +34,11 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     var node = document.createElement('div');
     node.classList.add('case-list-root')
 
-    node.appendChild(this.buildCaseListToolbar(data));
-    node.appendChild(this.buildCaseListHeader(data));
-    node.appendChild(this.buildCaseListBody(data));
+    if (data.execution_suite) {
+      node.appendChild(this.buildCaseListToolbar(data));
+      node.appendChild(this.buildCaseListHeader(data));
+      node.appendChild(this.buildCaseListBody(data));
+    }
 
     return node;
   };

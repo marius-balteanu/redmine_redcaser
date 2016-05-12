@@ -8,7 +8,10 @@ class Redcaser::TestsuitesController < RedcaserBaseController
   def index
     @test_suites = TestSuite.for_project(@project)
 
-    render json: @test_suites.map(&:to_json)
+    render json: {
+      project:     @project,
+      test_suites: @test_suites.map(&:to_json)
+    }
   end
 
   def new
