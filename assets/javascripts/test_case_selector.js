@@ -7,6 +7,8 @@ Redcaser.TestCaseSelector = (function () {
 
   var self = function (queries) {
     this.root = this.build(queries);
+    this.caseContainer = null;
+
     this.testCases = {};
 
     this.addEventHandlers();
@@ -56,26 +58,35 @@ Redcaser.TestCaseSelector = (function () {
   };
 
   def.getTestCaseList = function (id) {
-    var params = {
-      id:   id,
-      done: this.displayTestCases.bind(this),
-      fail: function (response) { console.log(response); }
-    };
+    if (id) {
+      var params = {
+        id:   id,
+        done: this.displayTestCases.bind(this),
+        fail: function (response) { console.log(response); }
+      };
 
-    Redcaser.API.queryTestCases.show(params);
+      Redcaser.API.queryTestCases.show(params);
+    }
+    else {
+      this.root.removeChild(this.caseContainer);
+    }
   };
 
   def.displayTestCases = function (response) {
+    if (this.caseContainer && this.caseContainer.parentNode === this.root) {
+      this.root.removeChild(this.caseContainer);
+    }
+
     this.testCases = response.test_cases;
 
-    var cases = document.createElement('div')
-    cases.classList.add('case-list');
+    this.caseContainer = document.createElement('div')
+    this.caseContainer.classList.add('case-list');
 
     this.testCases.forEach(function (element) {
-      cases.appendChild(this.buildCaseElement(element));
+      this.caseContainer.appendChild(this.buildCaseElement(element));
     }.bind(this));
 
-    this.root.appendChild(cases);
+    this.root.appendChild(this.caseContainer);
   };
 
   def.buildCaseElement = function (element) {
