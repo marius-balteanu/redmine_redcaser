@@ -47,8 +47,14 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
   def new
     @environments = ExecutionEnvironment.where(project: @project).to_a
-    @queries      = Query.all.to_a
-    @versions     = Version.where(project: @project).to_a
+
+    # Project specific queries and global queries
+    @queries = IssueQuery.visible
+      .where('project_id IS NULL OR project_id = ?', @project.id)
+      .order('queries.name ASC')
+      .to_a
+
+    @versions = Version.where(project: @project).to_a
 
     render json: {
       environments: @environments,
