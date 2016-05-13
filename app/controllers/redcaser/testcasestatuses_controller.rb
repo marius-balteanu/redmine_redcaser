@@ -9,10 +9,19 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
       issue   = @test_case_status.test_case.issue
       journal = issue.init_journal(User.current, comment)
 
+      execution_suite = ExecutionSuite.where(
+          id: test_case_status_params[:execution_suite_id]
+        ).first
+
+      value = @test_case_status.execution_result.name +
+        ' (Execution suite: ' +
+        execution_suite.name +
+        ')'
+
       journal.details << JournalDetail.new(
         prop_key:  'test_case_status_name',
         property:  'attr',
-        value:     @test_case_status.execution_result.name
+        value:     value
       )
 
       if journal.save
@@ -35,12 +44,21 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
       issue   = @test_case_status.test_case.issue
       journal = issue.init_journal(User.current, comment)
 
+      execution_suite = ExecutionSuite.where(
+          id: test_case_status_params[:execution_suite_id]
+        ).first
+
+      value = @test_case_status.execution_result.name +
+        ' (Execution suite: ' +
+        execution_suite.name +
+        ')'
+
       if old_status.id != @test_case_status.execution_result_id
         journal.details << JournalDetail.new(
           old_value: old_status.name,
           prop_key:  'test_case_status_name',
           property:  'attr',
-          value:     @test_case_status.execution_result.name
+          value:     value
         )
       end
 
