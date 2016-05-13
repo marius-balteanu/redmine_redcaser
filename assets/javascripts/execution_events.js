@@ -23,6 +23,8 @@ Redcaser.ExecutionEvents = (function () {
     return [
       ['change', 'execution-select',   this.handleExecutionChange  ],
       ['change', 'list-item-select',   this.handleStatusChange     ],
+      ['click',  'case-list-edit',     this.handleSuiteEdit        ],
+      ['click',  'case-list-delete',   this.handleSuiteDelete      ],
       ['click',  'case-footer-submit', this.handlePreviewSubmit    ],
       ['click',  'execution-create',   this.handleExecutionCreate  ],
       ['click',  'environment-create', this.handleEnvironmentCreate],
@@ -86,6 +88,22 @@ Redcaser.ExecutionEvents = (function () {
     else {
       Redcaser.API.testSuiteStatuses.create(params);
     }
+  };
+
+  self.handleSuiteEdit = function (event, context) {
+
+  };
+
+  self.handleSuiteDelete = function (event, context) {
+    var id = event.target.dataset.id;
+
+    var params = {
+      id:   id,
+      done: function (response) { location.reload(true); },
+      fail: function (response) { console.log(response); }
+    }
+
+    Redcaser.API.executionSuites.destroy(params);
   };
 
   // handlePreviewSubmit :: Event, Object

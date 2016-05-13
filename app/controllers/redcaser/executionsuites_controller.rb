@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Redcaser::ExecutionsuitesController < RedcaserBaseController
-  before_action :find_execution_suite, only: [:show]
+  before_action :find_execution_suite, only: [:show, :update, :destroy]
 
   def index
     @execution_suites = ExecutionSuite.all
@@ -105,6 +105,14 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       end
 
       render json: {success: 'Execution Suite updated'}
+    else
+      render json: {errors: @execution_suite.error_messages}, status: 400
+    end
+  end
+
+  def destroy
+    if @execution_suite.destroy
+      render json: {success: 'Execution Suite deleted'}
     else
       render json: {errors: @execution_suite.error_messages}, status: 400
     end

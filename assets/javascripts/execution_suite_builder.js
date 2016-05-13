@@ -48,12 +48,35 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     node.classList.add('case-list-toolbar')
 
     node.appendChild(this.buildCaseListTitle(data));
+    node.appendChild(this.buildCaseListEdit(data));
+    node.appendChild(this.buildCaseListDelete(data));
 
     return node;
   };
 
   self.buildCaseListTitle = function (data) {
     var node = document.createTextNode(data.execution_suite.name);
+
+    return node;
+  };
+
+  self.buildCaseListEdit = function (data) {
+    var node = document.createElement('button');
+    node.classList.add('case-list-edit')
+
+    var text = document.createTextNode('Edit');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  self.buildCaseListDelete = function (data) {
+    var node = document.createElement('button');
+    node.classList.add('case-list-delete')
+    node.dataset.id = data.execution_suite.id;
+
+    var text = document.createTextNode('Delete');
+    node.appendChild(text);
 
     return node;
   };
