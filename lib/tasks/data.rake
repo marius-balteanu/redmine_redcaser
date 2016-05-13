@@ -1,11 +1,14 @@
 namespace :redmine_redcaser do
-  desc 'Populates the redcaser tables with default data'
-  task default_data: :environment do
+  desc 'Creates default statuses'
+  task statuses: :environment do
     ExecutionResult.create!(name: 'Passed', order_number: 1)
     ExecutionResult.create!(name: 'Failed', order_number: 2)
     ExecutionResult.create!(name: 'Blocked', order_number: 3)
     ExecutionResult.create!(name: 'Not Available', order_number: 4)
+  end
 
+  desc 'Populates the redcaser tables with default data'
+  task default_data: :environment do
     new_status = IssueStatus.where(
       name:      'New',
       is_closed: false
