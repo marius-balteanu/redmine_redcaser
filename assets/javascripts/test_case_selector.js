@@ -100,8 +100,9 @@ Redcaser.TestCaseSelector = (function () {
   };
 
   def.buildCaseElementCheckbox = function (element) {
-    var node = document.createElement('input');
-    node.type = 'checkbox';
+    var node   = document.createElement('input');
+    node.type  = 'checkbox';
+    node.value = element.id;
 
     return node;
   };

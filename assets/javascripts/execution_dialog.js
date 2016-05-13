@@ -252,13 +252,19 @@ Redcaser.ExecutionDialog = (function () {
   self.gatherDataFrom = function (target) {
     var root = $(target).closest('.ui-dialog');
 
+    var testCases = root
+      .find('.case-element input:checked')
+      .map(function (index, element) { return element.value; })
+      .get();
+
     return {
       id: root.data('execution-id'),
       params: {
         execution_suite: {
           environment_id: root.find('.environment-field').val(),
           name:           root.find('.name-field').val(),
-          query_id:       root.find('.query-field').val(),
+          query_id:       root.find('.queries-select').val(),
+          test_cases:     testCases,
           version_id:     root.find('.version-field').val()
         }
       }
