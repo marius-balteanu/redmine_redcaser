@@ -9,7 +9,17 @@ class Redcaser::QuerytestcasesController < RedcaserBaseController
 
     @test_cases = TestCase.where(issue_id: issue_ids).to_a.map(&:to_json)
 
-    render json: {test_cases: @test_cases}
+    execution_suite = ExecutionSuite.where(id: params[:execution_suite_id]).first
+    @selected = if execution_suite
+        execution_suite.test_cases.pluck(:id)
+      else
+        []
+      end
+
+    render json: {
+      selected:   @selected,
+      test_cases: @test_cases
+    }
   end
 
   private

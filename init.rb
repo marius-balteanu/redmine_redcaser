@@ -38,7 +38,7 @@ Redmine::Plugin.register :redmine_redcaser do
     'redcaser/querytestcases'    => [:show],
     'redcaser/executionjournals' => [:index],
     'redcaser/export'            => [:index],
-    'redcaser/executionsuites'   => [:index, :new, :update, :destroy, :create, :show],
+    'redcaser/executionsuites'   => [:index, :new, :edit, :update, :destroy, :create, :show],
     'redcaser/graph'             => [:show],
     'redcaser/combos'            => [:index]
   }

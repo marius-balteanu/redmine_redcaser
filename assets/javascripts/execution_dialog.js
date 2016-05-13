@@ -131,30 +131,21 @@ Redcaser.ExecutionDialog = (function () {
 
     object = $(dialog);
 
+    object.parent().data('execution-id', null);
     $('.name-field').val('');
 
     select = $('.version-field');
     select.empty();
 
     data.versions.forEach(function (element) {
-      if (element.id == 0) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
+      select.append('<option value="' + element.id + '">' + element.name + '</option>');
     }.bind(this));
 
     select = $('.environment-field');
     select.empty();
 
     data.environments.forEach(function (element) {
-      if (element.id == 0) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
+      select.append('<option value="' + element.id + '">' + element.name + '</option>');
     }.bind(this));
 
     select = $('.execution-dialog-queries');
@@ -182,21 +173,42 @@ Redcaser.ExecutionDialog = (function () {
     var object = $(dialog);
     var id       = target.dataset.id;
 
-    $('.name-field').val(data.test_suite.name);
+    var execution_suite = data.execution_suite;
 
-    // var select = $('.parent-field');
-    // select.empty();
-    //
-    // select.append('<option value=""></option>');
-    // data.test_suites.forEach(function (element) {
-    //   if (element.id == 0) {
-    //     select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-    //   }
-    //   else {
-    //     select.append('<option value="' + element.id + '">' + element.name + '</option>');
-    //   }
-    // }.bind(this));
+    object.parent().data('execution-id', execution_suite.id);
+    $('.name-field').val(execution_suite.name);
 
+    select = $('.version-field');
+    select.empty();
+
+    data.versions.forEach(function (element) {
+      if (element.id == execution_suite.version_id) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
+    }.bind(this));
+
+    select = $('.environment-field');
+    select.empty();
+
+    data.environments.forEach(function (element) {
+      if (element.id == execution_suite.environment_id) {
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+      }
+      else {
+        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      }
+    }.bind(this));
+
+    select = $('.execution-dialog-queries');
+    select.empty();
+
+    var testCaseSelector = new TestCaseSelector(data.queries, execution_suite);
+    testCaseSelector.getTestCaseList(execution_suite.query_id);
+
+    select.append(testCaseSelector.root);
 
     object.dialog('option', 'title', 'Update Execution Suite');
     object.dialog(

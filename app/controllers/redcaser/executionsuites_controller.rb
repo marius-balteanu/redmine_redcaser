@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Redcaser::ExecutionsuitesController < RedcaserBaseController
-  before_action :find_execution_suite, only: [:show, :update, :destroy]
+  before_action :find_execution_suite, only: [:show, :edit, :update, :destroy]
 
   def index
     @execution_suites = ExecutionSuite.all
@@ -59,6 +59,25 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       environments: @environments,
       queries:      @queries,
       versions:     @versions
+    }
+  end
+
+  def edit
+    @environments = ExecutionEnvironment.where(project: @project).to_a
+
+    # Project specific queries and global queries
+    @queries = IssueQuery.visible
+      .where('project_id IS NULL OR project_id = ?', @project.id)
+      .order('queries.name ASC')
+      .to_a
+
+    @versions = Version.where(project: @project).to_a
+
+    render json: {
+      execution_suite: @execution_suite,
+      environments:    @environments,
+      queries:         @queries,
+      versions:        @versions
     }
   end
 

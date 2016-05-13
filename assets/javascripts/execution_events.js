@@ -91,7 +91,17 @@ Redcaser.ExecutionEvents = (function () {
   };
 
   self.handleSuiteEdit = function (event, context) {
+    var id = event.target.dataset.id;
 
+    var params = {
+      id:   id,
+      done: function (response) {
+        ExecutionDialog.forUpdate(context.executionEditDialog, event.target, response);
+      },
+      fail: function (response) { console.log(response); }
+    };
+
+    Redcaser.API.executionSuites.edit(params);
   };
 
   self.handleSuiteDelete = function (event, context) {

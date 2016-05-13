@@ -5,9 +5,12 @@ Redcaser.TestCaseSelector = (function () {
 
   var TestCaseSelectorEvents = Redcaser.TestCaseSelectorEvents;
 
-  var self = function (queries) {
-    this.root = this.build(queries);
+  var self = function (queries, executionSuite) {
+    var selectedId = executionSuite ? executionSuite.query_id : null;
+
+    this.root = this.build(queries, selectedId);
     this.caseContainer = null;
+    this.executionSuite = executionSuite;
 
     this.testCases = {};
 
@@ -16,11 +19,11 @@ Redcaser.TestCaseSelector = (function () {
 
   var def = self.prototype;
 
-  def.build = function (data) {
+  def.build = function (data, selectedId) {
     var node = document.createElement('div');
 
     node.appendChild(this.buildQueriesLabel());
-    node.appendChild(this.buildQueriesSelect(data));
+    node.appendChild(this.buildQueriesSelect(data, selectedId));
 
     return node;
   }
@@ -35,7 +38,7 @@ Redcaser.TestCaseSelector = (function () {
     return node;
   };
 
-  def.buildQueriesSelect = function (data) {
+  def.buildQueriesSelect = function (data, selectedId) {
     var node = document.createElement('select');
     node.classList.add('queries-select');
 
@@ -43,6 +46,8 @@ Redcaser.TestCaseSelector = (function () {
     data.forEach(function (element) {
       var option   = document.createElement('option');
       option.value = element.id;
+
+      if (element.id == selectedId) option.selected = true;
 
       var text = document.createTextNode(element.name);
       option.appendChild(text);
@@ -58,9 +63,12 @@ Redcaser.TestCaseSelector = (function () {
   };
 
   def.getTestCaseList = function (id) {
+    var executionId = this.executionSuite ? this.executionSuite.id : null;
+
     if (id) {
       var params = {
         id:   id,
+        data: {execution_suite_id: executionId},
         done: this.displayTestCases.bind(this),
         fail: function (response) { console.log(response); }
       };
@@ -83,26 +91,28 @@ Redcaser.TestCaseSelector = (function () {
     this.caseContainer.classList.add('case-list');
 
     this.testCases.forEach(function (element) {
-      this.caseContainer.appendChild(this.buildCaseElement(element));
+      this.caseContainer.appendChild(this.buildCaseElement(element, response.selected));
     }.bind(this));
 
     this.root.appendChild(this.caseContainer);
   };
 
-  def.buildCaseElement = function (element) {
+  def.buildCaseElement = function (element, selected) {
     var node = document.createElement('div');
     node.classList.add('case-element');
 
-    node.appendChild(this.buildCaseElementCheckbox(element));
+    node.appendChild(this.buildCaseElementCheckbox(element, selected));
     node.appendChild(this.buildCaseElementName(element));
 
     return node;
   };
 
-  def.buildCaseElementCheckbox = function (element) {
+  def.buildCaseElementCheckbox = function (element, selected) {
     var node   = document.createElement('input');
     node.type  = 'checkbox';
     node.value = element.id;
+
+    if (selected.includes(element.id)) node.checked = true;
 
     return node;
   };

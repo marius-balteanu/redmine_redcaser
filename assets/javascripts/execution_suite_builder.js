@@ -63,6 +63,7 @@ Redcaser.ExecutionSuiteBuilder = (function () {
   self.buildCaseListEdit = function (data) {
     var node = document.createElement('button');
     node.classList.add('case-list-edit')
+    node.dataset.id = data.execution_suite.id;
 
     var text = document.createTextNode('Edit');
     node.appendChild(text);
