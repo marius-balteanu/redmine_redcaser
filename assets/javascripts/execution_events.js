@@ -27,7 +27,6 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'case-list-delete',   this.handleSuiteDelete      ],
       ['click',  'case-footer-submit', this.handlePreviewSubmit    ],
       ['click',  'execution-create',   this.handleExecutionCreate  ],
-      ['click',  'environment-create', this.handleEnvironmentCreate],
       ['click',  'list-item-name',     this.handleListItemClick    ],
     ];
   };
@@ -164,11 +163,6 @@ Redcaser.ExecutionEvents = (function () {
     };
 
     Redcaser.API.executionSuites.new(params);
-  };
-
-  // handleEnvironmentCreate :: Event, Object
-  self.handleEnvironmentCreate = function (event, context) {
-    EnvironmentDialog.forCreate(context.environmentEditDialog, event.target);
   };
 
   // handleListItemClick :: Event, Object

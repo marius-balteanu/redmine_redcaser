@@ -1,7 +1,8 @@
 var Redcaser = Redcaser || {};
 
 Redcaser.ExecutionDialog = (function () {
-  var TestCaseSelector = Redcaser.TestCaseSelector;
+  var TestCaseSelector    = Redcaser.TestCaseSelector;
+  var EnvironmentSelector = Redcaser.EnvironmentSelector;
 
   var self = {};
 
@@ -84,6 +85,7 @@ Redcaser.ExecutionDialog = (function () {
 
     node.appendChild(this.buildEnvironmentLabel());
     node.appendChild(this.buildEnvironmentInput());
+    node.appendChild(this.buildEnvironmentAddButton());
 
     return node;
   };
@@ -92,7 +94,18 @@ Redcaser.ExecutionDialog = (function () {
   self.buildEnvironmentLabel = function () {
     var node = document.createElement('label');
 
-    var text = document.createTextNode('Environment');
+    node.appendChild(document.createTextNode('Environment'));
+
+    return node;
+  };
+
+  // buildEnvironmentAddButton :: -> DOM
+  self.buildEnvironmentAddButton = function () {
+    var node = document.createElement('a');
+    node.classList.add('environment-create');
+    node.href = '#';
+
+    var text = document.createTextNode('Add environment');
     node.appendChild(text);
 
     return node;
@@ -144,9 +157,8 @@ Redcaser.ExecutionDialog = (function () {
     select = $('.environment-field');
     select.empty();
 
-    data.environments.forEach(function (element) {
-      select.append('<option value="' + element.id + '">' + element.name + '</option>');
-    }.bind(this));
+    var environmentSelector = EnvironmentSelector(data.environments, execution_suite);
+    select.append(environmentSelector.root);
 
     select = $('.execution-dialog-queries');
     select.empty();
@@ -193,14 +205,8 @@ Redcaser.ExecutionDialog = (function () {
     select = $('.environment-field');
     select.empty();
 
-    data.environments.forEach(function (element) {
-      if (element.id == execution_suite.environment_id) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
+    var environmentSelector = EnvironmentSelector(data.environments, execution_suite);
+    select.append(environmentSelector.root);
 
     select = $('.execution-dialog-queries');
     select.empty();
