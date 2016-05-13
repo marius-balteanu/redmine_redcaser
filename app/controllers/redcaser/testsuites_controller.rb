@@ -34,7 +34,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     if @test_suite.save
       render json: {success: 'Test Suite created.'}
     else
-      render json: {errors: @test_suite.error_messages}, status: 400
+      render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
   end
 
@@ -44,7 +44,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     if @test_suite.save
       render json: {success: 'Test Suite updated.'}
     else
-      render json: {errors: @test_suite.error_messages}, status: 400
+      render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
   end
 
@@ -58,7 +58,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     if @test_suite.destroy
       render json: {success: 'Test Suite deleted.'}
     else
-      render json: {errors: @test_suite.error_messages}, status: 400
+      render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
   end
 

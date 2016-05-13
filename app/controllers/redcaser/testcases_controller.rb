@@ -26,7 +26,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
     if @test_case.save
       render json: {success: 'Test Case updated.'}
     else
-      render json: {errors: @test_case.error_messages}, status: 400
+      render json: {errors: @test_case.errors.full_messages}, status: 400
     end
   end
 
@@ -34,7 +34,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
     if @test_case.destroy
       render json: {success: 'Test Case deleted.'}
     else
-      render json: {errors: @test_case.error_messages}, status: 400
+      render json: {errors: @test_case.errors.full_messages}, status: 400
     end
   end
 

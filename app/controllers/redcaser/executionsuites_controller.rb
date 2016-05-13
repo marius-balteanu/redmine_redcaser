@@ -98,7 +98,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
       render json: {success: 'Execution Suite created'}
     else
-      render json: {errors: @execution_suite.error_messages}, status: 400
+      render json: {errors: @execution_suite.errors.full_messages}, status: 400
     end
   end
 
@@ -124,7 +124,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
       render json: {success: 'Execution Suite updated'}
     else
-      render json: {errors: @execution_suite.error_messages}, status: 400
+      render json: {errors: @execution_suite.errors.full_messages}, status: 400
     end
   end
 
@@ -132,7 +132,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     if @execution_suite.destroy
       render json: {success: 'Execution Suite deleted'}
     else
-      render json: {errors: @execution_suite.error_messages}, status: 400
+      render json: {errors: @execution_suite.errors.full_messages}, status: 400
     end
   end
 
