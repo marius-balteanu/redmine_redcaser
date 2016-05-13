@@ -15,10 +15,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def show
     @query = @execution_suite.query
 
-    issues    = @query.issues
-    issue_ids = issues.map(&:id).uniq
-
-    @test_cases   = TestCase.where(issue_id: issue_ids).to_a
+    @test_cases   = @execution_suite.test_cases
     test_case_ids = @test_cases.map(&:id).uniq
 
     @statuses = TestCaseStatus
@@ -70,7 +67,44 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     @execution_suite = ExecutionSuite.new(execution_suite_params)
 
     if @execution_suite.save
-      render json: {success: 'Execution Suite created.'}
+      test_cases = test_cases_params[:test_cases]
+
+      if test_cases
+        test_cases.each do |id|
+          ExecutionSuiteTestCase.create!(
+            execution_suite_id: @execution_suite.id,
+            test_case_id:       id
+          )
+        end
+      end
+
+      render json: {success: 'Execution Suite created'}
+    else
+      render json: {errors: @execution_suite.error_messages}, status: 400
+    end
+  end
+
+  def update
+    @execution_suite.assign_attributes(execution_suite_params)
+
+    if @execution_suite.save
+      ExecutionSuiteTestCase
+        .where(execution_suite_id: @execution_suite.id)
+        .delete_all
+
+
+      test_cases = test_cases_params[:test_cases]
+
+      if test_cases
+        test_cases.each do |id|
+          ExecutionSuiteTestCase.create!(
+            execution_suite_id: @execution_suite.id,
+            test_case_id:       id
+          )
+        end
+      end
+
+      render json: {success: 'Execution Suite updated'}
     else
       render json: {errors: @execution_suite.error_messages}, status: 400
     end
@@ -82,6 +116,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     params.require(:execution_suite).permit(
       :environment_id, :name, :query_id, :version_id
     )
+  end
+
+  def test_cases_params
+    params.require(:execution_suite).permit(test_cases: [])
   end
 
   def find_execution_suite
