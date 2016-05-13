@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RedcaserSetup < ActiveRecord::Migration
-  def up
+  def change
     create_table :test_suites do |column|
       column.string  :name, null: false, limit: 128
       column.integer :parent_id, default: nil
