@@ -168,7 +168,7 @@ Redcaser.ExecutionDialog = (function () {
       }
     }.bind(this));
 
-    select = $('.environment-field');
+    select = $('.execution-dialog-environment');
     select.empty();
 
     var environmentSelector = new EnvironmentSelector(data.environments, data.execution_suite);
