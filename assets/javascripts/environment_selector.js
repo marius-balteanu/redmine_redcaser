@@ -15,8 +15,29 @@ Redcaser.EnvironmentSelector = (function () {
 
   var def = self.prototype;
 
-  def.build = function (data, selectedId) {
+  def.build = function  (data, selectedId) {
+    var node = document.createElement('div');
+
+    node.appendChild(this.buildEnvironmentLabel());
+    node.appendChild(this.buildEnvironmentInput(data, selectedId));
+    node.appendChild(this.buildEnvironmentAddButton());
+
+    return node;
+  };
+
+  // buildEnvironmentLabel :: -> DOM
+  def.buildEnvironmentLabel = function () {
+    var node = document.createElement('label');
+
+    node.appendChild(document.createTextNode('Environment'));
+
+    return node;
+  };
+
+  // buildEnvironmentInput :: -> DOM
+  def.buildEnvironmentInput = function (data, selectedId) {
     var node = document.createElement('select');
+    node.classList.add('environment-select');
 
     data.forEach(function (element) {
       var option = document.createElement('option');
@@ -31,6 +52,21 @@ Redcaser.EnvironmentSelector = (function () {
     });
 
     return node;
+  };
+
+  // buildEnvironmentAddButton :: -> DOM
+  def.buildEnvironmentAddButton = function () {
+    var node = document.createElement('a');
+    node.classList.add('environment-create');
+    node.href = '#';
+
+    var text = document.createTextNode('Add environment');
+    node.appendChild(text);
+
+    return node;
+  };
+
+  def.buildSelect = function () {
   }
 
   def.addEventHandlers = function () {

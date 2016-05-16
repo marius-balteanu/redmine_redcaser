@@ -83,39 +83,6 @@ Redcaser.ExecutionDialog = (function () {
     var node = document.createElement('div');
     node.classList.add('execution-dialog-environment');
 
-    node.appendChild(this.buildEnvironmentLabel());
-    node.appendChild(this.buildEnvironmentInput());
-    node.appendChild(this.buildEnvironmentAddButton());
-
-    return node;
-  };
-
-  // buildEnvironmentLabel :: -> DOM
-  self.buildEnvironmentLabel = function () {
-    var node = document.createElement('label');
-
-    node.appendChild(document.createTextNode('Environment'));
-
-    return node;
-  };
-
-  // buildEnvironmentAddButton :: -> DOM
-  self.buildEnvironmentAddButton = function () {
-    var node = document.createElement('a');
-    node.classList.add('environment-create');
-    node.href = '#';
-
-    var text = document.createTextNode('Add environment');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  // buildEnvironmentInput :: -> DOM
-  self.buildEnvironmentInput = function () {
-    var node = document.createElement('span');
-    node.classList.add('environment-field');
-
     return node;
   };
 
@@ -140,32 +107,31 @@ Redcaser.ExecutionDialog = (function () {
 
   // forCreate :: DOM
   self.forCreate = function (dialog, target, data) {
-    var object, select;
+    var object, child;
 
     object = $(dialog);
 
     object.parent().data('execution-id', null);
     $('.name-field').val('');
 
-    select = $('.version-field');
-    select.empty();
+    child = $('.version-field');
+    child.empty();
 
     data.versions.forEach(function (element) {
-      select.append('<option value="' + element.id + '">' + element.name + '</option>');
+      child.append('<option value="' + element.id + '">' + element.name + '</option>');
     }.bind(this));
 
-    select = $('.environment-field');
-    select.empty();
+    child = $('.execution-dialog-environment');
+    child.empty();
 
     var environmentSelector = new EnvironmentSelector(data.environments);
-    select.append(environmentSelector.root);
+    child.append(environmentSelector.root);
 
-    select = $('.execution-dialog-queries');
-    select.empty();
+    child = $('.execution-dialog-queries');
+    child.empty();
 
     var testCaseSelector = new TestCaseSelector(data.queries);
-
-    select.append(testCaseSelector.root);
+    child.append(testCaseSelector.root);
 
     object.dialog('option', 'title', 'Create Execution Suite');
     object.dialog(
@@ -279,7 +245,7 @@ Redcaser.ExecutionDialog = (function () {
       id: root.data('execution-id'),
       params: {
         execution_suite: {
-          environment_id: root.find('.environment-field select').val(),
+          environment_id: root.find('.environment-select').val(),
           name:           root.find('.name-field').val(),
           query_id:       root.find('.queries-select').val(),
           test_cases:     testCases,
