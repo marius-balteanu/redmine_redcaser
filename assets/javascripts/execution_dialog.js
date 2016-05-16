@@ -113,7 +113,7 @@ Redcaser.ExecutionDialog = (function () {
 
   // buildEnvironmentInput :: -> DOM
   self.buildEnvironmentInput = function () {
-    var node = document.createElement('select');
+    var node = document.createElement('span');
     node.classList.add('environment-field');
 
     return node;
@@ -157,7 +157,7 @@ Redcaser.ExecutionDialog = (function () {
     select = $('.environment-field');
     select.empty();
 
-    var environmentSelector = EnvironmentSelector(data.environments, execution_suite);
+    var environmentSelector = new EnvironmentSelector(data.environments);
     select.append(environmentSelector.root);
 
     select = $('.execution-dialog-queries');
@@ -205,7 +205,7 @@ Redcaser.ExecutionDialog = (function () {
     select = $('.environment-field');
     select.empty();
 
-    var environmentSelector = EnvironmentSelector(data.environments, execution_suite);
+    var environmentSelector = new EnvironmentSelector(data.environments, data.execution_suite);
     select.append(environmentSelector.root);
 
     select = $('.execution-dialog-queries');
@@ -279,7 +279,7 @@ Redcaser.ExecutionDialog = (function () {
       id: root.data('execution-id'),
       params: {
         execution_suite: {
-          environment_id: root.find('.environment-field').val(),
+          environment_id: root.find('.environment-field select').val(),
           name:           root.find('.name-field').val(),
           query_id:       root.find('.queries-select').val(),
           test_cases:     testCases,

@@ -3,7 +3,7 @@ var Redcaser = Redcaser || {};
 Redcaser.EnvironmentSelector = (function () {
   'use strict';
 
-  var EnvironmentSelector = Redcaser.EnvironmentSelector;
+  var EnvironmentSelectorEvents = Redcaser.EnvironmentSelectorEvents;
 
   var self = function (environments, executionSuite) {
     var selectedId = executionSuite ? executionSuite.environment_id : null;
@@ -16,23 +16,25 @@ Redcaser.EnvironmentSelector = (function () {
   var def = self.prototype;
 
   def.build = function (data, selectedId) {
-    var node = document.createElement('div');
+    var node = document.createElement('select');
 
-    data.environments.forEach(function (element) {
+    data.forEach(function (element) {
       var option = document.createElement('option');
       option.value = element.id;
 
       if (element.id == selectedId) option.selected = true;
 
       var text = document.createTextNode(element.name);
-      node.appendChild(text);
+
+      option.appendChild(text);
+      node.appendChild(option);
     });
 
     return node;
   }
 
   def.addEventHandlers = function () {
-    TestCaseSelectorEvents.attach(this);
+    EnvironmentSelectorEvents.attach(this);
   };
 
   return self;
