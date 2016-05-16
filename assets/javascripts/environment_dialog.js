@@ -55,8 +55,8 @@ Redcaser.EnvironmentDialog = (function () {
   };
 
   // forCreate :: DOM
-  self.forCreate = function (dialog, target, data) {
-    var object = $(dialog);
+  self.forCreate = function (target, data) {
+    var object = $(Redcaser.environmentEditDialog);
 
     $('.name-field').val('');
 
@@ -74,8 +74,8 @@ Redcaser.EnvironmentDialog = (function () {
   };
 
   // forUpdate :: DOM
-  self.forUpdate = function (dialog, target, data) {
-    var object = $(dialog);
+  self.forUpdate = function (target, data) {
+    var object = $(Redcaser.environmentEditDialog);
     var id     = target.dataset.id;
 
     $('.name-field').val(data.environment.name);

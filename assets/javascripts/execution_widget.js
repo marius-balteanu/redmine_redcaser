@@ -54,13 +54,13 @@ Redcaser.ExecutionWidget = (function () {
   };
 
   def.createExecutionEditDialog = function () {
-    this.executionEditDialog = ExecutionDialog.build();
-    ExecutionDialog.initialize(this.executionEditDialog);
+    Redcaser.executionEditDialog = ExecutionDialog.build();
+    ExecutionDialog.initialize(Redcaser.executionEditDialog);
   };
 
   def.createEnvironmentEditDialog = function () {
-    this.environmentEditDialog = EnvironmentDialog.build();
-    EnvironmentDialog.initialize(this.environmentEditDialog);
+    Redcaser.environmentEditDialog = EnvironmentDialog.build();
+    EnvironmentDialog.initialize(Redcaser.environmentEditDialog);
   };
 
   def.addEventHandlers = function () {
