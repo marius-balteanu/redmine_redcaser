@@ -5,38 +5,19 @@ Redcaser.EnvironmentDialog = (function () {
 
   // build :: -> DOM
   self.build = function () {
-    return DOMBuilder.div(['environment-dialog'], [this.buildNameFields()])
-  }
-
-  // buildNameFields :: -> DOM
-  self.buildNameFields = function () {
     return DOMBuilder.div({
-      classes:  ['environment-dialog-name'],
+      classes:  ['environment-dialog'],
       children: [
-        this.buildNameLabel(),
-        this.buildNameInput()
+        DOMBuilder.div({
+          classes:  ['environment-dialog-name'],
+          children: [
+            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            DOMBuilder.textInput({classes: ['name-field']})
+          ]
+        })
       ]
     })
-  };
-
-  // buildNameLabel :: -> DOM
-  self.buildNameLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Name');
-    node.appendChild(text);
-
-    return node;
   }
-
-  // buildNameInput :: -> DOM
-  self.buildNameInput = function () {
-    var node  = document.createElement('input');
-    node.classList.add('name-field');
-    node.type = 'text'
-
-    return node;
-  };
 
   self.initialize = function (dialog) {
     var params = {
@@ -92,16 +73,11 @@ Redcaser.EnvironmentDialog = (function () {
   self.submitForCreate = function (event) {
     var data = this.gatherDataFrom(event.target);
 
-    console.log(event);
-    console.log('Create');
-
     var params = {
       data: data.params,
       done: function () { location.reload(true); },
       fail: function (response) { console.log(response); }
     };
-
-    console.log(params);
 
     Redcaser.API.environments.create(params);
   }
@@ -110,17 +86,12 @@ Redcaser.EnvironmentDialog = (function () {
   self.submitForUpdate = function (event) {
     var data = this.gatherDataFrom(event.target);
 
-    console.log(event);
-    console.log('Update');
-
     var params = {
       id:   data.id,
       data: data.params,
       done: function () { location.reload(true); },
       fail: function (response) { console.log(response); }
     };
-
-    console.log(params);
 
     Redcaser.API.environments.update(params);
   }
