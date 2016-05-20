@@ -8,8 +8,8 @@ var DOMBuilder = (function () {
     if (options.classes) node.classList.add(options.classes)
 
     if (options.dataset) {
-      for (prop in options.dataset) {
-        node.dataset[prop] = options.dataset.prop
+      for (var prop in options.dataset) {
+        node.dataset[prop] = options.dataset[prop]
       }
     }
 
@@ -97,6 +97,13 @@ var DOMBuilder = (function () {
   // select :: Object -> DOM
   self.select = function (options) {
     return self.node('select', options)
+  }
+
+  self.submit = function (options) {
+    var node  = self.node('input', options)
+    node.type = 'submit'
+
+    return node
   }
 
   // textInput :: Object -> DOM

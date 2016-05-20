@@ -8,7 +8,7 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionEvents        = Redcaser.ExecutionEvents;
   var ExecutionDialog        = Redcaser.ExecutionDialog;
   var EnvironmentDialog      = Redcaser.EnvironmentDialog;
-  var TestCasePreviewBuilder = Redcaser.TestCasePreviewBuilder;
+  var TestCasePreview = Redcaser.TestCasePreview;
 
   // self :: DOM
   var self = function (root) {
@@ -125,7 +125,7 @@ Redcaser.ExecutionWidget = (function () {
   def.displayCasePreview = function (id) {
     this.initializePreview();
 
-    this.preview = TestCasePreviewBuilder.build(
+    this.preview = TestCasePreview.build(
       this.testCases[parseInt(id)],
       this.statuses
     );
