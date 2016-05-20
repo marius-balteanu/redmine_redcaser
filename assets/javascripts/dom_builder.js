@@ -47,6 +47,10 @@ var DOMBuilder = (function () {
     return this.node('label', options)
   }
 
+  self.select = function (options) {
+    return this.node('select', options)
+  }
+
   self.textInput = function (options) {
     var node  = this.node('input', options)
     node.type = 'text'

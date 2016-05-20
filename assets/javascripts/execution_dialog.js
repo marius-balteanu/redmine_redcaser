@@ -8,91 +8,28 @@ Redcaser.ExecutionDialog = (function () {
 
   // build :: -> DOM
   self.build = function () {
-    var node = document.createElement('div');
-    node.classList.add('execution-dialog');
-
-    node.appendChild(this.buildNameFields());
-    node.appendChild(this.buildVersionFields());
-    node.appendChild(this.buildEnvironmentFields());
-    node.appendChild(this.buildQueriesFields());
-
-    return node;
-  };
-
-  // buildNameFields :: -> DOM
-  self.buildNameFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('execution-dialog-name');
-
-    node.appendChild(this.buildNameLabel());
-    node.appendChild(this.buildNameInput());
-
-    return node;
-  };
-
-  // buildNameLabel :: -> DOM
-  self.buildNameLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Name');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  // buildNameInput :: -> DOM
-  self.buildNameInput = function () {
-    var node  = document.createElement('input');
-    node.classList.add('name-field');
-    node.type = 'text'
-
-    return node;
-  };
-
-  // buildVersionFields :: -> DOM
-  self.buildVersionFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('execution-dialog-version');
-
-    node.appendChild(this.buildVersionLabel());
-    node.appendChild(this.buildVersionInput());
-
-    return node;
-  };
-
-  // buildVersionLabel :: -> DOM
-  self.buildVersionLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Version');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  // buildVersionInput :: -> DOM
-  self.buildVersionInput = function () {
-    var node = document.createElement('select');
-    node.classList.add('version-field');
-
-    return node;
-  };
-
-  // buildEnvironmentFields :: -> DOM
-  self.buildEnvironmentFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('execution-dialog-environment');
-
-    return node;
-  };
-
-  // buildQueriesFields :: -> DOM
-  self.buildQueriesFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('execution-dialog-queries');
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['execution-dialog'],
+      children: [
+        DOMBuilder.div({
+          classes:  ['execution-dialog-name'],
+          children: [
+            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            DOMBuilder.textInput({classes: ['name-field']})
+          ]
+        }),
+        DOMBuilder.div({
+          classes:  ['execution-dialog-version'],
+          children: [
+            DOMBuilder.label({children: [DOMBuilder.text('Version')]}),
+            DOMBuilder.select({classes: ['version-field']})
+          ]
+        }),
+        DOMBuilder.div({classes: ['execution-dialog-environment']}),
+        DOMBuilder.div({classes: ['execution-dialog-queries']})
+      ]
+    })
+  }
 
   self.initialize = function (dialog) {
     var params = {
