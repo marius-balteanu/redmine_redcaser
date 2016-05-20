@@ -13,6 +13,12 @@ var DOMBuilder = (function () {
       }
     }
 
+    var nodeFields = ['href', 'selected', 'value']
+
+    nodeFields.forEach(function (field) {
+      if (options[field]) node[field] = options[field]
+    })
+
     if (options.children) options.children.forEach(node.appendChild.bind(node))
   }
 
@@ -39,20 +45,42 @@ var DOMBuilder = (function () {
 
   // div :: Object -> DOM
   self.div = function (options) {
-    return this.node('div', options)
+    return self.node('div', options)
   }
 
   // label :: Object -> DOM
   self.label = function (options) {
-    return this.node('label', options)
+    return self.node('label', options)
+  }
+
+  self.link = function (options) {
+    return self.node('a', options)
+  }
+
+  self.option = function (options) {
+    return self.node('option', options)
+  }
+
+  self.options = function (options) {
+    var valueField = options.valueField || 'value';
+    var textField  = options.textField || 'text';
+
+    return options.data.map(function (element) {
+      return self.option({
+        classes:  options.classes,
+        value:    element[valueField],
+        selected: element[valueField] == options.selected,
+        children: [self.text(element[textField])]
+      })
+    })
   }
 
   self.select = function (options) {
-    return this.node('select', options)
+    return self.node('select', options)
   }
 
   self.textInput = function (options) {
-    var node  = this.node('input', options)
+    var node  = self.node('input', options)
     node.type = 'text'
 
     return node;
