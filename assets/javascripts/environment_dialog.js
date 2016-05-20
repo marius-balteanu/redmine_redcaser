@@ -1,27 +1,22 @@
-var Redcaser = Redcaser || {};
+var Redcaser = Redcaser || {}
 
 Redcaser.EnvironmentDialog = (function () {
-  var self = {};
+  var self = {}
 
   // build :: -> DOM
   self.build = function () {
-    var node = document.createElement('div');
-    node.classList.add('environment-dialog');
-
-    node.appendChild(this.buildNameFields());
-
-    return node;
-  };
+    return DOMBuilder.div(['environment-dialog'], [this.buildNameFields()])
+  }
 
   // buildNameFields :: -> DOM
   self.buildNameFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('environment-dialog-name');
-
-    node.appendChild(this.buildNameLabel());
-    node.appendChild(this.buildNameInput());
-
-    return node;
+    return DOMBuilder.div({
+      classes:  ['environment-dialog-name'],
+      children: [
+        this.buildNameLabel(),
+        this.buildNameInput()
+      ]
+    })
   };
 
   // buildNameLabel :: -> DOM

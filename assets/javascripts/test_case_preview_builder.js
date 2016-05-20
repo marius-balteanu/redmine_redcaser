@@ -1,92 +1,85 @@
-var Redcaser = Redcaser || {};
+var Redcaser = Redcaser || {}
 
 Redcaser.TestCasePreviewBuilder = (function () {
-  var self = {};
+  var self = {}
 
   // build :: Object -> DOM
   self.build = function (element, statuses) {
-    var node = document.createElement('div');
-    node.classList.add('case-preview');
-
-    node.appendChild(this.buildHeader(element));
-    node.appendChild(this.buildBody(element));
-    node.appendChild(this.buildFooter(element, statuses));
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['case-preview'],
+      children: [
+        this.buildHeader(element),
+        this.buildBody(element),
+        this.buildFooter(element, statuses)
+      ]
+    })
+  }
 
   // buildHeader :: Object -> DOM
   self.buildHeader = function (element) {
-    var node = document.createElement('div');
-    node.classList.add('case-header');
-
-    node.appendChild(this.buildHeaderTitle(element));
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['case-header'],
+      children: [this.buildHeaderTitle(element)]
+    })
+  }
 
   // buildHeaderTitle :: Object -> DOM
   self.buildHeaderTitle = function (element) {
-    var text = document.createTextNode(element.name);
-
-    return text;
-  };
+    return document.createTextNode(element.name)
+  }
 
   // buildBody :: Object -> DOM
   self.buildBody = function (element) {
-    var node = document.createElement('div');
-    node.classList.add('case-body');
-
-    node.appendChild(this.buildBodyPreconditions(element));
-    node.appendChild(this.buildBodySteps(element));
-    node.appendChild(this.buildBodyExpected(element));
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['case-body'],
+      children: [
+        this.buildBodyPreconditions(element),
+        this.buildBodySteps(element),
+        this.buildBodyExpected(element)
+      ]
+    })
+  }
 
   // buildBodyPreconditions :: Object -> DOM
   self.buildBodyPreconditions = function (element) {
-    var node = document.createElement('div');
-    node.classList.add('case-preconditions');
-
-    var text = document.createTextNode('Preconditions: ' + element.preconditions);
-    node.appendChild(text);
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['case-preconditions'],
+      children: [
+        document.createTextNode('Preconditions: ' + element.preconditions)
+      ]
+    })
+  }
 
   // buildBodySteps :: Object -> DOM
   self.buildBodySteps = function (element) {
-    var node = document.createElement('div');
-    node.classList.add('case-steps');
-
-    var text = document.createTextNode('Steps: ' + element.steps);
-    node.appendChild(text);
-
-    return node;
-  };
+    return DOMBuilder.div({
+      classes:  ['case-steps'],
+      children: [
+        document.createTextNode('Steps: ' + element.steps)
+      ]
+    })
+  }
 
   // buildBodyExpected :: Object -> DOM
   self.buildBodyExpected = function (element) {
-    var node = document.createElement('div');
-    node.classList.add('case-expected');
-
-    var text = document.createTextNode('Expected results: ' + element.expected_results);
-    node.appendChild(text);
-
-    return node;
+    return DOMBuilder.div({
+      classes:  ['case-expected'],
+      children: [
+        document.createTextNode('Expected results: ' + element.expected_results)
+      ]
+    })
   };
 
   // buildFooter :: Object -> DOM
   self.buildFooter = function (element, statuses) {
-    var node = document.createElement('div');
-    node.classList.add('case-footer');
-
-    node.appendChild(this.buildFooterComment(element));
-    node.appendChild(this.buildFooterSelect(element, statuses));
-    node.appendChild(this.buildFooterSubmit(element));
-
-    return node;
+    return DOMBuilder.div({
+      classes:  ['case-footer'],
+      children: [
+        this.buildFooterComment(element),
+        this.buildFooterSelect(element, statuses),
+        this.buildFooterSubmit(element)
+      ]
+    })
   };
 
   self.buildFooterComment = function (element) {
@@ -123,6 +116,7 @@ Redcaser.TestCasePreviewBuilder = (function () {
     node.classList.add('case-footer-submit');
     node.type = 'submit';
     node.dataset.id = element.id;
+    node.dataset.test_case_status_id = element.status.test_case_status_id
 
     return node;
   };

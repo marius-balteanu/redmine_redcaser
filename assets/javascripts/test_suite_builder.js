@@ -31,7 +31,6 @@ Redcaser.TestSuiteBuilder = (function () {
     return node;
   };
 
-
   // buildSuiteTable :: Object -> DOM
   self.buildSuiteTable = function (element) {
     var node = document.createElement('div');
