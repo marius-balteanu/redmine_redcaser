@@ -80,7 +80,7 @@ Redcaser.ExecutionEvents = (function () {
     };
 
     if (test_case.status) {
-      params.id = id;
+      params.id = event.target.dataset.test_case_status_id;
 
       Redcaser.API.testSuiteStatuses.update(params);
     }

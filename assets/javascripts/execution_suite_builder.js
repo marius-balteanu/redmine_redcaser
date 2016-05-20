@@ -219,6 +219,9 @@ Redcaser.ExecutionSuiteBuilder = (function () {
     select.classList.add('list-item-select');
     select.dataset.id = element.id;
 
+    var testCaseStatusId = element.status ? element.status.test_case_status_id : null;
+    select.dataset.test_case_status_id = testCaseStatusId;
+
     select.appendChild(document.createElement('option'));
     data.execution_results.forEach(function (execution_result) {
       var option = document.createElement('option');
