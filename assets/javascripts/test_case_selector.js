@@ -8,7 +8,7 @@ Redcaser.TestCaseSelector = (function () {
   var self = function (queries, executionSuite) {
     var selectedId = executionSuite ? executionSuite.query_id : null;
 
-    this.root = this.build(queries, selectedId);
+    this.root = self.build(queries, selectedId);
     this.caseContainer = null;
     this.executionSuite = executionSuite;
 
@@ -19,44 +19,41 @@ Redcaser.TestCaseSelector = (function () {
 
   var def = self.prototype;
 
-  def.build = function (data, selectedId) {
-    var node = document.createElement('div');
-
-    node.appendChild(this.buildQueriesLabel());
-    node.appendChild(this.buildQueriesSelect(data, selectedId));
-
-    return node;
+  self.build = function (data, selectedId) {
+    return DOMBuilder.div({
+      children: [
+        DOMBuilder.label({children: [DOMBuilder.text('Queiries')]}),
+        DOMBuilder.select({
+          classes:  ['queries-select'],
+          children: DOMBuilder.options({
+            data:         data,
+            includeBlank: true,
+            selected:     selectedId,
+            valueField:   'id',
+            textField:    'name'
+          })
+        })
+      ]
+    })
   }
 
-  // buildQueriesLabel :: -> DOM
-  def.buildQueriesLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Queries');
-    node.appendChild(text);
-
-    return node;
-  };
-
-  def.buildQueriesSelect = function (data, selectedId) {
-    var node = document.createElement('select');
-    node.classList.add('queries-select');
-
-    node.appendChild(document.createElement('option'));
-    data.forEach(function (element) {
-      var option   = document.createElement('option');
-      option.value = element.id;
-
-      if (element.id == selectedId) option.selected = true;
-
-      var text = document.createTextNode(element.name);
-      option.appendChild(text);
-
-      node.appendChild(option);
-    }.bind(this));
-
-    return node;
-  };
+  self.buildCaseList = function (data, selected) {
+    return DOMBuilder.div({
+      classes:  ['case-list'],
+      children: data.map(function (element) {
+        return DOMBuilder.div({
+          classes:  ['case-element'],
+          children: [
+            DOMBuilder.checkbox({
+              value:   element.id,
+              checked: selected.includes(element.id)
+            }),
+            DOMBuilder.text(element.name)
+          ]
+        })
+      })
+    })
+  }
 
   def.addEventHandlers = function () {
     TestCaseSelectorEvents.attach(this);
@@ -87,40 +84,9 @@ Redcaser.TestCaseSelector = (function () {
 
     this.testCases = response.test_cases;
 
-    this.caseContainer = document.createElement('div')
-    this.caseContainer.classList.add('case-list');
-
-    this.testCases.forEach(function (element) {
-      this.caseContainer.appendChild(this.buildCaseElement(element, response.selected));
-    }.bind(this));
+    this.caseContainer = self.buildCaseList(this.testCases, response.selected)
 
     this.root.appendChild(this.caseContainer);
-  };
-
-  def.buildCaseElement = function (element, selected) {
-    var node = document.createElement('div');
-    node.classList.add('case-element');
-
-    node.appendChild(this.buildCaseElementCheckbox(element, selected));
-    node.appendChild(this.buildCaseElementName(element));
-
-    return node;
-  };
-
-  def.buildCaseElementCheckbox = function (element, selected) {
-    var node   = document.createElement('input');
-    node.type  = 'checkbox';
-    node.value = element.id;
-
-    if (selected.includes(element.id)) node.checked = true;
-
-    return node;
-  };
-
-  def.buildCaseElementName = function (element) {
-    var node = document.createTextNode(element.name);
-
-    return node;
   };
 
   return self;

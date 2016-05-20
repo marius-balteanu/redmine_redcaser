@@ -22,10 +22,10 @@ Redcaser.EnvironmentSelector = (function () {
         DOMBuilder.select({
           classes:  ['environment-select'],
           children: DOMBuilder.options({
-            data:       data,
-            selected:   selectedId,
-            valueField: 'id',
-            textField:  'name'
+            data:         data,
+            selected:     selectedId,
+            valueField:   'id',
+            textField:    'name'
           })
         }),
         DOMBuilder.link({

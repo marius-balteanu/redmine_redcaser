@@ -13,7 +13,7 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['href', 'selected', 'value']
+    var nodeFields = ['checked', 'href', 'selected', 'value']
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]
@@ -22,7 +22,7 @@ var DOMBuilder = (function () {
     if (options.children) options.children.forEach(node.appendChild.bind(node))
   }
 
-  // buildNode :: Function, DOM, Object -> DOM
+  // buildNode :: (String -> DOM), String, Object -> DOM
   var buildNode = function (builder, nodeIdentity, options) {
     var node = builder(nodeIdentity)
 
@@ -43,6 +43,14 @@ var DOMBuilder = (function () {
     return buildNode(document.createTextNode.bind(document), text, options)
   }
 
+  // checkbox :: Object -> DOM
+  self.checkbox = function (options) {
+    var node  = self.node('input', options)
+    node.type = 'checkbox'
+
+    return node
+  }
+
   // div :: Object -> DOM
   self.div = function (options) {
     return self.node('div', options)
@@ -53,37 +61,50 @@ var DOMBuilder = (function () {
     return self.node('label', options)
   }
 
+  // link :: Object -> DOM
   self.link = function (options) {
     return self.node('a', options)
   }
 
+  // option :: Object -> DOM
   self.option = function (options) {
     return self.node('option', options)
   }
 
+  // options :: Object -> DOM
   self.options = function (options) {
-    var valueField = options.valueField || 'value';
-    var textField  = options.textField || 'text';
+    var valueField = options.valueField || 'value'
+    var textField  = options.textField || 'text'
 
-    return options.data.map(function (element) {
-      return self.option({
+    var result = []
+
+    if (options.includeBlank) result.push(self.option())
+
+    options.data.forEach(function (element) {
+      var node = self.option({
         classes:  options.classes,
         value:    element[valueField],
         selected: element[valueField] == options.selected,
         children: [self.text(element[textField])]
       })
+
+      result.push(node)
     })
+
+    return result
   }
 
+  // select :: Object -> DOM
   self.select = function (options) {
     return self.node('select', options)
   }
 
+  // textInput :: Object -> DOM
   self.textInput = function (options) {
     var node  = self.node('input', options)
     node.type = 'text'
 
-    return node;
+    return node
   }
 
   return self
