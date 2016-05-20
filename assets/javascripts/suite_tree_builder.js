@@ -45,7 +45,7 @@ Redcaser.SuiteTreeBuilder = (function () {
       }.bind(this));
     }
     else if (type === 'case') {
-      node = Redcaser.TestCaseBuilder.build(element);
+      node = Redcaser.TestCase.build(element);
     }
     else {
       console.log('Bad Node data:');

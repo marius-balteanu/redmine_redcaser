@@ -13,7 +13,7 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['checked', 'href', 'selected', 'value']
+    var nodeFields = ['checked', 'href', 'selected', 'target', 'value']
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]
@@ -41,6 +41,11 @@ var DOMBuilder = (function () {
   // text :: String, Object -> DOM
   self.text = function (text, options) {
     return buildNode(document.createTextNode.bind(document), text, options)
+  }
+
+  // button :: Object -> DOM
+  self.button = function (options) {
+    return self.node('button', options)
   }
 
   // checkbox :: Object -> DOM
@@ -99,11 +104,17 @@ var DOMBuilder = (function () {
     return self.node('select', options)
   }
 
+  // submit :: Object -> DOM
   self.submit = function (options) {
     var node  = self.node('input', options)
     node.type = 'submit'
 
     return node
+  }
+
+  // span :: Object -> DOM
+  self.span = function (options) {
+    return self.node('span', options)
   }
 
   // textInput :: Object -> DOM
