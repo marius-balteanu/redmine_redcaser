@@ -39,8 +39,7 @@ Redcaser.EnvironmentSelectorEvents = (function () {
 
   // handleEnvironmentCreate :: Event, Object
   self.handleEnvironmentCreate = function (event, context) {
-    console.log('handling click');
-    EnvironmentDialog.forCreate(event.target);
+    Redcaser.environmentDialog.forCreate(context);
   };
 
   return self;

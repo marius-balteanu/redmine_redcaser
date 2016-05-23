@@ -46,7 +46,7 @@ Redcaser.ExecutionDialog = (function () {
   self.forCreate = function (target, data) {
     var object, child;
 
-    object = $(Redcaser.executionEditDialog);
+    object = $(Redcaser.executionDialog);
 
     object.parent().data('execution-id', null);
     $('.name-field').val('');
@@ -85,7 +85,7 @@ Redcaser.ExecutionDialog = (function () {
 
   // forUpdate :: DOM
   self.forUpdate = function (target, data) {
-    var object = $(Redcaser.executionEditDialog);
+    var object = $(Redcaser.executionDialog);
     var id     = target.dataset.id;
 
     var execution_suite = data.execution_suite;

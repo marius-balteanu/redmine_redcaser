@@ -1,33 +1,35 @@
 var Redcaser = Redcaser || {};
 
 Redcaser.EnvironmentSelector = (function () {
-  'use strict';
+  'use strict'
 
-  var EnvironmentSelectorEvents = Redcaser.EnvironmentSelectorEvents;
+  var EnvironmentSelectorEvents = Redcaser.EnvironmentSelectorEvents
 
   var self = function (environments, executionSuite) {
-    var selectedId = executionSuite ? executionSuite.environment_id : null;
+    this.inputs     = {}
+    this.selectedId = executionSuite ? executionSuite.environment_id : null
+    this.root       = this.build(environments)
 
-    this.root = self.build(environments, selectedId);
+    EnvironmentSelectorEvents.attach(this)
+  }
 
-    this.addEventHandlers();
-  };
+  var def = self.prototype
 
-  var def = self.prototype;
+  def.build = function  (data) {
+    this.inputs.select = DOMBuilder.select({
+      classes:  ['environment-select'],
+      children: DOMBuilder.options({
+        data:         data,
+        selected:     this.selectedId,
+        valueField:   'id',
+        textField:    'name'
+      })
+    })
 
-  self.build = function  (data, selectedId) {
     return DOMBuilder.div({
       children: [
         DOMBuilder.label({children: [DOMBuilder.text('Environment')]}),
-        DOMBuilder.select({
-          classes:  ['environment-select'],
-          children: DOMBuilder.options({
-            data:         data,
-            selected:     selectedId,
-            valueField:   'id',
-            textField:    'name'
-          })
-        }),
+        this.inputs.select,
         DOMBuilder.link({
           classes:  ['environment-create'],
           href:     '#',
@@ -35,11 +37,16 @@ Redcaser.EnvironmentSelector = (function () {
         })
       ]
     })
-  };
+  }
 
-  def.addEventHandlers = function () {
-    EnvironmentSelectorEvents.attach(this);
-  };
+  def.appendOption = function (environment) {
+    this.inputs.select.appendChild(
+      DOMBuilder.option({
+        value:    environment.id,
+        children: [DOMBuilder.text(environment.name)]
+      })
+    )
+  }
 
-  return self;
-})();
+  return self
+})()

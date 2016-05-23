@@ -6,7 +6,7 @@ class Redcaser::EnvironmentsController < RedcaserBaseController
     @environment.project = @project
 
     if @environment.save
-      render json: {success: 'Environment created'}
+      render json: {success: 'Environment created', environment: @environment}
     else
       render json: {errors: @environment.errors.full_messages}, status: 400
     end

@@ -8,7 +8,7 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionEvents        = Redcaser.ExecutionEvents;
   var ExecutionDialog        = Redcaser.ExecutionDialog;
   var EnvironmentDialog      = Redcaser.EnvironmentDialog;
-  var TestCasePreview = Redcaser.TestCasePreview;
+  var TestCasePreview        = Redcaser.TestCasePreview;
 
   // self :: DOM
   var self = function (root) {
@@ -50,17 +50,11 @@ Redcaser.ExecutionWidget = (function () {
 
   def.createDialogs = function () {
     this.createExecutionEditDialog();
-    this.createEnvironmentEditDialog();
   };
 
   def.createExecutionEditDialog = function () {
-    Redcaser.executionEditDialog = ExecutionDialog.build();
-    ExecutionDialog.initialize(Redcaser.executionEditDialog);
-  };
-
-  def.createEnvironmentEditDialog = function () {
-    Redcaser.environmentEditDialog = EnvironmentDialog.build();
-    EnvironmentDialog.initialize(Redcaser.environmentEditDialog);
+    Redcaser.executionDialog = ExecutionDialog.build();
+    ExecutionDialog.initialize(Redcaser.executionDialog);
   };
 
   def.addEventHandlers = function () {
