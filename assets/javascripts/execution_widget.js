@@ -29,7 +29,6 @@ Redcaser.ExecutionWidget = (function () {
 
   def.initialize = function () {
     this.createWidgetHeader();
-    this.createDialogs();
     this.addEventHandlers();
     this.getExecutionSuites();
   };
@@ -46,15 +45,6 @@ Redcaser.ExecutionWidget = (function () {
     if (this.header) {
       this.root.removeChild(this.header);
     }
-  };
-
-  def.createDialogs = function () {
-    this.createExecutionEditDialog();
-  };
-
-  def.createExecutionEditDialog = function () {
-    Redcaser.executionDialog = ExecutionDialog.build();
-    ExecutionDialog.initialize(Redcaser.executionDialog);
   };
 
   def.addEventHandlers = function () {

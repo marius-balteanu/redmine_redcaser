@@ -11,6 +11,7 @@ $(function () {
   element = document.getElementsByClassName('execution-suites-root')[0];
   if (element) {
     Redcaser.executionSuiteWidget = new Redcaser.ExecutionWidget(element);
+    Redcaser.executionDialog      = new Redcaser.ExecutionDialog();
     Redcaser.environmentDialog    = new Redcaser.EnvironmentDialog();
   }
 });

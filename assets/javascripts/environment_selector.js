@@ -6,25 +6,16 @@ Redcaser.EnvironmentSelector = (function () {
   var EnvironmentSelectorEvents = Redcaser.EnvironmentSelectorEvents
 
   var self = function (environments, executionSuite) {
-    this.inputs     = {}
-    this.selectedId = executionSuite ? executionSuite.environment_id : null
-    this.root       = this.build(environments)
+    this.inputs = {}
+    this.root   = this.build(environments)
 
     EnvironmentSelectorEvents.attach(this)
   }
 
   var def = self.prototype
 
-  def.build = function  (data) {
-    this.inputs.select = DOMBuilder.select({
-      classes:  ['environment-select'],
-      children: DOMBuilder.options({
-        data:         data,
-        selected:     this.selectedId,
-        valueField:   'id',
-        textField:    'name'
-      })
-    })
+  def.build = function  () {
+    this.inputs.select = DOMBuilder.select({classes: ['environment-select']})
 
     return DOMBuilder.div({
       children: [
@@ -36,6 +27,24 @@ Redcaser.EnvironmentSelector = (function () {
           children: [DOMBuilder.text('Add environment')]
         })
       ]
+    })
+  }
+
+  def.rebuild = function (data, selectedId) {
+    var select = this.inputs.select
+
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+
+    data.forEach(function (element) {
+      select.appendChild(
+        DOMBuilder.option({
+          value:    element.id,
+          selected: element.id == selectedId,
+          children: [DOMBuilder.text(element.name)]
+        })
+      )
     })
   }
 

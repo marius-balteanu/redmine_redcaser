@@ -1,13 +1,25 @@
-var Redcaser = Redcaser || {};
+var Redcaser = Redcaser || {}
 
 Redcaser.ExecutionDialog = (function () {
-  var TestCaseSelector    = Redcaser.TestCaseSelector;
-  var EnvironmentSelector = Redcaser.EnvironmentSelector;
+  var TestCaseSelector    = Redcaser.TestCaseSelector
+  var EnvironmentSelector = Redcaser.EnvironmentSelector
 
-  var self = {};
+  var self = function () {
+    this.inputs = {}
+    this.body   = this.build()
+    this.modal  = this.modal()
+  }
+
+  var def = self.prototype
 
   // build :: -> DOM
-  self.build = function () {
+  def.build = function () {
+    this.inputs.name    = DOMBuilder.textInput({classes: ['name-field']})
+    this.inputs.version = DOMBuilder.select({classes: ['version-field']})
+
+    this.inputs.environmentSelector = new EnvironmentSelector()
+    this.inputs.querySelector       = new TestCaseSelector()
+
     return DOMBuilder.div({
       classes:  ['execution-dialog'],
       children: [
@@ -15,63 +27,53 @@ Redcaser.ExecutionDialog = (function () {
           classes:  ['execution-dialog-name'],
           children: [
             DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
-            DOMBuilder.textInput({classes: ['name-field']})
+            this.inputs.name
           ]
         }),
         DOMBuilder.div({
           classes:  ['execution-dialog-version'],
           children: [
             DOMBuilder.label({children: [DOMBuilder.text('Version')]}),
-            DOMBuilder.select({classes: ['version-field']})
+            this.inputs.version
           ]
         }),
-        DOMBuilder.div({classes: ['execution-dialog-environment']}),
-        DOMBuilder.div({classes: ['execution-dialog-queries']})
+        DOMBuilder.div({
+          classes:  ['execution-dialog-environment'],
+          children: [this.inputs.environmentSelector.root]
+        }),
+        DOMBuilder.div({
+          classes:  ['execution-dialog-queries'],
+          children: [this.inputs.querySelector.root]
+        })
       ]
     })
   }
 
-  self.initialize = function (dialog) {
+  def.modal = function () {
     var params = {
       autoOpen: false,
       height:   300,
       width:    350,
       modal:    true
-    };
+    }
 
-    $(dialog).dialog(params);
+    return $(this.body).dialog(params)
   };
 
   // forCreate :: DOM
-  self.forCreate = function (target, data) {
-    var object, child;
+  def.forCreate = function (data) {
+    var child
 
-    object = $(Redcaser.executionDialog);
+    this.selectedId = null
 
-    object.parent().data('execution-id', null);
-    $('.name-field').val('');
+    this.inputs.name = ''
 
-    child = $('.version-field');
-    child.empty();
+    this.rebuildVersionSelect(data.versions)
+    this.inputs.environmentSelector.rebuild(data.environments)
+    this.inputs.querySelector.rebuild(data.queries)
 
-    data.versions.forEach(function (element) {
-      child.append('<option value="' + element.id + '">' + element.name + '</option>');
-    }.bind(this));
-
-    child = $('.execution-dialog-environment');
-    child.empty();
-
-    var environmentSelector = new EnvironmentSelector(data.environments);
-    child.append(environmentSelector.root);
-
-    child = $('.execution-dialog-queries');
-    child.empty();
-
-    var testCaseSelector = new TestCaseSelector(data.queries);
-    child.append(testCaseSelector.root);
-
-    object.dialog('option', 'title', 'Create Execution Suite');
-    object.dialog(
+    this.modal.dialog('option', 'title', 'Create Execution Suite')
+    this.modal.dialog(
       'option',
       'buttons',
       [{
@@ -79,48 +81,29 @@ Redcaser.ExecutionDialog = (function () {
         text:  'OK',
         click: this.submitForCreate.bind(this)
       }]
-    );
-    object.dialog('open');
+    )
+
+    this.modal.dialog('open')
   };
 
   // forUpdate :: DOM
-  self.forUpdate = function (target, data) {
-    var object = $(Redcaser.executionDialog);
-    var id     = target.dataset.id;
+  def.forUpdate = function (data) {
+    var execution_suite = data.execution_suite
 
-    var execution_suite = data.execution_suite;
+    this.selectedId = execution_suite.id
+    this.inputs.name = execution_suite.name
 
-    object.parent().data('execution-id', execution_suite.id);
-    $('.name-field').val(execution_suite.name);
+    this.rebuildVersionSelect(data.versions, execution_suite.version_id)
 
-    select = $('.version-field');
-    select.empty();
+    this.inputs.environmentSelector.rebuild(
+      data.environments,
+      data.execution_suite.environment_id
+    )
 
-    data.versions.forEach(function (element) {
-      if (element.id == execution_suite.version_id) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
-      }
-    }.bind(this));
+    this.inputs.querySelector.rebuild(data.queries, execution_suite)
 
-    select = $('.execution-dialog-environment');
-    select.empty();
-
-    var environmentSelector = new EnvironmentSelector(data.environments, data.execution_suite);
-    select.append(environmentSelector.root);
-
-    select = $('.execution-dialog-queries');
-    select.empty();
-
-    var testCaseSelector = new TestCaseSelector(data.queries, execution_suite);
-    testCaseSelector.getTestCaseList(execution_suite.query_id);
-
-    select.append(testCaseSelector.root);
-
-    object.dialog('option', 'title', 'Update Execution Suite');
-    object.dialog(
+    this.modal.dialog('option', 'title', 'Update Execution Suite')
+    this.modal.dialog(
       'option',
       'buttons',
       [{
@@ -128,55 +111,64 @@ Redcaser.ExecutionDialog = (function () {
         text:  'OK',
         click: this.submitForUpdate.bind(this)
       }]
-    );
-    object.dialog('open');
-  };
+    )
+
+    this.modal.dialog('open')
+  }
+
+  def.rebuildVersionSelect = function (versions, selectedId) {
+    var select = this.inputs.version
+
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+
+    versions.forEach(function (element) {
+      select.appendChild(
+        DOMBuilder.option({
+          value:    element.id,
+          selected: element.id == selectedId,
+          children: [DOMBuilder.text(element.name)]
+        })
+      )
+    })
+  }
 
   //submitForCreate :: Event
-  self.submitForCreate = function (event) {
-    var data = this.gatherDataFrom(event.target);
-
-    console.log(event);
-    console.log('Create');
+  def.submitForCreate = function (event) {
+    var data = this.gatherData()
 
     var params = {
       data: data.params,
-      done: function () { location.reload(true); },
-      fail: function (response) { console.log(response); }
+      done: function () { location.reload(true) },
+      fail: function (response) { console.log(response) }
     };
 
-    console.log(params);
-
-    Redcaser.API.executionSuites.create(params);
+    Redcaser.API.executionSuites.create(params)
   }
 
   // submitForUpdate :: Event
-  self.submitForUpdate = function (event) {
-    var data = this.gatherDataFrom(event.target);
-
-    console.log(event);
-    console.log('Update');
+  def.submitForUpdate = function (event) {
+    var data = this.gatherData()
 
     var params = {
       id:   data.id,
       data: data.params,
       done: function () { location.reload(true); },
       fail: function (response) { console.log(response); }
-    };
+    }
 
-    console.log(params);
-
-    Redcaser.API.executionSuites.update(params);
+    Redcaser.API.executionSuites.update(params)
   }
 
-  // gatherDataFrom :: DOM -> Object
-  self.gatherDataFrom = function (target) {
-    var root = $(target).closest('.ui-dialog');
+  // gatherData :: -> Object
+  def.gatherData = function () {
+    var root = this.modal
 
     var testCases = root
       .find('.case-element input:checked')
-      .map(function (index, element) { return element.value; })
-      .get();
+      .map(function (index, element) { return element.value })
+      .get()
 
     return {
       id: root.data('execution-id'),
@@ -189,8 +181,8 @@ Redcaser.ExecutionDialog = (function () {
           version_id:     root.find('.version-field').val()
         }
       }
-    };
-  };
+    }
+  }
 
-  return self;
+  return self
 })();

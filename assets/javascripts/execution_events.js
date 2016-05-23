@@ -95,7 +95,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       id:   id,
       done: function (response) {
-        ExecutionDialog.forUpdate(event.target, response);
+        Redcaser.executionDialog.forUpdate(response);
       },
       fail: function (response) { console.log(response); }
     };
@@ -153,10 +153,7 @@ Redcaser.ExecutionEvents = (function () {
   self.handleExecutionCreate = function (event, context) {
     var params = {
       done: function (response) {
-        ExecutionDialog.forCreate(
-          event.target,
-          response
-        );
+        Redcaser.executionDialog.forCreate(response);
       },
       fail: function (response) { console.log(response); }
     };
