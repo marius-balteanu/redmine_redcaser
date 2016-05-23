@@ -18,7 +18,7 @@ Redcaser.ExecutionDialog = (function () {
     this.inputs.version = DOMBuilder.select({classes: ['version-field']})
 
     this.inputs.environmentSelector = new EnvironmentSelector()
-    this.inputs.querySelector       = new TestCaseSelector()
+    this.inputs.testCaseSelector       = new TestCaseSelector()
 
     return DOMBuilder.div({
       classes:  ['execution-dialog'],
@@ -43,7 +43,7 @@ Redcaser.ExecutionDialog = (function () {
         }),
         DOMBuilder.div({
           classes:  ['execution-dialog-queries'],
-          children: [this.inputs.querySelector.root]
+          children: [this.inputs.testCaseSelector.root]
         })
       ]
     })
@@ -61,16 +61,17 @@ Redcaser.ExecutionDialog = (function () {
   };
 
   // forCreate :: DOM
-  def.forCreate = function (data) {
+  def.forCreate = function (data, context) {
     var child
 
-    this.selectedId = null
+    this.context          = context
+    this.executionSuiteId = null
 
-    this.inputs.name = ''
+    this.inputs.name.value = ''
 
     this.rebuildVersionSelect(data.versions)
     this.inputs.environmentSelector.rebuild(data.environments)
-    this.inputs.querySelector.rebuild(data.queries)
+    this.inputs.testCaseSelector.rebuild(data.queries)
 
     this.modal.dialog('option', 'title', 'Create Execution Suite')
     this.modal.dialog(
@@ -87,11 +88,12 @@ Redcaser.ExecutionDialog = (function () {
   };
 
   // forUpdate :: DOM
-  def.forUpdate = function (data) {
+  def.forUpdate = function (data, context) {
     var execution_suite = data.execution_suite
 
-    this.selectedId = execution_suite.id
-    this.inputs.name = execution_suite.name
+    this.context           = context
+    this.executionSuiteId  = execution_suite.id
+    this.inputs.name.value = execution_suite.name
 
     this.rebuildVersionSelect(data.versions, execution_suite.version_id)
 
@@ -100,7 +102,7 @@ Redcaser.ExecutionDialog = (function () {
       data.execution_suite.environment_id
     )
 
-    this.inputs.querySelector.rebuild(data.queries, execution_suite)
+    this.inputs.testCaseSelector.rebuild(data.queries, execution_suite)
 
     this.modal.dialog('option', 'title', 'Update Execution Suite')
     this.modal.dialog(
@@ -140,7 +142,11 @@ Redcaser.ExecutionDialog = (function () {
 
     var params = {
       data: data.params,
-      done: function () { location.reload(true) },
+      done: function (response) {
+        this.context.appendSuiteOption(response.execution_suite)
+
+        this.modal.dialog('close')
+      }.bind(this),
       fail: function (response) { console.log(response) }
     };
 
@@ -154,8 +160,12 @@ Redcaser.ExecutionDialog = (function () {
     var params = {
       id:   data.id,
       data: data.params,
-      done: function () { location.reload(true); },
-      fail: function (response) { console.log(response); }
+      done: function (response) {
+        this.context.updateSuiteOption(response.execution_suite)
+
+        this.modal.dialog('close')
+      }.bind(this),
+      fail: function (response) { console.log(response) }
     }
 
     Redcaser.API.executionSuites.update(params)
@@ -163,22 +173,24 @@ Redcaser.ExecutionDialog = (function () {
 
   // gatherData :: -> Object
   def.gatherData = function () {
-    var root = this.modal
+    var testCaseNodes = this.inputs.testCaseSelector.caseList.childNodes
+    var testCaseIds   = []
 
-    var testCases = root
-      .find('.case-element input:checked')
-      .map(function (index, element) { return element.value })
-      .get()
+    for (var index = 0; index < testCaseNodes.length; index += 1) {
+      var element = testCaseNodes[index].childNodes[0]
+
+      if (element.checked) testCaseIds.push(element.value)
+    }
 
     return {
-      id: root.data('execution-id'),
+      id: this.executionSuiteId,
       params: {
         execution_suite: {
-          environment_id: root.find('.environment-select').val(),
-          name:           root.find('.name-field').val(),
-          query_id:       root.find('.queries-select').val(),
-          test_cases:     testCases,
-          version_id:     root.find('.version-field').val()
+          environment_id: this.inputs.environmentSelector.inputs.select.value,
+          name:           this.inputs.name.value,
+          query_id:       this.inputs.testCaseSelector.inputs.select.value,
+          test_cases:     testCaseIds,
+          version_id:     this.inputs.version.value
         }
       }
     }

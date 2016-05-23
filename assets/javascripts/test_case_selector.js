@@ -1,20 +1,20 @@
-var Redcaser = Redcaser || {};
+var Redcaser = Redcaser || {}
 
 Redcaser.TestCaseSelector = (function () {
-  'use strict';
+  'use strict'
 
-  var TestCaseSelectorEvents = Redcaser.TestCaseSelectorEvents;
+  var TestCaseSelectorEvents = Redcaser.TestCaseSelectorEvents
 
   var self = function () {
     this.inputs    = {}
-    this.testCases = {};
+    this.testCases = {}
 
-    this.root = this.build();
+    this.root = this.build()
 
-    TestCaseSelectorEvents.attach(this);
-  };
+    TestCaseSelectorEvents.attach(this)
+  }
 
-  var def = self.prototype;
+  var def = self.prototype
 
   def.build = function () {
     this.inputs.select = DOMBuilder.select({classes:  ['queries-select']})
@@ -37,7 +37,7 @@ Redcaser.TestCaseSelector = (function () {
     var select = this.inputs.select
 
     while (select.firstChild) {
-      select.removeChild(select.firstChild);
+      select.removeChild(select.firstChild)
     }
 
     select.appendChild(DOMBuilder.option())
@@ -52,12 +52,12 @@ Redcaser.TestCaseSelector = (function () {
       )
     })
 
-    if (selectedId) this.getTestCaseList()
+    if (selectedId) this.getTestCaseList(selectedId)
   }
 
   def.buildCaseList = function (data, selected) {
     while (this.caseList.firstChild) {
-      this.caseList.removeChild(this.caseList.firstChild);
+      this.caseList.removeChild(this.caseList.firstChild)
     }
 
     data.forEach(function (element) {
@@ -77,30 +77,34 @@ Redcaser.TestCaseSelector = (function () {
   }
 
   def.getTestCaseList = function (id) {
-    var executionId = this.executionSuite ? this.executionSuite.id : null;
+    var executionId = this.executionSuite ? this.executionSuite.id : null
 
     if (id) {
       var params = {
         id:   id,
         data: {execution_suite_id: executionId},
         done: this.displayTestCases.bind(this),
-        fail: function (response) { console.log(response); }
-      };
+        fail: function (response) { console.log(response) }
+      }
 
-      Redcaser.API.queryTestCases.show(params);
+      Redcaser.API.queryTestCases.show(params)
     }
     else {
       while (this.caseList.firstChild) {
-        this.caseList.removeChild(this.caseList.firstChild);
+        this.caseList.removeChild(this.caseList.firstChild)
       }
     }
-  };
+  }
 
   def.displayTestCases = function (response) {
-    this.testCases = response.test_cases;
+    this.testCases = response.test_cases
 
     this.buildCaseList(this.testCases, response.selected)
-  };
+  }
 
-  return self;
-})();
+  def.checkedValues = function () {
+
+  }
+
+  return self
+})()

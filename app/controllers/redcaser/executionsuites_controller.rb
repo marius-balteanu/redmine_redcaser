@@ -96,7 +96,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
         end
       end
 
-      render json: {success: 'Execution Suite created'}
+      render json: {
+        success:         'Execution Suite created',
+        execution_suite: @execution_suite
+      }
     else
       render json: {errors: @execution_suite.errors.full_messages}, status: 400
     end
@@ -110,7 +113,6 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
         .where(execution_suite_id: @execution_suite.id)
         .delete_all
 
-
       test_cases = test_cases_params[:test_cases]
 
       if test_cases
@@ -122,7 +124,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
         end
       end
 
-      render json: {success: 'Execution Suite updated'}
+      render json: {
+        success:         'Execution Suite updated',
+        execution_suite: @execution_suite
+      }
     else
       render json: {errors: @execution_suite.errors.full_messages}, status: 400
     end

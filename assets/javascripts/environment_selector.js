@@ -1,4 +1,4 @@
-var Redcaser = Redcaser || {};
+var Redcaser = Redcaser || {}
 
 Redcaser.EnvironmentSelector = (function () {
   'use strict'
