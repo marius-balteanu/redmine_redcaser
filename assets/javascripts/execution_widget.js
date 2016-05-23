@@ -158,7 +158,6 @@ Redcaser.ExecutionWidget = (function () {
         DOMBuilder.div({
           classes:  ['case-list-toolbar'],
           children: [
-            DOMBuilder.text(data.execution_suite.name),
             DOMBuilder.button({
               classes:  ['case-list-edit'],
               dataset:  {id: data.execution_suite.id},

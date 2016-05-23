@@ -24,7 +24,7 @@ Redcaser.SuiteTreeBuilder = (function () {
     var node, suiteCases, suiteChildren;
 
     if (type === 'suite') {
-      node = Redcaser.TestSuiteBuilder.build(element, data);
+      node = Redcaser.TestSuite.build(element, data);
 
       suiteCases    = node.getElementsByClassName('suite-cases')[0];
       suiteChildren = node.getElementsByClassName('suite-children')[0];
