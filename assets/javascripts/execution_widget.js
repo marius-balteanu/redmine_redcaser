@@ -46,7 +46,12 @@ Redcaser.ExecutionWidget = (function () {
       ]
     })
 
+    this.body    = DOMBuilder.div({classes: ['execution-body']})
+    this.preview = DOMBuilder.div({classes: ['case-preview']})
+
     root.appendChild(this.header)
+    root.appendChild(this.body)
+    root.appendChild(this.preview)
 
     return root
   };
@@ -101,15 +106,6 @@ Redcaser.ExecutionWidget = (function () {
     }
   }
 
-  def.initializeBody = function () {
-    if (this.body && this.body.parentNode === this.root) {
-      this.root.removeChild(this.body)
-    }
-
-    this.body = document.createElement('div')
-    this.body.classList.add('execution-body')
-  }
-
   def.createExecutionSuiteBody = function (data) {
     this.initializeBody()
     this.initializePreview()
@@ -128,10 +124,7 @@ Redcaser.ExecutionWidget = (function () {
     this.statuses = data.execution_results
     this.selectedExecutionSuite = data.execution_suite
 
-    var node = ExecutionSuiteBuilder.buildExecutionSuiteBody(data)
-
-    this.body.appendChild(node)
-    this.root.appendChild(this.body)
+    this.body.appendChild(this.buildExecutionSuiteBody(data))
   }
 
   def.displayCasePreview = function (id) {
@@ -145,10 +138,120 @@ Redcaser.ExecutionWidget = (function () {
     this.root.appendChild(this.preview)
   }
 
-  def.initializePreview = function () {
-    if (this.preview && this.preview.parentNode === this.root) {
-      this.root.removeChild(this.preview)
+  def.initializeBody = function () {
+    while (this.body.firstChild) {
+      this.body.removeChild(this.body.firstChild)
     }
+  }
+
+  def.initializePreview = function () {
+    while (this.preview.firstChild) {
+      this.preview.removeChild(this.preview.firstChild)
+    }
+  }
+
+  def.buildExecutionSuiteBody = function (data) {
+    var children = [];
+
+    if (data.execution_suite) {
+      children.push(
+        DOMBuilder.div({
+          classes:  ['case-list-toolbar'],
+          children: [
+            DOMBuilder.text(data.execution_suite.name),
+            DOMBuilder.button({
+              classes:  ['case-list-edit'],
+              dataset:  {id: data.execution_suite.id},
+              children: [DOMBuilder.text('Edit')]
+            }),
+            DOMBuilder.button({
+              classes:  ['case-list-delete'],
+              dataset:  {id: data.execution_suite.id},
+              children: [DOMBuilder.text('Delete')]
+            })
+          ]
+        })
+      )
+
+      children.push(
+        DOMBuilder.div({
+          classes:  ['case-list-header'],
+          children: [
+            DOMBuilder.span({
+              classes:  ['list-header-check'],
+              children: [DOMBuilder.checkbox()]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-header-id'],
+              children: [DOMBuilder.text('Id')]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-header-title'],
+              children: [DOMBuilder.text('Title')]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-header-status'],
+              children: [DOMBuilder.text('Status')]
+            })
+          ]
+        })
+      )
+
+      var elements = data.test_cases
+      var caseList = []
+
+      elements.forEach(function (element) {
+        caseList.push(
+          DOMBuilder.div({
+            classes:  ['list-item'],
+            children: [
+              DOMBuilder.span({
+                classes:  ['list-item-check'],
+                children: [DOMBuilder.checkbox()]
+              }),
+              DOMBuilder.span({
+                classes:  ['list-item-id'],
+                children: [DOMBuilder.text(element.id)]
+              }),
+              DOMBuilder.span({
+                classes:  ['list-item-name'],
+                dataset:  {id: element.id},
+                children: [DOMBuilder.text(element.name)]
+              }),
+              DOMBuilder.span({
+                classes:  ['list-item-status'],
+                children: [
+                  DOMBuilder.text(element.status ? element.status.name : 'Untested'),
+                  DOMBuilder.select({
+                    classes: ['list-item-select'],
+                    dataset: {
+                      id:                  element.id,
+                      test_case_status_id: element.status ? element.status.test_case_status_id : null
+                    },
+                    children: DOMBuilder.options({
+                      data:         data.execution_results,
+                      includeBlank: true,
+                      selected:     element.status ? element.status.id : null,
+                      textField:    'name',
+                      valueField:   'id'
+                    })
+                  })
+                ]
+              })
+            ]
+          })
+        )
+      }.bind(this))
+
+      children.push(
+        DOMBuilder.div({classes: ['case-list-body'], children: caseList})
+      )
+    }
+
+    return DOMBuilder.div({
+      classes:  ['case-list-root'],
+      children: children
+    })
   }
 
   return self

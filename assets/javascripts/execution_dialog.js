@@ -18,7 +18,7 @@ Redcaser.ExecutionDialog = (function () {
     this.inputs.version = DOMBuilder.select({classes: ['version-field']})
 
     this.inputs.environmentSelector = new EnvironmentSelector()
-    this.inputs.testCaseSelector       = new TestCaseSelector()
+    this.inputs.testCaseSelector    = new TestCaseSelector()
 
     return DOMBuilder.div({
       classes:  ['execution-dialog'],

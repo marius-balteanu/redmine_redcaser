@@ -102,9 +102,5 @@ Redcaser.TestCaseSelector = (function () {
     this.buildCaseList(this.testCases, response.selected)
   }
 
-  def.checkedValues = function () {
-
-  }
-
   return self
 })()

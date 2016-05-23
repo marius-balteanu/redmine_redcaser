@@ -1,6 +1,6 @@
 var Redcaser = Redcaser || {}
 
-Redcaser.TestCasePreviewBuilder = (function () {
+Redcaser.TestCasePreview = (function () {
   var self = {}
 
   // build :: Object -> DOM
@@ -62,5 +62,5 @@ Redcaser.TestCasePreviewBuilder = (function () {
     })
   }
 
-  return self;
+  return self
 })();
