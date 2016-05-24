@@ -170,6 +170,7 @@ Redcaser.ExecutionEvents = (function () {
     var id = event.target.dataset.id
 
     context.displayCasePreview(id)
+    context.preview.dataset.test_case_id = id
   }
 
   // updateStatusForListItem :: Object, Object
@@ -183,7 +184,7 @@ Redcaser.ExecutionEvents = (function () {
     nameText.nodeValue = testCaseStatus.name
     nameSelect.value   = testCaseStatus.status_id
 
-    if (context.preview) {
+    if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.id) {
       var textField = context.preview
         .getElementsByClassName('case-footer-comment')[0]
       var selectField = context.preview

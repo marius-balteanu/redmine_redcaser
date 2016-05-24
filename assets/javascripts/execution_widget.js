@@ -149,6 +149,8 @@ Redcaser.ExecutionWidget = (function () {
     while (this.preview.firstChild) {
       this.preview.removeChild(this.preview.firstChild)
     }
+
+    if (this.preview.parentNode == this.root) this.root.removeChild(this.preview)
   }
 
   def.buildExecutionSuiteBody = function (data) {
