@@ -24,6 +24,13 @@ Redcaser.TestCaseSelector = (function () {
       children: [
         DOMBuilder.label({children: [DOMBuilder.text('Queiries')]}),
         this.inputs.select,
+        DOMBuilder.div({
+          classes:  ['case-header'],
+          children: [
+            DOMBuilder.checkbox({classes: ['case-header-check']}),
+            DOMBuilder.text('Name')
+          ]
+        }),
         this.caseList
       ]
     })
