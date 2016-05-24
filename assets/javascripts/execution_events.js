@@ -75,7 +75,14 @@ Redcaser.ExecutionEvents = (function () {
 
     var params = {
       data: data,
-      done: function (response) { location.reload(true); },
+      done: function (response) {
+        var testCaseStatus = response.test_case_status
+        var listItem = context.listItems[testCaseStatus.test_case_id.toString()]
+        var nameText = listItem.getElementsByClassName('list-item-status-name')[0]
+          .childNodes[0]
+
+        nameText.nodeValue = testCaseStatus.name
+      },
       fail: function (response) { console.log(response); }
     };
 

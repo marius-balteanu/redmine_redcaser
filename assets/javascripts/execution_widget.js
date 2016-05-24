@@ -13,6 +13,7 @@ Redcaser.ExecutionWidget = (function () {
   var self = function (root) {
     this.root      = this.build(root)
     this.testCases = {}
+    this.listItems = {}
 
     this.getExecutionSuites()
     ExecutionEvents.attach(this)
@@ -200,46 +201,52 @@ Redcaser.ExecutionWidget = (function () {
       var caseList = []
 
       elements.forEach(function (element) {
-        caseList.push(
-          DOMBuilder.div({
-            classes:  ['list-item'],
-            children: [
-              DOMBuilder.span({
-                classes:  ['list-item-check'],
-                children: [DOMBuilder.checkbox()]
-              }),
-              DOMBuilder.span({
-                classes:  ['list-item-id'],
-                children: [DOMBuilder.text(element.id)]
-              }),
-              DOMBuilder.span({
-                classes:  ['list-item-name'],
-                dataset:  {id: element.id},
-                children: [DOMBuilder.text(element.name)]
-              }),
-              DOMBuilder.span({
-                classes:  ['list-item-status'],
-                children: [
-                  DOMBuilder.text(element.status ? element.status.name : 'Untested'),
-                  DOMBuilder.select({
-                    classes: ['list-item-select'],
-                    dataset: {
-                      id:                  element.id,
-                      test_case_status_id: element.status ? element.status.test_case_status_id : null
-                    },
-                    children: DOMBuilder.options({
-                      data:         data.execution_results,
-                      includeBlank: true,
-                      selected:     element.status ? element.status.id : null,
-                      textField:    'name',
-                      valueField:   'id'
-                    })
+        var node = DOMBuilder.div({
+          classes:  ['list-item'],
+          children: [
+            DOMBuilder.span({
+              classes:  ['list-item-check'],
+              children: [DOMBuilder.checkbox()]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-item-id'],
+              children: [DOMBuilder.text(element.id)]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-item-name'],
+              dataset:  {id: element.id},
+              children: [DOMBuilder.text(element.name)]
+            }),
+            DOMBuilder.span({
+              classes:  ['list-item-status'],
+              children: [
+                DOMBuilder.span({
+                  classes:  ['list-item-status-name'],
+                  children: [
+                    DOMBuilder.text(element.status ? element.status.name : 'Untested')
+                  ]
+                }),
+                DOMBuilder.select({
+                  classes: ['list-item-select'],
+                  dataset: {
+                    id:                  element.id,
+                    test_case_status_id: element.status ? element.status.test_case_status_id : null
+                  },
+                  children: DOMBuilder.options({
+                    data:         data.execution_results,
+                    includeBlank: true,
+                    selected:     element.status ? element.status.id : null,
+                    textField:    'name',
+                    valueField:   'id'
                   })
-                ]
-              })
-            ]
-          })
-        )
+                })
+              ]
+            })
+          ]
+        })
+
+        caseList.push(node)
+        this.listItems[element.id.toString()] = node
       }.bind(this))
 
       children.push(

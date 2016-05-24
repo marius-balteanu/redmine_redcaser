@@ -25,7 +25,10 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
       )
 
       if journal.save
-        render json: {success: 'Test Case Status created'}
+        render json: {
+          success:          'Test Case Status created',
+          test_case_status: @test_case_status.to_json
+        }
       else
         render json: {errors: journal.errors.full_messages}, status: 400
       end
@@ -61,7 +64,10 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
       end
 
       if journal.save
-        render json: {success: 'Test Case Status updated'}
+        render json: {
+          success:          'Test Case Status updated',
+          test_case_status: @test_case_status.to_json
+        }
       else
         render json: {errors: journal.errors.full_messages, entity: 'Journal'}, status: 400
       end

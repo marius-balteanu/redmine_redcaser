@@ -16,6 +16,7 @@ Redcaser.TestCase = (function () {
   self.build = function (element) {
     return DOMBuilder.div({
       classes:  ['suite-case'],
+      dataset:  {id: element.id},
       children: [
         DOMBuilder.span({
           classes:  ['case-drag'],
