@@ -72,8 +72,9 @@ module RedmineRedcaser
 
         select = create_test_suite_id_select(test_suites, selected: test_suite)
         fields = create_test_suite_text_fields(test_case)
+        hidden = create_test_suite_hidden_field(test_case)
 
-        return select + fields
+        return select + fields + hidden
       end
 
       def view_issues_show_details_bottom(context = {})
@@ -183,6 +184,12 @@ module RedmineRedcaser
             wikiToolbar.draw();
           </script>
         SCRIPT
+      end
+
+      def create_test_suite_hidden_field(test_case)
+        issue_id = test_case ? test_case.issue_id.to_s : ''
+
+        result = '<input type="hidden" name="test_case[issue_blocker]" value="' + issue_id + '">'
       end
     end
   end

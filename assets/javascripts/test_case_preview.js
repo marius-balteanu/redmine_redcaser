@@ -55,6 +55,21 @@ Redcaser.TestCasePreview = (function () {
                 id:                  element.id,
                 test_case_status_id: testCaseStatusId
               }
+            }),
+            DOMBuilder.select({
+              classes:  ['case-footer-related-select'],
+              children: DOMBuilder.options({
+                data: [{value: 1, text: 'Foo'}, {value: 2, text: 'Bar'}],
+                includeBlank: true
+              })
+            }),
+            DOMBuilder.button({
+              classes:  ['case-footer-related-submit'],
+              dataset: {
+                id:                  element.id,
+                test_case_status_id: testCaseStatusId
+              },
+              children: [DOMBuilder.text('Create relation')]
             })
           ]
         })

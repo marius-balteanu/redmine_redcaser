@@ -19,7 +19,7 @@ Redcaser.TestCaseSelectorEvents = (function () {
     // [event name, class, handler]
     return [
       ['change', 'queries-select',    this.handleQueryChange],
-      ['change', 'case-header-check', this.handleCheckToggle],
+      ['change', 'case-header-check', this.handleCheckToggle]
     ]
   }
 

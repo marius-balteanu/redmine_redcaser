@@ -21,13 +21,14 @@ Redcaser.ExecutionEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['change', 'execution-select',   this.handleExecutionChange  ],
-      ['change', 'list-item-select',   this.handleStatusChange     ],
-      ['click',  'case-list-edit',     this.handleSuiteEdit        ],
-      ['click',  'case-list-delete',   this.handleSuiteDelete      ],
-      ['click',  'case-footer-submit', this.handlePreviewSubmit    ],
-      ['click',  'execution-create',   this.handleExecutionCreate  ],
-      ['click',  'list-item-name',     this.handleListItemClick    ],
+      ['change', 'execution-select',           this.handleExecutionChange],
+      ['change', 'list-item-select',           this.handleStatusChange   ],
+      ['click',  'case-list-edit',             this.handleSuiteEdit      ],
+      ['click',  'case-list-delete',           this.handleSuiteDelete    ],
+      ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
+      ['click',  'execution-create',           this.handleExecutionCreate],
+      ['click',  'list-item-name',             this.handleListItemClick  ],
+      ['click',  'case-footer-related-submit', this.handleRelationCreate ]
     ]
   }
 
@@ -119,29 +120,9 @@ Redcaser.ExecutionEvents = (function () {
 
   // handlePreviewSubmit :: Event, Object
   self.handlePreviewSubmit = function (event, context) {
-    var id      = event.target.dataset.id
-    var parent  = event.target.parentNode
-    var comment = parent.getElementsByClassName('case-footer-comment')[0].value
-    var status  = parent.getElementsByClassName('case-footer-select')[0].value
-
+    var params    = this.gatherPreviewData(event, context)
+    var id        = event.target.dataset.id
     var test_case = context.testCases[id]
-
-    var data = {
-      test_case_status: {
-        execution_suite_id:  context.selectedExecutionSuite.id,
-        execution_result_id: status,
-        test_case_id:        id
-      },
-      comment: comment
-    }
-
-    var params = {
-      data: data,
-      done: function (response) {
-        this.updateStatusForListItem(response, context)
-      }.bind(this),
-      fail: function (response) { console.log(response) }
-    }
 
     if (test_case.status) {
       params.id = event.target.dataset.test_case_status_id
@@ -184,7 +165,7 @@ Redcaser.ExecutionEvents = (function () {
     nameText.nodeValue = testCaseStatus.name
     nameSelect.value   = testCaseStatus.status_id
 
-    if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.id) {
+    if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.test_case_id) {
       var textField = context.preview
         .getElementsByClassName('case-footer-comment')[0]
       var selectField = context.preview
@@ -195,5 +176,48 @@ Redcaser.ExecutionEvents = (function () {
     }
   }
 
+  // handleRelationCreate :: Event, Object
+  self.handleRelationCreate = function (event, context) {
+    var params = this.gatherPreviewData(event, context)
+
+    var id        = event.target.dataset.id
+    var comment   = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
+    var test_case = context.testCases[id]
+
+    if (test_case.status) {
+      params.id = event.target.dataset.test_case_status_id
+
+      Redcaser.API.testSuiteStatuses.update(params)
+    }
+    else {
+      Redcaser.API.testSuiteStatuses.create(params)
+    }
+  }
+
+  self.gatherPreviewData = function (event, context) {
+    var id      = event.target.dataset.id
+    var parent  = event.target.parentNode
+    var comment = parent.getElementsByClassName('case-footer-comment')[0].value
+    var status  = parent.getElementsByClassName('case-footer-select')[0].value
+
+    var data = {
+      test_case_status: {
+        execution_suite_id:  context.selectedExecutionSuite.id,
+        execution_result_id: status,
+        test_case_id:        id
+      },
+      comment: comment
+    }
+
+    var params = {
+      data: data,
+      done: function (response) {
+        this.updateStatusForListItem(response, context)
+      }.bind(this),
+      fail: function (response) { console.log(response) }
+    }
+
+    return params
+  }
   return self
 })()
