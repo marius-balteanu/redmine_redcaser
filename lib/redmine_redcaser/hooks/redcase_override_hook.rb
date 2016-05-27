@@ -27,16 +27,38 @@ module RedmineRedcaser
       end
 
       def controller_issues_new_after_save(context = {})
-        issue = context[:issue]
-
-        return unless issue.tracker.id == RedcaserSettings.tracker_id
-
+        issue  = context[:issue]
         params = context[:params]
 
-        test_case = TestCase.new(test_case_params(params))
-        test_case.assign_attributes(issue: context[:issue], test_suite_id: params[:test_suite][:id])
+        if issue.tracker.id == RedcaserSettings.tracker_id
+          test_case = TestCase.new(test_case_params(params))
+          test_case.assign_attributes(issue: context[:issue], test_suite_id: params[:test_suite][:id])
 
-        test_case.save!
+          test_case.save!
+        else
+          issue_id      = params[:test_case].try(:[], :issue_id)
+          relation_type = params[:test_case].try(:[], :relation_type)
+
+          relation = if relation_type == 'relates'
+              IssueRelation::TYPE_RELATES
+            elsif relation_type == 'blocked'
+              IssueRelation::TYPE_BLOCKED
+            end
+
+          test_case_issue = Issue.where(id: issue_id).first
+          p '#' * 100
+          p params
+          p issue
+          p test_case_issue
+          p relation
+          p '#' * 100
+
+          IssueRelation.create!(
+            issue_from:    issue,
+            issue_to:      test_case_issue,
+            relation_type: relation
+          )
+        end
       end
 
       def controller_issues_edit_after_save(context = {})
@@ -56,25 +78,32 @@ module RedmineRedcaser
 
       def view_issues_form_details_bottom(context = {})
         issue, form, request = context[:issue], context[:form], context[:request]
-        return '' unless issue.tracker_id == RedcaserSettings.tracker_id
 
-        test_case = issue.test_case
+        if issue.tracker_id == RedcaserSettings.tracker_id
+          test_case          = issue.test_case
 
-        test_suite = if test_case
-            test_case.test_suite
-          else
-            test_suite_id = request.params[:test_suite].try(:[], :id)
-            TestSuite.where(id: test_suite_id).first
-          end
+          test_suite = if test_case
+              test_case.test_suite
+            else
+              test_suite_id      = request.params[:test_suite].try(:[], :id)
 
+              TestSuite.where(id: test_suite_id).first
+            end
 
-        test_suites = TestSuite.select(:id, :name).order(:name).to_a
+          test_suites = TestSuite.select(:id, :name).order(:name).to_a
 
-        select = create_test_suite_id_select(test_suites, selected: test_suite)
-        fields = create_test_suite_text_fields(test_case)
-        hidden = create_test_suite_hidden_field(test_case)
+          select = create_test_suite_id_select(test_suites, selected: test_suite)
+          fields = create_test_suite_text_fields(test_case)
 
-        return select + fields + hidden
+          return select + fields
+        else
+          test_case_relation = request.params[:test_case].try(:[], :relation_type) || ''
+          issue_id           = request.params[:test_case].try(:[], :issue_id) || ''
+
+          hidden = create_test_suite_hidden_field(test_case_relation, issue_id)
+
+          return hidden
+        end
       end
 
       def view_issues_show_details_bottom(context = {})
@@ -186,10 +215,9 @@ module RedmineRedcaser
         SCRIPT
       end
 
-      def create_test_suite_hidden_field(test_case)
-        issue_id = test_case ? test_case.issue_id.to_s : ''
-
-        result = '<input type="hidden" name="test_case[issue_blocker]" value="' + issue_id + '">'
+      def create_test_suite_hidden_field(relation, issue_id)
+        result = '<input type="hidden" name="test_case[relation_type]" value="' + relation + '">'
+        result += '<input type="hidden" name="test_case[issue_id]" value="' + issue_id + '">'
       end
     end
   end

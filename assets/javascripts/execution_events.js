@@ -181,8 +181,16 @@ Redcaser.ExecutionEvents = (function () {
     var params = this.gatherPreviewData(event, context)
 
     var id        = event.target.dataset.id
-    var comment   = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
     var test_case = context.testCases[id]
+    var relation  = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
+
+    params.done = function () {
+      location.href = '/projects/' + context.project.identifier
+        + '/issues/new?test_case[relation_type]='
+        + relation
+        + '&test_case[issue_id]='
+        + test_case.issue_id
+    }
 
     if (test_case.status) {
       params.id = event.target.dataset.test_case_status_id
