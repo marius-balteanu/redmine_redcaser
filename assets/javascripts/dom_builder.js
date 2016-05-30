@@ -5,7 +5,11 @@ var DOMBuilder = (function () {
 
   // addNodeProprieties :: DOM, Object
   var addNodeProprieties = function (node, options) {
-    if (options.classes) node.classList.add(options.classes)
+    if (options.classes) {
+      options.classes.forEach(function(className) {
+        node.classList.add(className)
+      })
+    }
 
     if (options.dataset) {
       for (var prop in options.dataset) {
@@ -13,7 +17,7 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['checked', 'href', 'selected', 'target', 'value']
+    var nodeFields = ['checked', 'href', 'selected', 'target', 'value', 'title']
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]

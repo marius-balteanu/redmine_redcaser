@@ -7,7 +7,6 @@ var TestSuiteHeader = (function () {
   self.build = function (element) {
     var node = this.buildHeaderNode(element);
 
-    node.appendChild(this.buildHeaderTitle());
     node.appendChild(this.buildHeaderActions());
 
     return node;
@@ -21,24 +20,10 @@ var TestSuiteHeader = (function () {
     return node;
   };
 
-  // buildHeaderTitle :: -> DOM
-  self.buildHeaderTitle = function () {
-    var node = document.createElement('div');
-    node.classList.add('tree-title');
-
-    var text = document.createTextNode('Test Cases');
-    node.appendChild(text);
-
-    return node;
-  };
-
   // buildHeaderActions :: -> DOM
   self.buildHeaderActions = function () {
     var node = document.createElement('div');
     node.classList.add('tree-actions');
-
-    var text = document.createTextNode('Actions');
-    node.appendChild(text);
 
     node.appendChild(this.buildHeaderActionsCreate());
 
@@ -48,7 +33,7 @@ var TestSuiteHeader = (function () {
   // buildHeaderActionsCreate :: -> DOM
   self.buildHeaderActionsCreate = function () {
     var node = document.createElement('a');
-    node.classList.add('suite-create');
+    node.classList.add('suite-create', 'icon', 'icon-add');
     node.href = '#';
 
     var text = document.createTextNode('Add test suite');

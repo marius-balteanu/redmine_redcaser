@@ -23,14 +23,12 @@
       .suite-children
 */
 
-.tree-root .tree-title {
+.tree-root .tree-title, .execution-header .execution-title {
   background-color: #D1E6FD;
   padding: 15px 10px;
 }
-.tree-root .tree-actions {
-  background-color: #F5F5F5;
-  margin: 20px 10px;
-  padding: 10px 5px;
+.tree-root .tree-actions, .execution-header .execution-actions {
+  float: right;
 }
 
 .tree-root .tree-body {
@@ -46,11 +44,15 @@
   font-weight: bold;
   padding: 10px 0px;
 }
-
-.tree-root .suite-header {
-  background-color: #F2F8FF;
-  border-top: 1px solid #E3E4E5;
-  border-bottom: 1px solid #E3E4E5;
+.tree-root .suite-title .suite-actions {
+  display: none;
+}
+.tree-root .suite-title:hover .suite-actions {
+  display: inline-block;
+}
+.tree-root .suite-header, .execution-suites-root .case-list-header {
+  background-color: #EEEEEE;
+  border: 1px solid #e4e4e4;
   padding: 5px 0px;
 }
 .tree-root .suite-drag {
@@ -70,27 +72,24 @@
 
 .tree-root .suite-cases {
   min-height: 10px;
+  display: table-row-group;
 }
 .tree-root .suite-case {
   border-bottom: 1px solid #E3E4E5;
   padding: 5px 0px;
+  display: table-row;
 }
 .tree-root .suite-case-placeholder {
   height: 27px;
   background-color: #F2FFF4;
 }
+.tree-root .suite-case > span, .tree-root .suite-header > span {
+  display: table-cell;
+  vertical-align: middle;
+}
 
 .tree-root .suite-case:hover {
   background-color: #F2F8FF;
-}
-
-.tree-root .case-drag {
-  margin: 0px 10px;
-  cursor: pointer;
-}
-.tree-root .ui-sortable-helper .case-drag {
-  margin: 0px 10px;
-  cursor: move;
 }
 
 .tree-root .case-check {

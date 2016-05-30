@@ -19,7 +19,31 @@ Redcaser.TestSuite = (function () {
       children: [
         DOMBuilder.div({
           classes:  ['suite-title'],
-          children: [DOMBuilder.text(element.name)]
+          // children: [DOMBuilder.text(element.name)]
+          children: [
+            DOMBuilder.span({
+              children: [DOMBuilder.text(element.name)]
+            }),
+            DOMBuilder.span({
+              classes:  ['suite-actions'],
+              children: [
+                DOMBuilder.link({
+                  classes:  ['suite-actions-edit', 'icon-only', 'icon-edit'],
+                  href:     '#',
+                  title:    'Edit Suite',
+                  dataset:  {id: element.id, parent_id: element.parent_id},
+                  children: [DOMBuilder.text('Edit')]
+                }),
+                DOMBuilder.link({
+                  classes:  ['suite-actions-delete', 'icon-only', 'icon-del'],
+                  href:     '#',
+                  title:    'Delete Suite',
+                  dataset:  {id: element.id},
+                  children: [DOMBuilder.text('Delete')]
+                })
+              ]
+            }),
+          ]
         }),
         DOMBuilder.div({
           classes:  ['suite-table'],
@@ -28,12 +52,11 @@ Redcaser.TestSuite = (function () {
               classes:  ['suite-header'],
               children: [
                 DOMBuilder.span({
-                  classes:  ['suite-drag'],
-                  children: [DOMBuilder.text('D')]
+                  children: [DOMBuilder.text('')]
                 }),
                 DOMBuilder.span({
                   classes:  ['suite-check'],
-                  children: [DOMBuilder.checkbox({classes: ['suite-checkbox']})]
+                  //children: [DOMBuilder.checkbox({classes: ['suite-checkbox']})]
                 }),
                 DOMBuilder.span({
                   classes:  ['suite-id'],
@@ -45,18 +68,7 @@ Redcaser.TestSuite = (function () {
                 }),
                 DOMBuilder.span({
                   classes:  ['suite-actions'],
-                  children: [
-                    DOMBuilder.button({
-                      classes:  ['suite-actions-edit'],
-                      dataset:  {id: element.id, parent_id: element.parent_id},
-                      children: [DOMBuilder.text('Edit')]
-                    }),
-                    DOMBuilder.button({
-                      classes:  ['suite-actions-delete'],
-                      dataset:  {id: element.id},
-                      children: [DOMBuilder.text('Delete')]
-                    })
-                  ]
+                  //children: [DOMBuilder.text('Title')]
                 })
               ]
             }),

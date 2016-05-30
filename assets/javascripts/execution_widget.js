@@ -29,15 +29,10 @@ Redcaser.ExecutionWidget = (function () {
       classes:  ['execution-header'],
       children: [
         DOMBuilder.div({
-          classes:  ['execution-title'],
-          children: [DOMBuilder.text('Execution Suites')]
-        }),
-        DOMBuilder.div({
-          classes:  ['execution-actions'],
+          classes:  ['contextual'],
           children: [
-            DOMBuilder.text('Actions'),
             DOMBuilder.link({
-              classes:  ['execution-create'],
+              classes:  ['icon', 'icon-add', 'execution-create'],
               href:     '#',
               children: [DOMBuilder.text('Add execution suite')]
             })
