@@ -21,9 +21,7 @@ var TreeEvents = (function () {
       ['click', 'suite-create',         this.handleSuiteCreate  ],
       ['click', 'suite-actions-edit',   this.handleSuiteEdit    ],
       ['click', 'suite-actions-delete', this.handleSuiteDelete  ],
-      ['click', 'case-actions-edit',    this.handleCaseEdit     ],
-      ['click', 'case-actions-delete',  this.handleCaseDelete   ],
-      ['click', 'case-actions-view',    this.handleCaseView     ]
+      ['click', 'case-actions-edit',    this.handleCaseEdit     ]
     ]
   }
 
@@ -47,7 +45,7 @@ var TreeEvents = (function () {
     var params = {
       id:   suiteId,
       done: function (response) {
-        Redcaser.suiteDialog.forUpdate(event.target, response)
+        Redcaser.suiteDialog.forUpdate(response, context)
       },
       fail: function (response) { console.log(response) }
     }
@@ -73,29 +71,11 @@ var TreeEvents = (function () {
     location.href = '/issues/' + issueId + '/edit?test_suite_id=' + testSuiteId
   }
 
-  // handleCaseDelete :: Event, Object
-  self.handleCaseDelete = function (event, context) {
-    var id = event.target.parentNode.parentNode.dataset.id
-
-    var params = {
-      id:   id,
-      done: function () { console.log('Done!') },
-      fail: function (response) { console.log(response) }
-    }
-
-    Redcaser.API.testCases.destroy(params)
-  }
-
-  // handleCaseView :: Event, Object
-  self.handleCaseView = function (event, context) {
-
-  }
-
-  // handleSuiteCreate :: Event, Object
+    // handleSuiteCreate :: Event, Object
   self.handleSuiteCreate = function (event, context) {
     var params = {
       done: function (response) {
-        Redcaser.suiteDialog.forCreate(event.target, response)
+        Redcaser.suiteDialog.forCreate(response, context)
       },
       fail: function (response) { console.log(response) }
     }

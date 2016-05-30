@@ -13,8 +13,8 @@ Redcaser.SuiteDialog = (function () {
 
   // build :: -> DOM
   def.build = function () {
-    this.inputs.name   = DOMBuilder.textInput({classes: ['name-filed']})
-    this.inputs.parent = DOMBuilder.select({classes: ['parent-filed']})
+    this.inputs.name    = DOMBuilder.textInput({classes: ['name-filed']})
+    this.inputs.parents = DOMBuilder.select({classes: ['parent-filed']})
 
     return DOMBuilder.div({
       classes:  ['suite-dialog'],
@@ -30,7 +30,7 @@ Redcaser.SuiteDialog = (function () {
           classes:  ['suite-dialog-parent'],
           children: [
             DOMBuilder.label({children: [DOMBuilder.text('Parent')]}),
-            this.inputs.parent
+            this.inputs.parents
           ]
         })
       ]
@@ -49,29 +49,15 @@ Redcaser.SuiteDialog = (function () {
   }
 
   // forCreate :: DOM
-  def.forCreate = function (target, data) {
-    var object   = this.modal
-    var parentId = target.dataset.parent_id
+  def.forCreate = function (data, context) {
+    this.context           = context
+    this.suiteId           = null
+    this.inputs.name.value = ''
 
-    object.parent().data('suite-id', null)
+    this.rebuildParentSelect(data.test_suites)
 
-    $('.name-field').val('')
-
-    var select = $('.parent-field')
-    select.empty()
-
-    select.append('<option value=""></option>')
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>')
-      }
-    }.bind(this))
-
-    object.dialog('option', 'title', 'Create Test Suite')
-    object.dialog(
+    this.modal.dialog('option', 'title', 'Create Test Suite')
+    this.modal.dialog(
       'option',
       'buttons',
       [{
@@ -80,35 +66,19 @@ Redcaser.SuiteDialog = (function () {
         click: this.submitForCreate.bind(this)
       }]
     )
-    object.dialog('open')
+    this.modal.dialog('open')
   }
 
   // forUpdate :: DOM
-  def.forUpdate = function (target, data) {
-    var object   = this.modal
-    var id       = target.dataset.id
-    var parentId = target.dataset.parent_id
+  def.forUpdate = function (data, context) {
+    this.context = context
+    this.suiteId = data.test_suite.id
 
-    object.parent().data('suite-id', id)
+    this.inputs.name.value = data.test_suite.name
 
-    $('.name-field').val(data.test_suite.name)
-
-    var select = $('.parent-field')
-    select.empty()
-
-    select.append('<option value=""></option>')
-    data.test_suites.forEach(function (element) {
-      if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
-      }
-      else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>')
-      }
-    }.bind(this))
-
-
-    object.dialog('option', 'title', 'Update Test Suite')
-    object.dialog(
+    this.rebuildParentSelect(data.test_suites, data.test_suite.parent_id)
+    this.modal.dialog('option', 'title', 'Update Test Suite')
+    this.modal.dialog(
       'option',
       'buttons',
       [{
@@ -117,9 +87,26 @@ Redcaser.SuiteDialog = (function () {
         click: this.submitForUpdate.bind(this)
       }]
     )
-    object.dialog('open')
+    this.modal.dialog('open')
   }
 
+  def.rebuildParentSelect = function (parents, selectedId) {
+    var select = this.inputs.parents
+
+    while (select.firstChild) {
+      select.removeChild(select.firstChild);
+    }
+
+    parents.forEach(function (element) {
+      select.appendChild(
+        DOMBuilder.option({
+          value:    element.id,
+          selected: element.id == selectedId,
+          children: [DOMBuilder.text(element.name)]
+        })
+      )
+    })
+  }
   //submitForCreate :: Event
   def.submitForCreate = function (event) {
     var data = this.gatherDataFrom(event.target)
@@ -149,14 +136,12 @@ Redcaser.SuiteDialog = (function () {
 
   // gatherDataFrom :: DOM -> Object
   def.gatherDataFrom = function (target) {
-    var root = $(target).closest('.ui-dialog')
-
     return {
-      id: root.data('suite-id'),
+      id: this.suiteId,
       params: {
         test_suite: {
-          name:      root.find('.name-field').val(),
-          parent_id: root.find('.parent-field').val()
+          name:      this.inputs.name.value,
+          parent_id: this.inputs.parents.value
         }
       }
     }

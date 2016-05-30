@@ -62,8 +62,6 @@ Redcaser.ExecutionDialog = (function () {
 
   // forCreate :: DOM
   def.forCreate = function (data, context) {
-    var child
-
     this.context          = context
     this.executionSuiteId = null
 
