@@ -129,5 +129,30 @@ var DOMBuilder = (function () {
     return node
   }
 
+  // table :: Object -> DOM
+  self.table = function (options) {
+    return self.node('table', options)
+  }
+
+  // tbody :: Object -> DOM
+  self.tbody = function (options) {
+    return self.node('tbody', options)
+  }
+
+  // td:: Object -> DOM
+  self.td = function (options) {
+    return self.node('td', options)
+  }
+
+  // th:: Object -> DOM
+  self.th = function (options) {
+    return self.node('th', options)
+  }
+
+  // tr:: Object -> DOM
+  self.tr = function (options) {
+    return self.node('tr', options)
+  }
+
   return self
 })()

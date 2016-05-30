@@ -14,23 +14,23 @@ Redcaser.TestCase = (function () {
 
   // build :: Object -> DOM
   self.build = function (element) {
-    return DOMBuilder.div({
+    return DOMBuilder.tr({
       classes:  ['suite-case'],
       dataset:  {id: element.id},
       children: [
-        DOMBuilder.span({
+        DOMBuilder.td({
           classes:  ['case-drag', 'sort-handle'],
           children: [DOMBuilder.text('')]
         }),
-        DOMBuilder.span({
+        DOMBuilder.td({
           classes:  ['case-check'],
           children: [DOMBuilder.checkbox({classes: ['case-checkbox']})]
         }),
-        DOMBuilder.span({
+        DOMBuilder.td({
           classes:  ['case-id'],
           children: [DOMBuilder.text(element.id)]
         }),
-        DOMBuilder.span({
+        DOMBuilder.td({
           classes:  ['case-link'],
           children: [
             DOMBuilder.link({
@@ -40,7 +40,7 @@ Redcaser.TestCase = (function () {
             })
           ]
         }),
-        DOMBuilder.span({
+        DOMBuilder.td({
           classes:  ['case-actions'],
           children: [
             DOMBuilder.button({

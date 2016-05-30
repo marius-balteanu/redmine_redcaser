@@ -45,34 +45,42 @@ Redcaser.TestSuite = (function () {
             }),
           ]
         }),
-        DOMBuilder.div({
+        DOMBuilder.table({
           classes:  ['suite-table'],
           children: [
-            DOMBuilder.div({
+            DOMBuilder.tr({
               classes:  ['suite-header'],
               children: [
-                DOMBuilder.span({
+                DOMBuilder.th({
                   children: [DOMBuilder.text('')]
                 }),
-                DOMBuilder.span({
+                DOMBuilder.th({
                   classes:  ['suite-check'],
                   //children: [DOMBuilder.checkbox({classes: ['suite-checkbox']})]
                 }),
-                DOMBuilder.span({
+                DOMBuilder.th({
                   classes:  ['suite-id'],
                   children: [DOMBuilder.text('ID')]
                 }),
-                DOMBuilder.span({
+                DOMBuilder.th({
                   classes:  ['suite-link'],
                   children: [DOMBuilder.text('Title')]
                 }),
-                DOMBuilder.span({
+                DOMBuilder.th({
                   classes:  ['suite-actions'],
                   //children: [DOMBuilder.text('Title')]
                 })
               ]
             }),
-            DOMBuilder.div({classes: ['suite-cases']})
+            DOMBuilder.tbody({
+              classes:  ['suite-cases'],
+              children: [
+                DOMBuilder.tr({
+                  classes:  ['sort-disabled'],
+                  children: [DOMBuilder.td()]
+                })
+              ]
+            })
           ]
         }),
         DOMBuilder.div({
