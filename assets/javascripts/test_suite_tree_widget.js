@@ -1,55 +1,43 @@
-var TestSuiteTreeWidget = (function () {
-  'use strict';
+var Redcaser = Redcaser || {}
+
+Redcaser.TestSuiteTreeWidget = (function () {
+  'use strict'
 
   // self :: DOM
   var self = function (root) {
-    this.root   = root;
-    this.header = null;
-    this.body   = null;
+    this.root   = root
+    this.header = this.buildHeader()
+    this.body   = null
 
-    this.caseEditDialog   = null;
-    this.suiteEditDialog  = null;
+    this.root.appendChild(this.header)
+    this.initialize()
+  }
 
-    this.initialize();
-  };
-
-  var def = self.prototype;
+  var def = self.prototype
 
   def.initialize = function () {
-    this.createTestSuiteHeader();
-    this.createDialogs();
-    this.addEventHandlers();
-    this.getTestSuiteData();
-  };
+    TreeEvents.attach(this)
 
-  def.createTestSuiteHeader = function () {
-    this.resetHeader();
+    this.getTestSuiteData()
+  }
 
-    this.header = TestSuiteHeader.build();
-
-    this.root.appendChild(this.header);
-  };
-
-  def.resetHeader = function () {
-    if (this.header) {
-      this.root.removeChild(this.header);
-    }
-  };
-
-  def.createDialogs = function () {
-    this.createCaseEditDialog();
-    this.createSuiteEditDialog();
-  };
-
-  def.createCaseEditDialog = function () {
-    this.caseEditDialog = CaseDialog.build();
-    CaseDialog.initialize(this.caseEditDialog);
-  };
-
-  def.createSuiteEditDialog = function () {
-    this.suiteEditDialog = SuiteDialog.build();
-    SuiteDialog.initialize(this.suiteEditDialog);
-  };
+  // buildHeader :: -> DOM
+  def.buildHeader = function () {
+    return DOMBuilder.div({
+      classes:  ['tree-header'],
+      children: [
+        DOMBuilder.div({
+          classes:  ['tree-actions'],
+          children: [
+            DOMBuilder.link({
+              classes:  ['suite-create', 'icon', 'icon-add'],
+              children: [DOMBuilder.text('Add test suite')]
+            })
+          ]
+        })
+      ]
+    })
+  }
 
   def.getTestSuiteData = function () {
     var params = {
@@ -57,63 +45,59 @@ var TestSuiteTreeWidget = (function () {
       fail: this.handleTestSuiteError.bind(this)
     }
 
-    Redcaser.API.testSuites.index(params);
-  };
+    Redcaser.API.testSuites.index(params)
+  }
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (response) {
-    this.initializeBody();
+    this.initializeBody()
 
-    var nodes = Redcaser.SuiteTreeBuilder.build(response);
+    var nodes = Redcaser.SuiteTreeBuilder.build(response)
 
     nodes.forEach(function (element) {
-      this.body.appendChild(element);
-    }.bind(this));
+      this.body.appendChild(element)
+    }.bind(this))
 
-    this.root.appendChild(this.body);
+    this.root.appendChild(this.body)
 
-    this.makeSuiteCasesSortable();
-  };
+    this.makeSuiteCasesSortable()
+  }
 
   def.initializeBody = function () {
     if (this.body) {
-      $('.suite-cases').sortable('destroy');
-      this.root.removeChild(this.body);
+      $('.suite-cases').sortable('destroy')
+      this.root.removeChild(this.body)
     }
 
-    this.body = document.createElement('div');
-    this.body.classList.add('tree-body');
-  };
+    this.body = document.createElement('div')
+    this.body.classList.add('tree-body')
+  }
 
   def.makeSuiteCasesSortable = function () {
-    var cases = $('.suite-cases');
+    var cases = $('.suite-cases')
 
     cases.sortable({
       connectWith: '.suite-cases',
       handle:      '.case-drag',
       placeholder: 'suite-case-placeholder',
       update :     this.handleCaseMove.bind(this)
-    });
-  };
+    })
+  }
 
   // buildTestSuiteTree :: Object
   def.handleTestSuiteError = function (response) {
-    console.log('Error!');
-  };
-
-  def.addEventHandlers = function () {
-    TreeEvents.attach(this);
-  };
+    console.log('Error!')
+  }
 
   def.handleCaseMove = function (event, ui) {
-    var toElement = event.toElement;
+    var toElement = event.toElement
     // jQuery UI fires two events when moving an element from one container
     // to another. We need to handle the event from the new container.
-    var isRightEvent = toElement.parentNode.parentNode === event.target;
+    var isRightEvent = toElement.parentNode.parentNode === event.target
 
     if (isRightEvent) {
-      var testCaseId  = toElement.parentNode.dataset.id;
-      var testSuiteId = event.target.parentNode.parentNode.dataset.id;
+      var testCaseId  = toElement.parentNode.dataset.id
+      var testSuiteId = event.target.parentNode.parentNode.dataset.id
 
       var data = {
         test_case: {
@@ -125,14 +109,14 @@ var TestSuiteTreeWidget = (function () {
         id:   testCaseId,
         data: data,
         done: function () {
-          toElement.parentNode.getElementsByClassName('case-actions-edit')[0].dataset.test_suite_id = testSuiteId;
+          toElement.parentNode.getElementsByClassName('case-actions-edit')[0].dataset.test_suite_id = testSuiteId
         },
-        fail: function () { console.log("Fail!"); }
-      };
+        fail: function () { console.log("Fail!") }
+      }
 
-      Redcaser.API.testCases.update(params);
+      Redcaser.API.testCases.update(params)
     }
   }
 
-  return self;
-})();
+  return self
+})()

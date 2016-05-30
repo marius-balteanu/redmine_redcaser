@@ -1,110 +1,76 @@
-var SuiteDialog = (function () {
-  var self = {};
+var Redcaser = Redcaser || {}
+
+Redcaser.SuiteDialog = (function () {
+  'use strict'
+
+  var self = function () {
+    this.inputs = {}
+    this.body   = this.build()
+    this.modal  = this.modal()
+  }
+
+  var def = self.prototype
 
   // build :: -> DOM
-  self.build = function () {
-    var node = document.createElement('div');
-    node.classList.add('suite-dialog');
+  def.build = function () {
+    this.inputs.name   = DOMBuilder.textInput({classes: ['name-filed']})
+    this.inputs.parent = DOMBuilder.select({classes: ['parent-filed']})
 
-    node.appendChild(this.buildNameFields());
-    node.appendChild(this.buildParentFields());
-
-    return node;
-  };
-
-  // buildNameFields :: -> DOM
-  self.buildNameFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('suite-dialog-name');
-
-    node.appendChild(this.buildNameLabel());
-    node.appendChild(this.buildNameInput());
-
-    return node;
-  };
-
-  // buildNameLabel :: -> DOM
-  self.buildNameLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Name');
-    node.appendChild(text);
-
-    return node;
+    return DOMBuilder.div({
+      classes:  ['suite-dialog'],
+      children: [
+        DOMBuilder.div({
+          classes:  ['suite-dialog-name'],
+          children: [
+            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            this.inputs.name
+          ]
+        }),
+        DOMBuilder.div({
+          classes:  ['suite-dialog-parent'],
+          children: [
+            DOMBuilder.label({children: [DOMBuilder.text('Parent')]}),
+            this.inputs.parent
+          ]
+        })
+      ]
+    })
   }
 
-  // buildNameInput :: -> DOM
-  self.buildNameInput = function () {
-    var node  = document.createElement('input');
-    node.classList.add('name-field');
-    node.type = 'text'
-
-    return node;
-  }
-
-  // buildParentFields :: -> DOM
-  self.buildParentFields = function () {
-    var node = document.createElement('div');
-    node.classList.add('suite-dialog-parent');
-
-    node.appendChild(this.buildParentLabel());
-    node.appendChild(this.buildParentInput());
-
-    return node;
-  };
-
-  // buildParentLabel :: -> DOM
-  self.buildParentLabel = function () {
-    var node = document.createElement('label');
-
-    var text = document.createTextNode('Parent');
-    node.appendChild(text);
-
-    return node;
-  }
-
-  // buildParentInput :: -> DOM
-  self.buildParentInput = function () {
-    var node = document.createElement('select');
-    node.classList.add('parent-field');
-
-    return node;
-  }
-
-  self.initialize = function (dialog) {
+  def.modal = function (dialog) {
     var params = {
       autoOpen: false,
       height:   300,
       width:    350,
       modal:    true
-    };
+    }
 
-    $(dialog).dialog(params);
-  };
+    return $(this.body).dialog(params)
+  }
 
   // forCreate :: DOM
-  self.forCreate = function (dialog, target, data) {
-    var object = $(dialog);
-    var parentId = target.dataset.parent_id;
+  def.forCreate = function (target, data) {
+    var object   = this.modal
+    var parentId = target.dataset.parent_id
 
-    object.parent().data('suite-id', null);
+    object.parent().data('suite-id', null)
 
-    $('.name-field').val('');
+    $('.name-field').val('')
 
-    var select = $('.parent-field');
-    select.empty();
+    var select = $('.parent-field')
+    select.empty()
 
-    select.append('<option value=""></option>');
+    select.append('<option value=""></option>')
     data.test_suites.forEach(function (element) {
       if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
       }
       else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+        select.append('<option value="' + element.id + '">' + element.name + '</option>')
       }
-    }.bind(this));
+    }.bind(this))
 
-    object.dialog('option', 'title', 'Create Test Suite');
+    object.dialog('option', 'title', 'Create Test Suite')
     object.dialog(
       'option',
       'buttons',
@@ -113,35 +79,35 @@ var SuiteDialog = (function () {
         text:  'OK',
         click: this.submitForCreate.bind(this)
       }]
-    );
-    object.dialog('open');
-  };
+    )
+    object.dialog('open')
+  }
 
   // forUpdate :: DOM
-  self.forUpdate = function (dialog, target, data) {
-    var object = $(dialog);
-    var id       = target.dataset.id;
-    var parentId = target.dataset.parent_id;
+  def.forUpdate = function (target, data) {
+    var object   = this.modal
+    var id       = target.dataset.id
+    var parentId = target.dataset.parent_id
 
-    object.parent().data('suite-id', id);
+    object.parent().data('suite-id', id)
 
-    $('.name-field').val(data.test_suite.name);
+    $('.name-field').val(data.test_suite.name)
 
-    var select = $('.parent-field');
-    select.empty();
+    var select = $('.parent-field')
+    select.empty()
 
-    select.append('<option value=""></option>');
+    select.append('<option value=""></option>')
     data.test_suites.forEach(function (element) {
       if (element.id == parentId) {
-        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>');
+        select.append('<option value="' + element.id + '" selected="selected">' + element.name + '</option>')
       }
       else {
-        select.append('<option value="' + element.id + '">' + element.name + '</option>');
+        select.append('<option value="' + element.id + '">' + element.name + '</option>')
       }
-    }.bind(this));
+    }.bind(this))
 
 
-    object.dialog('option', 'title', 'Update Test Suite');
+    object.dialog('option', 'title', 'Update Test Suite')
     object.dialog(
       'option',
       'buttons',
@@ -150,50 +116,40 @@ var SuiteDialog = (function () {
         text:  'OK',
         click: this.submitForUpdate.bind(this)
       }]
-    );
-    object.dialog('open');
-  };
+    )
+    object.dialog('open')
+  }
 
   //submitForCreate :: Event
-  self.submitForCreate = function (event) {
-    var data = this.gatherDataFrom(event.target);
-
-    console.log(event);
-    console.log('Create');
+  def.submitForCreate = function (event) {
+    var data = this.gatherDataFrom(event.target)
 
     var params = {
       data: data.params,
-      done: function () { location.reload(true); },
-      fail: function (response) { console.log(response); }
-    };
+      done: function () { location.reload(true) },
+      fail: function (response) { console.log(response) }
+    }
 
-    console.log(params);
-
-    Redcaser.API.testSuites.create(params);
+    Redcaser.API.testSuites.create(params)
   }
 
   // submitForUpdate :: Event
-  self.submitForUpdate = function (event) {
-    var data = this.gatherDataFrom(event.target);
-
-    console.log(event);
-    console.log('Update');
+  def.submitForUpdate = function (event) {
+    var data = this.gatherDataFrom(event.target)
 
     var params = {
       id:   data.id,
       data: data.params,
-      done: function () { location.reload(true); },
-      fail: function (response) { console.log(response); }
-    };
+      done: function () { location.reload(true) },
+      fail: function (response) { console.log(response) }
+    }
 
-    console.log(params);
-
-    Redcaser.API.testSuites.update(params);
+    Redcaser.API.testSuites.update(params)
   }
 
   // gatherDataFrom :: DOM -> Object
-  self.gatherDataFrom = function (target) {
-    var root = $(target).closest('.ui-dialog');
+  def.gatherDataFrom = function (target) {
+    var root = $(target).closest('.ui-dialog')
 
     return {
       id: root.data('suite-id'),
@@ -203,8 +159,8 @@ var SuiteDialog = (function () {
           parent_id: root.find('.parent-field').val()
         }
       }
-    };
-  };
+    }
+  }
 
-  return self;
-})();
+  return self
+})()
