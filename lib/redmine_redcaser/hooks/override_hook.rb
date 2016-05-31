@@ -44,12 +44,6 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
         end
 
       test_case_issue = Issue.where(id: issue_id).first
-      p '#' * 100
-      p params
-      p issue
-      p test_case_issue
-      p relation
-      p '#' * 100
 
       IssueRelation.create!(
         issue_from:    issue,
