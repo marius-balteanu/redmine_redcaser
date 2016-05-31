@@ -138,7 +138,19 @@ Redcaser.SuiteDialog = (function () {
     var params = {
       id:   data.id,
       data: data.params,
-      done: function () { location.reload(true) },
+      done: function (response) {
+        var testSuite   = this.context.testSuites[response.test_suite.id]
+        var parentSuite = this.context.testSuites[response.test_suite.parent_id]
+
+        testSuite.fields.name.nodeValue = response.test_suite.name
+
+        if (testSuite.parentId !== response.test_suite.parent_id) {
+          testSuite.node.parentNode.removeChild(testSuite.node)
+          parentSuite.childSuitesNode.appendChild(testSuite.node)
+        }
+
+        this.modal.dialog('close')
+      }.bind(this),
       fail: function (response) { console.log(response) }
     }
 

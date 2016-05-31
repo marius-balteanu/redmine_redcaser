@@ -5,6 +5,7 @@ Redcaser.TestSuite = (function () {
 
   // self :: Object
   var self = function (suiteData, requestData) {
+    this.fields     = {}
     this.node       = this.build(suiteData, requestData)
     this.id         = suiteData.id
     this.name       = suiteData.name
@@ -27,6 +28,7 @@ Redcaser.TestSuite = (function () {
         })
       ]
     })
+    this.fields.name = DOMBuilder.text(element.name)
 
     return DOMBuilder.div({
       classes:  ['tree-suite'],
@@ -36,7 +38,7 @@ Redcaser.TestSuite = (function () {
           classes:  ['suite-title'],
           children: [
             DOMBuilder.span({
-              children: [DOMBuilder.text(element.name)]
+              children: [this.fields.name]
             }),
             DOMBuilder.span({
               classes:  ['suite-actions'],
