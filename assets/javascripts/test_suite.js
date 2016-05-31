@@ -52,10 +52,11 @@ Redcaser.TestSuite = (function () {
               classes:  ['suite-header'],
               children: [
                 DOMBuilder.th({
+                  classes:  ['drag'],
                   children: [DOMBuilder.text('')]
                 }),
                 DOMBuilder.th({
-                  classes:  ['suite-check'],
+                  classes:  ['checkbox'],
                   //children: [DOMBuilder.checkbox({classes: ['suite-checkbox']})]
                 }),
                 DOMBuilder.th({

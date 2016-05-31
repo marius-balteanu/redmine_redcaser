@@ -50,20 +50,14 @@
 .tree-root .suite-title:hover .suite-actions {
   display: inline-block;
 }
-.tree-root .suite-header, .execution-suites-root .case-list-header {
-  background-color: #EEEEEE;
-  border: 1px solid #e4e4e4;
-  padding: 5px 0px;
-}
+
 .tree-root .suite-drag {
   margin: 0px 10px;
 }
 .tree-root .suite-check {
   margin-right: 10px;
 }
-.tree-root .suite-id {
-  margin-right: 10px;
-}
+
 .tree-root .suite-link {
   margin-right: 10px;
 }
@@ -86,10 +80,6 @@
 .tree-root .suite-case > span, .tree-root .suite-header > span {
   display: table-cell;
   vertical-align: middle;
-}
-
-.tree-root .suite-case:hover {
-  background-color: #F2F8FF;
 }
 
 .tree-root .case-check {

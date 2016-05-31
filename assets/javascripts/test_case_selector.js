@@ -18,20 +18,33 @@ Redcaser.TestCaseSelector = (function () {
 
   def.build = function () {
     this.inputs.select = DOMBuilder.select({classes:  ['queries-select']})
-    this.caseList      = DOMBuilder.div({classes:  ['case-list']})
+    this.caseList      = DOMBuilder.tbody({classes:  ['case-list']})
 
     return DOMBuilder.div({
       children: [
-        DOMBuilder.label({children: [DOMBuilder.text('Queiries')]}),
+        DOMBuilder.label({children: [DOMBuilder.text('Queries')]}),
         this.inputs.select,
-        DOMBuilder.div({
-          classes:  ['case-header'],
+        DOMBuilder.table({
+          classes:  ['issues'],
           children: [
-            DOMBuilder.checkbox({classes: ['case-header-check']}),
-            DOMBuilder.text('Name')
+            DOMBuilder.tr({
+              children: [
+                DOMBuilder.th({
+                  classes: ['case-header-check'],
+                  children: [
+                    DOMBuilder.checkbox({classes: ['case-header-check']})
+                  ]
+                }),
+                DOMBuilder.th({
+                  children: [
+                    DOMBuilder.text("Name")
+                  ]
+                })
+              ]
+            }),
+            this.caseList
           ]
         }),
-        this.caseList
       ]
     })
   }
@@ -69,14 +82,21 @@ Redcaser.TestCaseSelector = (function () {
 
     data.forEach(function (element) {
       this.caseList.appendChild(
-        DOMBuilder.div({
+        DOMBuilder.tr({
           classes:  ['case-element'],
           children: [
-            DOMBuilder.checkbox({
-              value:   element.id,
-              checked: selected.includes(element.id)
+            DOMBuilder.td({
+              classes: ['checkbox'],
+              children: [
+                DOMBuilder.checkbox({
+                  value:   element.id,
+                  checked: selected.includes(element.id)
+                }),
+              ]
             }),
-            DOMBuilder.text(element.name)
+            DOMBuilder.td({
+                children: [DOMBuilder.text(element.subject)]
+            })
           ]
         })
       )

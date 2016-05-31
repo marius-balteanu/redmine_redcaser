@@ -43,8 +43,8 @@ Redcaser.TestCaseSelectorEvents = (function () {
     var children  = context.caseList.childNodes
 
     for(var index = 0; index < children.length; index += 1) {
-      var checkbox = children[index].childNodes[0]
 
+      var checkbox = children[index].getElementsByClassName('checkbox')[0].firstChild
       checkbox.checked = isChecked
     }
   }

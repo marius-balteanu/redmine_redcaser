@@ -14,21 +14,26 @@ Redcaser.TestCase = (function () {
 
   // build :: Object -> DOM
   self.build = function (element) {
+
     return DOMBuilder.tr({
       classes:  ['suite-case'],
       dataset:  {id: element.id},
       children: [
         DOMBuilder.td({
-          classes:  ['case-drag', 'sort-handle'],
-          children: [DOMBuilder.text('')]
+          classes:  ['drag'],
+          children: [
+            DOMBuilder.span({
+              classes:  ['case-drag', 'sort-handle'],
+            })
+          ]
         }),
         DOMBuilder.td({
-          classes:  ['case-check'],
+          classes:  ['checkbox'],
           children: [DOMBuilder.checkbox({classes: ['case-checkbox']})]
         }),
         DOMBuilder.td({
           classes:  ['case-id'],
-          children: [DOMBuilder.text(element.id)]
+          children: [DOMBuilder.text(element.issue_id)]
         }),
         DOMBuilder.td({
           classes:  ['case-link'],
@@ -36,15 +41,16 @@ Redcaser.TestCase = (function () {
             DOMBuilder.link({
               href:    '/issues/' + element.issue_id,
               target:  '_blank',
-              children: [DOMBuilder.text(element.name)]
+              children: [DOMBuilder.text(element.subject)]
             })
           ]
         }),
         DOMBuilder.td({
           classes:  ['case-actions'],
           children: [
-            DOMBuilder.button({
-              classes:  ['case-actions-edit'],
+            DOMBuilder.link({
+              classes:  ['case-actions-edit', 'icon', 'icon-edit'],
+              href   :  "#",
               dataset:  {
                 issue_id:      element.issue_id,
                 test_suite_id: element.test_suite_id

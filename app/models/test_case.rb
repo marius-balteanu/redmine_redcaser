@@ -13,14 +13,13 @@ class TestCase < ActiveRecord::Base
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json(version = nil, environment = nil)
-    atext = "##{issue_id} - #{issue.subject}"
     last_result = get_last_result(version, environment)
 
     {
       'id'               => id,
       'issue_id'         => issue_id,
       'test_suite_id'    => test_suite_id,
-      'name'             => atext,
+      'subject'             => issue.subject,
       'preconditions'    => preconditions,
       'steps'            => steps,
       'expected_results' => expected_results,
