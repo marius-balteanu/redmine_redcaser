@@ -1,6 +1,6 @@
 var Redcaser = Redcaser || {}
 
-Redcaser.TestSuiteTreeWidget = (function () {
+Redcaser.TestSuiteTree = (function () {
   'use strict'
 
   // self :: DOM

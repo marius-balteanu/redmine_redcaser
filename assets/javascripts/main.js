@@ -5,7 +5,7 @@ $(function () {
 
   element = document.getElementsByClassName('tree-root')[0]
   if (element) {
-    Redcaser.testSuiteTree = new Redcaser.TestSuiteTreeWidget(element)
+    Redcaser.testSuiteTree = new Redcaser.TestSuiteTree(element)
     Redcaser.suiteDialog   = new Redcaser.SuiteDialog()
   }
 
