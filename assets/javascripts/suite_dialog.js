@@ -51,12 +51,14 @@ Redcaser.SuiteDialog = (function () {
   }
 
   // forCreate :: DOM
-  def.forCreate = function (data, context) {
+  def.forCreate = function (event, data, context) {
     this.context           = context
     this.suiteId           = null
     this.inputs.name.value = ''
 
-    this.rebuildParentSelect(data.test_suites)
+    var parentId = event.target.dataset.parent_id
+
+    this.rebuildParentSelect(data.test_suites, parentId)
 
     this.modal.dialog('option', 'title', 'Create Test Suite')
     this.modal.dialog(

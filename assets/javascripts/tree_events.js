@@ -75,7 +75,7 @@ var TreeEvents = (function () {
   self.handleSuiteCreate = function (event, context) {
     var params = {
       done: function (response) {
-        Redcaser.suiteDialog.forCreate(response, context)
+        Redcaser.suiteDialog.forCreate(event, response, context)
       },
       fail: function (response) { console.log(response) }
     }
