@@ -90,7 +90,7 @@ Redcaser.TestSuiteTreeWidget = (function () {
   }
 
   def.handleCaseMove = function (event, ui) {
-    var toElement = event.toElement
+    var toElement = event.toElement.parentNode
     // jQuery UI fires two events when moving an element from one container
     // to another. We need to handle the event from the new container.
     var isRightEvent = toElement.parentNode.parentNode === event.target

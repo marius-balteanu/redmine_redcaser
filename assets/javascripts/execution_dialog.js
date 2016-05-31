@@ -175,7 +175,7 @@ Redcaser.ExecutionDialog = (function () {
     var testCaseIds   = []
 
     for (var index = 0; index < testCaseNodes.length; index += 1) {
-      var element = testCaseNodes[index].childNodes[0]
+      var element = testCaseNodes[index].getElementsByClassName('checkbox')[0].firstChild
 
       if (element.checked) testCaseIds.push(element.value)
     }

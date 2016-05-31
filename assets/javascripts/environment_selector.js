@@ -22,7 +22,7 @@ Redcaser.EnvironmentSelector = (function () {
         DOMBuilder.label({children: [DOMBuilder.text('Environment')]}),
         this.inputs.select,
         DOMBuilder.link({
-          classes:  ['environment-create'],
+          classes:  ['environment-create', 'icon-only', 'icon-add'],
           href:     '#',
           children: [DOMBuilder.text('Add environment')]
         })

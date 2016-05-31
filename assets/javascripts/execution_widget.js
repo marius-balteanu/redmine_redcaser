@@ -171,26 +171,30 @@ Redcaser.ExecutionWidget = (function () {
       )
 
       children.push(
-        DOMBuilder.div({
-          classes:  ['case-list-header'],
-          children: [
-            DOMBuilder.span({
-              classes:  ['list-header-check'],
-              children: [DOMBuilder.checkbox()]
-            }),
-            DOMBuilder.span({
-              classes:  ['list-header-id'],
-              children: [DOMBuilder.text('Id')]
-            }),
-            DOMBuilder.span({
-              classes:  ['list-header-title'],
-              children: [DOMBuilder.text('Title')]
-            }),
-            DOMBuilder.span({
-              classes:  ['list-header-status'],
-              children: [DOMBuilder.text('Status')]
-            })
-          ]
+        DOMBuilder.table({
+            children: [
+              DOMBuilder.tr({
+                classes:  ['case-list-header'],
+                children: [
+                  DOMBuilder.th({
+                    classes:  ['list-header-check'],
+                    children: [DOMBuilder.checkbox()]
+                  }),
+                  DOMBuilder.th({
+                    classes:  ['list-header-id'],
+                    children: [DOMBuilder.text('Id')]
+                  }),
+                  DOMBuilder.th({
+                    classes:  ['list-header-title'],
+                    children: [DOMBuilder.text('Title')]
+                  }),
+                  DOMBuilder.th({
+                    classes:  ['list-header-status'],
+                    children: [DOMBuilder.text('Status')]
+                  })
+                ]
+              })
+            ]
         })
       )
 
@@ -198,23 +202,23 @@ Redcaser.ExecutionWidget = (function () {
       var caseList = []
 
       elements.forEach(function (element) {
-        var node = DOMBuilder.div({
+        var node = DOMBuilder.tr({
           classes:  ['list-item'],
           children: [
-            DOMBuilder.span({
+            DOMBuilder.td({
               classes:  ['list-item-check'],
               children: [DOMBuilder.checkbox()]
             }),
-            DOMBuilder.span({
+            DOMBuilder.td({
               classes:  ['list-item-id'],
-              children: [DOMBuilder.text(element.id)]
+              children: [DOMBuilder.text(element.issue_id)]
             }),
-            DOMBuilder.span({
+            DOMBuilder.td({
               classes:  ['list-item-name'],
               dataset:  {id: element.id},
-              children: [DOMBuilder.text(element.name)]
+              children: [DOMBuilder.text(element.subject)]
             }),
-            DOMBuilder.span({
+            DOMBuilder.td({
               classes:  ['list-item-status'],
               children: [
                 DOMBuilder.span({
@@ -246,8 +250,8 @@ Redcaser.ExecutionWidget = (function () {
         this.listItems[element.id.toString()] = node
       }.bind(this))
 
-      children.push(
-        DOMBuilder.div({classes: ['case-list-body'], children: caseList})
+      children[1].appendChild(
+        DOMBuilder.tbody({classes: ['case-list-body'], children: caseList})
       )
     }
 

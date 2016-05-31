@@ -5,30 +5,49 @@
 .case-preview {
   width: 50%;
 }
-.suite-table {
-  display: table;
+
+table.suite-table {
   width: 100%;
+  border-collapse: collapse;
 }
-.suite-link {
-  text-align: left;
-}
-.suite-header {
-  display: table-row;
-}
-.suite-header > span, .suite-case > span{
+table.suite-table th {
+  background-color: #EEEEEE;
   padding-top: 8px;
   padding-bottom: 8px;
   vertical-align: middle;
+  text-align: left;
 }
-.case-drag {
-  background-position: 50% 50%;
+table.suite-table td {
+  padding-right: 10px;
 }
-.case-drag, .case-check {
-  width: 30px;
+table.suite-table tr:nth-child(odd) {
+  background-color: #f6f7f8;
+}
+table.suite-table tbody tr:hover {
+  background-color: #ffffdd;
+}
+table.suite-table .drag {
+  width: 20px;
   text-align: center;
-  vertical-align: middle;
 }
-.case-id, .suite-id {
-  width: 70px;
-  padding-left: 10px;
+table.suite-table .checkbox {
+  width: 20px;
+  text-align: center;
+}
+table.suite-table .suite-id {
+  max-width: 80px;
+  width: 80px;
+}
+table.suite-table tr.sort-disabled td {
+  padding: 0;
+  height: 1px;
+}
+div.suite-footer {
+  padding: 8px;
+}
+.suite-actions a {
+  margin-left: 8px;
+}
+.tree-actions {
+  margin-right: 10px;
 }
