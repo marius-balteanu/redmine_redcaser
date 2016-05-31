@@ -3,6 +3,8 @@ var Redcaser = Redcaser || {}
 Redcaser.SuiteDialog = (function () {
   'use strict'
 
+  var TestSuite = Redcaser.TestSuite
+
   var self = function () {
     this.inputs = {}
     this.body   = this.build()
@@ -109,11 +111,20 @@ Redcaser.SuiteDialog = (function () {
   }
   //submitForCreate :: Event
   def.submitForCreate = function (event) {
-    var data = this.gatherDataFrom(event.target)
+    var data = this.gatherData()
 
     var params = {
       data: data.params,
-      done: function () { location.reload(true) },
+      done: function (response) {
+        var testSuite   = new TestSuite(response.test_suite, this.context)
+        var parentSuite = this.context.testSuites[testSuite.parent_id]
+
+        this.context.testSuites[testSuite.id] = testSuite
+        parentSuite.testSuites.push[testSuite]
+        parentSuite.childSuitesNode.appendChild(testSuite.node)
+
+        this.modal.dialog('close')
+      }.bind(this),
       fail: function (response) { console.log(response) }
     }
 
@@ -122,7 +133,7 @@ Redcaser.SuiteDialog = (function () {
 
   // submitForUpdate :: Event
   def.submitForUpdate = function (event) {
-    var data = this.gatherDataFrom(event.target)
+    var data = this.gatherData()
 
     var params = {
       id:   data.id,
@@ -134,8 +145,8 @@ Redcaser.SuiteDialog = (function () {
     Redcaser.API.testSuites.update(params)
   }
 
-  // gatherDataFrom :: DOM -> Object
-  def.gatherDataFrom = function (target) {
+  // gatherData :: DOM -> Object
+  def.gatherData = function (target) {
     return {
       id: this.suiteId,
       params: {

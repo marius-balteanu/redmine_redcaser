@@ -74,6 +74,7 @@ Redcaser.TestSuiteTree = (function () {
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (data) {
+    this.project  = data.project
     this.treeData = this.formatTreeData(data)
 
     this.buildTree()

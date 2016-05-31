@@ -34,7 +34,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     @test_suite.project = @project
 
     if @test_suite.save
-      render json: {success: 'Test Suite created.'}
+      render json: {success: 'Test Suite created', test_suite: @test_suite}
     else
       render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
@@ -44,7 +44,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     @test_suite.assign_attributes(test_suite_params)
 
     if @test_suite.save
-      render json: {success: 'Test Suite updated.'}
+      render json: {success: 'Test Suite updated', test_suite: @test_suite}
     else
       render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
@@ -58,7 +58,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     end
 
     if @test_suite.destroy
-      render json: {success: 'Test Suite deleted.'}
+      render json: {success: 'Test Suite deleted'}
     else
       render json: {errors: @test_suite.errors.full_messages}, status: 400
     end
@@ -74,7 +74,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     @test_suite = TestSuite.where(id: params[:id]).first
     return if @test_suite
 
-    render json: {error: 'Test Suite not found.'}, status: 404
+    render json: {error: 'Test Suite not found'}, status: 404
   end
 
   def find_all_test_suites
@@ -88,6 +88,6 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     parent_exists = TestSuite.where(id: parent_id).exists?
     return if parent_exists
 
-    render json: {error: 'Parent Test Suite not found.'}, status: 404
+    render json: {error: 'Parent Test Suite not found'}, status: 404
   end
 end

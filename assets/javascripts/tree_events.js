@@ -94,7 +94,7 @@ var TreeEvents = (function () {
 
         node.parentNode.removeChild(node)
 
-        context.testSuites[id] = undefined
+        delete context.testSuites[id]
       },
       fail: function (response) { console.log(response) }
     }
