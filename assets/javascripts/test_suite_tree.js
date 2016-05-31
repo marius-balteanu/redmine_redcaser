@@ -53,15 +53,11 @@ Redcaser.TestSuiteTree = (function () {
     this.testSuites = {}
 
     data.test_suites.forEach(function (element) {
-      var suite = new TestSuite(element, data)
-
-      this.testSuites[element.id] = suite
+      this.testSuites[element.id] = new TestSuite(element, data)
     }.bind(this))
 
     data.test_cases.forEach(function (element) {
-      var node = new TestCase(element)
-
-      this.testCases[element.id] = node
+      this.testCases[element.id] = new TestCase(element)
     }.bind(this))
 
     return nodes
@@ -86,9 +82,49 @@ Redcaser.TestSuiteTree = (function () {
   }
 
   def.buildTree = function () {
-    console.log(this.treeData)
-    console.log(this.testSuites)
-    console.log(this.testCases)
+    var rootSuites  = []
+    var childSuites = []
+    var childCases  = []
+
+    for (var key in this.testSuites) {
+      if (this.testSuites.hasOwnProperty(key)) {
+        if (this.testSuites[key].parent_id === null) {
+          rootSuites.push(this.testSuites[key])
+        }
+      }
+    }
+
+    for (var key in this.testSuites) {
+      if (this.testSuites.hasOwnProperty(key)) {
+        if (this.testSuites[key].parent_id !== null) {
+          childSuites.push(this.testSuites[key])
+        }
+      }
+    }
+
+    for (var key in this.testCases) {
+      if (this.testCases.hasOwnProperty(key)) {
+        if (this.testCases[key].parent_id !== null) {
+          childCases.push(this.testCases[key])
+        }
+      }
+    }
+
+    rootSuites.forEach(function (element) {
+      this.body.appendChild(element.node)
+    }.bind(this))
+
+    childSuites.forEach(function (element) {
+      var parentNode = this.testSuites[element.parent_id].childSuitesNode
+
+      parentNode.appendChild(element.node)
+    }.bind(this))
+
+    childCases.forEach(function (element) {
+      var parentNode = this.testSuites[element.test_suite_id].childCasesNode
+
+      parentNode.appendChild(element.node)
+    }.bind(this))
   }
 
   def.makeSuiteCasesSortable = function () {

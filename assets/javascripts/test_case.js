@@ -5,10 +5,11 @@ Redcaser.TestCase = (function () {
 
   // self :: Object
   var self = function (caseData) {
-    this.node     = this.build(caseData)
-    this.id       = caseData.id
-    this.subject  = caseData.subject
-    this.issue_id = caseData.issue_id
+    this.node          = this.build(caseData)
+    this.id            = caseData.id
+    this.subject       = caseData.subject
+    this.issue_id      = caseData.issue_id
+    this.test_suite_id = caseData.test_suite_id
   }
 
   var def = self.prototype

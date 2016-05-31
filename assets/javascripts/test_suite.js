@@ -8,6 +8,7 @@ Redcaser.TestSuite = (function () {
     this.node       = this.build(suiteData, requestData)
     this.id         = suiteData.id
     this.name       = suiteData.name
+    this.parent_id  = suiteData.parent_id
     this.testSuites = []
     this.testCases  = []
   }
@@ -16,6 +17,17 @@ Redcaser.TestSuite = (function () {
 
   // build :: Object, Object -> DOM
   def.build = function (element, data) {
+    this.childSuitesNode = DOMBuilder.div({classes: ['suite-children']})
+    this.childCasesNode  = DOMBuilder.tbody({
+      classes:  ['suite-cases'],
+      children: [
+        DOMBuilder.tr({
+          classes:  ['sort-disabled'],
+          children: [DOMBuilder.td()]
+        })
+      ]
+    })
+
     return DOMBuilder.div({
       classes:  ['tree-suite'],
       dataset:  {id: element.id},
@@ -73,15 +85,7 @@ Redcaser.TestSuite = (function () {
                 })
               ]
             }),
-            DOMBuilder.tbody({
-              classes:  ['suite-cases'],
-              children: [
-                DOMBuilder.tr({
-                  classes:  ['sort-disabled'],
-                  children: [DOMBuilder.td()]
-                })
-              ]
-            })
+            this.childCasesNode
           ]
         }),
         DOMBuilder.div({
@@ -106,7 +110,7 @@ Redcaser.TestSuite = (function () {
             })
           ]
         }),
-        DOMBuilder.div({classes: ['suite-children']})
+        this.childSuitesNode
       ]
     })
   }
