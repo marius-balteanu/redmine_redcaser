@@ -3,12 +3,15 @@ var Redcaser = Redcaser || {}
 Redcaser.TestSuiteTree = (function () {
   'use strict'
 
+  var TestSuite = Redcaser.TestSuite
+  var TestCase  = Redcaser.TestCase
+
   // self :: DOM
   var self = function (root) {
-    this.root = root
-    this.tree = this.build()
+    this.root     = root
+    this.treeNode = this.build()
 
-    this.root.appendChild(this.tree)
+    this.root.appendChild(this.treeNode)
 
     this.getTestSuiteData()
 
@@ -42,73 +45,50 @@ Redcaser.TestSuiteTree = (function () {
     })
   }
 
-  // buildTree :: Object -> DOM
-  def.buildTree = function (data) {
+  // formatTreeData :: Object -> []
+  def.formatTreeData = function (data) {
     var nodes = []
 
-    var elements = data.test_suites
+    this.testCases  = {}
+    this.testSuites = {}
 
-    elements.forEach(function (element) {
-      nodes.push(this.buildNode(element, data))
+    data.test_suites.forEach(function (element) {
+      var suite = new TestSuite(element, data)
+
+      this.testSuites[element.id] = suite
+    }.bind(this))
+
+    data.test_cases.forEach(function (element) {
+      var node = new TestCase(element)
+
+      this.testCases[element.id] = node
     }.bind(this))
 
     return nodes
   }
 
-  def.buildNode = function (element, data) {
-    var type = element.type
-    var node, suiteCases, suiteChildren
-
-    if (type === 'suite') {
-      node = Redcaser.TestSuite.build(element, data)
-
-      suiteCases    = node.getElementsByClassName('suite-cases')[0]
-      suiteChildren = node.getElementsByClassName('suite-children')[0]
-
-      element.children.forEach(function (child) {
-        var childNode = this.buildNode(child, data)
-
-        if (child.type === 'suite') {
-          suiteChildren.appendChild(childNode)
-        }
-        else if (child.type === 'case') {
-          suiteCases.appendChild(childNode)
-        }
-        else {
-          console.log('Bad Child data:')
-          console.log(child)
-        }
-      }.bind(this))
-    }
-    else if (type === 'case') {
-      node = Redcaser.TestCase.build(element)
-    }
-    else {
-      console.log('Bad Node data:')
-      console.log(element)
-    }
-
-    return node
-  }
-
   def.getTestSuiteData = function () {
     var params = {
       done: this.createTestSuiteTree.bind(this),
-      fail: this.handleTestSuiteError.bind(this)
+      fail: function (response) { console.log(response) }
     }
 
     Redcaser.API.testSuites.index(params)
   }
 
   // createTestSuiteTree :: Object
-  def.createTestSuiteTree = function (response) {
-    var nodes = this.buildTree(response)
+  def.createTestSuiteTree = function (data) {
+    this.treeData = this.formatTreeData(data)
 
-    nodes.forEach(function (element) {
-      this.body.appendChild(element)
-    }.bind(this))
+    this.buildTree()
 
     this.makeSuiteCasesSortable()
+  }
+
+  def.buildTree = function () {
+    console.log(this.treeData)
+    console.log(this.testSuites)
+    console.log(this.testCases)
   }
 
   def.makeSuiteCasesSortable = function () {
@@ -120,11 +100,6 @@ Redcaser.TestSuiteTree = (function () {
       placeholder: 'suite-case-placeholder',
       update :     this.handleCaseMove.bind(this)
     })
-  }
-
-  // buildTestSuiteTree :: Object
-  def.handleTestSuiteError = function (response) {
-    console.log('Error!')
   }
 
   def.handleCaseMove = function (event, ui) {

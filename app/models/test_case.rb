@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 class TestCase < ActiveRecord::Base
-  belongs_to :test_suite
-  belongs_to :issue
+  belongs_to :test_suite, inverse_of: :test_cases
+  belongs_to :issue, inverse_of: :test_case
   has_and_belongs_to_many(
     :execution_suites,
     join_table: 'execution_suite_test_case'
   )
   has_many :execution_journals, dependent: :destroy
-  attr_protected :id
+
+  def self.for_project(project)
+    TestCase.includes(:issue).where(project_id: project.id).to_a
+  end
 
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
@@ -24,10 +27,7 @@ class TestCase < ActiveRecord::Base
       'steps'            => steps,
       'expected_results' => expected_results,
       'status'           => nil,
-      'type'             => 'case',
-      'state'            => {
-        'disabled' => (issue.status.id != RedcaserSettings.status_active_id)
-      }
+      'type'             => 'case'
     }
   end
 

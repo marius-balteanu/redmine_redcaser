@@ -4,22 +4,24 @@ Redcaser.TestSuite = (function () {
   'use strict'
 
   // self :: Object
-  var self = function (data) {
-    this.id       = data.id
-    this.name     = data.name
-    this.node     = data.node
-    this.children = data.children
+  var self = function (suiteData, requestData) {
+    this.node       = this.build(suiteData, requestData)
+    this.id         = suiteData.id
+    this.name       = suiteData.name
+    this.testSuites = []
+    this.testCases  = []
   }
 
+  var def = self.prototype
+
   // build :: Object, Object -> DOM
-  self.build = function (element, data) {
+  def.build = function (element, data) {
     return DOMBuilder.div({
       classes:  ['tree-suite'],
       dataset:  {id: element.id},
       children: [
         DOMBuilder.div({
           classes:  ['suite-title'],
-          // children: [DOMBuilder.text(element.name)]
           children: [
             DOMBuilder.span({
               children: [DOMBuilder.text(element.name)]
@@ -57,7 +59,6 @@ Redcaser.TestSuite = (function () {
                 }),
                 DOMBuilder.th({
                   classes:  ['checkbox'],
-                  //children: [DOMBuilder.checkbox({classes: ['suite-checkbox']})]
                 }),
                 DOMBuilder.th({
                   classes:  ['suite-id'],
@@ -69,7 +70,6 @@ Redcaser.TestSuite = (function () {
                 }),
                 DOMBuilder.th({
                   classes:  ['suite-actions'],
-                  //children: [DOMBuilder.text('Title')]
                 })
               ]
             }),

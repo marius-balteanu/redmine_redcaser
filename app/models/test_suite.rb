@@ -8,8 +8,8 @@ class TestSuite < ActiveRecord::Base
 
   def self.for_project(project)
     TestSuite
-      .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]}, :children)
-      .where(project_id: project.id, parent_id: nil)
+      .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]})
+      .where(project_id: project.id)
       .to_a
   end
 
@@ -24,27 +24,12 @@ class TestSuite < ActiveRecord::Base
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json
-    if parent_id
-      kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
-          .map { |s| s.to_json } \
-        + test_cases
-          .sort_by { |x| x.issue.subject }
-          .map { |tc| tc.to_json }
-    else
-      kids = children.includes({test_cases: [:execution_suites, issue: [:author, :status]]}, :children)
-          .map { |s| s.to_json } \
-        + test_cases
-          .sort_by { |x| x.issue.subject }
-          .map { |tc| tc.to_json }
-    end
-
     {
-      'id'        => id,
-      'parent_id' => parent_id,
-      'name'      => name,
-      'children'  => kids,
-      'state'     => { 'opened' => parent.nil? },
-      'type'      => 'suite'
+      'id'         => id,
+      'name'       => name,
+      'parent_id'  => parent_id,
+      'test_cases' => test_cases.map(&:to_json),
+      'type'       => 'suite'
     }
   end
 end

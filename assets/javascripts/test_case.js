@@ -4,17 +4,17 @@ Redcaser.TestCase = (function () {
   'use strict'
 
   // self :: Object
-  var self = function (data) {
-    this.id         = data.id
-    this.parent_id  = data.parent_id
-    this.project_id = data.project_id
-    this.issue_id   = data.issue_id
-    this.node       = data.node
-  };
+  var self = function (caseData) {
+    this.node     = this.build(caseData)
+    this.id       = caseData.id
+    this.subject  = caseData.subject
+    this.issue_id = caseData.issue_id
+  }
+
+  var def = self.prototype
 
   // build :: Object -> DOM
-  self.build = function (element) {
-
+  def.build = function (element) {
     return DOMBuilder.tr({
       classes:  ['suite-case'],
       dataset:  {id: element.id},

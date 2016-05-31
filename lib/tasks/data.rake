@@ -65,4 +65,13 @@ namespace :redmine_redcaser do
       test_suite.save!
     end
   end
+
+  desc 'Adds project ids to test cases'
+  task project_ids: :environment do
+    TestCase.includes(:test_suite).find_each do |test_case|
+      test_case.project_id = test_case.test_suite.project_id
+
+      test_case.save!
+    end
+  end
 end
