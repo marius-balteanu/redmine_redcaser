@@ -85,17 +85,18 @@ var TreeEvents = (function () {
 
   // handleSuiteDelete :: Event, Object
   self.handleSuiteDelete = function (event, context) {
-    var id = event.target.dataset.id
+    var id = parseInt(event.target.dataset.id)
 
     var params = {
       id:   id,
-      done: function () { location.reload(true) },
-      fail: function (response) {
-        var errors = response.responseJSON.errors
+      done: function (response) {
+        var node = context.testSuites[id].node
 
-        console.log(errors)
-        alert(errors)
-      }
+        node.parentNode.removeChild(node)
+
+        context.testSuites[id] = undefined
+      },
+      fail: function (response) { console.log(response) }
     }
 
     Redcaser.API.testSuites.destroy(params)
