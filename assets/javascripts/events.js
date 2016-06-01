@@ -90,7 +90,11 @@ Redcaser.TreeEvents = (function () {
 
         delete context.testSuites[id]
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) {
+        var errors = response.responseJSON.errors
+
+        alert(errors)
+      }
     }
 
     Redcaser.API.testSuites.destroy(params)
