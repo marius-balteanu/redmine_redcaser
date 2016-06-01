@@ -1,10 +1,7 @@
 var Redcaser = Redcaser || {}
 
-Redcaser.ExecutionEvents = (function () {
+Redcaser.Events = (function () {
   'use strict'
-
-  var ExecutionDialog   = Redcaser.ExecutionDialog
-  var EnvironmentDialog = Redcaser.EnvironmentDialog
 
   var self = {}
 
@@ -16,6 +13,99 @@ Redcaser.ExecutionEvents = (function () {
       this.addEventHandler(element, context)
     }.bind(this))
   }
+
+  // addEventHandler :: [String, String, (Event -> *)], Object
+  self.addEventHandler = function (config, context) {
+    context.root.addEventListener(config[0], function (event, ui) {
+      if (event.target.classList.contains(config[1])) {
+        config[2].bind(this)(event, context)
+      }
+    }.bind(this))
+  }
+
+  return self
+})()
+
+Redcaser.TreeEvents = (function () {
+  'use strict'
+
+  var self = $.extend({}, Redcaser.Events)
+
+  // eventHandlers :: -> [[String, String, (Event -> *)]]
+  self.eventHandlers = function () {
+    // [event name, class, handler]
+    return [
+      ['click', 'suite-create',         this.handleSuiteCreate  ],
+      ['click', 'suite-actions-edit',   this.handleSuiteEdit    ],
+      ['click', 'suite-actions-delete', this.handleSuiteDelete  ],
+      ['click', 'case-actions-edit',    this.handleCaseEdit     ]
+    ]
+  }
+
+  // handleSuiteEdit :: Event, Object
+  self.handleSuiteEdit = function (event, context) {
+    var suiteId = event.target.dataset.id
+
+    var params = {
+      id:   suiteId,
+      done: function (response) {
+        Redcaser.suiteDialog.forUpdate(response, context)
+      },
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.testSuites.edit(params)
+  }
+
+  // handleCaseEdit :: Event, Object
+  self.handleCaseEdit = function (event, context) {
+    var issueId = event.target.dataset.issue_id
+    var testSuiteId = event.target.dataset.test_suite_id
+
+    location.href = '/issues/' + issueId + '/edit?test_suite_id=' + testSuiteId
+  }
+
+    // handleSuiteCreate :: Event, Object
+  self.handleSuiteCreate = function (event, context) {
+    var params = {
+      done: function (response) {
+        Redcaser.suiteDialog.forCreate(event, response, context)
+      },
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.testSuites.new(params)
+  }
+
+  // handleSuiteDelete :: Event, Object
+  self.handleSuiteDelete = function (event, context) {
+    var id = parseInt(event.target.dataset.id)
+
+    var params = {
+      id:   id,
+      done: function (response) {
+        var node = context.testSuites[id].node
+
+        node.parentNode.removeChild(node)
+
+        delete context.testSuites[id]
+      },
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.testSuites.destroy(params)
+  }
+
+  return self
+})()
+
+Redcaser.ExecutionEvents = (function () {
+  'use strict'
+
+  var ExecutionDialog   = Redcaser.ExecutionDialog
+  var EnvironmentDialog = Redcaser.EnvironmentDialog
+
+  var self = $.extend({}, Redcaser.Events)
 
   // eventHandlers :: -> [[String, String, (Event -> *)]]
   self.eventHandlers = function () {
@@ -30,19 +120,6 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'list-item-name',             this.handleListItemClick  ],
       ['click',  'case-footer-related-submit', this.handleRelationCreate ]
     ]
-  }
-
-  // addEventHandler :: [String, String, (Event -> *)], Object
-  self.addEventHandler = function (config, context) {
-    context.root.addEventListener(config[0], function (event, ui) {
-      if (event.target.classList.contains(config[1])) {
-        if (ui) {
-          config[2].bind(this)(event, ui, context)
-        } else {
-          config[2].bind(this)(event, context)
-        }
-      }
-    }.bind(this))
   }
 
   // handleExecutionChange :: Event, Object
@@ -227,5 +304,63 @@ Redcaser.ExecutionEvents = (function () {
 
     return params
   }
+  return self
+})()
+
+Redcaser.TestCaseSelectorEvents = (function () {
+  'use strict'
+
+  var self = $.extend({}, Redcaser.Events)
+
+  // eventHandlers :: -> [[String, String, (Event -> *)]]
+  self.eventHandlers = function () {
+    // [event name, class, handler]
+    return [
+      ['change', 'queries-select',    this.handleQueryChange],
+      ['change', 'case-header-check', this.handleCheckToggle]
+    ]
+  }
+
+  self.handleQueryChange = function (event, context) {
+    var id = event.target.value
+
+    context.getTestCaseList(id)
+  }
+
+  self.handleCheckToggle = function (event, context) {
+    var isChecked = event.target.checked
+    var children  = context.caseList.childNodes
+
+    for(var index = 0; index < children.length; index += 1) {
+
+      var checkbox = children[index].getElementsByClassName('checkbox')[0].firstChild
+      checkbox.checked = isChecked
+    }
+  }
+
+  return self
+})()
+
+
+Redcaser.EnvironmentSelectorEvents = (function () {
+  'use strict'
+
+  var EnvironmentDialog = Redcaser.EnvironmentDialog
+
+  var self = $.extend({}, Redcaser.Events)
+
+  // eventHandlers :: -> [[String, String, (Event -> *)]]
+  self.eventHandlers = function () {
+    // [event name, class, handler]
+    return [
+      ['click', 'environment-create', this.handleEnvironmentCreate]
+    ]
+  }
+
+  // handleEnvironmentCreate :: Event, Object
+  self.handleEnvironmentCreate = function (event, context) {
+    Redcaser.environmentDialog.forCreate(context)
+  }
+
   return self
 })()

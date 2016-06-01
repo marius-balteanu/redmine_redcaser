@@ -3,8 +3,9 @@ var Redcaser = Redcaser || {}
 Redcaser.TestSuiteTree = (function () {
   'use strict'
 
-  var TestSuite = Redcaser.TestSuite
-  var TestCase  = Redcaser.TestCase
+  var TestSuite  = Redcaser.TestSuite
+  var TestCase   = Redcaser.TestCase
+  var TreeEvents = Redcaser.TreeEvents
 
   // self :: DOM
   var self = function (root) {
