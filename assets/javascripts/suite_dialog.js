@@ -126,8 +126,15 @@ Redcaser.SuiteDialog = (function () {
         var parentSuite = this.context.testSuites[testSuite.parent_id]
 
         this.context.testSuites[testSuite.id] = testSuite
-        parentSuite.testSuites.push[testSuite]
-        parentSuite.childSuitesNode.appendChild(testSuite.node)
+
+        if (parentSuite) {
+          parentSuite.childSuitesNode.appendChild(testSuite.node)
+          parentSuite.testSuites.push[testSuite]
+        }
+        else {
+          this.context.body.appendChild(testSuite.node)
+        }
+
 
         this.modal.dialog('close')
       }.bind(this),
@@ -154,6 +161,7 @@ Redcaser.SuiteDialog = (function () {
           testSuite.node.parentNode.removeChild(testSuite.node)
           if (parentSuite) {
             parentSuite.childSuitesNode.appendChild(testSuite.node)
+            parentSuite.testSuites.push[testSuite]
           }
           else {
             this.context.body.appendChild(testSuite.node)
