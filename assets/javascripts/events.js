@@ -5,7 +5,7 @@ Redcaser.Events = (function () {
 
   var self = {}
 
-  // build :: Object
+  // attach :: Object
   self.attach = function (context) {
     var handlers = this.eventHandlers()
 
@@ -14,7 +14,7 @@ Redcaser.Events = (function () {
     }.bind(this))
   }
 
-  // addEventHandler :: [String, String, (Event -> *)], Object
+  // addEventHandler :: [String, String, (Event, Object -> *)], Object
   self.addEventHandler = function (config, context) {
     context.root.addEventListener(config[0], function (event, ui) {
       if (event.target.classList.contains(config[1])) {
@@ -35,10 +35,10 @@ Redcaser.TreeEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'suite-create',         this.handleSuiteCreate  ],
-      ['click', 'suite-actions-edit',   this.handleSuiteEdit    ],
-      ['click', 'suite-actions-delete', this.handleSuiteDelete  ],
-      ['click', 'case-actions-edit',    this.handleCaseEdit     ]
+      ['click', 'suite-create',         this.handleSuiteCreate],
+      ['click', 'suite-actions-edit',   this.handleSuiteEdit  ],
+      ['click', 'suite-actions-delete', this.handleSuiteDelete],
+      ['click', 'case-actions-edit',    this.handleCaseEdit   ]
     ]
   }
 
@@ -184,7 +184,21 @@ Redcaser.ExecutionEvents = (function () {
 
     var params = {
       id:   id,
-      done: function (response) { location.reload(true) },
+      done: function (response) {
+        var options = context.select.childNodes
+
+        for (var index = 0; index < options.length; index += 1) {
+          if (options[index].value === id) {
+            context.select.removeChild(options[index])
+          }
+        }
+
+        while (context.body.firstChild) {
+          context.body.removeChild(context.body.firstChild)
+        }
+
+        context.select.value = ''
+      },
       fail: function (response) { console.log(response) }
     }
 
