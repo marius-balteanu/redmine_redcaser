@@ -15,7 +15,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def show
     @query = @execution_suite.query
 
-    @test_cases   = @execution_suite.test_cases
+    @test_cases   = @execution_suite.test_cases.includes(:issue)
     test_case_ids = @test_cases.map(&:id).uniq
 
     @statuses = TestCaseStatus.includes(:execution_result)
