@@ -25,6 +25,16 @@ Redcaser.EnvironmentSelector = (function () {
           classes:  ['environment-create', 'icon-only', 'icon-add'],
           href:     '#',
           children: [DOMBuilder.text('Add environment')]
+        }),
+        DOMBuilder.link({
+          classes:  ['environment-edit', 'icon-only', 'icon-edit'],
+          href:     '#',
+          children: [DOMBuilder.text('Edit environment')]
+        }),
+        DOMBuilder.link({
+          classes:  ['environment-delete', 'icon-only', 'icon-del'],
+          href:     '#',
+          children: [DOMBuilder.text('Delete environment')]
         })
       ]
     })
@@ -57,6 +67,21 @@ Redcaser.EnvironmentSelector = (function () {
     )
 
     this.inputs.select.value = environment.id
+  }
+
+  def.updateOption = function (environment) {
+    var nodes = this.inputs.select.childNodes
+
+    for(var index = 0; index < nodes.length; index += 1) {
+      var option = nodes[index]
+
+      if(option.value == environment.id) {
+        option.removeChild(option.firstChild)
+        option.appendChild(DOMBuilder.text(environment.name))
+
+        break
+      }
+    }
   }
 
   return self

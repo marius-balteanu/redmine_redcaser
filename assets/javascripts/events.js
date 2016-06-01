@@ -363,13 +363,45 @@ Redcaser.EnvironmentSelectorEvents = (function () {
   self.eventHandlers = function () {
     // [event name, class, handler]
     return [
-      ['click', 'environment-create', this.handleEnvironmentCreate]
+      ['click', 'environment-create', this.handleEnvironmentCreate],
+      ['click', 'environment-edit',   this.handleEnvironmentEdit  ],
+      ['click', 'environment-delete', this.handleEnvironmentDelete]
     ]
   }
 
   // handleEnvironmentCreate :: Event, Object
   self.handleEnvironmentCreate = function (event, context) {
     Redcaser.environmentDialog.forCreate(context)
+  }
+
+  // handleEnvironmentEdit :: Event, Object
+  self.handleEnvironmentEdit = function (event, context) {
+    var id = context.inputs.select.value
+
+    var params = {
+      id:   id,
+      done: function (response) {
+        Redcaser.environmentDialog.forUpdate(response, context)
+      },
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.environments.edit(params)
+  }
+
+  // handleEnvironmentDelete :: Event, Object
+  self.handleEnvironmentDelete = function (event, context) {
+    var id = context.inputs.select.value
+
+    var params = {
+      id:   id,
+      done: function (response) {
+        console.log('Todo: delete')
+      },
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.environments.destroy(params)
   }
 
   return self

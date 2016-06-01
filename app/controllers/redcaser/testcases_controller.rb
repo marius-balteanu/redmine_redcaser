@@ -24,7 +24,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
     @test_case.assign_attributes(test_case_params)
 
     if @test_case.save
-      render json: {success: 'Test Case updated.'}
+      render json: {success: 'Test Case updated'}
     else
       render json: {errors: @test_case.errors.full_messages}, status: 400
     end
@@ -32,7 +32,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
 
   def destroy
     if @test_case.destroy
-      render json: {success: 'Test Case deleted.'}
+      render json: {success: 'Test Case deleted'}
     else
       render json: {errors: @test_case.errors.full_messages}, status: 400
     end
@@ -48,7 +48,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
     @test_case = TestCase.where(id: params[:id]).first
 
     unless @test_case
-      render json: {error: 'Test Case not found.'}, status: 404
+      render json: {error: 'Test Case not found'}, status: 404
     end
   end
 
