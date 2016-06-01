@@ -17,7 +17,7 @@ Redcaser.TestCasePreview = (function () {
       children: [
         DOMBuilder.div({
           classes:  ['case-header'],
-          children: [DOMBuilder.text(element.name)]
+          children: [DOMBuilder.text(element.subject)]
         }),
         DOMBuilder.div({
           classes:  ['case-body'],
