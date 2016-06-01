@@ -30,7 +30,11 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
 
     if issue.tracker.id == RedcaserSettings.tracker_id
       test_case = TestCase.new(test_case_params(params))
-      test_case.assign_attributes(issue: context[:issue], test_suite_id: params[:test_suite][:id])
+      test_case.assign_attributes(
+        issue:         context[:issue],
+        project_id:    issue.project_id,
+        test_suite_id: params[:test_suite][:id]
+      )
 
       test_case.save!
     else

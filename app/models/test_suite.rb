@@ -8,7 +8,6 @@ class TestSuite < ActiveRecord::Base
 
   def self.for_project(project)
     TestSuite
-      .includes({test_cases: [:execution_suites, {issue: [:author, :status]}]})
       .where(project_id: project.id)
       .to_a
   end
@@ -25,11 +24,10 @@ class TestSuite < ActiveRecord::Base
   #       (https://github.com/rails/jbuilder).
   def to_json
     {
-      'id'         => id,
-      'name'       => name,
-      'parent_id'  => parent_id,
-      'test_cases' => test_cases.map(&:to_json),
-      'type'       => 'suite'
+      'id'        => id,
+      'name'      => name,
+      'parent_id' => parent_id,
+      'type'      => 'suite'
     }
   end
 end
