@@ -101,6 +101,8 @@ Redcaser.SuiteDialog = (function () {
       select.removeChild(select.firstChild);
     }
 
+    select.appendChild(DOMBuilder.option())
+
     parents.forEach(function (element) {
       if (element.id == excludeId) return
 
@@ -150,7 +152,12 @@ Redcaser.SuiteDialog = (function () {
 
         if (testSuite.parentId !== response.test_suite.parent_id) {
           testSuite.node.parentNode.removeChild(testSuite.node)
-          parentSuite.childSuitesNode.appendChild(testSuite.node)
+          if (parentSuite) {
+            parentSuite.childSuitesNode.appendChild(testSuite.node)
+          }
+          else {
+            this.context.body.appendChild(testSuite.node)
+          }
         }
 
         this.modal.dialog('close')
