@@ -55,6 +55,8 @@ Redcaser.EnvironmentSelector = (function () {
         children: [DOMBuilder.text(environment.name)]
       })
     )
+
+    this.inputs.select.value = environment.id
   }
 
   return self

@@ -142,6 +142,8 @@ Redcaser.ExecutionDialog = (function () {
       data: data.params,
       done: function (response) {
         this.context.appendSuiteOption(response.execution_suite)
+        this.context.select.value = response.execution_suite.id
+        this.context.loadExecutionSuite(response.execution_suite.id)
 
         this.modal.dialog('close')
       }.bind(this),
@@ -160,6 +162,7 @@ Redcaser.ExecutionDialog = (function () {
       data: data.params,
       done: function (response) {
         this.context.updateSuiteOption(response.execution_suite)
+        this.context.loadExecutionSuite(response.execution_suite.id)
 
         this.modal.dialog('close')
       }.bind(this),

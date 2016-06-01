@@ -7,7 +7,8 @@ class Redcaser::QuerytestcasesController < RedcaserBaseController
     issues    = @query.issues
     issue_ids = issues.map(&:id).uniq
 
-    @test_cases = TestCase.where(issue_id: issue_ids).to_a.map(&:to_json)
+    @test_cases = TestCase.includes(:issue)
+      .where(issue_id: issue_ids).to_a.map(&:to_json)
 
     execution_suite = ExecutionSuite.where(id: params[:execution_suite_id]).first
     @selected = if execution_suite

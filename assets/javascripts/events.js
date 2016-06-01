@@ -130,15 +130,7 @@ Redcaser.ExecutionEvents = (function () {
   self.handleExecutionChange = function (event, context) {
     var executionId = event.target.value
 
-    var params = {
-      id:   executionId,
-      done: function (response) {
-        context.createExecutionSuiteBody(response)
-      },
-      fail: function (response) { console.log(response) }
-    }
-
-    Redcaser.API.executionSuites.show(params)
+    context.loadExecutionSuite(executionId)
   }
 
   // handleStatusChange :: Event, Object

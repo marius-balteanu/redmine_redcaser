@@ -261,5 +261,18 @@ Redcaser.ExecutionWidget = (function () {
     })
   }
 
+  // loadExecutionSuite :: Int | String
+  def.loadExecutionSuite = function (executionId) {
+    var params = {
+      id:   executionId,
+      done: function (response) {
+        this.createExecutionSuiteBody(response)
+      }.bind(this),
+      fail: function (response) { console.log(response) }
+    }
+
+    Redcaser.API.executionSuites.show(params)
+  }
+
   return self
 })()
