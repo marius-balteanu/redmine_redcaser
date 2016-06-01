@@ -24,7 +24,7 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
         value:     value
       )
 
-      if journal.save
+      if journal.save!
         render json: {
           success:          'Test Case Status created',
           test_case_status: @test_case_status.to_json
@@ -63,7 +63,7 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
         )
       end
 
-      if journal.save
+      if journal.save!
         render json: {
           success:          'Test Case Status updated',
           test_case_status: @test_case_status.to_json
