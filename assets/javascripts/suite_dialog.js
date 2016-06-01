@@ -80,7 +80,7 @@ Redcaser.SuiteDialog = (function () {
 
     this.inputs.name.value = data.test_suite.name
 
-    this.rebuildParentSelect(data.test_suites, data.test_suite.parent_id)
+    this.rebuildParentSelect(data.test_suites, data.test_suite.parent_id, data.test_suite.id)
     this.modal.dialog('option', 'title', 'Update Test Suite')
     this.modal.dialog(
       'option',
@@ -94,7 +94,7 @@ Redcaser.SuiteDialog = (function () {
     this.modal.dialog('open')
   }
 
-  def.rebuildParentSelect = function (parents, selectedId) {
+  def.rebuildParentSelect = function (parents, selectedId, excludeId) {
     var select = this.inputs.parents
 
     while (select.firstChild) {
@@ -102,6 +102,8 @@ Redcaser.SuiteDialog = (function () {
     }
 
     parents.forEach(function (element) {
+      if (element.id == excludeId) return
+
       select.appendChild(
         DOMBuilder.option({
           value:    element.id,
