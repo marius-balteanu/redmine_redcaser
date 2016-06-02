@@ -24,6 +24,7 @@ Redcaser.ExecutionWidget = (function () {
   // build :: DOM -> DOM
   def.build = function (root) {
     this.select = DOMBuilder.select({classes: ['execution-select']})
+    this.suiteActions = DOMBuilder.div({classes:  ['execution-actions']})
 
     this.header = DOMBuilder.div({
       classes:  ['execution-header'],
@@ -38,7 +39,8 @@ Redcaser.ExecutionWidget = (function () {
             })
           ]
         }),
-        this.select
+        this.select,
+        this.suiteActions
       ]
     })
 
@@ -105,6 +107,7 @@ Redcaser.ExecutionWidget = (function () {
   def.createExecutionSuiteBody = function (data) {
     this.initializeBody()
     this.initializePreview()
+    this.initializeSuiteActions()
 
     if (data.test_cases) {
       this.testCases = data.test_cases.reduce(function (total, element) {
@@ -121,10 +124,8 @@ Redcaser.ExecutionWidget = (function () {
     this.selectedExecutionSuite = data.execution_suite
 
     if (data.execution_suite) {
-      this.header.appendChild(this.buildExecutionSuiteActions(data.execution_suite))
+      this.buildExecutionSuiteActions(data.execution_suite);
       this.body.appendChild(this.buildExecutionSuiteBody(data))
-    } else {
-      this.header.removeChild(this.header.lastChild)
     }
 
   }
@@ -142,6 +143,12 @@ Redcaser.ExecutionWidget = (function () {
   def.initializeBody = function () {
     while (this.body.firstChild) {
       this.body.removeChild(this.body.firstChild)
+    }
+  }
+
+  def.initializeSuiteActions = function () {
+    while (this.suiteActions.firstChild) {
+      this.suiteActions.removeChild(this.suiteActions.firstChild)
     }
   }
 
@@ -248,31 +255,25 @@ Redcaser.ExecutionWidget = (function () {
   }
 
   def.buildExecutionSuiteActions = function (executionSuite) {
-    var actions = [];
 
-    if (executionSuite) {
-      actions = [
-        DOMBuilder.link({
-          classes:  ['execution-list-edit', 'icon-only', 'icon-edit'],
-          dataset:  {id: executionSuite.id},
-          href:     '#',
-          title:    'Edit execution suite',
-          children: [DOMBuilder.text('Edit')]
-        }),
-        DOMBuilder.link({
-          classes:  ['execution-list-delete', 'icon-only', 'icon-del'],
-          href:     '#',
-          title:    'Delete execution suite',
-          dataset:  {id: executionSuite.id},
-          children: [DOMBuilder.text('Delete')]
-        })
-      ]
-    }
-
-    return DOMBuilder.div({
-      classes:  ['execution-actions'],
-      children: actions
-    })
+    this.suiteActions.appendChild(
+      DOMBuilder.link({
+        classes:  ['execution-list-edit', 'icon-only', 'icon-edit'],
+        dataset:  {id: executionSuite.id},
+        href:     '#',
+        title:    'Edit execution suite',
+        children: [DOMBuilder.text('Edit')]
+      })
+    )
+    this.suiteActions.appendChild(
+      DOMBuilder.link({
+        classes:  ['execution-list-delete', 'icon-only', 'icon-del'],
+        href:     '#',
+        title:    'Delete execution suite',
+        dataset:  {id: executionSuite.id},
+        children: [DOMBuilder.text('Delete')]
+      })
+    )
   }
 
   // loadExecutionSuite :: Int | String
