@@ -136,8 +136,9 @@ Redcaser.ExecutionEvents = (function () {
 
   // handleStatusChange :: Event, Object
   self.handleStatusChange = function (event, context) {
-    var id = event.target.dataset.id
+    if (!event.target.value) return
 
+    var id        = event.target.dataset.id
     var test_case = context.testCases[id]
 
     var data = {
