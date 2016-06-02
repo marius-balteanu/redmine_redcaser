@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TestCase < ActiveRecord::Base
+  include ApplicationHelper
+
   belongs_to :test_suite, inverse_of: :test_cases
   belongs_to :issue, inverse_of: :test_case
   has_and_belongs_to_many(
@@ -22,9 +24,9 @@ class TestCase < ActiveRecord::Base
       'issue'            => issue,
       'test_suite_id'    => test_suite_id,
       'subject'          => issue.subject,
-      'preconditions'    => preconditions,
-      'steps'            => steps,
-      'expected_results' => expected_results,
+      'preconditions'    => textilizable(preconditions),
+      'steps'            => textilizable(steps),
+      'expected_results' => textilizable(expected_results),
       'status'           => nil,
       'type'             => 'case'
     }

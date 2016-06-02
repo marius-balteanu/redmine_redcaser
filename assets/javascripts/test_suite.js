@@ -24,7 +24,13 @@ Redcaser.TestSuite = (function () {
       children: [
         DOMBuilder.tr({
           classes:  ['sort-disabled'],
-          children: [DOMBuilder.td()]
+          children: [
+            DOMBuilder.td({
+              colspan:  "5",
+              classes: ["trala"],
+              children: [DOMBuilder.text('There are not test cases added to this suite')]
+            })
+          ]
         })
       ]
     })

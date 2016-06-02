@@ -17,8 +17,8 @@ Redcaser.TestCasePreview = (function () {
       children: [
         DOMBuilder.div({
           classes:  ['case-header'],
-          children: [DOMBuilder.h3({
-            children: [ DOMBuilder.text(element.subject) ]
+          children: [DOMBuilder.span({
+            children: [ DOMBuilder.text("#" + element.issue_id + ": " + element.subject) ]
           })]
         }),
         DOMBuilder.div({
@@ -29,22 +29,49 @@ Redcaser.TestCasePreview = (function () {
             }),
             DOMBuilder.div({
               classes:  ['case-preconditions'],
-              children: [DOMBuilder.text('Preconditions: ' + element.preconditions)]
+              children: [
+                DOMBuilder.p({
+                  classes:  ['section'],
+                  children: [DOMBuilder.text('Preconditions:')]
+                }),
+                DOMBuilder.div({
+                    classes: ['wiki'],
+                    insertHTML: ['afterbegin', element.preconditions]
+                })
+              ]
             }),
             DOMBuilder.div({
               classes:  ['case-steps'],
-              children: [DOMBuilder.text('Steps: ' + element.steps)]
+              children: [
+                DOMBuilder.p({
+                  classes:  ['section'],
+                  children: [DOMBuilder.text('Steps:')]
+                }),
+                DOMBuilder.div({
+                    classes: ['wiki'],
+                    insertHTML: ['afterbegin', element.steps]
+                })
+              ]
             }),
             DOMBuilder.div({
               classes:  ['case-expected'],
-              children: [DOMBuilder.text('Expected results: ' + element.expected_results)]
+              children: [
+                DOMBuilder.p({
+                  classes:  ['section'],
+                  children: [DOMBuilder.text('Expected results:')]
+                }),
+                DOMBuilder.div({
+                    classes: ['wiki'],
+                    insertHTML: ['afterbegin', element.expected_results]
+                })
+              ]
             })
           ]
         }),
         DOMBuilder.div({
           classes:  ['case-footer'],
           children: [
-            DOMBuilder.textInput({classes: ['case-footer-comment']}),
+            DOMBuilder.textarea({classes: ['case-footer-comment']}),
             DOMBuilder.select({
               classes:  ['case-footer-select'],
               children: DOMBuilder.options({

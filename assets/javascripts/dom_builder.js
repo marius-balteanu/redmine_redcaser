@@ -17,13 +17,21 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['checked', 'href', 'selected', 'target', 'value', 'title']
+    var nodeFields = ['colspan', 'checked', 'href', 'selected', 'target', 'value', 'title']
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]
     })
 
     if (options.children) options.children.forEach(node.appendChild.bind(node))
+
+    if (options.insertHTML) {
+        var position;
+        var text;
+
+        [position, text] = options.insertHTML
+        node.insertAdjacentHTML(position, text)
+    }
   }
 
   // buildNode :: (String -> DOM), String, Object -> DOM
@@ -129,6 +137,11 @@ var DOMBuilder = (function () {
     return node
   }
 
+  // textarea :: Object -> DOM
+  self.textarea = function (options) {
+    return self.node('textarea', options)
+  }
+
   // table :: Object -> DOM
   self.table = function (options) {
     return self.node('table', options)
@@ -154,10 +167,9 @@ var DOMBuilder = (function () {
     return self.node('tr', options)
   }
 
-  // tr:: Object -> DOM
-  self.h3 = function (options) {
-    return self.node('h3', options)
+  // p:: Object -> DOM
+  self.p = function (options) {
+    return self.node('p', options)
   }
-
   return self
 })()

@@ -62,7 +62,25 @@ div.suite-footer {
 .case-preview {
   width: auto;
   float: left;
-  padding-left: 20px;
+  margin-left: 10px;
+  padding-left:10px;
+}
+.case-preview .case-header {
+  padding-top: 10px;
+  background-color: #ffffdd;
+}
+.case-preview .case-header span {
+  line-height: 20px;
+  font-size: 14px;
+}
+.case-preview .case-body {
+  background-color: #ffffdd;
+}
+.case-preview .case-footer {
+  background-color: #ffffff;
+}
+.case-preview p.section {
+  font-weight: bold;
 }
 
 
