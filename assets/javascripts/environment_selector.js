@@ -69,7 +69,7 @@ Redcaser.EnvironmentSelector = (function () {
     this.inputs.select.value = environment.id
   }
 
-  def.updateOption = function (environment) {
+  def.deleteOption = function (environment) {
     var nodes = this.inputs.select.childNodes
 
     for(var index = 0; index < nodes.length; index += 1) {
@@ -81,6 +81,22 @@ Redcaser.EnvironmentSelector = (function () {
 
         break
       }
+    }
+  }
+
+  def.deleteOption = function (id) {
+    var nodes = this.inputs.select.childNodes
+
+    for(var index = 0; index < nodes.length; index += 1) {
+      var option = nodes[index]
+
+      if(option.value == id) {
+        this.inputs.select.removeChild(option)
+      }
+    }
+
+    if (this.inputs.select.childNodes[0]) {
+      this.inputs.select.value = this.inputs.select.childNodes[0].value
     }
   }
 

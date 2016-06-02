@@ -397,7 +397,7 @@ Redcaser.EnvironmentSelectorEvents = (function () {
     var params = {
       id:   id,
       done: function (response) {
-        console.log('Todo: delete')
+        context.deleteOption(id)
       },
       fail: function (response) { console.log(response) }
     }
