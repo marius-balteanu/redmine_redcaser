@@ -4,7 +4,6 @@ namespace :redmine_redcaser do
     ExecutionResult.create!(name: 'Passed', order_number: 1)
     ExecutionResult.create!(name: 'Failed', order_number: 2)
     ExecutionResult.create!(name: 'Blocked', order_number: 3)
-    ExecutionResult.create!(name: 'Not Available', order_number: 4)
   end
 
   desc 'Populates the redcaser tables with default data'
