@@ -9,6 +9,7 @@ Redcaser.TestCase = (function () {
     this.id            = caseData.id
     this.subject       = caseData.subject
     this.issue_id      = caseData.issue_id
+    this.issue         = caseData.issue
     this.test_suite_id = caseData.test_suite_id
   }
 

@@ -19,6 +19,7 @@ class TestCase < ActiveRecord::Base
     {
       'id'               => id,
       'issue_id'         => issue_id,
+      'issue'            => issue,
       'test_suite_id'    => test_suite_id,
       'subject'          => issue.subject,
       'preconditions'    => preconditions,
