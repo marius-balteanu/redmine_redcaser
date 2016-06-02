@@ -125,6 +125,10 @@ Redcaser.TestSuiteTree = (function () {
     childCases.forEach(function (element) {
       var parentNode = this.testSuites[element.test_suite_id].childCasesNode
 
+      if (parentNode.childNodes[0].classList.contains('sort-disabled')) {
+        parentNode.removeChild(parentNode.childNodes[0])
+      }
+
       parentNode.appendChild(element.node)
     }.bind(this))
   }
