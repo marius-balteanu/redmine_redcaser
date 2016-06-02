@@ -62,7 +62,7 @@ Redcaser.TestSuite = (function () {
           ]
         }),
         DOMBuilder.table({
-          classes:  ['suite-table'],
+          classes:  ['suite-table', 'list', 'test-cases'],
           children: [
             DOMBuilder.tr({
               classes:  ['suite-header'],

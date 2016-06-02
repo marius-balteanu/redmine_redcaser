@@ -114,11 +114,12 @@ Redcaser.ExecutionEvents = (function () {
   // eventHandlers :: -> [[String, String, (Event -> *)]]
   self.eventHandlers = function () {
     // [event name, class, handler]
+
     return [
       ['change', 'execution-select',           this.handleExecutionChange],
       ['change', 'list-item-select',           this.handleStatusChange   ],
-      ['click',  'case-list-edit',             this.handleSuiteEdit      ],
-      ['click',  'case-list-delete',           this.handleSuiteDelete    ],
+      ['click',  'execution-list-edit',        this.handleSuiteEdit      ],
+      ['click',  'execution-list-delete',      this.handleSuiteDelete    ],
       ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
       ['click',  'execution-create',           this.handleExecutionCreate],
       ['click',  'list-item-name',             this.handleListItemClick  ],
