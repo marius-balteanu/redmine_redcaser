@@ -229,7 +229,7 @@ Redcaser.ExecutionWidget = (function () {
                 },
                 children: DOMBuilder.options({
                   data:         data.execution_results,
-                  includeBlank: true,
+                  includeBlank: element.status ? false : true,
                   selected:     element.status ? element.status.id : null,
                   textField:    'name',
                   valueField:   'id'
