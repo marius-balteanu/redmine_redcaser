@@ -17,11 +17,16 @@ Redcaser.TestCasePreview = (function () {
       children: [
         DOMBuilder.div({
           classes:  ['case-header'],
-          children: [DOMBuilder.text(element.subject)]
+          children: [DOMBuilder.h3({
+            children: [ DOMBuilder.text(element.subject) ]
+          })]
         }),
         DOMBuilder.div({
           classes:  ['case-body'],
           children: [
+            DOMBuilder.div({
+              classes:  ['attributes']
+            }),
             DOMBuilder.div({
               classes:  ['case-preconditions'],
               children: [DOMBuilder.text('Preconditions: ' + element.preconditions)]

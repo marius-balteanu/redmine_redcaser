@@ -56,15 +56,15 @@ div.suite-footer {
   margin-left: 8px;
 }
 .execution-body {
-  width: 50%;
+  width: 49%;
   float: left;
 }
 .case-preview {
-  width: 50%;
+  width: auto;
+  float: left;
+  padding-left: 20px;
 }
-table.execution-table td.list-item-status {
 
-}
 
 div.execution-actions {
   display: inline-block;

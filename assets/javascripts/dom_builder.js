@@ -154,5 +154,10 @@ var DOMBuilder = (function () {
     return self.node('tr', options)
   }
 
+  // tr:: Object -> DOM
+  self.h3 = function (options) {
+    return self.node('h3', options)
+  }
+
   return self
 })()
