@@ -19,6 +19,7 @@ Redcaser.TestCaseSelector = (function () {
   def.build = function () {
     this.inputs.select = DOMBuilder.select({classes:  ['queries-select']})
     this.caseList      = DOMBuilder.tbody({classes:  ['case-list']})
+    this.headerCheck   = DOMBuilder.checkbox({classes: ['case-header-check']})
 
     return DOMBuilder.div({
       children: [
@@ -30,16 +31,10 @@ Redcaser.TestCaseSelector = (function () {
             DOMBuilder.tr({
               children: [
                 DOMBuilder.th({
-                  classes: ['case-header-check'],
-                  children: [
-                    DOMBuilder.checkbox({classes: ['case-header-check']})
-                  ]
+                  classes:  ['case-header-check'],
+                  children: [this.headerCheck]
                 }),
-                DOMBuilder.th({
-                  children: [
-                    DOMBuilder.text("Name")
-                  ]
-                })
+                DOMBuilder.th({children: [DOMBuilder.text('Name')]})
               ]
             }),
             this.caseList
@@ -53,8 +48,9 @@ Redcaser.TestCaseSelector = (function () {
     this.executionSuite = executionSuite
 
     var selectedId = executionSuite ? executionSuite.query_id : null
+    var select     = this.inputs.select
 
-    var select = this.inputs.select
+    this.headerCheck.checked = false
 
     while (select.firstChild) {
       select.removeChild(select.firstChild)
@@ -72,7 +68,14 @@ Redcaser.TestCaseSelector = (function () {
       )
     })
 
-    if (selectedId) this.getTestCaseList(selectedId)
+    if (selectedId) {
+      this.getTestCaseList(selectedId)
+    }
+    else {
+      while (this.caseList.firstChild) {
+        this.caseList.removeChild(this.caseList.firstChild)
+      }
+    }
   }
 
   def.buildCaseList = function (data, selected) {
@@ -106,21 +109,14 @@ Redcaser.TestCaseSelector = (function () {
   def.getTestCaseList = function (id) {
     var executionId = this.executionSuite ? this.executionSuite.id : null
 
-    if (id) {
-      var params = {
-        id:   id,
-        data: {execution_suite_id: executionId},
-        done: this.displayTestCases.bind(this),
-        fail: function (response) { console.log(response) }
-      }
+    var params = {
+      id:   id,
+      data: {execution_suite_id: executionId},
+      done: this.displayTestCases.bind(this),
+      fail: function (response) { console.log(response) }
+    }
 
-      Redcaser.API.queryTestCases.show(params)
-    }
-    else {
-      while (this.caseList.firstChild) {
-        this.caseList.removeChild(this.caseList.firstChild)
-      }
-    }
+    Redcaser.API.queryTestCases.show(params)
   }
 
   def.displayTestCases = function (response) {
