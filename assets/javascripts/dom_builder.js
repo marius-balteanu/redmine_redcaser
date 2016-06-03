@@ -17,7 +17,7 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['colspan', 'checked', 'href', 'selected', 'target', 'value', 'title']
+    var nodeFields = ['colSpan', 'checked', 'href', 'selected', 'target', 'value', 'title']
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]
@@ -26,8 +26,7 @@ var DOMBuilder = (function () {
     if (options.children) options.children.forEach(node.appendChild.bind(node))
 
     if (options.insertHTML) {
-        var position;
-        var text;
+        var position, text
 
         [position, text] = options.insertHTML
         node.insertAdjacentHTML(position, text)
