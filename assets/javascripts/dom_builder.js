@@ -94,7 +94,14 @@ var DOMBuilder = (function () {
 
     var result = []
 
-    if (options.includeBlank) result.push(self.option())
+    if (options.includeBlank) {
+      if (options.blankOption) {
+        result.push(options.blankOption)
+      }
+      else {
+        result.push(self.option())
+      }
+    }
 
     options.data.forEach(function (element) {
       var node = self.option({

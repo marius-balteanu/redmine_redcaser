@@ -246,13 +246,13 @@ Redcaser.ExecutionEvents = (function () {
   // updateStatusForListItem :: Object, Object
   self.updateStatusForListItem = function (data, context) {
     var testCaseStatus = data.test_case_status
-    var listItem = context.listItems[testCaseStatus.test_case_id.toString()]
-    var nameText = listItem.getElementsByClassName('list-item-status-name')[0]
-      .childNodes[0]
-    var nameSelect = listItem.getElementsByClassName('list-item-select')[0]
+    var listItem       = context.listItems[testCaseStatus.test_case_id.toString()]
+    var nameSelect     = listItem.getElementsByClassName('list-item-select')[0]
 
-    nameText.nodeValue = testCaseStatus.name
-    nameSelect.value   = testCaseStatus.status_id
+    nameSelect.value = testCaseStatus.status_id
+    if (!nameSelect.childNodes[0].getAttribute('value')) {
+      nameSelect.removeChild(nameSelect.childNodes[0])
+    }
 
     if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.test_case_id) {
       var textField = context.preview

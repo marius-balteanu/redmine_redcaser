@@ -215,12 +215,6 @@ Redcaser.ExecutionWidget = (function () {
           DOMBuilder.td({
             classes:  ['list-item-status'],
             children: [
-              DOMBuilder.span({
-                classes:  ['list-item-status-name'],
-                children: [
-                  DOMBuilder.text(element.status ? element.status.name : 'Untested')
-                ]
-              }),
               DOMBuilder.select({
                 classes: ['list-item-select'],
                 dataset: {
@@ -228,6 +222,7 @@ Redcaser.ExecutionWidget = (function () {
                   test_case_status_id: element.status ? element.status.test_case_status_id : null
                 },
                 children: DOMBuilder.options({
+                  blankOption:  DOMBuilder.option({value: '', children: [DOMBuilder.text('Not run')]}),
                   data:         data.execution_results,
                   includeBlank: element.status ? false : true,
                   selected:     element.status ? element.status.id : null,
