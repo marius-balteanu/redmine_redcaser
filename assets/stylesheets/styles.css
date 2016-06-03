@@ -9,6 +9,9 @@ table.test-cases th, table.test-cases td {
 table.test-cases tr:nth-child(odd) {
   background-color: #f6f7f8;
 }
+table.test-cases tr:nth-child(even) {
+  background-color: #ffffff;
+}
 table.test-cases tr.suite-case:hover {
   background-color: #ffffdd;
 }
@@ -55,29 +58,33 @@ div.suite-footer {
 .suite-actions a, .execution-actions a {
   margin-left: 8px;
 }
-.execution-body {
-  width: 49%;
-  float: left;
+.execution-header {
+  padding-bottom: 10px;
 }
-.case-preview {
-  width: auto;
-  float: left;
-  margin-left: 10px;
-  padding-left:10px;
-}
+// .execution-body {
+//   width: 49%;
+//   float: left;
+// }
+// .case-preview {
+  // width: auto;
+  // float: left;
+  // margin-left: 10px;
+  // padding-left:10px;
+// }
 .case-preview .case-header {
   padding-top: 10px;
-  background-color: #ffffdd;
+  border-bottom: 1px solid #d7d7d7;
 }
 .case-preview .case-header span {
-  line-height: 20px;
-  font-size: 14px;
+  line-height: 40px;
+  font-size: 16px;
 }
 .case-preview .case-body {
-  background-color: #ffffdd;
+  //background-color: #ffffdd;
+  border-bottom: 1px solid #d7d7d7;
 }
 .case-preview .case-footer {
-  background-color: #ffffff;
+  padding-top: 5px;
 }
 .case-preview p.section {
   font-weight: bold;

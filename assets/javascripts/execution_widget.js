@@ -47,9 +47,15 @@ Redcaser.ExecutionWidget = (function () {
     this.body    = DOMBuilder.div({classes: ['execution-body']})
     this.preview = DOMBuilder.div({classes: ['case-preview']})
 
+    this.contentLeft = DOMBuilder.div({classes: ['splitcontentleft']});
+    this.contentRight = DOMBuilder.div({classes: ['splitcontentright']});
+
+    this.contentLeft.appendChild(this.body);
+    this.contentRight.appendChild(this.preview);
+
     root.appendChild(this.header)
-    root.appendChild(this.body)
-    root.appendChild(this.preview)
+    root.appendChild(this.contentLeft)
+    root.appendChild(this.contentRight)
 
     return root
   };
@@ -145,7 +151,7 @@ Redcaser.ExecutionWidget = (function () {
       this.testCases[parseInt(id)],
       this.statuses
     )
-    this.root.appendChild(this.preview)
+    this.contentRight.appendChild(this.preview)
   }
 
   def.initializeBody = function () {
@@ -165,7 +171,7 @@ Redcaser.ExecutionWidget = (function () {
       this.preview.removeChild(this.preview.firstChild)
     }
 
-    if (this.preview.parentNode == this.root) this.root.removeChild(this.preview)
+    if (this.preview.parentNode == this.contentRight) this.contentRight.removeChild(this.preview)
   }
 
   def.buildExecutionSuiteBody = function (data) {

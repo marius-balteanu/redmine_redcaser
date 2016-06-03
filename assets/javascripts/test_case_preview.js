@@ -13,7 +13,7 @@ Redcaser.TestCasePreview = (function () {
     }
 
     return DOMBuilder.div({
-      classes:  ['case-preview'],
+      classes:  ['case-preview', 'box'],
       children: [
         DOMBuilder.div({
           classes:  ['case-header'],
