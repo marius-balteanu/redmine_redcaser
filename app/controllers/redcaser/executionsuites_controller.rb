@@ -6,7 +6,10 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     @execution_suites = ExecutionSuite.all
 
+    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
+
     render json: {
+      versions:         @versions,
       project:          @project,
       execution_suites: @execution_suites
     }
@@ -15,7 +18,11 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def show
     @query = @execution_suite.query
 
-    @test_cases   = @execution_suite.test_cases.includes(:issue)
+    @test_cases = @execution_suite.test_cases
+      .includes(:issue)
+      .joins(:issue)
+      .where.not(issues: {status_id: RedcaserSettings.status_obsolete_id})
+
     test_case_ids = @test_cases.map(&:id).uniq
 
     @statuses = TestCaseStatus.includes(:execution_result)
@@ -53,7 +60,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       .order('queries.name ASC')
       .to_a
 
-    @versions = Version.where(project: @project).to_a
+    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
 
     render json: {
       environments: @environments,
@@ -71,7 +78,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       .order('queries.name ASC')
       .to_a
 
-    @versions = Version.where(project: @project).to_a
+    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
 
     render json: {
       execution_suite: @execution_suite,

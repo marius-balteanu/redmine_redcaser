@@ -64,13 +64,21 @@ Redcaser.ExecutionWidget = (function () {
   }
 
   def.createExecuionSuiteSelect = function (response) {
-    this.project = response.project
+    this.project         = response.project
+    this.versions        = response.versions
+    this.executionSuites = response.execution_suites
 
     while (this.select.firstChild) {
       this.select.removeChild(this.select.firstChild)
     }
 
     this.select.appendChild(DOMBuilder.option())
+
+    var groups = {}
+
+    this.versions.forEach(function (element) {
+
+    })
 
     response.execution_suites.forEach(function (element) {
       this.select.appendChild(DOMBuilder.option({

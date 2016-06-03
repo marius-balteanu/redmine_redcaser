@@ -336,7 +336,14 @@ Redcaser.TestCaseSelectorEvents = (function () {
   self.handleQueryChange = function (event, context) {
     var id = event.target.value
 
-    context.getTestCaseList(id)
+    if (id) {
+      context.getTestCaseList(id)
+    }
+    else {
+      while (context.caseList.firstChild) {
+        context.caseList.removeChild(context.caseList.firstChild)
+      }
+    }
   }
 
   self.handleCheckToggle = function (event, context) {

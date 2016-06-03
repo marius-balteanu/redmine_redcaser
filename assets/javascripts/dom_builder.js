@@ -82,6 +82,11 @@ var DOMBuilder = (function () {
     return self.node('a', options)
   }
 
+  // optgorup :: Object -> DOM
+  self.optgorup = function (options) {
+    return self.node('optgorup', options)
+  }
+
   // option :: Object -> DOM
   self.option = function (options) {
     return self.node('option', options)
