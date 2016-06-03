@@ -113,7 +113,7 @@ Redcaser.TestCaseSelector = (function () {
       id:   id,
       data: {execution_suite_id: executionId},
       done: this.displayTestCases.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.queryTestCases.show(params)

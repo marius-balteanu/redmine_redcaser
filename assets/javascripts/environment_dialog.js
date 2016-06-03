@@ -86,7 +86,7 @@ Redcaser.EnvironmentDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.environments.create(params)
@@ -105,7 +105,7 @@ Redcaser.EnvironmentDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.environments.update(params)

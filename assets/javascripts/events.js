@@ -51,7 +51,7 @@ Redcaser.TreeEvents = (function () {
       done: function (response) {
         Redcaser.suiteDialog.forUpdate(response, context)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.testSuites.edit(params)
@@ -71,7 +71,7 @@ Redcaser.TreeEvents = (function () {
       done: function (response) {
         Redcaser.suiteDialog.forCreate(event, response, context)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.testSuites.new(params)
@@ -154,7 +154,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         this.updateStatusForListItem(response, context)
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     if (test_case.status) {
@@ -175,7 +175,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         Redcaser.executionDialog.forUpdate(response, context)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.edit(params)
@@ -201,7 +201,7 @@ Redcaser.ExecutionEvents = (function () {
 
         context.select.value = ''
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.destroy(params)
@@ -229,7 +229,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         Redcaser.executionDialog.forCreate(response, context)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.new(params)
@@ -311,7 +311,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         this.updateStatusForListItem(response, context)
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     return params
@@ -385,7 +385,7 @@ Redcaser.EnvironmentSelectorEvents = (function () {
       done: function (response) {
         Redcaser.environmentDialog.forUpdate(response, context)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.environments.edit(params)
@@ -400,7 +400,7 @@ Redcaser.EnvironmentSelectorEvents = (function () {
       done: function (response) {
         context.deleteOption(id)
       },
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.environments.destroy(params)

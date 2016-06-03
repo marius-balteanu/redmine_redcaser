@@ -138,7 +138,7 @@ Redcaser.SuiteDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.testSuites.create(params)
@@ -170,7 +170,7 @@ Redcaser.SuiteDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.testSuites.update(params)

@@ -67,7 +67,7 @@ Redcaser.TestSuiteTree = (function () {
   def.getTestSuiteData = function () {
     var params = {
       done: this.createTestSuiteTree.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.testSuites.index(params)

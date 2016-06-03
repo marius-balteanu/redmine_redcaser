@@ -147,7 +147,7 @@ Redcaser.ExecutionDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     };
 
     Redcaser.API.executionSuites.create(params)
@@ -166,7 +166,7 @@ Redcaser.ExecutionDialog = (function () {
 
         this.modal.dialog('close')
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.update(params)

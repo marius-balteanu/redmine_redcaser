@@ -57,7 +57,7 @@ Redcaser.ExecutionWidget = (function () {
   def.getExecutionSuites = function () {
     var params = {
       done: this.createExecuionSuiteSelect.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.index(params)
@@ -278,7 +278,7 @@ Redcaser.ExecutionWidget = (function () {
       done: function (response) {
         this.createExecutionSuiteBody(response)
       }.bind(this),
-      fail: function (response) { console.log(response) }
+      fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.show(params)
