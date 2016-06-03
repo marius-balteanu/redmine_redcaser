@@ -123,9 +123,10 @@ Redcaser.TestSuiteTree = (function () {
     }.bind(this))
 
     childCases.forEach(function (element) {
-      var parentNode = this.testSuites[element.test_suite_id].childCasesNode
+      var testSuite  = this.testSuites[element.test_suite_id]
+      var parentNode = testSuite.childCasesNode
 
-      if (parentNode.childNodes[0].classList.contains('sort-disabled')) {
+      if (parentNode.childNodes[0] == testSuite.sortDisabled) {
         parentNode.removeChild(parentNode.childNodes[0])
       }
 
@@ -148,9 +149,9 @@ Redcaser.TestSuiteTree = (function () {
     var toElement = event.toElement.parentNode
     // jQuery UI fires two events when moving an element from one container
     // to another. We need to handle the event from the new container.
-    var isRightEvent = toElement.parentNode.parentNode === event.target
+    var eventOnTarget = toElement.parentNode.parentNode === event.target
 
-    if (isRightEvent) {
+    if (eventOnTarget) {
       var testCaseId  = toElement.parentNode.dataset.id
       var testSuiteId = event.target.parentNode.parentNode.dataset.id
 
@@ -163,13 +164,27 @@ Redcaser.TestSuiteTree = (function () {
       var params = {
         id:   testCaseId,
         data: data,
-        done: function () {
+        done: function (response) {
+          var testSuite = this.testSuites[testSuiteId]
+
           toElement.parentNode.getElementsByClassName('case-actions-edit')[0].dataset.test_suite_id = testSuiteId
-        },
-        fail: function () { console.log("Fail!") }
+
+          if (testSuite.sortDisabled.parentNode) {
+            testSuite.childCasesNode.removeChild(testSuite.sortDisabled)
+          }
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
       }
 
       Redcaser.API.testCases.update(params)
+    }
+    else {
+      var testSuiteId = event.target.parentNode.parentNode.dataset.id
+      var testSuite   = this.testSuites[testSuiteId]
+
+      if (!testSuite.childCasesNode.childNodes.length && !testSuite.sortDisabled.parentNode) {
+        testSuite.childCasesNode.appendChild(testSuite.sortDisabled)
+      }
     }
   }
 

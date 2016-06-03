@@ -19,20 +19,18 @@ Redcaser.TestSuite = (function () {
   // build :: Object, Object -> DOM
   def.build = function (element, data) {
     this.childSuitesNode = DOMBuilder.div({classes: ['suite-children']})
-    this.childCasesNode  = DOMBuilder.tbody({
-      classes:  ['suite-cases'],
+    this.sortDisabled    = DOMBuilder.tr({
+      classes:  ['sort-disabled'],
       children: [
-        DOMBuilder.tr({
-          classes:  ['sort-disabled'],
-          children: [
-            DOMBuilder.td({
-              colSpan:  "5",
-              classes: ["trala"],
-              children: [DOMBuilder.text('There are not test cases added to this suite')]
-            })
-          ]
+        DOMBuilder.td({
+          colSpan:  '5',
+          children: [DOMBuilder.text('There are not test cases added to this suite')]
         })
       ]
+    })
+    this.childCasesNode  = DOMBuilder.tbody({
+      classes:  ['suite-cases'],
+      children: [this.sortDisabled]
     })
     this.fields.name = DOMBuilder.text(element.name)
 
