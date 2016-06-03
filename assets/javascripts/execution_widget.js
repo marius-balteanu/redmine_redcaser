@@ -83,37 +83,70 @@ Redcaser.ExecutionWidget = (function () {
     var groups = {}
 
     this.versions.forEach(function (element) {
-
+      groups[element.id] = DOMBuilder.optgroup({
+        dataset:  {id: element.id},
+        label:    element.name
+      })
     })
 
-    response.execution_suites.forEach(function (element) {
-      this.select.appendChild(DOMBuilder.option({
+    this.executionSuites.forEach(function (element) {
+      groups[element.version_id].appendChild(DOMBuilder.option({
         value:    element.id,
         children: [DOMBuilder.text(element.name)]
       }))
     }.bind(this))
+
+    for (var key in groups) {
+      if (groups.hasOwnProperty(key)) {
+        this.select.appendChild(groups[key])
+      }
+    }
   }
 
   def.appendSuiteOption = function (executionSuite) {
-    this.select.appendChild(
-      DOMBuilder.option({
-        value:    executionSuite.id,
-        children: [DOMBuilder.text(executionSuite.name)]
-      })
-    )
+    this.callOnGroupMatch(executionSuite.version_id, function (group) {
+      group.appendChild(
+        DOMBuilder.option({
+          value:    executionSuite.id,
+          children: [DOMBuilder.text(executionSuite.name)]
+        })
+      )
+    })
   }
 
   def.updateSuiteOption = function (executionSuite) {
-    var nodes = this.select.childNodes
+    this.callOnOptionMatch(executionSuite.id, function (group, option) {
+      option.removeChild(option.firstChild)
+      option.appendChild(DOMBuilder.text(executionSuite.name))
+    })
+  }
 
-    for(var index = 0; index < nodes.length; index += 1) {
-      var option = nodes[index]
+  def.removeSuiteOption = function (id) {
+    this.callOnOptionMatch(id, function (group, option) {
+      group.removeChild(option)
+    })
+  }
 
-      if(option.value == executionSuite.id) {
-        option.removeChild(option.firstChild)
-        option.appendChild(DOMBuilder.text(executionSuite.name))
+  def.callOnOptionMatch = function (id, callback) {
+    var groups = this.select.childNodes
 
-        break
+    for (var groupIndex = 0; groupIndex < groups.length; groupIndex += 1) {
+      var options = groups[groupIndex].childNodes
+
+      for(var optionIndex = 0; optionIndex < options.length; optionIndex +=1) {
+        if (options[optionIndex].value == id) {
+          callback(groups[groupIndex], options[optionIndex])
+        }
+      }
+    }
+  }
+
+  def.callOnGroupMatch = function (id, callback) {
+    var groups = this.select.childNodes
+
+    for (var groupIndex = 0; groupIndex < groups.length; groupIndex += 1) {
+      if (groups[groupIndex].dataset.id == id) {
+        callback(groups[groupIndex])
       }
     }
   }
