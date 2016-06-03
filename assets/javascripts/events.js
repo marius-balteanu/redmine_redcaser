@@ -187,13 +187,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       id:   id,
       done: function (response) {
-        var options = context.select.childNodes
-
-        for (var index = 0; index < options.length; index += 1) {
-          if (options[index].value === id) {
-            context.select.removeChild(options[index])
-          }
-        }
+        context.removeSuiteOption(id)
 
         while (context.body.firstChild) {
           context.body.removeChild(context.body.firstChild)

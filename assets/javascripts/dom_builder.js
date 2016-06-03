@@ -17,7 +17,9 @@ var DOMBuilder = (function () {
       }
     }
 
-    var nodeFields = ['colSpan', 'checked', 'href', 'selected', 'target', 'value', 'title']
+    var nodeFields = [
+      'checked', 'colSpan', 'href', 'label', 'selected', 'target', 'title', 'value'
+    ]
 
     nodeFields.forEach(function (field) {
       if (options[field]) node[field] = options[field]
@@ -82,9 +84,9 @@ var DOMBuilder = (function () {
     return self.node('a', options)
   }
 
-  // optgorup :: Object -> DOM
-  self.optgorup = function (options) {
-    return self.node('optgorup', options)
+  // optgroup :: Object -> DOM
+  self.optgroup = function (options) {
+    return self.node('optgroup', options)
   }
 
   // option :: Object -> DOM
