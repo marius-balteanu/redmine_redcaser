@@ -119,6 +119,7 @@ Redcaser.ExecutionEvents = (function () {
       ['change', 'execution-select',           this.handleExecutionChange],
       ['change', 'list-item-select',           this.handleStatusChange   ],
       ['click',  'execution-list-edit',        this.handleSuiteEdit      ],
+      ['click',  'execution-list-clone',       this.handleSuiteClone     ],
       ['click',  'execution-list-delete',      this.handleSuiteDelete    ],
       ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
       ['click',  'execution-create',           this.handleExecutionCreate],
@@ -165,6 +166,20 @@ Redcaser.ExecutionEvents = (function () {
     else {
       Redcaser.API.testSuiteStatuses.create(params)
     }
+  }
+
+  self.handleSuiteClone = function (event, context) {
+    var id = event.target.dataset.id
+
+    var params = {
+      id:   id,
+      done: function (response) {
+        Redcaser.executionDialog.forClone(response, context)
+      },
+      fail: function (response) { alert(response.responseJSON.errors) }
+    }
+
+    Redcaser.API.executionSuites.edit(params)
   }
 
   self.handleSuiteEdit = function (event, context) {

@@ -309,6 +309,15 @@ Redcaser.ExecutionWidget = (function () {
     )
     this.suiteActions.appendChild(
       DOMBuilder.link({
+        classes:  ['execution-list-clone', 'icon-only', 'icon-copy'],
+        dataset:  {id: executionSuite.id},
+        href:     '#',
+        title:    'Clone execution suite',
+        children: [DOMBuilder.text('Clone')]
+      })
+    )
+    this.suiteActions.appendChild(
+      DOMBuilder.link({
         classes:  ['execution-list-delete', 'icon-only', 'icon-del'],
         href:     '#',
         title:    'Delete execution suite',
