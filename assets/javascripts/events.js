@@ -81,23 +81,25 @@ Redcaser.TreeEvents = (function () {
   self.handleSuiteDelete = function (event, context) {
     var id = parseInt(event.target.dataset.id)
 
-    var params = {
-      id:   id,
-      done: function (response) {
-        var node = context.testSuites[id].node
+    if (confirm('Are you sure?')) {
+      var params = {
+        id:   id,
+        done: function (response) {
+          var node = context.testSuites[id].node
 
-        node.parentNode.removeChild(node)
+          node.parentNode.removeChild(node)
 
-        delete context.testSuites[id]
-      },
-      fail: function (response) {
-        var errors = response.responseJSON.errors
+          delete context.testSuites[id]
+        },
+        fail: function (response) {
+          var errors = response.responseJSON.errors
 
-        alert(errors)
+          alert(errors)
+        }
       }
-    }
 
-    Redcaser.API.testSuites.destroy(params)
+      Redcaser.API.testSuites.destroy(params)
+    }
   }
 
   return self
@@ -199,21 +201,23 @@ Redcaser.ExecutionEvents = (function () {
   self.handleSuiteDelete = function (event, context) {
     var id = event.target.dataset.id
 
-    var params = {
-      id:   id,
-      done: function (response) {
-        context.removeSuiteOption(id)
+    if (confirm('Are you sure?')) {
+      var params = {
+        id:   id,
+        done: function (response) {
+          context.removeSuiteOption(id)
 
-        while (context.body.firstChild) {
-          context.body.removeChild(context.body.firstChild)
-        }
+          while (context.body.firstChild) {
+            context.body.removeChild(context.body.firstChild)
+          }
 
-        context.select.value = ''
-      },
-      fail: function (response) { alert(response.responseJSON.errors) }
+          context.select.value = ''
+        },
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.executionSuites.destroy(params)
     }
-
-    Redcaser.API.executionSuites.destroy(params)
   }
 
   // handlePreviewSubmit :: Event, Object
@@ -411,15 +415,17 @@ Redcaser.EnvironmentSelectorEvents = (function () {
   self.handleEnvironmentDelete = function (event, context) {
     var id = context.inputs.select.value
 
-    var params = {
-      id:   id,
-      done: function (response) {
-        context.deleteOption(id)
-      },
-      fail: function (response) { alert(response.responseJSON.errors) }
-    }
+    if (confirm('Are you sure?')) {
+      var params = {
+        id:   id,
+        done: function (response) {
+          context.deleteOption(id)
+        },
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
 
-    Redcaser.API.environments.destroy(params)
+      Redcaser.API.environments.destroy(params)
+    }
   }
 
   return self

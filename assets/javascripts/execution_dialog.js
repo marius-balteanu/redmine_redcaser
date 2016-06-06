@@ -6,9 +6,9 @@ Redcaser.ExecutionDialog = (function () {
   var Validator           = Redcaser.Validator
 
   var self = function () {
-    this.inputs = {}
-    this.body   = this.build()
-    this.modal  = this.modal()
+    this.inputs    = {}
+    this.body      = this.build()
+    this.modal     = this.modal()
     this.validator = new Validator()
   }
 
