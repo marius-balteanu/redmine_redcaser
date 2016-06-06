@@ -3,11 +3,13 @@ var Redcaser = Redcaser || {}
 Redcaser.ExecutionDialog = (function () {
   var TestCaseSelector    = Redcaser.TestCaseSelector
   var EnvironmentSelector = Redcaser.EnvironmentSelector
+  var Validator           = Redcaser.Validator
 
   var self = function () {
     this.inputs = {}
     this.body   = this.build()
     this.modal  = this.modal()
+    this.validator = new Validator()
   }
 
   var def = self.prototype
@@ -26,7 +28,7 @@ Redcaser.ExecutionDialog = (function () {
         DOMBuilder.div({
           classes:  ['execution-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
             this.inputs.name
           ]
         }),
@@ -169,38 +171,60 @@ Redcaser.ExecutionDialog = (function () {
   def.submitForCreate = function (event) {
     var data = this.gatherData()
 
-    var params = {
-      data: data.params,
-      done: function (response) {
-        this.context.appendSuiteOption(response.execution_suite)
-        this.context.select.value = response.execution_suite.id
-        this.context.loadExecutionSuite(response.execution_suite.id)
+    this.validator
+      .initialize()
+      .validateLength(data.params.execution_suite.name, 'Name', {min: 5})
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
+    var messages = this.validator.messages()
+
+    if (!messages.length) {
+      var params = {
+        data: data.params,
+        done: function (response) {
+          this.context.appendSuiteOption(response.execution_suite)
+          this.context.select.value = response.execution_suite.id
+          this.context.loadExecutionSuite(response.execution_suite.id)
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.executionSuites.create(params)
     }
-
-    Redcaser.API.executionSuites.create(params)
+    else {
+      alert(messages)
+    }
   }
 
   // submitForUpdate :: Event
   def.submitForUpdate = function (event) {
     var data = this.gatherData()
 
-    var params = {
-      id:   data.id,
-      data: data.params,
-      done: function (response) {
-        this.context.updateSuiteOption(response.execution_suite)
-        this.context.loadExecutionSuite(response.execution_suite.id)
+    this.validator
+      .initialize()
+      .validateLength(data.params.execution_suite.name, 'Name', {min: 5})
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
+    var messages = this.validator.messages()
+
+    if (!messages.length) {
+      var params = {
+        id:   data.id,
+        data: data.params,
+        done: function (response) {
+          this.context.updateSuiteOption(response.execution_suite)
+          this.context.loadExecutionSuite(response.execution_suite.id)
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.executionSuites.update(params)
     }
-
-    Redcaser.API.executionSuites.update(params)
+    else {
+      alert(messages)
+    }
   }
 
   // gatherData :: -> Object

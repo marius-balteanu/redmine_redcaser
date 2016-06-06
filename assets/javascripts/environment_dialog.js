@@ -24,7 +24,7 @@ Redcaser.EnvironmentDialog = (function () {
         DOMBuilder.div({
           classes:  ['environment-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
             this.inputs.name
           ]
         })
@@ -85,8 +85,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     this.validator
       .initialize()
-      .validateBlank(name, 'Name')
-      .validateLength(name, 'Name', {min: 5})
+      .validateLength(name, 'Name', {min: 3})
 
     var messages = this.validator.messages()
 
@@ -115,8 +114,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     this.validator
       .initialize()
-      .validateBlank(name, 'Name')
-      .validateLength(name, 'Name', {min: 5})
+      .validateLength(name, 'Name', {min: 3})
 
     var messages = this.validator.messages()
 

@@ -4,11 +4,13 @@ Redcaser.SuiteDialog = (function () {
   'use strict'
 
   var TestSuite = Redcaser.TestSuite
+  var Validator = Redcaser.Validator
 
   var self = function () {
-    this.inputs = {}
-    this.body   = this.build()
-    this.modal  = this.modal()
+    this.inputs    = {}
+    this.body      = this.build()
+    this.modal     = this.modal()
+    this.validator = new Validator()
   }
 
   var def = self.prototype
@@ -24,7 +26,7 @@ Redcaser.SuiteDialog = (function () {
         DOMBuilder.div({
           classes:  ['suite-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name')]}),
+            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
             this.inputs.name
           ]
         }),
@@ -119,46 +121,21 @@ Redcaser.SuiteDialog = (function () {
   def.submitForCreate = function (event) {
     var data = this.gatherData()
 
-    var params = {
-      data: data.params,
-      done: function (response) {
-        var testSuite   = new TestSuite(response.test_suite, this.context)
-        var parentSuite = this.context.testSuites[testSuite.parent_id]
+    this.validator
+      .initialize()
+      .validateLength(data.params.test_suite.name, 'Name', {min: 5})
 
-        this.context.testSuites[testSuite.id] = testSuite
+    var messages = this.validator.messages()
 
-        if (parentSuite) {
-          parentSuite.childSuitesNode.appendChild(testSuite.node)
-          parentSuite.testSuites.push[testSuite]
-        }
-        else {
-          this.context.body.appendChild(testSuite.node)
-        }
+    if (!messages.length) {
+      var params = {
+        data: data.params,
+        done: function (response) {
+          var testSuite   = new TestSuite(response.test_suite, this.context)
+          var parentSuite = this.context.testSuites[testSuite.parent_id]
 
+          this.context.testSuites[testSuite.id] = testSuite
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
-    }
-
-    Redcaser.API.testSuites.create(params)
-  }
-
-  // submitForUpdate :: Event
-  def.submitForUpdate = function (event) {
-    var data = this.gatherData()
-
-    var params = {
-      id:   data.id,
-      data: data.params,
-      done: function (response) {
-        var testSuite   = this.context.testSuites[response.test_suite.id]
-        var parentSuite = this.context.testSuites[response.test_suite.parent_id]
-
-        testSuite.fields.name.nodeValue = response.test_suite.name
-
-        if (testSuite.parentId !== response.test_suite.parent_id) {
-          testSuite.node.parentNode.removeChild(testSuite.node)
           if (parentSuite) {
             parentSuite.childSuitesNode.appendChild(testSuite.node)
             parentSuite.testSuites.push[testSuite]
@@ -166,14 +143,61 @@ Redcaser.SuiteDialog = (function () {
           else {
             this.context.body.appendChild(testSuite.node)
           }
-        }
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.testSuites.create(params)
     }
+    else {
+      alert(messages)
+    }
+  }
 
-    Redcaser.API.testSuites.update(params)
+  // submitForUpdate :: Event
+  def.submitForUpdate = function (event) {
+    var data = this.gatherData()
+
+    this.validator
+      .initialize()
+      .validateLength(data.params.test_suite.name, 'Name', {min: 5})
+
+    var messages = this.validator.messages()
+
+    if (!messages.length) {
+      var params = {
+        id:   data.id,
+        data: data.params,
+        done: function (response) {
+          var testSuite   = this.context.testSuites[response.test_suite.id]
+          var parentSuite = this.context.testSuites[response.test_suite.parent_id]
+
+          testSuite.fields.name.nodeValue = response.test_suite.name
+
+          if (testSuite.parentId !== response.test_suite.parent_id) {
+            testSuite.node.parentNode.removeChild(testSuite.node)
+            if (parentSuite) {
+              parentSuite.childSuitesNode.appendChild(testSuite.node)
+              parentSuite.testSuites.push[testSuite]
+            }
+            else {
+              this.context.body.appendChild(testSuite.node)
+            }
+          }
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.testSuites.update(params)
+    }
+    else {
+      alert(messages)
+    }
   }
 
   // gatherData :: DOM -> Object
