@@ -3,10 +3,13 @@ var Redcaser = Redcaser || {}
 Redcaser.EnvironmentDialog = (function () {
   'use strict'
 
+  var Validator = Redcaser.Validator
+
   var self = function () {
-    this.inputs = {}
-    this.body   = this.build()
-    this.modal  = this.modal()
+    this.inputs    = {}
+    this.body      = this.build()
+    this.modal     = this.modal()
+    this.validator = new Validator()
   }
 
   var def = self.prototype
@@ -79,17 +82,30 @@ Redcaser.EnvironmentDialog = (function () {
   // submitForCreate :: Event
   def.submitForCreate = function (event) {
     var name = this.inputs.name.value
-    var params = {
-      data: {environment: {name: name}},
-      done: function (response) {
-        this.context.appendOption(response.environment)
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
+    this.validator
+      .initialize()
+      .validateBlank(name, 'Name')
+      .validateLength(name, 'Name', {min: 5})
+
+    var messages = this.validator.messages()
+
+    if (!messages.length) {
+      var params = {
+        data: {environment: {name: name}},
+        done: function (response) {
+          this.context.appendOption(response.environment)
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.environments.create(params)
     }
-
-    Redcaser.API.environments.create(params)
+    else {
+      alert(messages)
+    }
   }
 
   // submitForUpdate :: Event
@@ -97,18 +113,30 @@ Redcaser.EnvironmentDialog = (function () {
     var name = this.inputs.name.value
     var id   = this.context.inputs.select.value
 
-    var params = {
-      id:   id,
-      data: {environment: {name: name}},
-      done: function (response) {
-        this.context.updateOption(response.environment)
+    this.validator
+      .initialize()
+      .validateBlank(name, 'Name')
+      .validateLength(name, 'Name', {min: 5})
 
-        this.modal.dialog('close')
-      }.bind(this),
-      fail: function (response) { alert(response.responseJSON.errors) }
+    var messages = this.validator.messages()
+
+    if (!messages.length) {
+      var params = {
+        id:   id,
+        data: {environment: {name: name}},
+        done: function (response) {
+          this.context.updateOption(response.environment)
+
+          this.modal.dialog('close')
+        }.bind(this),
+        fail: function (response) { alert(response.responseJSON.errors) }
+      }
+
+      Redcaser.API.environments.update(params)
     }
-
-    Redcaser.API.environments.update(params)
+    else {
+      alert(messages)
+    }
   }
 
   return self

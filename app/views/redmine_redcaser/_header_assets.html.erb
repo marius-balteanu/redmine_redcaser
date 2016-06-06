@@ -5,16 +5,15 @@
 <%= javascript_include_tag 'dom_builder', plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'api',         plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'events',      plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'validator',   plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'main',        plugin: 'redmine_redcaser' %>
 
 <%= javascript_include_tag 'test_case',  plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'test_suite', plugin: 'redmine_redcaser' %>
 
-<%= javascript_include_tag 'environment_dialog', plugin: 'redmine_redcaser' %>
-
-<%= javascript_include_tag 'environment_selector',        plugin: 'redmine_redcaser' %>
-
-<%= javascript_include_tag 'test_case_selector',        plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'environment_dialog',   plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'environment_selector', plugin: 'redmine_redcaser' %>
+<%= javascript_include_tag 'test_case_selector',   plugin: 'redmine_redcaser' %>
 
 <%= javascript_include_tag 'test_case_preview', plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'execution_dialog',  plugin: 'redmine_redcaser' %>
@@ -22,8 +21,6 @@
 
 <%= javascript_include_tag 'suite_dialog',    plugin: 'redmine_redcaser' %>
 <%= javascript_include_tag 'test_suite_tree', plugin: 'redmine_redcaser' %>
-
-<%= javascript_include_tag 'environments', plugin: 'redmine_redcaser' %>
 
 <script type="text/javascript">
   // Project identifier
@@ -33,12 +30,12 @@
 
   var Redcaser = Redcaser || {};
 
-  Redcaser.tracker_id           =  <%= RedcaserSettings.tracker_id %>;
-  Redcaser.tracker_name         =  "<%= RedcaserSettings.tracker_name %>";
-  Redcaser.status_new_id        =  <%= RedcaserSettings.status_new_id %>;
-  Redcaser.status_new_name      =  "<%= RedcaserSettings.status_new_name %>";
-  Redcaser.status_active_id     =  <%= RedcaserSettings.status_active_id %>;
-  Redcaser.status_active_name   =  "<%= RedcaserSettings.status_active_name %>";
-  Redcaser.status_obsolete_id   =  <%= RedcaserSettings.status_obsolete_id %>;
-  Redcaser.status_obsolete_name =  "<%= RedcaserSettings.status_obsolete_name %>";
+  Redcaser.tracker_id           = <%= RedcaserSettings.tracker_id %>;
+  Redcaser.tracker_name         = "<%= RedcaserSettings.tracker_name %>";
+  Redcaser.status_new_id        = <%= RedcaserSettings.status_new_id %>;
+  Redcaser.status_new_name      = "<%= RedcaserSettings.status_new_name %>";
+  Redcaser.status_active_id     = <%= RedcaserSettings.status_active_id %>;
+  Redcaser.status_active_name   = "<%= RedcaserSettings.status_active_name %>";
+  Redcaser.status_obsolete_id   = <%= RedcaserSettings.status_obsolete_id %>;
+  Redcaser.status_obsolete_name = "<%= RedcaserSettings.status_obsolete_name %>";
 </script>
