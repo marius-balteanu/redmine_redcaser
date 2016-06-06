@@ -90,10 +90,12 @@ Redcaser.ExecutionWidget = (function () {
     })
 
     this.executionSuites.forEach(function (element) {
-      groups[element.version_id].appendChild(DOMBuilder.option({
-        value:    element.id,
-        children: [DOMBuilder.text(element.name)]
-      }))
+      if (groups[element.version_id]) {
+        groups[element.version_id].appendChild(DOMBuilder.option({
+          value:    element.id,
+          children: [DOMBuilder.text(element.name)]
+        }))
+      }
     }.bind(this))
 
     for (var key in groups) {
