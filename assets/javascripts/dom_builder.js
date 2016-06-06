@@ -106,7 +106,7 @@ var DOMBuilder = (function () {
         result.push(options.blankOption)
       }
       else {
-        result.push(self.option())
+        result.push(self.option({value: ' '}))
       }
     }
 

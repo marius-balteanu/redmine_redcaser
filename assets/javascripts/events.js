@@ -223,6 +223,9 @@ Redcaser.ExecutionEvents = (function () {
   // handlePreviewSubmit :: Event, Object
   self.handlePreviewSubmit = function (event, context) {
     var params    = this.gatherPreviewData(event, context)
+
+    if (params.data.test_case_status.execution_result_id === ' ') return
+
     var id        = event.target.dataset.id
     var test_case = context.testCases[id]
 

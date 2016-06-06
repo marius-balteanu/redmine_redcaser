@@ -75,10 +75,12 @@ Redcaser.TestCasePreview = (function () {
             DOMBuilder.select({
               classes:  ['case-footer-select'],
               children: DOMBuilder.options({
-                data:       statuses,
-                selected:   selectedId,
-                valueField: 'id',
-                textField:  'name'
+                blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
+                data:         statuses,
+                includeBlank: true,
+                selected:     selectedId,
+                valueField:   'id',
+                textField:    'name'
               })
             }),
             DOMBuilder.submit({
