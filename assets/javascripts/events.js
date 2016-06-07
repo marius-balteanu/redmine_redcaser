@@ -300,6 +300,8 @@ Redcaser.ExecutionEvents = (function () {
     var test_case = context.testCases[id]
     var relation  = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
 
+    if (params.data.test_case_status.execution_result_id === ' ') return
+
     params.done = function () {
       location.href = '/projects/' + context.project.identifier
         + '/issues/new?test_case[relation_type]='

@@ -38,9 +38,9 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       status = @statuses[element['id']]
 
       if status
-        name = status.execution_result.name
+        name = status.execution_result_id ? status.execution_result.name : ''
 
-        element['status'] = {id: status.execution_result_id, test_case_status_id: status.id ,name: name}
+        element['status'] = {id: status.execution_result_id, test_case_status_id: status.id, name: name}
       end
 
       element
