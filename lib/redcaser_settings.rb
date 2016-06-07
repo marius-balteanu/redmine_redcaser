@@ -9,6 +9,16 @@ class RedcaserSettings
     tracker ? tracker.name : nil
   end
 
+  def self.defect_id
+    setting = settings[:defect]
+    setting.blank? ? nil : setting.to_i
+  end
+
+  def self.defect_name
+    tracker = Tracker.where(id: defect_id).first
+    tracker ? tracker.name : nil
+  end
+
   def self.status_new_id
     setting = settings[:status_new]
     setting.blank? ? nil : setting.to_i

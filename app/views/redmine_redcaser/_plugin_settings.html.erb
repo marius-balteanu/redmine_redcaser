@@ -22,6 +22,14 @@
     </tr>
     <tr>
       <td>
+        Defect tracker:
+      </td>
+      <td>
+        <%= select_tag 'settings[defect]', options_from_collection_for_select(trackers, :id, :name, settings[:defect].to_i), include_blank: true %>
+      </td>
+    </tr>
+    <tr>
+      <td>
         New test case status:
       </td>
       <td>

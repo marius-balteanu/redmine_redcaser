@@ -295,6 +295,8 @@ Redcaser.ExecutionEvents = (function () {
         + relation
         + '&test_case[issue_id]='
         + test_case.issue_id
+        + '&issue[tracker_id]='
+        + Redcaser.defect_id
     }
 
     if (test_case.status) {
