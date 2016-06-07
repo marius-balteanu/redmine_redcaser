@@ -23,8 +23,9 @@ Redcaser.ExecutionWidget = (function () {
 
   // build :: DOM -> DOM
   def.build = function (root) {
-    this.select = DOMBuilder.select({classes: ['execution-select']})
-    this.suiteActions = DOMBuilder.div({classes:  ['execution-actions']})
+    this.allVersions  = DOMBuilder.checkbox({classes: ['execution-all-versions']})
+    this.select       = DOMBuilder.select({classes: ['execution-select']})
+    this.suiteActions = DOMBuilder.div({classes: ['execution-actions']})
 
     this.header = DOMBuilder.div({
       classes:  ['execution-header'],
@@ -39,6 +40,8 @@ Redcaser.ExecutionWidget = (function () {
             })
           ]
         }),
+        DOMBuilder.text('All versions'),
+        this.allVersions,
         this.select,
         this.suiteActions
       ]
@@ -60,8 +63,10 @@ Redcaser.ExecutionWidget = (function () {
     return root
   };
 
-  def.getExecutionSuites = function () {
+  // getExecutionSuites :: Boolean
+  def.getExecutionSuites = function (all) {
     var params = {
+      data: {all: all},
       done: this.createExecuionSuiteSelect.bind(this),
       fail: function (response) { alert(response.responseJSON.errors) }
     }

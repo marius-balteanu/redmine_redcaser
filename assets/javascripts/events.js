@@ -118,6 +118,7 @@ Redcaser.ExecutionEvents = (function () {
     // [event name, class, handler]
 
     return [
+      ['change', 'execution-all-versions',     this.handleAllVersions    ],
       ['change', 'execution-select',           this.handleExecutionChange],
       ['change', 'list-item-select',           this.handleStatusChange   ],
       ['click',  'execution-list-edit',        this.handleSuiteEdit      ],
@@ -128,6 +129,13 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'list-item-name',             this.handleListItemClick  ],
       ['click',  'case-footer-related-submit', this.handleRelationCreate ]
     ]
+  }
+
+  // handleAllVersions :: Event, Object
+  self.handleAllVersions = function (event, context) {
+    var all = event.target.checked
+
+    context.getExecutionSuites(all)
   }
 
   // handleExecutionChange :: Event, Object
@@ -175,6 +183,7 @@ Redcaser.ExecutionEvents = (function () {
 
     var params = {
       id:   id,
+      data: {all: context.allVersions.checked},
       done: function (response) {
         Redcaser.executionDialog.forClone(response, context)
       },
@@ -189,6 +198,7 @@ Redcaser.ExecutionEvents = (function () {
 
     var params = {
       id:   id,
+      data: {all: context.allVersions.checked},
       done: function (response) {
         Redcaser.executionDialog.forUpdate(response, context)
       },
@@ -242,6 +252,7 @@ Redcaser.ExecutionEvents = (function () {
   // handleExecutionCreate :: Event, Object
   self.handleExecutionCreate = function (event, context) {
     var params = {
+      data: {all: context.allVersions.checked},
       done: function (response) {
         Redcaser.executionDialog.forCreate(response, context)
       },

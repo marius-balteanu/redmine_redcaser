@@ -6,10 +6,14 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   def index
     @execution_suites = ExecutionSuite.all
 
-    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
+    @versions = Version.where(project: @project)
+
+    if params[:all] != 'true'
+      @versions = @versions.where.not(status: 'closed')
+    end
 
     render json: {
-      versions:         @versions,
+      versions:         @versions.to_a,
       project:          @project,
       execution_suites: @execution_suites
     }
@@ -60,12 +64,16 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       .order('queries.name ASC')
       .to_a
 
-    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
+    @versions = Version.where(project: @project)
+
+    if params[:all] != 'true'
+      @versions = @versions.where.not(status: 'closed')
+    end
 
     render json: {
       environments: @environments,
       queries:      @queries,
-      versions:     @versions
+      versions:     @versions.to_a
     }
   end
 
@@ -78,13 +86,17 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
       .order('queries.name ASC')
       .to_a
 
-    @versions = Version.where(project: @project).where.not(status: 'closed').to_a
+    @versions = Version.where(project: @project)
+
+    if params[:all] != 'true'
+      @versions = @versions.where.not(status: 'closed')
+    end
 
     render json: {
       execution_suite: @execution_suite,
       environments:    @environments,
       queries:         @queries,
-      versions:        @versions
+      versions:        @versions.to_a
     }
   end
 
