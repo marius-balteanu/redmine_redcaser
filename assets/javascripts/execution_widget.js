@@ -75,9 +75,15 @@ Redcaser.ExecutionWidget = (function () {
   }
 
   def.createExecutionSuiteSelect = function (response) {
+    this.executionSuites = response.execution_suites
     this.project         = response.project
     this.versions        = response.versions
-    this.executionSuites = response.execution_suites
+
+    if (this.executionSuites.length === 0) {
+        this.body.appendChild(this.buildNoExecutionsBlock())
+
+        return
+    }
 
     while (this.select.firstChild) {
       this.select.removeChild(this.select.firstChild)
@@ -351,6 +357,18 @@ Redcaser.ExecutionWidget = (function () {
     }
 
     Redcaser.API.executionSuites.show(params)
+  }
+
+  def.buildNoExecutionsBlock = function () {
+    return DOMBuilder.div({
+          classes:  ['no-executions','empty-content'],
+          children: [
+            DOMBuilder.span({
+              classes: ['title'],
+              children: [DOMBuilder.text("There aren't any test executions, yet.")]
+            })
+          ]
+    })
   }
 
   return self

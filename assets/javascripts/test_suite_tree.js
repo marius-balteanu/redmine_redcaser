@@ -77,7 +77,7 @@ Redcaser.TestSuiteTree = (function () {
   def.createTestSuiteTree = function (data) {
 
     if (data.test_suites.length === 0) {
-        this.body.appendChild(this.getNoSuiteBlock())
+        this.body.appendChild(this.buildNoSuitesBlock())
 
         return
     }
@@ -142,9 +142,9 @@ Redcaser.TestSuiteTree = (function () {
     }.bind(this))
   }
 
-  def.getNoSuiteBlock = function () {
+  def.buildNoSuitesBlock = function () {
     return DOMBuilder.div({
-          classes:  ['no-suite'],
+          classes:  ['no-suites', 'empty-content'],
           children: [
             DOMBuilder.span({
               classes: ['title'],
