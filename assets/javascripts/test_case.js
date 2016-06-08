@@ -35,7 +35,13 @@ Redcaser.TestCase = (function () {
         }),
         DOMBuilder.td({
           classes:  ['case-id'],
-          children: [DOMBuilder.text(element.issue_id)]
+          children: [
+            DOMBuilder.link({
+              href:    '/issues/' + element.issue_id,
+              target:  '_blank',
+              children: [DOMBuilder.text(element.issue_id)]
+            })
+          ]
         }),
         DOMBuilder.td({
           classes:  ['case-link'],

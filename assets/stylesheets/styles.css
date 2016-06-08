@@ -24,7 +24,7 @@ table.test-cases .checkbox {
   text-align: center;
   width: 20px;
 }
-table.test-cases .suite-id {
+table.test-cases .suite-id, table.execution-table .list-header-id {
   width: 80px;
 }
 table.test-cases td.case-actions {
@@ -61,16 +61,6 @@ div.suite-footer {
 .execution-header {
   padding-bottom: 10px;
 }
-// .execution-body {
-//   width: 49%;
-//   float: left;
-// }
-// .case-preview {
-  // width: auto;
-  // float: left;
-  // margin-left: 10px;
-  // padding-left:10px;
-// }
 .case-preview .case-header {
   padding-top: 10px;
   border-bottom: 1px solid #d7d7d7;
@@ -80,7 +70,6 @@ div.suite-footer {
   font-size: 16px;
 }
 .case-preview .case-body {
-  //background-color: #ffffdd;
   border-bottom: 1px solid #d7d7d7;
 }
 .case-preview .case-footer {

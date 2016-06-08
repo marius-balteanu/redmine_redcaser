@@ -230,7 +230,7 @@ Redcaser.ExecutionWidget = (function () {
                 }),
                 DOMBuilder.th({
                   classes:  ['list-header-id'],
-                  children: [DOMBuilder.text('Id')]
+                  children: [DOMBuilder.text('ID')]
                 }),
                 DOMBuilder.th({
                   classes:  ['list-header-title'],
@@ -254,12 +254,18 @@ Redcaser.ExecutionWidget = (function () {
         classes:  ['list-item'],
         children: [
           DOMBuilder.td({
-            classes:  ['list-item-check'],
+            classes:  ['checkbox'],
             children: [DOMBuilder.checkbox()]
           }),
           DOMBuilder.td({
             classes:  ['list-item-id'],
-            children: [DOMBuilder.text(element.issue_id)]
+            children: [
+              DOMBuilder.link({
+                href:    '/issues/' + element.issue_id,
+                target:  '_blank',
+                children: [DOMBuilder.text(element.issue_id)]
+              })
+            ]
           }),
           DOMBuilder.td({
             classes:  ['list-item-name'],

@@ -12,7 +12,7 @@ Redcaser.TestCasePreview = (function () {
       testCaseStatusId = element.status.test_case_status_id
     }
 
-    return DOMBuilder.div({
+    var node = DOMBuilder.div({
       classes:  ['case-preview', 'box'],
       children: [
         DOMBuilder.div({
@@ -89,29 +89,40 @@ Redcaser.TestCasePreview = (function () {
                 id:                  element.id,
                 test_case_status_id: testCaseStatusId
               }
-            }),
-            DOMBuilder.select({
-              classes:  ['case-footer-related-select'],
-              children: DOMBuilder.options({
-                data:   [
-                  {value: 'relates', text: 'Related to'},
-                  {value: 'blocked', text: 'Blocked by'}
-                ],
-                includeBlank: true
-              })
-            }),
-            DOMBuilder.button({
-              classes:  ['case-footer-related-submit'],
-              dataset:  {
-                id:                  element.id,
-                test_case_status_id: testCaseStatusId
-              },
-              children: [DOMBuilder.text('Create relation')]
             })
           ]
         })
       ]
     })
+
+    var relatedNode = DOMBuilder.div({
+      children: [
+        DOMBuilder.select({
+          classes:  ['case-footer-related-select'],
+          children: DOMBuilder.options({
+            data:   [
+              {value: 'relates', text: 'Related to'},
+              {value: 'blocked', text: 'Blocked by'}
+            ],
+            includeBlank: true
+          })
+        }),
+        DOMBuilder.link({
+          classes:  ['case-footer-related-submit'],
+          dataset:  {
+            id:                  element.id,
+            test_case_status_id: testCaseStatusId
+          },
+          children: [DOMBuilder.text('Create relation')]
+        })
+      ]
+    })
+
+    if (element.status) {
+      node.getElementsByClassName("case-footer")[0].appendChild(relatedNode)
+    }
+
+    return node
   }
 
   return self

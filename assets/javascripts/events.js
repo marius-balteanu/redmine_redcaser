@@ -62,7 +62,8 @@ Redcaser.TreeEvents = (function () {
     var issueId = event.target.dataset.issue_id
     var testSuiteId = event.target.dataset.test_suite_id
 
-    location.href = '/issues/' + issueId + '/edit?test_suite_id=' + testSuiteId
+    var url = '/issues/' + issueId + '/edit?test_suite_id=' + testSuiteId
+    window.open(url, "_blank")
   }
 
     // handleSuiteCreate :: Event, Object
@@ -80,13 +81,14 @@ Redcaser.TreeEvents = (function () {
   // handleSuiteDelete :: Event, Object
   self.handleSuiteDelete = function (event, context) {
     var id = parseInt(event.target.dataset.id)
+    var node = context.testSuites[id].node
 
-    if (confirm('Are you sure?')) {
-      var params = {
+    if (node.getElementsByClassName("suite-case").length > 0) {
+        alert("Cannot delete test suite while not empty")
+    } else if (confirm('Really delete this test suite?')) {
+        var params = {
         id:   id,
         done: function (response) {
-          var node = context.testSuites[id].node
-
           node.parentNode.removeChild(node)
 
           delete context.testSuites[id]
@@ -100,6 +102,7 @@ Redcaser.TreeEvents = (function () {
 
       Redcaser.API.testSuites.destroy(params)
     }
+
   }
 
   return self
@@ -298,18 +301,21 @@ Redcaser.ExecutionEvents = (function () {
 
     var id        = event.target.dataset.id
     var test_case = context.testCases[id]
+
     var relation  = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
 
     if (params.data.test_case_status.execution_result_id === ' ') return
 
     params.done = function () {
-      location.href = '/projects/' + context.project.identifier
+      var url = '/projects/' + context.project.identifier
         + '/issues/new?test_case[relation_type]='
         + relation
         + '&test_case[issue_id]='
         + test_case.issue_id
         + '&issue[tracker_id]='
         + Redcaser.defect_id
+
+        window.open(url, '_blank')
     }
 
     if (test_case.status) {
@@ -324,7 +330,8 @@ Redcaser.ExecutionEvents = (function () {
 
   self.gatherPreviewData = function (event, context) {
     var id      = event.target.dataset.id
-    var parent  = event.target.parentNode
+    var parent  = event.target.parentNode.parentNode
+
     var comment = parent.getElementsByClassName('case-footer-comment')[0].value
     var status  = parent.getElementsByClassName('case-footer-select')[0].value
 

@@ -52,7 +52,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
 
   def destroy
     if @test_suite.has_children? || @test_suite.has_cases?
-      render json: {errors: ['Test Suite is not empty']}, status: 400
+      render json: {errors: ['Cannot delete test suite while not empty']}, status: 400
 
       return
     end
