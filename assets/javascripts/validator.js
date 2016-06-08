@@ -46,7 +46,7 @@ Redcaser.Validator = (function () {
       if (!this.errors[fieldName]) this.errors[fieldName] = []
 
       this.errors[fieldName].push(
-        fieldName + ' can not be shorter than ' + options.min + ' characters'
+        'The field ' + fieldName + ' is mandatory and should contain at least ' + options.min + ' characters'
       )
     }
 

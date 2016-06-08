@@ -189,7 +189,7 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
     field  += '</textarea>'
     result += '<p>' + label + field + '</p>'
 
-    label  = '<label for="test_case_expected_results">Expected Results</label>'
+    label  = '<label for="test_case_expected_results">Expected Result</label>'
     field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results">'
     field  += h(test_case.expected_results) if test_case
     field  += '</textarea>'

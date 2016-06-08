@@ -24,7 +24,7 @@ Redcaser.TestSuite = (function () {
       children: [
         DOMBuilder.td({
           colSpan:  '5',
-          children: [DOMBuilder.text('There are not test cases added to this suite')]
+          children: [DOMBuilder.text('There are no test cases added to this suite')]
         })
       ]
     })

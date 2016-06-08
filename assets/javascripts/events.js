@@ -214,7 +214,7 @@ Redcaser.ExecutionEvents = (function () {
   self.handleSuiteDelete = function (event, context) {
     var id = event.target.dataset.id
 
-    if (confirm('Are you sure?')) {
+    if (confirm('Really delete this execution suite and all related test results? This action cannot be undone.')) {
       var params = {
         id:   id,
         done: function (response) {

@@ -58,7 +58,7 @@ Redcaser.TestCasePreview = (function () {
               children: [
                 DOMBuilder.p({
                   classes:  ['section'],
-                  children: [DOMBuilder.text('Expected results:')]
+                  children: [DOMBuilder.text('Expected result:')]
                 }),
                 DOMBuilder.div({
                     classes: ['wiki'],
