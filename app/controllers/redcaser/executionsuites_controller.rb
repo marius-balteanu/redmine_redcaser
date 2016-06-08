@@ -4,19 +4,20 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
   before_action :find_execution_suite, only: [:show, :edit, :update, :destroy]
 
   def index
-    @execution_suites = ExecutionSuite.all
-
     @versions = Version.where(project: @project)
 
     if params[:all] != 'true'
       @versions = @versions.where.not(status: 'closed')
     end
 
+    @execution_suites = ExecutionSuite.where(project: @project, version: @versions)
+
     render json: {
       versions:         @versions.to_a,
       project:          @project,
       execution_suites: @execution_suites
     }
+
   end
 
   def show
@@ -102,6 +103,7 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
 
   def create
     @execution_suite = ExecutionSuite.new(execution_suite_params)
+    @execution_suite.project = @project
 
     if @execution_suite.save
       test_cases = test_cases_params[:test_cases]

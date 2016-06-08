@@ -40,7 +40,7 @@ Redcaser.ExecutionWidget = (function () {
             })
           ]
         }),
-        DOMBuilder.text('All versions'),
+        DOMBuilder.text('Show all versions'),
         this.allVersions,
         this.select,
         this.suiteActions
@@ -67,14 +67,14 @@ Redcaser.ExecutionWidget = (function () {
   def.getExecutionSuites = function (all) {
     var params = {
       data: {all: all},
-      done: this.createExecuionSuiteSelect.bind(this),
+      done: this.createExecutionSuiteSelect.bind(this),
       fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     Redcaser.API.executionSuites.index(params)
   }
 
-  def.createExecuionSuiteSelect = function (response) {
+  def.createExecutionSuiteSelect = function (response) {
     this.project         = response.project
     this.versions        = response.versions
     this.executionSuites = response.execution_suites
