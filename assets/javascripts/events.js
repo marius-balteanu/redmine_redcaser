@@ -280,7 +280,7 @@ Redcaser.ExecutionEvents = (function () {
     var nameSelect     = listItem.getElementsByClassName('list-item-select')[0]
 
     nameSelect.value = testCaseStatus.status_id
-    if (!nameSelect.childNodes[0].getAttribute('value')) {
+    if (!nameSelect.childNodes[0].getAttribute('value').trim()) {
       nameSelect.removeChild(nameSelect.childNodes[0])
     }
 

@@ -77,7 +77,7 @@ Redcaser.TestCasePreview = (function () {
               children: DOMBuilder.options({
                 blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
                 data:         statuses,
-                includeBlank: true,
+                includeBlank: element.status ? false : true,
                 selected:     selectedId,
                 valueField:   'id',
                 textField:    'name'
@@ -107,7 +107,7 @@ Redcaser.TestCasePreview = (function () {
             includeBlank: true
           })
         }),
-        DOMBuilder.link({
+        DOMBuilder.button({
           classes:  ['case-footer-related-submit'],
           dataset:  {
             id:                  element.id,
