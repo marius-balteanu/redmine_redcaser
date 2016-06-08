@@ -75,12 +75,20 @@ Redcaser.TestSuiteTree = (function () {
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (data) {
+
+    if (data.test_suites.length === 0) {
+        this.body.appendChild(this.getNoSuiteBlock())
+
+        return
+    }
+
     this.project  = data.project
     this.treeData = this.formatTreeData(data)
 
     this.buildTree()
 
     this.makeSuiteCasesSortable()
+
   }
 
   def.buildTree = function () {
@@ -132,6 +140,18 @@ Redcaser.TestSuiteTree = (function () {
 
       parentNode.appendChild(element.node)
     }.bind(this))
+  }
+
+  def.getNoSuiteBlock = function () {
+    return DOMBuilder.div({
+          classes:  ['no-suite'],
+          children: [
+            DOMBuilder.span({
+              classes: ['title'],
+              children: [DOMBuilder.text("There aren't any test cases, yet.")]
+            })
+          ]
+    })
   }
 
   def.makeSuiteCasesSortable = function () {
