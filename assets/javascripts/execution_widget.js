@@ -80,8 +80,11 @@ Redcaser.ExecutionWidget = (function () {
     this.versions        = response.versions
 
     if (this.executionSuites.length === 0) {
-        this.body.appendChild(this.buildNoExecutionsBlock())
-
+        if (this.body.firstChild) {
+          this.body.replaceChild(this.buildNoExecutionsBlock(), this.body.firstChild)
+        } else {
+          this.body.appendChild(this.buildNoExecutionsBlock())
+        }
         return
     }
 
