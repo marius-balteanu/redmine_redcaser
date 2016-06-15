@@ -113,7 +113,7 @@ Redcaser.TestCasePreview = (function () {
             id:                  element.id,
             test_case_status_id: testCaseStatusId
           },
-          children: [DOMBuilder.text('Create relation')]
+          children: [DOMBuilder.text('Create related issue')]
         })
       ]
     })
