@@ -75,6 +75,8 @@ Redcaser.TestSuiteTree = (function () {
 
   // createTestSuiteTree :: Object
   def.createTestSuiteTree = function (data) {
+    this.project  = data.project
+    this.treeData = this.formatTreeData(data)
 
     if (data.test_suites.length === 0) {
         this.body.appendChild(this.buildNoSuitesBlock())
@@ -82,13 +84,8 @@ Redcaser.TestSuiteTree = (function () {
         return
     }
 
-    this.project  = data.project
-    this.treeData = this.formatTreeData(data)
-
     this.buildTree()
-
     this.makeSuiteCasesSortable()
-
   }
 
   def.buildTree = function () {
