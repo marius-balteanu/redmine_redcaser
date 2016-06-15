@@ -28,14 +28,20 @@ Redcaser.ExecutionDialog = (function () {
         DOMBuilder.div({
           classes:  ['execution-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
+            DOMBuilder.label({children: [
+              DOMBuilder.text('Name:'),
+              DOMBuilder.span({
+                classes:  ['required'],
+                children: [DOMBuilder.text('*')]
+              })
+            ]}),
             this.inputs.name
           ]
         }),
         DOMBuilder.div({
           classes:  ['execution-dialog-version'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Version')]}),
+            DOMBuilder.label({children: [DOMBuilder.text('Version:')]}),
             this.inputs.version
           ]
         }),
@@ -54,8 +60,8 @@ Redcaser.ExecutionDialog = (function () {
   def.modal = function () {
     var params = {
       autoOpen: false,
-      height:   300,
-      width:    350,
+      minWidth: 500,
+      minHeight: 300,
       modal:    true
     }
 

@@ -23,18 +23,19 @@ Redcaser.TestCaseSelector = (function () {
 
     return DOMBuilder.div({
       children: [
-        DOMBuilder.label({children: [DOMBuilder.text('Queries')]}),
+        DOMBuilder.label({children: [DOMBuilder.text('Queries:')]}),
         this.inputs.select,
         DOMBuilder.table({
-          classes:  ['issues'],
+          classes:  ['issues', 'test-cases', 'list'],
           children: [
             DOMBuilder.tr({
               children: [
                 DOMBuilder.th({
-                  classes:  ['case-header-check'],
+                  classes:  ['case-header-check', 'checkbox'],
                   children: [this.headerCheck]
                 }),
-                DOMBuilder.th({children: [DOMBuilder.text('Name')]})
+                DOMBuilder.th({children: [DOMBuilder.text('ID')]}),
+                DOMBuilder.th({children: [DOMBuilder.text('Subject')]})
               ]
             }),
             this.caseList
@@ -96,6 +97,9 @@ Redcaser.TestCaseSelector = (function () {
                   checked: selected.includes(element.id)
                 }),
               ]
+            }),
+            DOMBuilder.td({
+                children: [DOMBuilder.text(element.issue_id)]
             }),
             DOMBuilder.td({
                 children: [DOMBuilder.text(element.subject)]

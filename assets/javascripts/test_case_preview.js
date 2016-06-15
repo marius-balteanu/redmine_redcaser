@@ -73,7 +73,7 @@ Redcaser.TestCasePreview = (function () {
           children: [
             DOMBuilder.textarea({classes: ['case-footer-comment']}),
             DOMBuilder.select({
-              classes:  ['case-footer-select'],
+              classes: element.status ? ['case-footer-select', element.status.name.split(" ").join("_").toLowerCase()] : ['case-footer-select'],
               children: DOMBuilder.options({
                 blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
                 data:         statuses,

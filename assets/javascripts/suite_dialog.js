@@ -26,7 +26,13 @@ Redcaser.SuiteDialog = (function () {
         DOMBuilder.div({
           classes:  ['suite-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
+                        DOMBuilder.label({children: [
+              DOMBuilder.text('Name:'),
+              DOMBuilder.span({
+                classes:  ['required'],
+                children: [DOMBuilder.text('*')]
+              })
+            ]}),
             this.inputs.name
           ]
         }),
@@ -44,8 +50,8 @@ Redcaser.SuiteDialog = (function () {
   def.modal = function (dialog) {
     var params = {
       autoOpen: false,
-      height:   300,
-      width:    350,
+      height:   200,
+      width:    300,
       modal:    true
     }
 

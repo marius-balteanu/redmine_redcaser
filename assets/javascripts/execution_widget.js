@@ -285,10 +285,10 @@ Redcaser.ExecutionWidget = (function () {
             classes:  ['list-item-status'],
             children: [
               DOMBuilder.select({
-                classes: ['list-item-select'],
+                classes: element.status ? ['list-item-select', element.status.name.split(" ").join("_").toLowerCase()] : ['list-item-select'],
                 dataset: {
                   id:                  element.id,
-                  test_case_status_id: element.status ? element.status.test_case_status_id : null
+                  test_case_status_id: element.status ? element.status.test_case_status_id : null,
                 },
                 children: DOMBuilder.options({
                   blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),

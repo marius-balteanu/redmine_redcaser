@@ -24,7 +24,13 @@ Redcaser.EnvironmentDialog = (function () {
         DOMBuilder.div({
           classes:  ['environment-dialog-name'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Name*')]}),
+            DOMBuilder.label({children: [
+              DOMBuilder.text('Name:'),
+              DOMBuilder.span({
+                classes:  ['required'],
+                children: [DOMBuilder.text('*')]
+              })
+            ]}),
             this.inputs.name
           ]
         })
@@ -35,8 +41,8 @@ Redcaser.EnvironmentDialog = (function () {
   def.modal = function () {
     var params = {
       autoOpen: false,
-      height:   300,
-      width:    350,
+      height:   150,
+      width:    300,
       modal:    true
     }
 

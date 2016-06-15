@@ -269,8 +269,20 @@ Redcaser.ExecutionEvents = (function () {
   self.handleListItemClick = function (event, context) {
     var id = event.target.dataset.id
 
+    this.addClassSelected(event.target.parentNode)
+
     context.displayCasePreview(id)
     context.preview.dataset.test_case_id = id
+  }
+
+  self.addClassSelected = function (element) {
+    var selectedRows = element.parentNode.getElementsByClassName('selected');
+
+    Array.prototype.forEach.call(selectedRows, function(row){
+      row.classList.remove("selected");
+    });
+
+    element.classList.add("selected")
   }
 
   // updateStatusForListItem :: Object, Object

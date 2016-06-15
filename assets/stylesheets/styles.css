@@ -15,6 +15,10 @@ table.test-cases tr:nth-child(even) {
 table.test-cases tr.suite-case:hover {
   background-color: #ffffdd;
 }
+table.test-cases tr.selected, table.test-cases tr.selected a {
+  background-color: #507AAA !important;
+  color: #ffffff  !important;
+}
 table.test-cases .drag {
   width: 20px;
   padding-right: 0;
@@ -79,10 +83,36 @@ div.suite-footer {
   font-weight: bold;
 }
 
-
 div.execution-actions {
   display: inline-block;
 }
-
-
-
+div.execution-dialog label {
+  width: 95px;
+  display: inline-block;
+}
+div.execution-dialog .execution-dialog-environment a {
+  margin-left: 5px;
+}
+div.execution-dialog table.test-cases {
+  width: 100%;
+  margin-top: 10px;
+}
+div.execution-dialog > div {
+  padding-top: 5px;
+}
+div.environment-dialog-name label {
+  margin-right: 10px;
+}
+div.suite-dialog label {
+  width: 60px;
+  display: inline-block;
+}
+select.list-item-select.passed, select.case-footer-select.passed {
+  background-color: #a6bd65;
+}
+select.list-item-select.failed, select.case-footer-select.failed {
+  background-color: #bb5151;
+}
+select.list-item-select.blocked, select.case-footer-select.blocked {
+  background-color: #7198bd;
+}
