@@ -296,6 +296,9 @@ Redcaser.ExecutionEvents = (function () {
       nameSelect.removeChild(nameSelect.childNodes[0])
     }
 
+    var newClass = nameSelect.children[nameSelect.selectedIndex].text.split(" ").join("_").toLowerCase()
+    nameSelect.classList = "list-item-select " + newClass
+
     if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.test_case_id) {
       var textField = context.preview
         .getElementsByClassName('case-footer-comment')[0]
@@ -304,6 +307,7 @@ Redcaser.ExecutionEvents = (function () {
 
       textField.value   = ''
       selectField.value = testCaseStatus.status_id
+      selectField.classList = "case-footer-select " + newClass
     }
   }
 

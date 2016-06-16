@@ -109,10 +109,21 @@ div.suite-dialog label {
 }
 select.list-item-select.passed, select.case-footer-select.passed {
   background-color: #a6bd65;
+  border: 0;
+  color: #ffffff;
 }
 select.list-item-select.failed, select.case-footer-select.failed {
   background-color: #bb5151;
+  border: 0;
+  color: #ffffff;
 }
 select.list-item-select.blocked, select.case-footer-select.blocked {
   background-color: #7198bd;
+  border: 0;
+  color: #ffffff;
+}
+select.list-item-select option, select.case-footer-select option {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px;
 }
