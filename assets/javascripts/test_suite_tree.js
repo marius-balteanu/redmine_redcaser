@@ -143,10 +143,27 @@ Redcaser.TestSuiteTree = (function () {
     return DOMBuilder.div({
           classes:  ['no-suites', 'empty-content'],
           children: [
-            DOMBuilder.span({
-              classes: ['title'],
-              children: [DOMBuilder.text("There aren't any test cases, yet.")]
-            })
+            DOMBuilder.div({
+              classes: ['left'],
+              children: [
+                DOMBuilder.span({
+                  classes:  ['title'],
+                  children: [DOMBuilder.text('There aren\'t any test suites, yet')]
+                }),
+                DOMBuilder.text('Use the "Add test suite" button to create the first test suite.')
+              ]
+            }),
+            DOMBuilder.div({
+              classes: ['right'],
+              children: [
+                DOMBuilder.span({
+                  classes:  ['title'],
+                  children: [DOMBuilder.text('Test cases and suites?')]
+                }),
+                DOMBuilder.text('A test case verifies a certain feature, functionality or requirement. Suites are used to organize related test cases into groups.'),
+              ]
+            }),
+            DOMBuilder.div({classes: ['clear-both']})
           ]
     })
   }

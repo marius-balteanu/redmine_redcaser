@@ -80,12 +80,12 @@ Redcaser.ExecutionWidget = (function () {
     this.versions        = response.versions
 
     if (this.executionSuites.length === 0) {
-        if (this.body.firstChild) {
-          this.body.replaceChild(this.buildNoExecutionsBlock(), this.body.firstChild)
-        } else {
-          this.body.appendChild(this.buildNoExecutionsBlock())
+        var emptyBlock = this.header.getElementsByClassName('empty-content')[0]
+        if (emptyBlock) {
+          this.header.removeChild(emptyBlock)
         }
-        return
+        this.header.appendChild(this.buildNoExecutionsBlock());
+      return
     }
 
     while (this.select.firstChild) {
@@ -366,10 +366,27 @@ Redcaser.ExecutionWidget = (function () {
     return DOMBuilder.div({
           classes:  ['no-executions','empty-content'],
           children: [
-            DOMBuilder.span({
-              classes: ['title'],
-              children: [DOMBuilder.text("There aren't any test executions, yet.")]
-            })
+            DOMBuilder.div({
+              classes: ['left'],
+              children: [
+                DOMBuilder.span({
+                  classes:  ['title'],
+                  children: [DOMBuilder.text('No test execution suite have been defined for this project.')]
+                }),
+                DOMBuilder.text('Use the Add execution suite button to add your first test execution suite.')
+              ]
+            }),
+            DOMBuilder.div({
+              classes: ['right'],
+              children: [
+                DOMBuilder.span({
+                  classes:  ['title'],
+                  children: [DOMBuilder.text('What\'s a test execution suite?')]
+                }),
+                DOMBuilder.text('Once you have started adding test cases, you can start a test execution suite to run your tests and track results.'),
+              ]
+            }),
+            DOMBuilder.div({classes: ['clear-both']})
           ]
     })
   }
