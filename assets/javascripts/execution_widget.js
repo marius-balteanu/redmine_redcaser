@@ -373,7 +373,7 @@ Redcaser.ExecutionWidget = (function () {
                   classes:  ['title'],
                   children: [DOMBuilder.text('No test execution suite have been defined for this project.')]
                 }),
-                DOMBuilder.text('Use the Add execution suite button to add your first test execution suite.')
+                DOMBuilder.text('Use the "Add execution suite" button to add your first test execution suite.')
               ]
             }),
             DOMBuilder.div({
