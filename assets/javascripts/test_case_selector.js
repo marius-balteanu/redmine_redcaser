@@ -26,7 +26,7 @@ Redcaser.TestCaseSelector = (function () {
         DOMBuilder.label({children: [DOMBuilder.text('Queries:')]}),
         this.inputs.select,
         DOMBuilder.table({
-          classes:  ['issues', 'test-cases', 'list'],
+          classes:  ['test-cases', 'list'],
           children: [
             DOMBuilder.tr({
               children: [
