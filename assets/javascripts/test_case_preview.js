@@ -69,7 +69,37 @@ Redcaser.TestCasePreview = (function () {
           ]
         }),
         DOMBuilder.div({
-          classes:  ['case-footer'],
+          classes:  ['case-footer', 'tabs'],
+          children: [
+            DOMBuilder.ul ({
+              classes: [],
+              children: [
+                DOMBuilder.li ({
+                  classes: ['tab-results'],
+                  children: [
+                    DOMBuilder.link({
+                      classes:  ['selected'],
+                      href:     '#',
+                      children: [DOMBuilder.text('Results & History')]
+                    })
+                  ]
+                }),
+                DOMBuilder.li ({
+                  classes: ['tab-related'],
+                  children: [
+                    DOMBuilder.link({
+                      classes:  [],
+                      href:     '#',
+                      children: [DOMBuilder.text('Related Issues')]
+                    })
+                  ]
+                })
+              ]
+            })
+          ]
+        }),
+        DOMBuilder.div({
+          classes: ['tab-content-Results'],
           children: [
             DOMBuilder.textarea({classes: ['case-footer-comment']}),
             DOMBuilder.select({
@@ -91,6 +121,9 @@ Redcaser.TestCasePreview = (function () {
               }
             })
           ]
+        }),
+        DOMBuilder.div({
+          classes: ['tab-content-Related', 'hidden']
         })
       ]
     })
@@ -119,7 +152,7 @@ Redcaser.TestCasePreview = (function () {
     })
 
     if (element.status) {
-      node.getElementsByClassName("case-footer")[0].appendChild(relatedNode)
+      node.getElementsByClassName("tab-content-Results")[0].appendChild(relatedNode)
     }
 
     return node

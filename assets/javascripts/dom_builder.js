@@ -184,5 +184,15 @@ var DOMBuilder = (function () {
   self.p = function (options) {
     return self.node('p', options)
   }
+
+  // p:: Object -> DOM
+  self.ul = function (options) {
+    return self.node('ul', options)
+  }
+
+  // p:: Object -> DOM
+  self.li = function (options) {
+    return self.node('li', options)
+  }
   return self
 })()

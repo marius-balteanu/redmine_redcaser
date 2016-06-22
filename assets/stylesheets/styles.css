@@ -108,6 +108,12 @@ div.suite-footer {
 .case-preview p.section {
   font-weight: bold;
 }
+.case-preview .hidden {
+  display: none;
+}
+.case-preview .case-footer-comment {
+  width: 99%;
+}
 
 div.execution-actions {
   display: inline-block;
@@ -153,3 +159,4 @@ select.list-item-select option, select.case-footer-select option {
   color: #000000;
   border: 1px;
 }
+
