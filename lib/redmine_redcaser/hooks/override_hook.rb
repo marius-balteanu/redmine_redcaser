@@ -86,7 +86,7 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
           TestSuite.where(id: test_suite_id).first
         end
 
-      test_suites = TestSuite.select(:id, :name).order(:name).to_a
+      test_suites = TestSuite.select(:id, :name).where(project_id: issue.project_id).order(:name).to_a
 
       select = create_test_suite_id_select(test_suites, selected: test_suite)
       fields = create_test_suite_text_fields(test_case)
