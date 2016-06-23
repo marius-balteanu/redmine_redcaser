@@ -88,7 +88,6 @@ Redcaser.TestCasePreview = (function () {
                   classes: ['tab-related'],
                   children: [
                     DOMBuilder.link({
-                      classes:  [],
                       href:     '#',
                       children: [DOMBuilder.text('Related Issues')]
                     })
@@ -113,12 +112,13 @@ Redcaser.TestCasePreview = (function () {
                 textField:    'name'
               })
             }),
-            DOMBuilder.submit({
+            DOMBuilder.button({
               classes: ['case-footer-submit'],
               dataset: {
                 id:                  element.id,
                 test_case_status_id: testCaseStatusId
-              }
+              },
+              children: [DOMBuilder.text('Submit')]
             })
           ]
         }),

@@ -30,8 +30,7 @@ var DOMBuilder = (function () {
     if (options.insertHTML) {
         var position, text
 
-        [position, text] = options.insertHTML
-        node.insertAdjacentHTML(position, text)
+        node.insertAdjacentHTML(options.insertHTML[0], options.insertHTML[1])
     }
   }
 
@@ -127,14 +126,6 @@ var DOMBuilder = (function () {
   // select :: Object -> DOM
   self.select = function (options) {
     return self.node('select', options)
-  }
-
-  // submit :: Object -> DOM
-  self.submit = function (options) {
-    var node  = self.node('input', options)
-    node.type = 'submit'
-
-    return node
   }
 
   // span :: Object -> DOM
