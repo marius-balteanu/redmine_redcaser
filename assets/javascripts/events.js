@@ -130,7 +130,8 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
       ['click',  'execution-create',           this.handleExecutionCreate],
       ['click',  'list-item-name',             this.handleListItemClick  ],
-      ['click',  'case-footer-related-submit', this.handleRelationCreate ]
+      ['click',  'case-footer-related-submit', this.handleRelationCreate ],
+      ['click',  'execution-tab',              this.handleTabChange      ],
     ]
   }
 
@@ -370,6 +371,26 @@ Redcaser.ExecutionEvents = (function () {
 
     return params
   }
+
+  self.handleTabChange = function (event, context) {
+    var tabsContent = context.preview.getElementsByClassName('tab-content')
+    var tabsElement = event.target.parentNode.parentNode.children
+    var newTab = event.target.dataset.tab
+
+
+    Array.prototype.forEach.call(tabsElement, function(tabElement){
+      tabElement.firstElementChild.classList.remove("selected")
+    })
+    event.target.classList.add("selected")
+
+    Array.prototype.forEach.call(tabsContent, function(tabContent){
+      tabContent.classList.add("hidden")
+      if (tabContent.classList.contains("tab-" + newTab)) {
+        tabContent.classList.remove("hidden")
+      }
+    })
+  }
+
   return self
 })()
 

@@ -69,62 +69,68 @@ Redcaser.TestCasePreview = (function () {
           ]
         }),
         DOMBuilder.div({
-          classes:  ['case-footer', 'tabs'],
+          classes:  ['case-footer'],
           children: [
-            DOMBuilder.ul ({
-              classes: [],
+            DOMBuilder.div({
+              classes: ['tabs'],
               children: [
-                DOMBuilder.li ({
-                  classes: ['tab-results'],
+                DOMBuilder.ul ({
+                  classes: [],
                   children: [
-                    DOMBuilder.link({
-                      classes:  ['selected'],
-                      href:     '#',
-                      children: [DOMBuilder.text('Results & History')]
-                    })
-                  ]
-                }),
-                DOMBuilder.li ({
-                  classes: ['tab-related'],
-                  children: [
-                    DOMBuilder.link({
-                      href:     '#',
-                      children: [DOMBuilder.text('Related Issues')]
+                    DOMBuilder.li ({
+                      children: [
+                        DOMBuilder.link({
+                          classes:  ['selected','execution-tab'],
+                          href:     '#',
+                          dataset:  { tab: "results" },
+                          children: [DOMBuilder.text('Results & History')]
+                        })
+                      ]
+                    }),
+                    DOMBuilder.li ({
+                      children: [
+                        DOMBuilder.link({
+                          href:     '#',
+                          classes:  ['execution-tab'],
+                          dataset:  { tab: "related" },
+                          children: [DOMBuilder.text('Related Issues')]
+                        })
+                      ]
                     })
                   ]
                 })
               ]
-            })
-          ]
-        }),
-        DOMBuilder.div({
-          classes: ['tab-content-Results'],
-          children: [
-            DOMBuilder.textarea({classes: ['case-footer-comment']}),
-            DOMBuilder.select({
-              classes: element.status ? ['case-footer-select', element.status.name.split(" ").join("_").toLowerCase()] : ['case-footer-select'],
-              children: DOMBuilder.options({
-                blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
-                data:         statuses,
-                includeBlank: element.status ? false : true,
-                selected:     selectedId,
-                valueField:   'id',
-                textField:    'name'
-              })
             }),
-            DOMBuilder.button({
-              classes: ['case-footer-submit'],
-              dataset: {
-                id:                  element.id,
-                test_case_status_id: testCaseStatusId
-              },
-              children: [DOMBuilder.text('Submit')]
+            DOMBuilder.div({
+              classes: ['tab-results', 'tab-content'],
+              children: [
+                DOMBuilder.textarea({classes: ['case-footer-comment']}),
+                DOMBuilder.select({
+                  classes: element.status ? ['case-footer-select', element.status.name.split(" ").join("_").toLowerCase()] : ['case-footer-select'],
+                  children: DOMBuilder.options({
+                    blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
+                    data:         statuses,
+                    includeBlank: element.status ? false : true,
+                    selected:     selectedId,
+                    valueField:   'id',
+                    textField:    'name'
+                  })
+                }),
+                DOMBuilder.button({
+                  classes: ['case-footer-submit'],
+                  dataset: {
+                    id:                  element.id,
+                    test_case_status_id: testCaseStatusId
+                  },
+                  children: [DOMBuilder.text('Submit')]
+                })
+              ]
+            }),
+            DOMBuilder.div({
+              classes: ['tab-related', 'hidden', 'tab-content']
             })
           ]
         }),
-        DOMBuilder.div({
-          classes: ['tab-content-Related', 'hidden']
-        })
       ]
     })
 
@@ -152,7 +158,7 @@ Redcaser.TestCasePreview = (function () {
     })
 
     if (element.status) {
-      node.getElementsByClassName("tab-content-Results")[0].appendChild(relatedNode)
+      node.getElementsByClassName("tab-results")[0].appendChild(relatedNode)
     }
 
     return node
