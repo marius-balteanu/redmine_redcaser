@@ -146,6 +146,7 @@ Redcaser.ExecutionEvents = (function () {
   self.handleExecutionChange = function (event, context) {
     var executionId = event.target.value
 
+    Redcaser.Location.getInstance().addHash('execution', executionId)
     context.loadExecutionSuite(executionId)
   }
 

@@ -8,12 +8,15 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionDialog       = Redcaser.ExecutionDialog
   var EnvironmentDialog     = Redcaser.EnvironmentDialog
   var TestCasePreview       = Redcaser.TestCasePreview
+  var Location              = Redcaser.Location.getInstance()
 
   // self :: DOM
   var self = function (root) {
     this.root      = this.build(root)
     this.testCases = {}
     this.listItems = {}
+    this.selectedExecutionSuite;
+
 
     this.getExecutionSuites()
     ExecutionEvents.attach(this)
@@ -78,6 +81,7 @@ Redcaser.ExecutionWidget = (function () {
     this.executionSuites = response.execution_suites
     this.project         = response.project
     this.versions        = response.versions
+    this.executionHash   = Location.getHash("execution")
 
     if (this.executionSuites.length === 0) {
         var emptyBlock = this.header.getElementsByClassName('empty-content')[0]
@@ -103,10 +107,15 @@ Redcaser.ExecutionWidget = (function () {
       })
     })
 
+    var executionHashExists = false;
     this.executionSuites.forEach(function (element) {
+      if (this.executionHash == element.id) {
+        executionHashExists = true
+      }
       if (groups[element.version_id]) {
         groups[element.version_id].appendChild(DOMBuilder.option({
           value:    element.id,
+          selected: executionHashExists ? element.id : false,
           children: [DOMBuilder.text(element.name)]
         }))
       }
@@ -116,6 +125,10 @@ Redcaser.ExecutionWidget = (function () {
       if (groups.hasOwnProperty(key)) {
         this.select.appendChild(groups[key])
       }
+    }
+
+    if (executionHashExists) {
+      this.loadExecutionSuite(this.executionHash)
     }
   }
 
