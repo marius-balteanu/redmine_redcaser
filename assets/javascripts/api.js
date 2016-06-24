@@ -5,555 +5,94 @@ Redcaser.API = (function () {
 
   var self = {}
 
-  self.testSuites = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
+  var apiCall = function (params) {
+    var request = $.ajax({
+      data:     params.config.data,
+      dataType: 'json',
+      method:   params.method,
+      url:      params.url
+    })
 
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/testsuites'
-      })
+    request.done(params.config.done)
+    request.fail(params.config.fail)
+  }
 
-      request.done(done)
-      request.fail(fail)
-    }
+  var restAPI = function (path) {
+    return new function () {
+      // index :: Object
+      this.index = function (params) {
+        apiCall({
+          config: params,
+          method: 'GET',
+          url:    'redcaser/' + path
+        })
+      }
 
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
+      // show :: Object
+      this.show = function (params) {
+        apiCall({
+          config: params,
+          method: 'GET',
+          url:    'redcaser/' + path + '/' + params.id
+        })
+      }
 
-    // new :: Object
-    this.new = function (params) {
-      var done = params.done
-      var fail = params.fail
+      // new :: Object
+      this.new = function (params) {
+        apiCall({
+          config: params,
+          method: 'GET',
+          url:    'redcaser/' + path + '/new'
+        })
+      }
 
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/testsuites/new'
-      })
+      // edit :: Object
+      this.edit = function (params) {
+        apiCall({
+          config: params,
+          method: 'GET',
+          url:    'redcaser/' + path + '/' + params.id + '/edit'
+        })
+      }
 
-      request.done(done)
-      request.fail(fail)
-    }
+      // create :: Object
+      this.create = function (params) {
+        apiCall({
+          config: params,
+          method: 'POST',
+          url:    'redcaser/' + path
+        })
+      }
 
-    // edit :: Object
-    this.edit = function (params) {
-      var done = params.done
-      var fail = params.fail
+      // update :: Object
+      this.update = function (params) {
+        apiCall({
+          config: params,
+          method: 'PATCH',
+          url:    'redcaser/' + path + '/' + params.id
+        })
+      }
 
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/testsuites/' + params.id + '/edit'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'POST',
-        url:      'redcaser/testsuites'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'PATCH',
-        url:      'redcaser/testsuites/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'DELETE',
-        url:      'redcaser/testsuites/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
+      // destroy :: Object
+      this.destroy = function (params) {
+        apiCall({
+          config: params,
+          method: 'DELETE',
+          url:    'redcaser/' + path + '/' + params.id
+        })
+      }
     }
   }
 
-  self.testSuiteStatuses = new function () {
-    // create :: Object
-    this.create = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'POST',
-        url:      'redcaser/testcasestatuses'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'PATCH',
-        url:      'redcaser/testcasestatuses/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-  }
-
-
-  self.executionSuites = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     params.data,
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/executionsuites'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/executionsuites/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // new :: Object
-    this.new = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     params.data,
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/executionsuites/new'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // edit :: Object
-    this.edit = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     params.data,
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/executionsuites/' + params.id + '/edit'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'POST',
-        url:      'redcaser/executionsuites'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'PATCH',
-        url:      'redcaser/executionsuites/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'DELETE',
-        url:      'redcaser/executionsuites/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-  }
-
-  self.executionJournals = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/executionjournals'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var request = null
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var request = null
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var request = null
-    }
-  }
-
-  self.environments = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/environments'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
-
-    // new :: Object
-    this.new = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/environments/new'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // edit :: Object
-    this.edit = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/environments/' + params.id + '/edit'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'POST',
-        url:      'redcaser/environments'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'PATCH',
-        url:      'redcaser/environments/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'DELETE',
-        url:      'redcaser/environments/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-  }
-
-  self.testCases = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/testcases'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'POST',
-        url:      'redcaser/testcases'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var data = params.data
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        data:     data,
-        dataType: 'json',
-        method:   'PATCH',
-        url:      'redcaser/testcases/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'DELETE',
-        url:      'redcaser/testcases/' + params.id
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-  }
-
-  self.combos = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/combos'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var request = null
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var request = null
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var request = null
-    }
-  }
-
-  self.graph = new function () {
-    // index :: Object
-    this.index = function (params) {
-      var done = params.done
-      var fail = params.fail
-
-      var request = $.ajax({
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/graph'
-      })
-
-      request.done(done)
-      request.fail(fail)
-    }
-
-    // show :: Object
-    this.show = function (params) {
-      var request = null
-    }
-
-    // create :: Object
-    this.create = function (params) {
-      var request = null
-    }
-
-    // update :: Object
-    this.update = function (params) {
-      var request = null
-    }
-
-    // destroy :: Object
-    this.destroy = function (params) {
-      var request = null
-    }
-  }
-
-  self.queryTestCases = new function () {
-    // show :: Object
-    this.show = function (params) {
-      var request = $.ajax({
-        data:     params.data,
-        dataType: 'json',
-        method:   'GET',
-        url:      'redcaser/querytestcases/' + params.id
-      })
-
-      request.done(params.done)
-      request.fail(params.fail)
-    }
-  }
+  self.testSuites        = restAPI('testsuites')
+  self.testSuiteStatuses = restAPI('testcasestatuses')
+  self.executionSuites   = restAPI('executionsuites')
+  self.executionJournals = restAPI('executionjournals')
+  self.environments      = restAPI('environments')
+  self.testCases         = restAPI('testcases')
+  self.combos            = restAPI('combos')
+  self.graph             = restAPI('graph')
+  self.queryTestCases    = restAPI('querytestcases')
 
   return self
 })()
