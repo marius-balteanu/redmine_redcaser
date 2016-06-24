@@ -6,22 +6,13 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
 
     if @test_case_status.save
       comment = params[:comment] || ''
-      issue   = @test_case_status.test_case.issue
-      journal = issue.init_journal(User.current, comment)
 
-      execution_suite = ExecutionSuite.where(
-          id: test_case_status_params[:execution_suite_id]
-        ).first
-
-      value = @test_case_status.execution_result.name +
-        ' (Execution suite: ' +
-        execution_suite.name +
-        ')'
-
-      journal.details << JournalDetail.new(
-        prop_key:  'test_case_status_name',
-        property:  'attr',
-        value:     value
+      journal = ExecutionJournal.new(
+        comment:            comment,
+        execution_suite_id: @test_case_status.execution_suite_id,
+        executor_id:        User.current.id,
+        test_case_id:       @test_case_status.test_case_id,
+        result_id:          @test_case_status.execution_result_id
       )
 
       if journal.save!
@@ -38,30 +29,18 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
   end
 
   def update
-    old_result = @test_case_status.execution_result
-
     @test_case_status.assign_attributes(test_case_status_params)
 
     if @test_case_status.save
       comment = params[:comment] || ''
-      issue   = @test_case_status.test_case.issue
-      journal = issue.init_journal(User.current, comment)
 
-      execution_suite = ExecutionSuite.where(
-          id: test_case_status_params[:execution_suite_id]
-        ).first
-
-      value = @test_case_status.execution_result.name +
-        ' (Execution suite: ' + execution_suite.name + ')'
-
-      if old_result.id != @test_case_status.execution_result_id
-        journal.details << JournalDetail.new(
-          old_value: old_result.name,
-          prop_key:  'test_case_status_name',
-          property:  'attr',
-          value:     value
-        )
-      end
+      journal = ExecutionJournal.new(
+        comment:            comment,
+        execution_suite_id: @test_case_status.execution_suite_id,
+        executor_id:        User.current.id,
+        test_case_id:       @test_case_status.test_case_id,
+        result_id:          @test_case_status.execution_result_id
+      )
 
       if journal.save!
         render json: {
