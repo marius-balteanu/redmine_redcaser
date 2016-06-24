@@ -115,7 +115,7 @@ Redcaser.ExecutionWidget = (function () {
       if (groups[element.version_id]) {
         groups[element.version_id].appendChild(DOMBuilder.option({
           value:    element.id,
-          selected: executionHashExists ? element.id : false,
+          selected: this.executionHash == element.id ? element.id : false,
           children: [DOMBuilder.text(element.name)]
         }))
       }
