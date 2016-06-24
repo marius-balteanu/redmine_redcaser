@@ -84,11 +84,13 @@ Redcaser.ExecutionWidget = (function () {
     this.executionHash   = Location.getHash("execution")
 
     if (this.executionSuites.length === 0) {
-        var emptyBlock = this.header.getElementsByClassName('empty-content')[0]
-        if (emptyBlock) {
-          this.header.removeChild(emptyBlock)
-        }
-        this.header.appendChild(this.buildNoExecutionsBlock());
+      if (this.noExecutionSuite) {
+        this.noExecutionSuite.remove()
+      }
+
+      this.noExecutionSuite = this.buildNoExecutionsBlock()
+      this.header.appendChild(this.noExecutionSuite);
+
       return
     }
 

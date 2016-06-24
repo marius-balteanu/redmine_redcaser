@@ -191,6 +191,10 @@ Redcaser.ExecutionDialog = (function () {
           this.context.select.value = response.execution_suite.id
           this.context.loadExecutionSuite(response.execution_suite.id)
 
+          if (this.context.noExecutionSuite) {
+            this.context.noExecutionSuite.remove()
+          }
+
           this.modal.dialog('close')
         }.bind(this),
         fail: function (response) { alert(response.responseJSON.errors) }
