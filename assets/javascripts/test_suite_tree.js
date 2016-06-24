@@ -76,13 +76,12 @@ Redcaser.TestSuiteTree = (function () {
     this.treeData = this.formatTreeData(data)
 
     if (data.test_suites.length === 0) {
-        this.body.appendChild(this.buildNoSuitesBlock())
-
-        return
+      this.noSuite = this.buildNoSuitesBlock()
+      this.body.appendChild(this.noSuite)
+    } else {
+      this.buildTree()
+      this.makeSuiteCasesSortable()
     }
-
-    this.buildTree()
-    this.makeSuiteCasesSortable()
   }
 
   def.buildTree = function () {
