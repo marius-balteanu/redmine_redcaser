@@ -9,10 +9,7 @@ Redcaser.TestSuiteTree = (function () {
 
   // self :: DOM
   var self = function (root) {
-    this.root     = root
-    this.treeNode = this.build()
-
-    this.root.appendChild(this.treeNode)
+    this.root     = this.build(root)
 
     this.getTestSuiteData()
 
@@ -22,7 +19,7 @@ Redcaser.TestSuiteTree = (function () {
   var def = self.prototype
 
   // build :: -> DOM
-  def.build = function () {
+  def.build = function (root) {
     this.header = DOMBuilder.div({
       classes:  ['tree-header'],
       children: [
@@ -40,10 +37,10 @@ Redcaser.TestSuiteTree = (function () {
 
     this.body = DOMBuilder.div({classes:  ['tree-body']})
 
-    return DOMBuilder.div({
-      classes:  ['tree-root'],
-      children: [this.header, this.body]
-    })
+    root.appendChild(this.header)
+    root.appendChild(this.body)
+
+    return root
   }
 
   // formatTreeData :: Object -> []
