@@ -208,11 +208,12 @@ Redcaser.ExecutionWidget = (function () {
 
   }
 
-  def.displayCasePreview = function (id) {
+  def.displayCasePreview = function (response) {
     this.initializePreview()
 
     this.preview = TestCasePreview.build(
-      this.testCases[parseInt(id)],
+      response.test_case,
+      response.journals,
       this.statuses
     )
     this.contentRight.appendChild(this.preview)

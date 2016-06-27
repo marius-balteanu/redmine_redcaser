@@ -276,7 +276,7 @@ Redcaser.ExecutionEvents = (function () {
       id:   id,
       data: {execution_suite_id: executionId},
       done: function (response) {
-        context.displayCasePreview(id)
+        context.displayCasePreview(response)
       },
       fail: function (response) { alert(response.responseJSON.errors) }
     }

@@ -4,7 +4,7 @@ Redcaser.TestCasePreview = (function () {
   var self = {}
 
   // build :: Object -> DOM
-  self.build = function (element, statuses) {
+  self.build = function (element, journals, statuses) {
     var selectedId, testCaseStatusId
 
     if (element.status) {
