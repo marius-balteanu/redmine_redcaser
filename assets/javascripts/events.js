@@ -269,11 +269,21 @@ Redcaser.ExecutionEvents = (function () {
 
   // handleListItemClick :: Event, Object
   self.handleListItemClick = function (event, context) {
-    var id = event.target.dataset.id
+    var id          = event.target.dataset.id
+    var executionId = context.select.value
+
+    var params = {
+      id:   id,
+      data: {execution_suite_id: executionId},
+      done: function (response) {
+        context.displayCasePreview(id)
+      },
+      fail: function (response) { alert(response.responseJSON.errors) }
+    }
+
+    Redcaser.API.testCases.show(params)
 
     this.addClassSelected(event.target.parentNode)
-
-    context.displayCasePreview(id)
     context.preview.dataset.test_case_id = id
   }
 
