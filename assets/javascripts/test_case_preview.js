@@ -3,6 +3,8 @@ var Redcaser = Redcaser || {}
 Redcaser.TestCasePreview = (function () {
   var self = {}
 
+  var m = DOMBuilder
+
   // build :: Object -> DOM
   self.build = function (element, journals, statuses) {
     var selectedId, testCaseStatusId
@@ -12,88 +14,92 @@ Redcaser.TestCasePreview = (function () {
       testCaseStatusId = element.status.test_case_status_id
     }
 
-    var node = DOMBuilder.div({
+    var node = m.div({
       classes:  ['case-preview', 'box'],
       children: [
-        DOMBuilder.div({
+        m.div({
           classes:  ['case-header'],
-          children: [DOMBuilder.span({
-            children: [ DOMBuilder.text("#" + element.issue_id + ": " + element.subject) ]
-          })]
+          children: [
+            m.span({
+              children: [
+                m.text("#" + element.issue_id + ": " + element.subject)
+              ]
+            }
+          )]
         }),
-        DOMBuilder.div({
+        m.div({
           classes:  ['case-body'],
           children: [
-            DOMBuilder.div({
+            m.div({
               classes:  ['attributes']
             }),
-            DOMBuilder.div({
+            m.div({
               classes:  ['case-preconditions'],
               children: [
-                DOMBuilder.p({
+                m.p({
                   classes:  ['section'],
-                  children: [DOMBuilder.text('Preconditions:')]
+                  children: [m.text('Preconditions:')]
                 }),
-                DOMBuilder.div({
-                    classes: ['wiki'],
+                m.div({
+                    classes:    ['wiki'],
                     insertHTML: ['afterbegin', element.preconditions]
                 })
               ]
             }),
-            DOMBuilder.div({
+            m.div({
               classes:  ['case-steps'],
               children: [
-                DOMBuilder.p({
+                m.p({
                   classes:  ['section'],
-                  children: [DOMBuilder.text('Steps:')]
+                  children: [m.text('Steps:')]
                 }),
-                DOMBuilder.div({
-                    classes: ['wiki'],
+                m.div({
+                    classes:    ['wiki'],
                     insertHTML: ['afterbegin', element.steps]
                 })
               ]
             }),
-            DOMBuilder.div({
+            m.div({
               classes:  ['case-expected'],
               children: [
-                DOMBuilder.p({
+                m.p({
                   classes:  ['section'],
-                  children: [DOMBuilder.text('Expected result:')]
+                  children: [m.text('Expected result:')]
                 }),
-                DOMBuilder.div({
-                    classes: ['wiki'],
+                m.div({
+                    classes:    ['wiki'],
                     insertHTML: ['afterbegin', element.expected_results]
                 })
               ]
             })
           ]
         }),
-        DOMBuilder.div({
+        m.div({
           classes:  ['case-footer'],
           children: [
-            DOMBuilder.div({
+            m.div({
               classes: ['tabs'],
               children: [
-                DOMBuilder.ul ({
+                m.ul ({
                   classes: [],
                   children: [
-                    DOMBuilder.li ({
+                    m.li ({
                       children: [
-                        DOMBuilder.link({
+                        m.link({
                           classes:  ['selected','execution-tab'],
                           href:     '#',
                           dataset:  { tab: "results" },
-                          children: [DOMBuilder.text('Results & History')]
+                          children: [m.text('Results & History')]
                         })
                       ]
                     }),
-                    DOMBuilder.li ({
+                    m.li ({
                       children: [
-                        DOMBuilder.link({
+                        m.link({
                           href:     '#',
                           classes:  ['execution-tab'],
                           dataset:  { tab: "related" },
-                          children: [DOMBuilder.text('Related Issues')]
+                          children: [m.text('Related Issues')]
                         })
                       ]
                     })
@@ -101,14 +107,14 @@ Redcaser.TestCasePreview = (function () {
                 })
               ]
             }),
-            DOMBuilder.div({
+            m.div({
               classes: ['tab-results', 'tab-content'],
               children: [
-                DOMBuilder.textarea({classes: ['case-footer-comment']}),
-                DOMBuilder.select({
+                m.textarea({classes: ['case-footer-comment']}),
+                m.select({
                   classes: element.status ? ['case-footer-select', element.status.name.split(" ").join("_").toLowerCase()] : ['case-footer-select'],
-                  children: DOMBuilder.options({
-                    blankOption:  DOMBuilder.option({value: ' ', children: [DOMBuilder.text('Not run')]}),
+                  children: m.options({
+                    blankOption:  m.option({value: ' ', children: [m.text('Not run')]}),
                     data:         statuses,
                     includeBlank: element.status ? false : true,
                     selected:     selectedId,
@@ -116,17 +122,17 @@ Redcaser.TestCasePreview = (function () {
                     textField:    'name'
                   })
                 }),
-                DOMBuilder.button({
+                m.button({
                   classes: ['case-footer-submit'],
                   dataset: {
                     id:                  element.id,
                     test_case_status_id: testCaseStatusId
                   },
-                  children: [DOMBuilder.text('Submit')]
+                  children: [m.text('Submit')]
                 })
               ]
             }),
-            DOMBuilder.div({
+            m.div({
               classes: ['tab-related', 'hidden', 'tab-content']
             })
           ]
@@ -134,11 +140,11 @@ Redcaser.TestCasePreview = (function () {
       ]
     })
 
-    var relatedNode = DOMBuilder.div({
+    var relatedNode = m.div({
       children: [
-        DOMBuilder.select({
+        m.select({
           classes:  ['case-footer-related-select'],
-          children: DOMBuilder.options({
+          children: m.options({
             data:   [
               {value: 'relates', text: 'Related to'},
               {value: 'blocked', text: 'Blocked by'}
@@ -146,13 +152,13 @@ Redcaser.TestCasePreview = (function () {
             includeBlank: true
           })
         }),
-        DOMBuilder.button({
+        m.button({
           classes:  ['case-footer-related-submit'],
           dataset:  {
             id:                  element.id,
             test_case_status_id: testCaseStatusId
           },
-          children: [DOMBuilder.text('Create related issue')]
+          children: [m.text('Create related issue')]
         })
       ]
     })
