@@ -4,8 +4,18 @@ class Redcaser::TestcasesController < RedcaserBaseController
   before_action :find_test_case, only: [:show, :update, :destroy]
 
   def show
+    test_case = @test_case.to_json
+
+    status = TestCaseStatus.includes(:execution_result)
+      .find_by(test_case_id: @test_case.id, execution_suite: params[:execution_suite_id])
+
+    if status
+      name = status.execution_result_id ? status.execution_result.name : ''
+      test_case['status'] = {id: status.execution_result_id, test_case_status_id: status.id, name: name}
+    end
+
     render json: {
-      test_case: @test_case.to_json,
+      test_case: test_case,
       journals:  @test_case.journals(params[:execution_suite_id])
     }
   end
