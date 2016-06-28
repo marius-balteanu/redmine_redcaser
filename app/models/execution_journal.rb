@@ -1,4 +1,6 @@
 class ExecutionJournal < ActiveRecord::Base
+  include ApplicationHelper
+
   belongs_to :test_case
   belongs_to :version
   belongs_to :result, class_name: 'ExecutionResult'
@@ -11,5 +13,14 @@ class ExecutionJournal < ActiveRecord::Base
     ExecutionJournal
       .order('created_on desc')
       .where({test_case_id: test_case.id})
+  end
+
+  def as_json(options={})
+  {
+    'id'        => id,
+    'result_id' => result.name,
+    'author'    => executor,
+    'comment'   => textilizable(comment)
+  }
   end
 end

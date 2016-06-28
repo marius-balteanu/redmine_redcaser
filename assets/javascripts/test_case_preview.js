@@ -7,11 +7,17 @@ Redcaser.TestCasePreview = (function () {
 
   // build :: Object -> DOM
   self.build = function (element, journals, statuses) {
+    this.journals = m.div({ classes: ['case-journals']})
+
     var selectedId, testCaseStatusId
 
     if (element.status) {
       selectedId       = element.status.id
       testCaseStatusId = element.status.test_case_status_id
+    }
+
+    if (journals.length > 0) {
+      this.buildJournals(journals)
     }
 
     var node = m.div({
@@ -110,6 +116,7 @@ Redcaser.TestCasePreview = (function () {
             m.div({
               classes: ['tab-results', 'tab-content'],
               children: [
+                this.journals,
                 m.textarea({classes: ['case-footer-comment']}),
                 m.select({
                   classes: element.status ? ['case-footer-select', element.status.name.split(" ").join("_").toLowerCase()] : ['case-footer-select'],
@@ -168,6 +175,24 @@ Redcaser.TestCasePreview = (function () {
     }
 
     return node
+  }
+
+  self.buildJournals = function (journals) {
+
+    journals.forEach(function(journal){
+      console.log(journal)
+      var node = m.div({
+        classes:  ['journal-' + journal.id ],
+        children: [
+          m.div({
+            classes:  ['wiki'],
+            insertHTML: ['afterbegin', journal.comment]
+          })
+        ]
+      })
+
+      self.journals.appendChild(node)
+    })
   }
 
   return self
