@@ -41,6 +41,8 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
       issue_id      = params[:test_case].try(:[], :issue_id)
       relation_type = params[:test_case].try(:[], :relation_type)
 
+      return if issue_id.empty? ||  relation_type.empty?
+
       relation = if relation_type == 'relates'
           IssueRelation::TYPE_RELATES
         elsif relation_type == 'blocked'

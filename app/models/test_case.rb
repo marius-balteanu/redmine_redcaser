@@ -17,8 +17,8 @@ class TestCase < ActiveRecord::Base
 
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
-  def to_json(version = nil, environment = nil)
-    {
+  def to_json
+    result = {
       'id'               => id,
       'issue_id'         => issue_id,
       'issue'            => issue,
@@ -30,5 +30,12 @@ class TestCase < ActiveRecord::Base
       'status'           => nil,
       'type'             => 'case'
     }
+  end
+
+  def journals(execution_suite_id)
+    ExecutionJournal.where(
+        test_case_id:       id,
+        execution_suite_id: execution_suite_id
+    )
   end
 end

@@ -10,11 +10,7 @@ resources :projects do
     resources :environments
     resources :testsuites, except: [:show]
 
-    resources :testcases, only: [:index, :update, :destroy] do
-      member do
-        post :copy
-      end
-    end
+    resources :testcases,        only: [:show, :update, :destroy]
     resources :testcasestatuses, only: [:create, :update]
 
     resources :executionsuites

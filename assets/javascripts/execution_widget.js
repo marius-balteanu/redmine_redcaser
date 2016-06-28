@@ -8,12 +8,15 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionDialog       = Redcaser.ExecutionDialog
   var EnvironmentDialog     = Redcaser.EnvironmentDialog
   var TestCasePreview       = Redcaser.TestCasePreview
+  var Location              = Redcaser.Location.getInstance()
 
   // self :: DOM
   var self = function (root) {
     this.root      = this.build(root)
     this.testCases = {}
     this.listItems = {}
+    this.selectedExecutionSuite;
+
 
     this.getExecutionSuites()
     ExecutionEvents.attach(this)
@@ -78,13 +81,16 @@ Redcaser.ExecutionWidget = (function () {
     this.executionSuites = response.execution_suites
     this.project         = response.project
     this.versions        = response.versions
+    this.executionHash   = Location.getHash("execution")
 
     if (this.executionSuites.length === 0) {
-        var emptyBlock = this.header.getElementsByClassName('empty-content')[0]
-        if (emptyBlock) {
-          this.header.removeChild(emptyBlock)
-        }
-        this.header.appendChild(this.buildNoExecutionsBlock());
+      if (this.noExecutionSuite) {
+        this.noExecutionSuite.remove()
+      }
+
+      this.noExecutionSuite = this.buildNoExecutionsBlock()
+      this.header.appendChild(this.noExecutionSuite);
+
       return
     }
 
@@ -103,10 +109,15 @@ Redcaser.ExecutionWidget = (function () {
       })
     })
 
+    var executionHashExists = false;
     this.executionSuites.forEach(function (element) {
+      if (this.executionHash == element.id) {
+        executionHashExists = true
+      }
       if (groups[element.version_id]) {
         groups[element.version_id].appendChild(DOMBuilder.option({
           value:    element.id,
+          selected: this.executionHash == element.id ? element.id : false,
           children: [DOMBuilder.text(element.name)]
         }))
       }
@@ -116,6 +127,10 @@ Redcaser.ExecutionWidget = (function () {
       if (groups.hasOwnProperty(key)) {
         this.select.appendChild(groups[key])
       }
+    }
+
+    if (executionHashExists) {
+      this.loadExecutionSuite(this.executionHash)
     }
   }
 
@@ -193,11 +208,12 @@ Redcaser.ExecutionWidget = (function () {
 
   }
 
-  def.displayCasePreview = function (id) {
+  def.displayCasePreview = function (response) {
     this.initializePreview()
 
     this.preview = TestCasePreview.build(
-      this.testCases[parseInt(id)],
+      response.test_case,
+      response.journals,
       this.statuses
     )
     this.contentRight.appendChild(this.preview)

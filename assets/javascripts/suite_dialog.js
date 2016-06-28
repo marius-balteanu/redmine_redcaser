@@ -147,9 +147,11 @@ Redcaser.SuiteDialog = (function () {
             parentSuite.testSuites.push[testSuite]
           }
           else {
+            if (this.context.noSuite) {
+              this.context.noSuite.remove()
+            }
             this.context.body.appendChild(testSuite.node)
           }
-
 
           this.modal.dialog('close')
         }.bind(this),
