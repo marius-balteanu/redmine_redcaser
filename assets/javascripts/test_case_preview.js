@@ -180,7 +180,7 @@ Redcaser.TestCasePreview = (function () {
   self.buildJournals = function (journals) {
 
     journals.forEach(function(journal){
-      console.log(journal)
+
       var node = m.div({
         classes:  ['journal-' + journal.id ],
         children: [
