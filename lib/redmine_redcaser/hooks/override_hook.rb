@@ -46,7 +46,7 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
       relation = if relation_type == 'relates'
           IssueRelation::TYPE_RELATES
         elsif relation_type == 'blocked'
-          IssueRelation::TYPE_BLOCKED
+          IssueRelation::TYPE_BLOCKS
         end
 
       test_case_issue = Issue.where(id: issue_id).first

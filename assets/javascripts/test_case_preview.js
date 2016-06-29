@@ -154,7 +154,7 @@ Redcaser.TestCasePreview = (function () {
           children: m.options({
             data:   [
               {value: 'relates', text: 'Related to'},
-              {value: 'blocked', text: 'Blocked by'}
+              {value: 'blocked', text: 'Blocks'}
             ],
             includeBlank: true
           })
