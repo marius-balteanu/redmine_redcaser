@@ -24,16 +24,34 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
     end
   end
 
+  def controller_issues_new_before_save(context = {})
+    issue  = context[:issue]
+    params = context[:params]
+
+    if issue.tracker_id == RedcaserSettings.tracker_id
+      test_suite_id = params[:test_suite].try(:[], :id)
+      p test_suite_id
+
+      return unless test_suite_id.blank?
+
+      issue.invalidate("No test suite selected!")
+    end
+  end
+
   def controller_issues_new_after_save(context = {})
     issue  = context[:issue]
     params = context[:params]
 
     if issue.tracker.id == RedcaserSettings.tracker_id
+      test_suite_id = params[:test_suite].try(:[], :id)
+
+      return if test_suite_id.blank?
+
       test_case = TestCase.new(test_case_params(params))
       test_case.assign_attributes(
         issue:         context[:issue],
         project_id:    issue.project_id,
-        test_suite_id: params[:test_suite][:id]
+        test_suite_id: test_suite_id
       )
 
       test_case.save!
