@@ -5,6 +5,15 @@ class Redcaser::TestcasesController < RedcaserBaseController
 
   def show
     test_case = @test_case.to_json
+    relations = @test_case.issue.relations.select {|r| r.other_issue(@test_case.issue) && r.other_issue(@test_case.issue).visible? }
+    related_issues =  []
+
+    relations.each do |relation|
+      other_issue = relation.other_issue(@test_case.issue)
+      related_issues << other_issue
+      # @ToDo: select only some keys (id, subject, status, assignee)
+    end
+
 
     status = TestCaseStatus.includes(:execution_result)
       .find_by(test_case_id: @test_case.id, execution_suite: params[:execution_suite_id])
@@ -16,7 +25,8 @@ class Redcaser::TestcasesController < RedcaserBaseController
 
     render json: {
       test_case: test_case,
-      journals:  @test_case.journals(params[:execution_suite_id])
+      journals:  @test_case.journals(params[:execution_suite_id]),
+      relations: related_issues
     }
   end
 
