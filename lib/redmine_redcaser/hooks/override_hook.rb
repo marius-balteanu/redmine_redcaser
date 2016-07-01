@@ -153,16 +153,15 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
   end
 
   def view_projects_roadmap_version_bottom(context = {})
-    test_cases = ExecutionJournal.where({version_id: context[:version]}).map { |x| x.test_case }.uniq
-    issues = Issue.where(fixed_version_id: context[:version].id).collect { |x| x.id }
-    test_cases = TestCase.where({issue_id: issues})
+    execution_suites = ExecutionSuite.where(version_id: context[:version].id)
+    test_cases = TestCase.joins(:execution_suite_test_case)
+      .where(execution_suite_test_case: {execution_suite_id: execution_suites}).to_a
     results = ExecutionResult.all
     txt = "<span style='color: red'>Total #{RedcaserSettings.tracker_name.downcase.pluralize}:</span> <b>" + test_cases.size.to_s + "</b>"
     for r in results do
       count = 0
       for t in test_cases do
-        journals = ExecutionJournal.where({test_case_id: t.id, result_id: r.id})
-        count = count + journals.size if !journals.nil?
+        count += TestCaseStatus.where(test_case_id: t.id, execution_result_id: r.id, execution_suite_id: execution_suites).count
       end
       txt = txt + " [" + r.name + "=" + count.to_s + "]"
     end

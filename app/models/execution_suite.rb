@@ -6,6 +6,6 @@ class ExecutionSuite < ActiveRecord::Base
   belongs_to :query
   belongs_to :version
 
-  has_many :execution_suite_test_cases, dependent: :delete_all
+  has_many :execution_suite_test_cases, class_name: "ExecutionSuiteTestCase", dependent: :delete_all
   has_many :test_cases, through: :execution_suite_test_cases
 end
