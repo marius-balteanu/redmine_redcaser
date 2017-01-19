@@ -3,6 +3,8 @@
 class Redcaser::TestcasesController < RedcaserBaseController
   include ERB::Util
   include ActionView::Helpers::AssetTagHelper
+  include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::DateHelper
   include ApplicationHelper
 
   before_action :find_test_case, only: [:show, :update, :destroy]
@@ -18,7 +20,6 @@ class Redcaser::TestcasesController < RedcaserBaseController
       # @ToDo: select only some keys (id, subject, status, assignee)
     end
 
-
     status = TestCaseStatus.includes(:execution_result)
       .find_by(test_case_id: @test_case.id, execution_suite: params[:execution_suite_id])
 
@@ -30,7 +31,8 @@ class Redcaser::TestcasesController < RedcaserBaseController
     journals = @test_case.journals(params[:execution_suite_id])
       .map do |journal|
         {
-          avatar:  gravatar(journal.executor.mail),
+          avatar:  gravatar(journal.executor.mail, :size => "24"),
+          author:  authoring(journal.created_on, journal.executor, :label => :label_updated_time_by),
           journal: journal
         }
       end

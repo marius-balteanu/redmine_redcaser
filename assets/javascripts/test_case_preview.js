@@ -182,11 +182,14 @@ Redcaser.TestCasePreview = (function () {
     journals.forEach(function(journal){
 
       var node = m.div({
-        classes:  ['journal-' + journal.id ],
+        classes:  ['journal-' + journal.journal.id ],
         children: [
+          m.h4({
+            insertHTML: ['afterbegin', journal.avatar + " " + journal.author]
+          }),
           m.div({
             classes:  ['wiki'],
-            insertHTML: ['afterbegin', journal.comment]
+            insertHTML: ['afterbegin', journal.journal.comment]
           })
         ]
       })
