@@ -178,7 +178,6 @@ Redcaser.TestCasePreview = (function () {
   }
 
   self.buildJournals = function (journals) {
-
     journals.forEach(function(journal){
 
       var node = m.div({
@@ -186,6 +185,10 @@ Redcaser.TestCasePreview = (function () {
         children: [
           m.h4({
             insertHTML: ['afterbegin', journal.avatar + " " + journal.author]
+          }),
+          m.ul({
+            classes: ['details'],
+            children: [self.buildJournalDetail(journal.journal.result_id)],
           }),
           m.div({
             classes:  ['wiki'],
@@ -196,6 +199,22 @@ Redcaser.TestCasePreview = (function () {
 
       self.journals.appendChild(node)
     })
+  }
+
+  self.buildJournalDetail = function(status) {
+    var li = m.li({
+              children: [
+                m.strong({
+                  children: [m.text('Status')]
+                }),
+                m.text(' changed to '),
+                m.span({
+                  classes: ['status'],
+                  children: [m.text(status)]
+                }),
+              ]
+            })
+    return li
   }
 
   return self

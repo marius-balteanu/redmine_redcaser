@@ -190,5 +190,10 @@ var DOMBuilder = (function () {
   self.h4 = function (options) {
     return self.node('h4', options)
   }
+
+  // p:: Object -> DOM
+  self.strong = function (options) {
+    return self.node('strong', options)
+  }
   return self
 })()
