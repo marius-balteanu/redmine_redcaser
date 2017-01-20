@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class Redcaser::TestcasesController < RedcaserBaseController
+  include ERB::Util
+  include ActionView::Helpers::AssetTagHelper
+  include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::DateHelper
+  include ApplicationHelper
+
   before_action :find_test_case, only: [:show, :update, :destroy]
 
   def show
@@ -14,7 +20,6 @@ class Redcaser::TestcasesController < RedcaserBaseController
       # @ToDo: select only some keys (id, subject, status, assignee)
     end
 
-
     status = TestCaseStatus.includes(:execution_result)
       .find_by(test_case_id: @test_case.id, execution_suite: params[:execution_suite_id])
 
@@ -23,9 +28,18 @@ class Redcaser::TestcasesController < RedcaserBaseController
       test_case['status'] = {id: status.execution_result_id, test_case_status_id: status.id, name: name}
     end
 
+    journals = @test_case.journals(params[:execution_suite_id])
+      .map do |journal|
+        {
+          avatar:  gravatar(journal.executor.mail, :size => "24"),
+          author:  authoring(journal.created_on, journal.executor, :label => :label_updated_time_by),
+          journal: journal
+        }
+      end
+
     render json: {
       test_case: test_case,
-      journals:  @test_case.journals(params[:execution_suite_id]),
+      journals:  journals,
       relations: related_issues
     }
   end

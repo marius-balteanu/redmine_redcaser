@@ -5,11 +5,10 @@ class TestCase < ActiveRecord::Base
 
   belongs_to :test_suite, inverse_of: :test_cases
   belongs_to :issue, inverse_of: :test_case
-  has_and_belongs_to_many(
-    :execution_suites,
-    join_table: 'execution_suite_test_case'
-  )
+  has_many :execution_suite_test_case, class_name: "ExecutionSuiteTestCase"
+  has_many :execution_suites, through: :execution_suite_test_case
   has_many :execution_journals, dependent: :destroy
+  has_many :test_case_statuses, dependent: :destroy
 
   def self.for_project(project)
     TestCase.includes(:issue).where(project_id: project.id).to_a

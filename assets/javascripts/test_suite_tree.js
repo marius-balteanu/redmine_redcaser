@@ -28,6 +28,7 @@ Redcaser.TestSuiteTree = (function () {
           children: [
             DOMBuilder.link({
               classes:  ['suite-create', 'icon', 'icon-add'],
+              href: '#',
               children: [DOMBuilder.text('Add test suite')]
             })
           ]

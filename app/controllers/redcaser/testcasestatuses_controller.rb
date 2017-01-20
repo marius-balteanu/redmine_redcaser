@@ -2,6 +2,11 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
   before_action :find_test_case_status, only: :update
 
   def create
+    TestCaseStatus.where(
+      execution_suite_id: test_case_status_params[:execution_suite_id],
+      test_case_id:       test_case_status_params[:test_case_id]
+    ).destroy_all
+
     @test_case_status = TestCaseStatus.new(test_case_status_params)
 
     if @test_case_status.save
@@ -29,7 +34,7 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
   end
 
   def update
-    @test_case_status.assign_attributes(test_case_status_params)
+    @test_case_status.update_attributes(test_case_status_params)
 
     if @test_case_status.save
       comment = params[:comment] || ''
