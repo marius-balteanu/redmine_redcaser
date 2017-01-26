@@ -1,3 +1,32 @@
+<% trackers = Tracker.sorted.map{|t| [t.name, t.id]} %>
+<% statuses = IssueStatus.sorted.map{|s| [s.name, s.id]} %>
+
+<p>
+  <label><%= l(:field_test_case_tracker) %></label>
+  <%= select_tag 'settings[tracker]', options_for_select(trackers, RedcaserSettings.tracker_id), :include_blank => true %>
+</p>
+
+<p>
+  <label><%= l(:field_defect_tracker) %></label>
+  <%= select_tag 'settings[defect]', options_for_select(trackers, RedcaserSettings.defect_id), :include_blank => true %>
+</p>
+
+<p>
+  <label><%= l(:field_status_new) %></label>
+  <%= select_tag 'settings[status_new]', options_for_select(statuses, RedcaserSettings.status_new_id), :include_blank => true %>
+</p>
+
+<p>
+  <label><%= l(:field_status_active) %></label>
+  <%= select_tag 'settings[status_active]', options_for_select(statuses, RedcaserSettings.status_active_id), :include_blank => true %>
+</p>
+
+<p>
+  <label><%= l(:field_status_obsolete) %></label>
+  <%= select_tag 'settings[status_obsolete]', options_for_select(statuses, RedcaserSettings.status_obsolete_id), :include_blank => true %>
+</p>
+<!--
+
 <%
   trackers = Tracker.select([:id, :name])
   statuses = IssueStatus.select([:id, :name])
@@ -54,3 +83,4 @@
     </tr>
   </tbody>
 </table>
+ -->

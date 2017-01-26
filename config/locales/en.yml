@@ -1,6 +1,11 @@
 # English strings go here for Rails i18n
 
 en:
+  field_test_case_tracker: Test case tracker
+  field_defect_tracker: Defect tracker
+  field_status_new: New test case status
+  field_status_active: Active test case status
+  field_status_obsolete: Obsolete test case status
   field_test_case_status_name   : "Test case status"
   label_test_case_management    : "Test cases"
   label_test_case_execution     : "Test Execution & Results"
