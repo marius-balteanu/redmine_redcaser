@@ -1,0 +1,34 @@
+<% if issue.tracker_id == RedcaserSettings.tracker_id %>
+
+<% test_suites = TestSuite.where(project_id: issue.project_id).order(:name).map{|ts| [ts.name, ts.id]} %>
+
+<div class="splitcontent">
+  <%= form.fields_for :test_case do |f| %>
+    <div class="splitcontentleft">
+      <p><%= f.select :test_suite_id, options_for_select(test_suites, @issue.test_case.test_suite_id), {:label => l(:field_test_suite), :include_blank => true, :required => true} %></p>
+    </div>
+
+    <p><%= f.text_area :preconditions, :class => 'wiki-edit', :cols => 60, :rows => 5, :maxlength => 1024 %></p>
+    <p><%= f.text_area :steps, :class => 'wiki-edit', :cols => 60, :rows => 10, :maxlength => 1024 %></p>
+    <p><%= f.text_area :expected_results, :class => 'wiki-edit', :cols => 60, :rows => 5, :maxlength => 1024 %></p>
+
+    <%= wikitoolbar_for 'issue_test_case_attributes_preconditions' %>
+    <%= wikitoolbar_for 'issue_test_case_attributes_steps' %>
+    <%= wikitoolbar_for 'issue_test_case_attributes_expected_results' %>
+  <% end %>
+</div>
+
+<% elsif @issue.new_record? %>
+
+  <% tc_relation = request.params[:test_case].try(:[], :relation_type) %>
+  <% tc_issue_id = request.params[:test_case].try(:[], :issue_id) %>
+
+  <% if tc_relation %>
+    <input type="hidden" name="test_case[relation_type]" value="<%= tc_relation %>">
+  <% end %>
+
+   <% if tc_relation %>
+    <input type="hidden" name="test_case[issue_id]" value="<%= tc_issue_id %>">
+  <% end %>
+
+<% end %>

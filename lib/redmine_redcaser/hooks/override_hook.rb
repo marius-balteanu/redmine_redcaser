@@ -5,7 +5,7 @@
 require File.expand_path("../../../../app/helpers/redcaser_helper", __FILE__)
 
 class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
-  include ActionView::Helpers::JavaScriptHelper
+
   include RedcaserHelper
 
   def controller_issues_edit_after_save(context = {})
@@ -21,134 +21,6 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
         tc = TestCase.find_by_issue_id(context[:issue].id)
         tc.destroy if !tc.nil?
       end
-    end
-  end
-
-  def controller_issues_new_before_save(context = {})
-    issue  = context[:issue]
-    params = context[:params]
-
-    if issue.tracker_id == RedcaserSettings.tracker_id
-      test_suite_id = params[:test_suite].try(:[], :id)
-      p test_suite_id
-
-      return unless test_suite_id.blank?
-
-      issue.invalidate("No test suite selected!")
-    end
-  end
-
-  def controller_issues_new_after_save(context = {})
-    issue  = context[:issue]
-    params = context[:params]
-
-    if issue.tracker.id == RedcaserSettings.tracker_id
-      test_suite_id = params[:test_suite].try(:[], :id)
-
-      return if test_suite_id.blank?
-
-      test_case = TestCase.new(test_case_params(params))
-      test_case.assign_attributes(
-        issue:         context[:issue],
-        project_id:    issue.project_id,
-        test_suite_id: test_suite_id
-      )
-
-      test_case.save!
-    else
-      issue_id      = params[:test_case].try(:[], :issue_id)
-      relation_type = params[:test_case].try(:[], :relation_type)
-
-      return if issue_id.blank? || relation_type.blank?
-
-      relation = if relation_type == 'relates'
-          IssueRelation::TYPE_RELATES
-        elsif relation_type == 'blocked'
-          IssueRelation::TYPE_BLOCKS
-        end
-
-      test_case_issue = Issue.where(id: issue_id).first
-
-      IssueRelation.create!(
-        issue_from:    issue,
-        issue_to:      test_case_issue,
-        relation_type: relation
-      )
-    end
-  end
-
-  def controller_issues_edit_after_save(context = {})
-    issue = context[:issue]
-
-    return unless issue.tracker.id == RedcaserSettings.tracker_id
-
-    params = context[:params]
-
-    test_case = issue.test_case
-
-    test_case.assign_attributes(test_case_params(params))
-    test_case.assign_attributes(issue: context[:issue], test_suite_id: params[:test_suite][:id])
-
-    test_case.save!
-  end
-
-  def view_issues_form_details_bottom(context = {})
-    issue, form, request = context[:issue], context[:form], context[:request]
-
-    if issue.tracker_id == RedcaserSettings.tracker_id
-      test_case          = issue.test_case
-
-      test_suite = if test_case
-          test_case.test_suite
-        else
-          test_suite_id      = request.params[:test_suite].try(:[], :id)
-
-          TestSuite.where(id: test_suite_id).first
-        end
-
-      test_suites = TestSuite.select(:id, :name).where(project_id: issue.project_id).order(:name).to_a
-
-      select = create_test_suite_id_select(test_suites, selected: test_suite)
-      fields = create_test_suite_text_fields(test_case)
-
-      return select + fields
-    else
-      test_case_relation = request.params[:test_case].try(:[], :relation_type) || ''
-      issue_id           = request.params[:test_case].try(:[], :issue_id) || ''
-
-      hidden = create_test_suite_hidden_field(test_case_relation, issue_id)
-
-      return hidden
-    end
-  end
-
-  def view_issues_show_details_bottom(context = {})
-    issue, controller = context[:issue], context[:controller]
-
-    test_case = issue.test_case
-
-    if test_case
-      controller.render_to_string(
-        partial: 'hooks/redmine_redcaser/view_issues_show_details_bottom',
-        locals:  {test_case: issue.test_case}
-      )
-    else
-      ''
-    end
-  end
-
-  def view_issues_show_description_bottom(context = {})
-    issue, controller = context[:issue], context[:controller]
-
-    test_case = issue.test_case
-
-    if test_case
-      controller.render_to_string(
-        partial: 'hooks/redmine_redcaser/view_issues_show_description_bottom',
-        locals:  {test_case: issue.test_case}
-      )
-    else
-      ''
     end
   end
 
@@ -169,70 +41,29 @@ class RedmineRedcaserOverrideHook < Redmine::Hook::ViewListener
     txt = txt + "<br/>"
   end
 
-  private
 
-  def test_case_params(params)
-    params.require(:test_case).permit(:preconditions, :steps, :expected_results)
-  end
+  def controller_issues_new_after_save(context = {})
+    issue  = context[:issue]
+    params = context[:params]
 
-  def create_test_suite_id_select(test_suites, selected:)
-    label = '<label for="test_suite_id">Test Suite</label>'
+    return if issue_id.blank? || relation_type.blank?
 
-    options = test_suites.reduce('') do |total, element|
-      name = h(element.name)
-
-      result = if selected && selected.id == element.id
-          '<option value="' + element.id.to_s + '" selected="selected">' + name + '</option>'
-        else
-          '<option value="' + element.id.to_s + '">' + name + '</option>'
-        end
-      total += result
+    relation = if relation_type == 'relates'
+      IssueRelation::TYPE_RELATES
+    elsif relation_type == 'blocked'
+      IssueRelation::TYPE_BLOCKS
     end
 
-    select = '<select id="test_suite_id" name="test_suite[id]">' + options + '</select>'
+    test_case_issue = Issue.find_by_id(issue_id.to_i)
 
-    '<p>' + label + select + '</p>'
+    IssueRelation.create!(
+      issue_from:    issue,
+      issue_to:      test_case_issue,
+      relation_type: relation
+    )
   end
 
-  def create_test_suite_text_fields(test_case)
-    result = ''
-
-    label  = '<label for="test_case_preconditions">Preconditions</label>'
-    field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[preconditions]" id="test_case_preconditions">'
-    field  += h(test_case.preconditions) if test_case
-    field  += '</textarea>'
-    result += '<p>' + label + field + '</p>'
-
-    label  = '<label for="test_case_steps">Steps</label>'
-    field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[steps]" id="test_case_steps">'
-    field  += h(test_case.steps) if test_case
-    field  += '</textarea>'
-    result += '<p>' + label + field + '</p>'
-
-    label  = '<label for="test_case_expected_results">Expected Result</label>'
-    field  = '<textarea cols="60" rows="10" class="wiki-edit" name="test_case[expected_results]" id="test_case_expected_results">'
-    field  += h(test_case.expected_results) if test_case
-    field  += '</textarea>'
-    result += '<p>' + label + field + '</p>'
-
-    result += <<-SCRIPT
-      <script>
-        var wikiToolbar;
-
-        wikiToolbar = new jsToolBar(document.getElementById('test_case_preconditions'));
-        wikiToolbar.draw();
-
-        wikiToolbar = new jsToolBar(document.getElementById('test_case_steps'));
-        wikiToolbar.draw();
-
-        wikiToolbar = new jsToolBar(document.getElementById('test_case_expected_results'));
-        wikiToolbar.draw();
-      </script>
-    SCRIPT
-  end
-
-  def create_test_suite_hidden_field(relation, issue_id)
-    result = '<input type="hidden" name="test_case[relation_type]" value="' + relation + '">'
-    result += '<input type="hidden" name="test_case[issue_id]" value="' + issue_id + '">'
-  end
+  render_on :view_issues_form_details_bottom, :partial => "issues/test_case_data_fields_form"
+  render_on :view_issues_show_details_bottom, :partial => "issues/test_case_test_suite_field"
+  render_on :view_issues_show_description_bottom, :partial => "issues/test_case_data_fields"
 end

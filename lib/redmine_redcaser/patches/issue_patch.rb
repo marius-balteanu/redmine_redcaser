@@ -1,38 +1,33 @@
-# This patch adds TestCase linkage to Issue
+require_dependency 'issue'
+require_dependency 'test_case'
+
 module RedmineRedcaser
   module Patches
+
     module IssuePatch
       def self.included(base)
         base.send :include, InstanceMethods
         base.class_eval do
-          # One-to-one relationship: (1)Issue <=> (1)TestCase
+          unloadable
           has_one :test_case, dependent: :destroy
 
-          validate :special_invalidation
+          safe_attributes 'test_case_attributes'
+          accepts_nested_attributes_for :test_case, :allow_destroy => true
+          alias_method_chain :test_case, :default
         end
       end
 
       module InstanceMethods
-        def invalidate(message)
-          @invalid ||= []
 
-          @invalid << message
-
-          @invalid
-        end
-
-        def special_invalidation
-          return unless @invalid
-
-          @invalid.each do |message|
-            self.errors.add(:base, message)
-          end
+        def test_case_with_default
+          test_case_without_default || build_test_case
         end
       end
     end
+
   end
 end
 
-base = Issue
-patch = RedmineRedcaser::Patches::IssuePatch
-base.send(:include, patch) unless base.included_modules.include?(patch)
+unless Issue.included_modules.include?(RedmineRedcaser::Patches::IssuePatch)
+  Issue.send(:include, RedmineRedcaser::Patches::IssuePatch)
+end
