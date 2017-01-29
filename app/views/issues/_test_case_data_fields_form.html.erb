@@ -1,11 +1,12 @@
 <% if issue.tracker_id == RedcaserSettings.tracker_id %>
 
 <% test_suites = TestSuite.where(project_id: issue.project_id).order(:name).map{|ts| [ts.name, ts.id]} %>
+<% test_suite_id = request.params[:test_suite].try(:[], :id) ? request.params[:test_suite][:id].to_i : @issue.test_case.test_suite_id %>
 
 <div class="splitcontent">
   <%= form.fields_for :test_case do |f| %>
     <div class="splitcontentleft">
-      <p><%= f.select :test_suite_id, options_for_select(test_suites, @issue.test_case.test_suite_id), {:label => l(:field_test_suite), :include_blank => true, :required => true} %></p>
+      <p><%= f.select :test_suite_id, options_for_select(test_suites, test_suite_id), {:label => l(:field_test_suite), :include_blank => true, :required => true} %></p>
     </div>
 
     <p><%= f.text_area :preconditions, :class => 'wiki-edit', :cols => 60, :rows => 5, :maxlength => 1024 %></p>
