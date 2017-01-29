@@ -1,0 +1,21 @@
+<%=
+execution_suites = ExecutionSuite.find_by_version_id(version.id)
+
+if execution_suites
+ test_cases = ExecutionSuiteTestCase.where(execution_suite_id: execution_suites).to_a
+
+ test_case_statuses = TestCaseStatus.where(execution_suite_id: execution_suites).to_a
+  results = ExecutionResult.all
+  txt = "<span style='color: red'>Total #{RedcaserSettings.tracker_name.downcase.pluralize}:</span> <b>" + version.id + "</b>"
+  for r in results do
+    count = 0
+    for t in test_case_statuses do
+      count += 1 if t.execution_result_id == r.id
+    end
+    #txt = txt + " [" + r.name + "=" + count.to_s + "]"
+  end
+  #txt = txt + "<br/>"
+  txt
+end
+
+%>

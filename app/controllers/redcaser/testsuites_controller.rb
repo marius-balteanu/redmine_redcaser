@@ -6,7 +6,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
   before_action :provided_parent_exists?, only: [:create, :update]
 
   def index
-    @test_cases  = TestCase.for_project(@project)
+    @test_cases  = Issue.where(project_id: @project, tracker_id: RedcaserSettings.tracker_id)
     @test_suites = TestSuite.for_project(@project)
 
     render json: {
