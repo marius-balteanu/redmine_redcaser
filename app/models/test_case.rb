@@ -24,14 +24,11 @@ class TestCase < ActiveRecord::Base
     result = {
       'id'               => id,
       'issue_id'         => issue_id,
-      'issue'            => issue,
       'test_suite_id'    => test_suite_id,
       'subject'          => issue.subject,
       'preconditions'    => textilizable(preconditions),
       'steps'            => textilizable(steps),
       'expected_results' => textilizable(expected_results),
-      'status'           => nil,
-      'type'             => 'case'
     }
   end
 

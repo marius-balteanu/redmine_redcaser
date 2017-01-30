@@ -27,7 +27,6 @@ class TestSuite < ActiveRecord::Base
       'id'        => id,
       'name'      => name,
       'parent_id' => parent_id,
-      'type'      => 'suite'
     }
   end
 end

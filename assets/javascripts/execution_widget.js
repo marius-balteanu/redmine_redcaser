@@ -79,7 +79,6 @@ Redcaser.ExecutionWidget = (function () {
 
   def.createExecutionSuiteSelect = function (response) {
     this.executionSuites = response.execution_suites
-    this.project         = response.project
     this.versions        = response.versions
     this.executionHash   = Location.getHash("execution")
 

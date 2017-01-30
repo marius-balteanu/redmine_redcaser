@@ -10,7 +10,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
     @test_cases  = TestCase.where(:test_suite => @test_suites)
 
     render json: {
-      project:     @project,
+      project:     @project.identifier,
       test_cases:  @test_cases.map(&:to_json),
       test_suites: @test_suites.map(&:to_json)
     }

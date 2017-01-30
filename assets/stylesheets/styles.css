@@ -75,6 +75,7 @@ div.suite-footer {
    font-size: 14px;
    font-weight: bold;
    padding: 10px 0px;
+   line-height: 18px;
 }
 .suite-title .suite-actions {
   display: none;
