@@ -214,6 +214,7 @@ Redcaser.ExecutionWidget = (function () {
     this.preview = TestCasePreview.build(
       response.test_case,
       response.journals,
+      response.relations,
       this.statuses
     )
     this.contentRight.appendChild(this.preview)
