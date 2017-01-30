@@ -225,7 +225,6 @@ Redcaser.TestCasePreview = (function () {
 
   self.buildRelations = function (relations) {
     relations.forEach(function(relation){
-      console.log(relation)
 
       var node = m.div({
         classes:  ['related-issue'],
