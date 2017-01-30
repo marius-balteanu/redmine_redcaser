@@ -16,7 +16,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
 
     relations.each do |relation|
       other_issue = relation.other_issue(@test_case.issue)
-      related_issues << other_issue
+      related_issues << relation.to_s(other_issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe + " - " + other_issue.status.to_s
       # @ToDo: select only some keys (id, subject, status, assignee)
     end
 

@@ -6,8 +6,9 @@ Redcaser.TestCasePreview = (function () {
   var m = DOMBuilder
 
   // build :: Object -> DOM
-  self.build = function (element, journals, statuses) {
+  self.build = function (element, journals, relations, statuses) {
     this.journals = m.div({ classes: ['case-journals']})
+    this.related_issues = m.div({ classes: ['case-related-issues']})
 
     var selectedId, testCaseStatusId
 
@@ -18,6 +19,10 @@ Redcaser.TestCasePreview = (function () {
 
     if (journals.length > 0) {
       this.buildJournals(journals)
+    }
+
+    if (relations.length > 0) {
+      this.buildRelations(relations)
     }
 
     var node = m.div({
@@ -140,7 +145,8 @@ Redcaser.TestCasePreview = (function () {
               ]
             }),
             m.div({
-              classes: ['tab-related', 'hidden', 'tab-content']
+              classes: ['tab-related', 'hidden', 'tab-content'],
+              children: [this.related_issues]
             })
           ]
         }),
@@ -215,6 +221,22 @@ Redcaser.TestCasePreview = (function () {
               ]
             })
     return li
+  }
+
+  self.buildRelations = function (relations) {
+    relations.forEach(function(relation){
+
+      var node = m.div({
+        classes:  ['related-issue'],
+        children: [
+          m.div({
+            insertHTML: ['afterbegin', relation]
+          })
+        ]
+      })
+
+      self.related_issues.appendChild(node)
+    })
   }
 
   return self
