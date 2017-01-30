@@ -7,14 +7,14 @@ class Redcaser::ExecutionsuitesController < RedcaserBaseController
     @versions = Version.where(project: @project)
 
     if params[:all] != 'true'
-      @versions = @versions.where.not(status: 'closed')
+      @versions = @versions.select([:id, :name]).where.not(status: 'closed')
     end
 
-    @execution_suites = ExecutionSuite.where(project: @project, version: @versions)
+    @execution_suites = ExecutionSuite.where(project: @project, version: @versions.to_a)
 
     render json: {
       versions:         @versions.to_a,
-      project:          @project,
+      project:          @project.identifier,
       execution_suites: @execution_suites
     }
 

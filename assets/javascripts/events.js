@@ -335,7 +335,7 @@ Redcaser.ExecutionEvents = (function () {
     if (params.data.test_case_status.execution_result_id === ' ') return
 
     params.done = function () {
-      var url = '/projects/' + context.project.identifier
+      var url = '/projects/' + context.project
         + '/issues/new?test_case[relation_type]='
         + relation
         + '&test_case[issue_id]='
