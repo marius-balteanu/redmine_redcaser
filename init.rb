@@ -23,10 +23,7 @@ Redmine::Plugin.register :redmine_redcaser do
     'redcaser/testsuites'        => [:index],
     'redcaser/testcases'         => [:show],
     'redcaser/executionjournals' => [:index],
-    'redcaser/export'            => [:index],
     'redcaser/executionsuites'   => [:index, :show],
-    'redcaser/graph'             => [:show],
-    'redcaser/combos'            => [:index]
   }
 
   permission :edit_test_cases, {
@@ -37,19 +34,15 @@ Redmine::Plugin.register :redmine_redcaser do
     'redcaser/testcasestatuses'  => [:create, :update],
     'redcaser/querytestcases'    => [:show],
     'redcaser/executionjournals' => [:index],
-    'redcaser/export'            => [:index],
     'redcaser/executionsuites'   => [:index, :new, :edit, :update, :destroy, :create, :show],
-    'redcaser/graph'             => [:show],
-    'redcaser/combos'            => [:index]
   }
 
   permission :execute_test_cases, {
     redcaser:                       [:index, :attachment_urls],
     'redcaser/environments'      => [:show],
     'redcaser/testsuites'        => [:index],
-    'redcaser/testcases'         => [:index, :update],
+    'redcaser/testcases'         => [:index, :show, :update],
     'redcaser/executionjournals' => [:index],
-    'redcaser/export'            => [:index],
     'redcaser/executionsuites'   => [:index]
   }
 
