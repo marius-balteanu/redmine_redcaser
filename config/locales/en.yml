@@ -11,6 +11,8 @@ en:
   field_steps: Steps
   field_expected_results: Expected results
 
+  label_execution_history: Results & History
+
   field_test_case_status_name   : "Test case status"
   label_test_case_management    : "Test cases"
   label_test_case_execution     : "Test Execution & Results"

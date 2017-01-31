@@ -278,7 +278,7 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         context.displayCasePreview(response)
       },
-      fail: function (response) { alert(response.responseJSON.errors) }
+      fail: function (response) { console.log(response) }
     }
 
     Redcaser.API.testCases.show(params)

@@ -208,15 +208,10 @@ Redcaser.ExecutionWidget = (function () {
   }
 
   def.displayCasePreview = function (response) {
-    this.initializePreview()
+    // this.initializePreview()
 
-    this.preview = TestCasePreview.build(
-      response.test_case,
-      response.journals,
-      response.relations,
-      this.statuses
-    )
-    this.contentRight.appendChild(this.preview)
+    // this.preview = TestCasePreview.build(response)
+    this.contentRight.innerHTML = response
   }
 
   def.initializeBody = function () {

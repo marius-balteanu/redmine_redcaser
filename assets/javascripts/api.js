@@ -8,7 +8,7 @@ Redcaser.API = (function () {
   var apiCall = function (params) {
     var request = $.ajax({
       data:     params.config.data,
-      dataType: 'json',
+      // dataType: 'json',
       method:   params.method,
       url:      params.url
     })

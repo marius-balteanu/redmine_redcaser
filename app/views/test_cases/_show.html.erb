@@ -1,0 +1,13 @@
+<div class="case-preview issue">
+  <div class="subject">
+    <%= render_issue_subject_with_tree(@test_case.issue) %>
+  </div>
+
+  <div class="attributes">
+  </div>
+
+  <%= render :partial => 'issues/test_case_data_fields', :locals => { :issue => @test_case.issue} %>
+
+</div>
+
+<%= render_tabs get_test_execution_tabs %>

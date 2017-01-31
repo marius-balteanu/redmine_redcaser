@@ -44,4 +44,22 @@ module RedcaserHelper
       tabs
     end
   end
+
+  def get_test_execution_tabs()
+    tabs = []
+
+    tabs << {
+      name:    'history',
+      partial: 'test_cases/history',
+      label:   :label_execution_history
+    }
+
+    tabs << {
+      name:    'relations',
+      partial: 'test_cases/relations',
+      label:   :label_related_issues
+    }
+
+    tabs
+  end
 end
