@@ -159,4 +159,6 @@ select.list-item-select option, select.case-footer-select option {
   color: #000000;
   border: 1px;
 }
-
+.execution-suites-root #tab-content-relations td.checkbox {
+  display: none;
+}

@@ -10,4 +10,38 @@
 
 </div>
 
-<%= render_tabs get_test_execution_tabs %>
+<div class="tabs">
+<ul>
+  <li>
+    <%= link_to(l(:label_execution_history), "#", :class => "selected", :id => "tab-history", :onclick => "showTab('history', ''); this.blur(); return false;") %>
+  </li>
+  <li>
+    <%= link_to(l(:label_related_issues), "#", :class => "",  :id => "tab-relations", :onclick => "showTab('relations', ''); this.blur(); return false;") %>
+  </li>
+</ul>
+</div>
+
+<div id="tab-content-history" class="tab-content">
+  <% if @journals.present? %>
+    <% for journal in @journals %>
+    <div class="journal-<%= journal.id %>">
+      <h4>
+        <%= avatar(journal.executor, :size => "24") %>
+        <%= authoring journal.created_on, journal.executor, :label => :label_updated_time_by %>
+      </h4>
+      <ul class="details"><li><strong>Status</strong> changed to <span class="status"><%= journal.result.name.to_s %></span></li></ul>
+      <div class="wiki">
+        <%= textilizable(journal, :comment) %>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+
+  <%= text_area_tag :comment, '', :class => 'wiki-edit', :cols => 60, :rows => 5, :maxlength => 1024 %>
+  <%= select_tag :execution_status,  options_from_collection_for_select(@test_case_statuses, 'id', 'name'), :class => 'case-footer-select' %>
+  <%= submit_tag l(:button_submit) %>
+</div>
+
+<div id="tab-content-relations" style="display: none" class="tab-content">
+  <%= render_issue_relations(@test_case.issue, @relations) %>
+</div>
