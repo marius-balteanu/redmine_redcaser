@@ -15,9 +15,11 @@
   <li>
     <%= link_to(l(:label_execution_history), "#", :class => "selected", :id => "tab-history", :onclick => "showTab('history', ''); this.blur(); return false;") %>
   </li>
+  <% if @relations.present? %>
   <li>
     <%= link_to(l(:label_related_issues), "#", :class => "",  :id => "tab-relations", :onclick => "showTab('relations', ''); this.blur(); return false;") %>
   </li>
+  <% end %>
 </ul>
 </div>
 
@@ -37,11 +39,14 @@
     <% end %>
   <% end %>
 
-  <%= text_area_tag :comment, '', :class => 'wiki-edit', :cols => 60, :rows => 5, :maxlength => 1024 %>
-  <%= select_tag :execution_status,  options_from_collection_for_select(@test_case_statuses, 'id', 'name'), :class => 'case-footer-select' %>
-  <%= submit_tag l(:button_submit) %>
+  <%= text_area_tag :comment, '', :class => 'wiki-edit case-footer-comment', :cols => 60, :rows => 5, :maxlength => 1024 %>
+  <%= select_tag :execution_status,  options_for_select(@test_case_statuses, @test_case_result), :class => 'case-footer-select'%>
+  <%= submit_tag l(:button_submit), :class => 'case-footer-submit', :data => { id: @test_case } %>
 </div>
 
+<% if @relations.present? %>
 <div id="tab-content-relations" style="display: none" class="tab-content">
   <%= render_issue_relations(@test_case.issue, @relations) %>
 </div>
+
+<% end %>

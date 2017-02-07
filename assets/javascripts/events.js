@@ -131,7 +131,6 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'execution-create',           this.handleExecutionCreate],
       ['click',  'list-item-name',             this.handleListItemClick  ],
       ['click',  'case-footer-related-submit', this.handleRelationCreate ],
-      ['click',  'execution-tab',              this.handleTabChange      ],
     ]
   }
 
@@ -297,32 +296,6 @@ Redcaser.ExecutionEvents = (function () {
     element.classList.add("selected")
   }
 
-  // updateStatusForListItem :: Object, Object
-  self.updateStatusForListItem = function (data, context) {
-    var testCaseStatus = data.test_case_status
-    var listItem       = context.listItems[testCaseStatus.test_case_id.toString()]
-    var nameSelect     = listItem.getElementsByClassName('list-item-select')[0]
-
-    nameSelect.value = testCaseStatus.status_id
-    if (!nameSelect.childNodes[0].getAttribute('value').trim()) {
-      nameSelect.removeChild(nameSelect.childNodes[0])
-    }
-
-    var newClass = nameSelect.children[nameSelect.selectedIndex].text.split(" ").join("_").toLowerCase()
-    nameSelect.classList = "list-item-select " + newClass
-
-    if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.test_case_id) {
-      var textField = context.preview
-        .getElementsByClassName('case-footer-comment')[0]
-      var selectField = context.preview
-        .getElementsByClassName('case-footer-select')[0]
-
-      textField.value   = ''
-      selectField.value = testCaseStatus.status_id
-      selectField.classList = "case-footer-select " + newClass
-    }
-  }
-
   // handleRelationCreate :: Event, Object
   self.handleRelationCreate = function (event, context) {
     var params = this.gatherPreviewData(event, context)
@@ -375,31 +348,12 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       data: data,
       done: function (response) {
-        this.updateStatusForListItem(response, context)
+        this.handleListItemClick();
       }.bind(this),
       fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     return params
-  }
-
-  self.handleTabChange = function (event, context) {
-    var tabsContent = context.preview.getElementsByClassName('tab-content')
-    var tabsElement = event.target.parentNode.parentNode.children
-    var newTab = event.target.dataset.tab
-
-
-    Array.prototype.forEach.call(tabsElement, function(tabElement){
-      tabElement.firstElementChild.classList.remove("selected")
-    })
-    event.target.classList.add("selected")
-
-    Array.prototype.forEach.call(tabsContent, function(tabContent){
-      tabContent.classList.add("hidden")
-      if (tabContent.classList.contains("tab-" + newTab)) {
-        tabContent.classList.remove("hidden")
-      }
-    })
   }
 
   return self

@@ -15,8 +15,15 @@ class Redcaser::TestcasesController < RedcaserBaseController
   def show
     @relations = @test_case.issue.relations.select {|r| r.other_issue(@test_case.issue) && r.other_issue(@test_case.issue).visible? }
     @journals = @test_case.journals(params[:execution_suite_id]).preload(:executor => :email_address).preload(:result)
-    @test_case_statuses = ExecutionResult.all();
+    test_case_result = TestCaseStatus.where(test_case: @test_case, execution_suite: params[:execution_suite_id]).first
+    @test_case_statuses = ExecutionResult.all().order(:order_number => :asc).pluck(:name, :id);
 
+    if test_case_result
+      @test_case_result = test_case_result.execution_result_id
+    else
+      @test_case_result = ''
+      @test_case_statuses.insert(0, ['Not run', ''])
+    end
     render :partial => 'test_cases/show'
 
   rescue ActiveRecord::RecordNotFound
