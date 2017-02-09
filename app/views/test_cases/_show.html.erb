@@ -4,6 +4,18 @@
   </div>
 
   <div class="attributes">
+    <%= issue_fields_rows do |rows|
+     rows.left l(:field_status), @test_case_result.execution_result.name, :class => 'status'
+
+      unless @test_case.issue.disabled_core_fields.include?('assigned_to_id')
+        rows.left l(:field_assigned_to), avatar(@test_case.issue.assigned_to, :size => "14").to_s.html_safe + (@test_case.issue.assigned_to ? link_to_user(@test_case.issue.assigned_to) : "-"), :class => 'assigned-to'
+      end
+      rows.right l(:field_test_suite), @test_case.test_suite.name, :class => 'test_suite'
+
+      unless @test_case.issue.disabled_core_fields.include?('estimated_hours')
+       rows.right l(:field_estimated_hours), issue_estimated_hours_details(@test_case.issue), :class => 'estimated-hours'
+      end
+    end %>
   </div>
 
   <%= render :partial => 'issues/test_case_data_fields', :locals => { :issue => @test_case.issue} %>
@@ -39,9 +51,19 @@
     <% end %>
   <% end %>
 
-  <%= text_area_tag :comment, '', :class => 'wiki-edit case-footer-comment', :cols => 60, :rows => 5, :maxlength => 1024 %>
-  <%= select_tag :execution_status,  options_for_select(@test_case_statuses, @test_case_result), :class => 'case-footer-select'%>
+  <fieldset>
+  <p>
+    <%= label_tag :execution_status, l(:label_change_status) %>
+    <%= select_tag :execution_status,  options_for_select(@test_case_statuses, (@test_case_result.execution_result_id if @test_case_result)), :class => 'case-footer-select'%>
+  </p>
+  <%= text_area_tag :comment, '', :class => 'wiki-edit case-footer-comment', :cols => 60, :rows => 5, :maxlength => 1024, :placeholder => l(:field_comment_placeholder) %>
   <%= submit_tag l(:button_submit), :class => 'case-footer-submit', :data => { id: @test_case } %>
+  <p>
+  <%= label_tag l(:label_create_new_related_issue) %>
+  <%= link_to l(:label_related_to_tc), new_project_issue_path(@test_case.issue.project, :issue => {:tracker_id => RedcaserSettings.defect_id }, :test_case => {:issue_id => @test_case.issue, :relation_type => 'relates'}), :target => '_blank' %>
+  | <%= link_to l(:label_blocking_tc), new_project_issue_path(@test_case.issue.project, :issue => {:tracker_id => RedcaserSettings.defect_id }, :test_case => {:issue_id => @test_case.issue, :relation_type => 'blocked'}), :target => '_blank' %>
+  </p>
+  </fieldset>
 </div>
 
 <% if @relations.present? %>
