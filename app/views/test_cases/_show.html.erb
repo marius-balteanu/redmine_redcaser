@@ -5,7 +5,7 @@
 
   <div class="attributes">
     <%= issue_fields_rows do |rows|
-     rows.left l(:field_status), @test_case_result.execution_result.name, :class => 'status'
+     rows.left l(:field_status), @test_case_result ? @test_case_result.execution_result.name : l(:label_test_case_not_run), :class => 'status'
 
       unless @test_case.issue.disabled_core_fields.include?('assigned_to_id')
         rows.left l(:field_assigned_to), avatar(@test_case.issue.assigned_to, :size => "14").to_s.html_safe + (@test_case.issue.assigned_to ? link_to_user(@test_case.issue.assigned_to) : "-"), :class => 'assigned-to'

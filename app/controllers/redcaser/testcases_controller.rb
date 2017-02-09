@@ -19,7 +19,7 @@ class Redcaser::TestcasesController < RedcaserBaseController
     @test_case_statuses = ExecutionResult.all().order(:order_number => :asc).pluck(:name, :id);
 
     unless @test_case_result
-      @test_case_statuses.insert(0, ['Not run', ''])
+      @test_case_statuses.insert(0, [l(:label_test_case_not_run), ''])
     end
     render :partial => 'test_cases/show'
 
