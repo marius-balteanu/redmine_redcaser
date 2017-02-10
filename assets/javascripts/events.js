@@ -130,7 +130,7 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
       ['click',  'execution-create',           this.handleExecutionCreate],
       ['click',  'list-item-name',             this.handleListItemClick  ],
-      ['click',  'case-footer-related-submit', this.handleRelationCreate ],
+      ['click',  'list-item-status',           this.handleListItemClick  ],
     ]
   }
 
@@ -244,8 +244,7 @@ Redcaser.ExecutionEvents = (function () {
     var test_case = context.testCases[id]
 
     if (test_case.status) {
-      params.id = event.target.dataset.test_case_status_id
-
+      params.id = event.target.dataset.id
       Redcaser.API.testSuiteStatuses.update(params)
     }
     else {
@@ -283,51 +282,37 @@ Redcaser.ExecutionEvents = (function () {
     Redcaser.API.testCases.show(params)
 
     this.addClassSelected(event.target.parentNode)
-    context.preview.dataset.test_case_id = id
   }
 
   self.addClassSelected = function (element) {
-    var selectedRows = element.parentNode.getElementsByClassName('selected');
+    var selectedRows = element.parentNode.getElementsByClassName('selected')
 
     Array.prototype.forEach.call(selectedRows, function(row){
-      row.classList.remove("selected");
+      row.classList.remove("selected")
     });
 
     element.classList.add("selected")
   }
 
-  // handleRelationCreate :: Event, Object
-  self.handleRelationCreate = function (event, context) {
-    var params = this.gatherPreviewData(event, context)
+  // updateStatusForListItem :: Object, Object
+  self.updateStatusForListItem = function (data, context) {
+    var testCaseStatus = data.test_case_status
+    var listItem       = context.listItems[testCaseStatus.test_case_id.toString()]
+    var nameSelect     = listItem.getElementsByClassName('list-item-select')[0]
 
-    var id        = event.target.dataset.id
-    var test_case = context.testCases[id]
-
-    var relation  = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
-
-    if (params.data.test_case_status.execution_result_id === ' ') return
-
-    params.done = function () {
-      var url = '/projects/' + context.project
-        + '/issues/new?test_case[relation_type]='
-        + relation
-        + '&test_case[issue_id]='
-        + test_case.issue_id
-        + '&issue[tracker_id]='
-        + Redcaser.defect_id
-
-        window.open(url, '_blank')
+    nameSelect.value = testCaseStatus.status_id
+    if (!nameSelect.childNodes[0].getAttribute('value').trim()) {
+      nameSelect.removeChild(nameSelect.childNodes[0])
     }
 
-    if (test_case.status) {
-      params.id = event.target.dataset.test_case_status_id
+    var newClass = nameSelect.children[nameSelect.selectedIndex].text.split(" ").join("_").toLowerCase()
+    nameSelect.classList = "list-item-select " + newClass
 
-      Redcaser.API.testSuiteStatuses.update(params)
-    }
-    else {
-      Redcaser.API.testSuiteStatuses.create(params)
+    if (listItem.classList.contains('selected')) {
+      listItem.getElementsByClassName('list-item-name')[0].click()
     }
   }
+
 
   self.gatherPreviewData = function (event, context) {
     var id      = event.target.dataset.id
@@ -348,7 +333,7 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       data: data,
       done: function (response) {
-        this.handleListItemClick();
+        this.updateStatusForListItem({ test_case_status: { test_case_id: id, status_id: status}}, context);
       }.bind(this),
       fail: function (response) { alert(response.responseJSON.errors) }
     }

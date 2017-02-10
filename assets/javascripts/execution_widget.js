@@ -7,7 +7,6 @@ Redcaser.ExecutionWidget = (function () {
   var ExecutionEvents       = Redcaser.ExecutionEvents
   var ExecutionDialog       = Redcaser.ExecutionDialog
   var EnvironmentDialog     = Redcaser.EnvironmentDialog
-  var TestCasePreview       = Redcaser.TestCasePreview
   var Location              = Redcaser.Location.getInstance()
 
   // self :: DOM
@@ -51,13 +50,11 @@ Redcaser.ExecutionWidget = (function () {
     })
 
     this.body    = DOMBuilder.div({classes: ['execution-body']})
-    this.preview = DOMBuilder.div({classes: ['case-preview']})
 
     this.contentLeft = DOMBuilder.div({classes: ['splitcontentleft']});
     this.contentRight = DOMBuilder.div({classes: ['splitcontentright']});
 
     this.contentLeft.appendChild(this.body);
-    this.contentRight.appendChild(this.preview);
 
     root.appendChild(this.header)
     root.appendChild(this.contentLeft)
@@ -183,7 +180,6 @@ Redcaser.ExecutionWidget = (function () {
 
   def.createExecutionSuiteBody = function (data) {
     this.initializeBody()
-    this.initializePreview()
     this.initializeSuiteActions()
 
     if (data.test_cases) {
@@ -208,9 +204,6 @@ Redcaser.ExecutionWidget = (function () {
   }
 
   def.displayCasePreview = function (response) {
-    // this.initializePreview()
-
-    // this.preview = TestCasePreview.build(response)
     this.contentRight.innerHTML = response
   }
 
@@ -224,14 +217,6 @@ Redcaser.ExecutionWidget = (function () {
     while (this.suiteActions.firstChild) {
       this.suiteActions.removeChild(this.suiteActions.firstChild)
     }
-  }
-
-  def.initializePreview = function () {
-    while (this.preview.firstChild) {
-      this.preview.removeChild(this.preview.firstChild)
-    }
-
-    if (this.preview.parentNode == this.contentRight) this.contentRight.removeChild(this.preview)
   }
 
   def.buildExecutionSuiteBody = function (data) {
@@ -294,6 +279,7 @@ Redcaser.ExecutionWidget = (function () {
           }),
           DOMBuilder.td({
             classes:  ['list-item-status'],
+            dataset:  {id: element.id},
             children: [
               DOMBuilder.select({
                 classes: element.status ? ['list-item-select', element.status.name.split(" ").join("_").toLowerCase()] : ['list-item-select'],
