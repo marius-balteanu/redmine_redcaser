@@ -130,8 +130,7 @@ Redcaser.ExecutionEvents = (function () {
       ['click',  'case-footer-submit',         this.handlePreviewSubmit  ],
       ['click',  'execution-create',           this.handleExecutionCreate],
       ['click',  'list-item-name',             this.handleListItemClick  ],
-      ['click',  'case-footer-related-submit', this.handleRelationCreate ],
-      ['click',  'execution-tab',              this.handleTabChange      ],
+      ['click',  'list-item-status',           this.handleListItemClick  ],
     ]
   }
 
@@ -245,8 +244,7 @@ Redcaser.ExecutionEvents = (function () {
     var test_case = context.testCases[id]
 
     if (test_case.status) {
-      params.id = event.target.dataset.test_case_status_id
-
+      params.id = event.target.dataset.id
       Redcaser.API.testSuiteStatuses.update(params)
     }
     else {
@@ -278,20 +276,19 @@ Redcaser.ExecutionEvents = (function () {
       done: function (response) {
         context.displayCasePreview(response)
       },
-      fail: function (response) { alert(response.responseJSON.errors) }
+      fail: function (response) { console.log(response) }
     }
 
     Redcaser.API.testCases.show(params)
 
     this.addClassSelected(event.target.parentNode)
-    context.preview.dataset.test_case_id = id
   }
 
   self.addClassSelected = function (element) {
-    var selectedRows = element.parentNode.getElementsByClassName('selected');
+    var selectedRows = element.parentNode.getElementsByClassName('selected')
 
     Array.prototype.forEach.call(selectedRows, function(row){
-      row.classList.remove("selected");
+      row.classList.remove("selected")
     });
 
     element.classList.add("selected")
@@ -311,50 +308,11 @@ Redcaser.ExecutionEvents = (function () {
     var newClass = nameSelect.children[nameSelect.selectedIndex].text.split(" ").join("_").toLowerCase()
     nameSelect.classList = "list-item-select " + newClass
 
-    if (context.preview && testCaseStatus.test_case_id == context.preview.dataset.test_case_id) {
-      var textField = context.preview
-        .getElementsByClassName('case-footer-comment')[0]
-      var selectField = context.preview
-        .getElementsByClassName('case-footer-select')[0]
-
-      textField.value   = ''
-      selectField.value = testCaseStatus.status_id
-      selectField.classList = "case-footer-select " + newClass
+    if (listItem.classList.contains('selected')) {
+      listItem.getElementsByClassName('list-item-name')[0].click()
     }
   }
 
-  // handleRelationCreate :: Event, Object
-  self.handleRelationCreate = function (event, context) {
-    var params = this.gatherPreviewData(event, context)
-
-    var id        = event.target.dataset.id
-    var test_case = context.testCases[id]
-
-    var relation  = event.target.parentNode.getElementsByClassName('case-footer-related-select')[0].value
-
-    if (params.data.test_case_status.execution_result_id === ' ') return
-
-    params.done = function () {
-      var url = '/projects/' + context.project
-        + '/issues/new?test_case[relation_type]='
-        + relation
-        + '&test_case[issue_id]='
-        + test_case.issue_id
-        + '&issue[tracker_id]='
-        + Redcaser.defect_id
-
-        window.open(url, '_blank')
-    }
-
-    if (test_case.status) {
-      params.id = event.target.dataset.test_case_status_id
-
-      Redcaser.API.testSuiteStatuses.update(params)
-    }
-    else {
-      Redcaser.API.testSuiteStatuses.create(params)
-    }
-  }
 
   self.gatherPreviewData = function (event, context) {
     var id      = event.target.dataset.id
@@ -375,31 +333,12 @@ Redcaser.ExecutionEvents = (function () {
     var params = {
       data: data,
       done: function (response) {
-        this.updateStatusForListItem(response, context)
+        this.updateStatusForListItem({ test_case_status: { test_case_id: id, status_id: status}}, context);
       }.bind(this),
       fail: function (response) { alert(response.responseJSON.errors) }
     }
 
     return params
-  }
-
-  self.handleTabChange = function (event, context) {
-    var tabsContent = context.preview.getElementsByClassName('tab-content')
-    var tabsElement = event.target.parentNode.parentNode.children
-    var newTab = event.target.dataset.tab
-
-
-    Array.prototype.forEach.call(tabsElement, function(tabElement){
-      tabElement.firstElementChild.classList.remove("selected")
-    })
-    event.target.classList.add("selected")
-
-    Array.prototype.forEach.call(tabsContent, function(tabContent){
-      tabContent.classList.add("hidden")
-      if (tabContent.classList.contains("tab-" + newTab)) {
-        tabContent.classList.remove("hidden")
-      }
-    })
   }
 
   return self

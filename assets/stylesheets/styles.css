@@ -92,6 +92,9 @@ div.suite-footer {
 .execution-header {
   padding-bottom: 10px;
 }
+div.case-preview.issue .attributes {
+  margin-top: 1em;
+}
 .case-preview .case-header {
   padding-top: 10px;
   border-bottom: 1px solid #d7d7d7;
@@ -159,4 +162,6 @@ select.list-item-select option, select.case-footer-select option {
   color: #000000;
   border: 1px;
 }
-
+.execution-suites-root #tab-content-relations td.checkbox {
+  display: none;
+}

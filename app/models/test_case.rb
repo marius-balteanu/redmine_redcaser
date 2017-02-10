@@ -14,10 +14,6 @@ class TestCase < ActiveRecord::Base
 
   validates_presence_of :test_suite_id
 
-  def self.for_project(project)
-    TestCase.includes(:issue).where(project_id: project.id).to_a
-  end
-
   # TODO: Move to view f.ex. using JBuilder
   #       (https://github.com/rails/jbuilder).
   def to_json

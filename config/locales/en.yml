@@ -10,6 +10,14 @@ en:
   field_preconditions: Preconditions
   field_steps: Steps
   field_expected_results: Expected results
+  field_comment_placeholder: Add optional notes
+
+  label_change_status: "Change status to:"
+  label_create_new_related_issue: "Create a new issue:"
+  label_related_to_tc: Related to this test case
+  label_blocking_tc: Blocking this test case
+  label_execution_history: Results & History
+  label_test_case_not_run: Not run
 
   field_test_case_status_name   : "Test case status"
   label_test_case_management    : "Test cases"
