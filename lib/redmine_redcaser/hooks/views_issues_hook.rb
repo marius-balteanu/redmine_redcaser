@@ -30,14 +30,14 @@ module RedmineRedcaser
         relation = if relation_type == 'relates'
           IssueRelation::TYPE_RELATES
         elsif relation_type == 'blocked'
-          IssueRelation::TYPE_BLOCKS
+          IssueRelation::TYPE_BLOCKED
         end
 
         test_case_issue = Issue.find_by_id(issue_id.to_i)
 
         IssueRelation.create!(
-          issue_from:    issue,
-          issue_to:      test_case_issue,
+          issue_from:    test_case_issue,
+          issue_to:      issue,
           relation_type: relation
         )
       end
