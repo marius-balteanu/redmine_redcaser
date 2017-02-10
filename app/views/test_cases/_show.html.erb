@@ -38,7 +38,7 @@
 <div id="tab-content-history" class="tab-content">
   <% if @journals.present? %>
     <% for journal in @journals %>
-    <div class="journal-<%= journal.id %>">
+    <div class="journal journal-<%= journal.id %>">
       <h4>
         <%= avatar(journal.executor, :size => "24") %>
         <%= authoring journal.created_on, journal.executor, :label => :label_updated_time_by %>
