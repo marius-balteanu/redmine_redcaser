@@ -1,5 +1,5 @@
 <%=
-execution_suites = ExecutionSuite.find_by_version_id(version.id)
+execution_suites = ExecutionSuite.where(:version_id => version.id)
 
 if execution_suites
  test_cases = ExecutionSuiteTestCase.where(execution_suite_id: execution_suites).to_a
