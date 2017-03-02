@@ -99,9 +99,7 @@ Redcaser.TestSuite = (function () {
           children: [
             DOMBuilder.link({
               children: [DOMBuilder.text('Add test case')],
-              href:     '/projects/'
-                + data.project
-                + '/issues/new/?issue[tracker_id]='
+              href:     'issues/new/?issue[tracker_id]='
                 + Redcaser.tracker_id
                 + '&test_suite[id]='
                 + element.id,
