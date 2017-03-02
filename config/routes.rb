@@ -12,8 +12,7 @@ resources :projects do
     resources :environments
     resources :testsuites, except: [:show]
 
-
-    #resources :testcases,        only: [:show, :update, :destroy]
+    resources :testcases,        only: [:show, :update, :destroy]
     resources :testcasestatuses, only: [:create, :update]
 
     resources :executionsuites
