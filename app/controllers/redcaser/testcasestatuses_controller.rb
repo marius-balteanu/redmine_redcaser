@@ -69,7 +69,7 @@ class Redcaser::TestcasestatusesController < RedcaserBaseController
   end
 
   def find_test_case_status
-    @test_case_status = TestCaseStatus.where(id: params[:id]).first
+    @test_case_status = TestCaseStatus.where(test_case: params[:id]).first
     return if @test_case_status
 
     render json: {errors: ['Test Case Status not found'], entity: 'TestCaseStatus'}, status: 404
