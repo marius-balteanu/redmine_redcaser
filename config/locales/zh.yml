@@ -1,6 +1,24 @@
 # Simplified Chinese strings go here for Rails i18n
 
 zh:
+  field_test_case_tracker: 测试用例跟踪类型
+  field_defect_tracker: 缺陷跟踪类型
+  field_status_new: 新建
+  field_status_active: 启用
+  field_status_obsolete: 废弃
+  field_test_suite: 测试集
+  field_preconditions: 前置条件
+  field_steps: 步骤
+  field_expected_results: 期望结果
+  field_comment_placeholder: 添加备注信息
+
+  label_change_status: "修改状态至："
+  label_create_new_related_issue: "添加关联的BUG："
+  label_related_to_tc: 关联当前测试用例
+  label_blocking_tc: 锁定当前测试用例
+  label_execution_history: 测试结果及执行历史
+  label_test_case_not_run: 未执行
+  
   field_test_case_status_name   : "测试用例状态"
   label_test_case_management    : "测试用例管理"
   label_test_case_execution     : "测试执行及结果"
