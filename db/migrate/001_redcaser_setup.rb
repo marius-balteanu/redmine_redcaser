@@ -9,13 +9,11 @@ class RedcaserSetup < ActiveRecord::Migration
 
     create_table :execution_suites do |column|
       column.string  :name, null: false, limit: 128
-      column.integer :parent_id, default: nil
       column.integer :project_id
-      column.integer :execution_suites, :environment_id
-      column.integer :execution_suites, :query_id
-      column.integer :execution_suites, :version_id
+      column.integer :environment_id
+      column.integer :query_id
+      column.integer :version_id
     end
-    add_index :execution_suites, [:name, :parent_id], unique: true
     add_index :execution_suites, :version_id
 
     create_table :test_cases do |column|
