@@ -244,7 +244,7 @@ Redcaser.ExecutionEvents = (function () {
     var test_case = context.testCases[id]
 
     if (test_case.status) {
-      params.id = event.target.dataset.id
+      params.id = event.target.dataset.test_case_status_id
       Redcaser.API.testSuiteStatuses.update(params)
     }
     else {
