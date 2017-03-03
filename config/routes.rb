@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+get '/projects/:project_id/redcaser/testcases/:id', :to => "redcaser/testcases#show", via: :get
+
 resources :projects do
   member do
     get :redcaser, to: 'redcaser#index'
@@ -18,8 +20,5 @@ resources :projects do
     resources :querytestcases, only: :show
 
     resources :executionjournals, only: :index
-    resources :export,            only: :index
-    resources :combos,            only: :index
-    resources :graph,             only: :show
   end
 end

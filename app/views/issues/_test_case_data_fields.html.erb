@@ -1,3 +1,5 @@
+<% return unless issue.tracker_id == RedcaserSettings.tracker_id %>
+
 <hr>
 <div class="test_case_preconditions">
   <p>
@@ -5,7 +7,7 @@
   </p>
   <div class="wiki">
     <p>
-      <%= textilizable test_case, :preconditions %>
+      <%= textilizable issue.test_case, :preconditions %>
     </p>
   </div>
 </div>
@@ -16,7 +18,7 @@
   </p>
   <div class="wiki">
     <p>
-      <%= textilizable test_case, :steps %>
+      <%= textilizable issue.test_case, :steps %>
     </p>
   </div>
 </div>
@@ -27,7 +29,7 @@
   </p>
   <div class="wiki">
     <p>
-      <%= textilizable test_case, :expected_results %>
+      <%= textilizable issue.test_case, :expected_results %>
     </p>
   </div>
 </div>

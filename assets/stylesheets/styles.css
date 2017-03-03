@@ -75,6 +75,7 @@ div.suite-footer {
    font-size: 14px;
    font-weight: bold;
    padding: 10px 0px;
+   line-height: 18px;
 }
 .suite-title .suite-actions {
   display: none;
@@ -90,6 +91,9 @@ div.suite-footer {
 }
 .execution-header {
   padding-bottom: 10px;
+}
+div.case-preview.issue .attributes {
+  margin-top: 1em;
 }
 .case-preview .case-header {
   padding-top: 10px;
@@ -158,4 +162,6 @@ select.list-item-select option, select.case-footer-select option {
   color: #000000;
   border: 1px;
 }
-
+.execution-suites-root #tab-content-relations td.checkbox {
+  display: none;
+}

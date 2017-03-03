@@ -1,0 +1,5 @@
+<% return unless issue.tracker_id == RedcaserSettings.tracker_id %>
+
+<%= issue_fields_rows do |rows|
+  rows.left l(:field_test_suite), @issue.test_case.test_suite.name
+end if @issue.test_case %>

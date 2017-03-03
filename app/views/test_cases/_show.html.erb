@@ -1,0 +1,96 @@
+<div class="case-preview issue">
+  <div class="subject">
+    <%= render_issue_subject_with_tree(@test_case.issue) %>
+  </div>
+
+  <div class="attributes">
+    <%= issue_fields_rows do |rows|
+     rows.left l(:field_status), @test_case_result ? @test_case_result.execution_result.name : l(:label_test_case_not_run), :class => 'status'
+
+      unless @test_case.issue.disabled_core_fields.include?('assigned_to_id')
+        rows.left l(:field_assigned_to), avatar(@test_case.issue.assigned_to, :size => "14").to_s.html_safe + (@test_case.issue.assigned_to ? link_to_user(@test_case.issue.assigned_to) : "-"), :class => 'assigned-to'
+      end
+      rows.right l(:field_test_suite), @test_case.test_suite.name, :class => 'test_suite'
+
+      unless @test_case.issue.disabled_core_fields.include?('estimated_hours')
+       rows.right l(:field_estimated_hours), issue_estimated_hours_details(@test_case.issue), :class => 'estimated-hours'
+      end
+    end %>
+  </div>
+
+  <%= render :partial => 'issues/test_case_data_fields', :locals => { :issue => @test_case.issue} %>
+
+</div>
+
+<div class="tabs">
+<ul>
+  <li>
+    <%= link_to(l(:label_execution_history), "#", :class => "selected", :id => "tab-history", :onclick => "showTab('history', ''); this.blur(); return false;") %>
+  </li>
+  <% if @relations.present? %>
+  <li>
+    <%= link_to(l(:label_related_issues), "#", :class => "",  :id => "tab-relations", :onclick => "showTab('relations', ''); this.blur(); return false;") %>
+  </li>
+  <% end %>
+</ul>
+</div>
+
+<div id="tab-content-history" class="tab-content">
+  <% if @journals.present? %>
+    <% for journal in @journals %>
+    <div class="journal journal-<%= journal.id %>">
+      <h4>
+        <%= avatar(journal.executor, :size => "24") %>
+        <%= authoring journal.created_on, journal.executor, :label => :label_updated_time_by %>
+      </h4>
+      <ul class="details"><li><strong>Status</strong> changed to <span class="status"><%= journal.result.name.to_s %></span></li></ul>
+      <div class="wiki">
+        <%= textilizable(journal, :comment) %>
+      </div>
+    </div>
+    <% end %>
+  <% end %>
+
+  <fieldset>
+  <p>
+    <%= label_tag :execution_status, l(:label_change_status) %>
+    <%= select_tag :execution_status,  options_for_select(@test_case_statuses, (@test_case_result.execution_result_id if @test_case_result)), :class => "case-footer-select #{(@test_case_result.execution_result.name.downcase if @test_case_result)}" %>
+  </p>
+  <%= text_area_tag :comment, '', :class => 'wiki-edit case-footer-comment', :cols => 60, :rows => 5, :maxlength => 1024, :placeholder => l(:field_comment_placeholder) %>
+  <%= submit_tag l(:button_submit), :class => 'case-footer-submit', :data => { id: @test_case.id } %>
+  <p>
+  <%= label_tag l(:label_create_new_related_issue) %>
+  <%= link_to l(:label_related_to_tc), new_project_issue_path(@test_case.issue.project, :issue => {:tracker_id => RedcaserSettings.defect_id }, :test_case => {:issue_id => @test_case.issue, :relation_type => 'relates'}), :target => '_blank' %>
+  | <%= link_to l(:label_blocking_tc), new_project_issue_path(@test_case.issue.project, :issue => {:tracker_id => RedcaserSettings.defect_id }, :test_case => {:issue_id => @test_case.issue, :relation_type => 'blocked'}), :target => '_blank' %>
+  </p>
+  </fieldset>
+</div>
+
+<% if @relations.present? %>
+  <div id="tab-content-relations" style="display: none" class="tab-content">
+    <form>
+      <table class="list issues">
+      <% @relations.each do |relation| %>
+        <% other_issue = relation.other_issue(@test_case.issue) -%>
+        <tr class="issue hascontextmenu <%= other_issue.css_classes %>" id="relation-<%= relation.id %>">
+        <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
+        <td class="subject" style="width: 50%">
+          <%= relation.to_s(@issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
+        </td>
+        <td class="status"><%= other_issue.status.name %></td>
+        <td class="start_date"><%= format_date(other_issue.start_date) %></td>
+        <td class="due_date"><%= format_date(other_issue.due_date) %></td>
+        <td class="buttons"><%= link_to(l(:label_relation_delete),
+                                        relation_path(relation),
+                                        :remote => true,
+                                        :method => :delete,
+                                        :data => {:confirm => l(:text_are_you_sure)},
+                                        :title => l(:label_relation_delete),
+                                        :class => 'icon-only icon-link-break'
+                                       ) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
+        </tr>
+      <% end %>
+      </table>
+    </form>
+  </div>
+<% end %>
