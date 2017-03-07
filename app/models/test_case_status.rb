@@ -4,6 +4,7 @@ class TestCaseStatus < ActiveRecord::Base
   belongs_to :test_case
 
   validates_uniqueness_of :execution_result, scope: [:test_case_id, :execution_suite_id]
+  validates :execution_result, :presence => true
 
   def to_json
     {
