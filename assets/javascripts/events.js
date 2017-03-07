@@ -225,6 +225,10 @@ Redcaser.ExecutionEvents = (function () {
             context.body.removeChild(context.body.firstChild)
           }
 
+          while (context.suiteActions.firstChild) {
+            context.suiteActions.removeChild(context.suiteActions.firstChild)
+          }
+
           context.select.value = ''
         },
         fail: function (response) { alert(response.responseJSON.errors) }
