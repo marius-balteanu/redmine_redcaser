@@ -6,6 +6,8 @@ class TestSuite < ActiveRecord::Base
   belongs_to :project
   attr_protected :id
 
+  validates_uniqueness_of :name, scope: [:project_id]
+
   def self.for_project(project)
     TestSuite
       .where(project_id: project.id)

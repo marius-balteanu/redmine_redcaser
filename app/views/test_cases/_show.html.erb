@@ -57,7 +57,7 @@
     <%= select_tag :execution_status,  options_for_select(@test_case_statuses, (@test_case_result.execution_result_id if @test_case_result)), :class => "case-footer-select #{(@test_case_result.execution_result.name.downcase if @test_case_result)}" %>
   </p>
   <%= text_area_tag :comment, '', :class => 'wiki-edit case-footer-comment', :cols => 60, :rows => 5, :maxlength => 1024, :placeholder => l(:field_comment_placeholder) %>
-  <%= submit_tag l(:button_submit), :class => 'case-footer-submit', :data => { id: @test_case.id } %>
+  <%= submit_tag l(:button_submit), :class => 'case-footer-submit', :data => { id: @test_case.id, test_case_status_id: (@test_case_result.id if @test_case_result)} %>
   <p>
   <%= label_tag l(:label_create_new_related_issue) %>
   <%= link_to l(:label_related_to_tc), new_project_issue_path(@test_case.issue.project, :issue => {:tracker_id => RedcaserSettings.defect_id }, :test_case => {:issue_id => @test_case.issue, :relation_type => 'relates'}), :target => '_blank' %>
@@ -75,7 +75,7 @@
         <tr class="issue hascontextmenu <%= other_issue.css_classes %>" id="relation-<%= relation.id %>">
         <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
         <td class="subject" style="width: 50%">
-          <%= relation.to_s(@issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
+          <%= relation.to_s(@test_case.issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
         </td>
         <td class="status"><%= other_issue.status.name %></td>
         <td class="start_date"><%= format_date(other_issue.start_date) %></td>

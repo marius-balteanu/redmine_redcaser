@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Redcaser::TestsuitesController < RedcaserBaseController
   before_action :find_test_suite,         only: [:edit, :update, :destroy]
   before_action :find_all_test_suites,    only: [:new, :edit]
