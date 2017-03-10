@@ -180,6 +180,7 @@ Redcaser.ExecutionDialog = (function () {
     this.validator
       .initialize()
       .validateLength(data.params.execution_suite.name, 'Name', {min: 5})
+      .validateLength(data.params.execution_suite.name, 'Name', {max: 127})
 
     var messages = this.validator.messages()
 
@@ -214,6 +215,7 @@ Redcaser.ExecutionDialog = (function () {
     this.validator
       .initialize()
       .validateLength(data.params.execution_suite.name, 'Name', {min: 5})
+      .validateLength(data.params.execution_suite.name, 'Name', {max: 127})
 
     var messages = this.validator.messages()
 
