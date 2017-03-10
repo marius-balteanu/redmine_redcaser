@@ -7,6 +7,8 @@ class ExecutionEnvironment < ActiveRecord::Base
     dependent: :destroy
   )
   attr_protected :id
+  validates :name, length: { minimum: 3 }
+  validates :name, length: { maximum: 127 }
 
   def self.get_default_for_project(project)
     env = ExecutionEnvironment.where({ project_id: project.id }).first
