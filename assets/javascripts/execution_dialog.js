@@ -41,7 +41,13 @@ Redcaser.ExecutionDialog = (function () {
         DOMBuilder.div({
           classes:  ['execution-dialog-version'],
           children: [
-            DOMBuilder.label({children: [DOMBuilder.text('Version:')]}),
+            DOMBuilder.label({children: [
+              DOMBuilder.text('Version:'),
+              DOMBuilder.span({
+                classes:  ['required'],
+                children: [DOMBuilder.text('*')]
+             })
+            ]}),
             this.inputs.version
           ]
         }),
