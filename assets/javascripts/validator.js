@@ -50,6 +50,14 @@ Redcaser.Validator = (function () {
       )
     }
 
+      if (options.max && value.length > options.max) {
+          if (!this.errors[fieldName]) this.errors[fieldName] = []
+
+          this.errors[fieldName].push(
+              'The field ' + fieldName + ' is mandatory and should contain at least ' + options.max + ' characters'
+          )
+      }
+
     return this
   }
 
