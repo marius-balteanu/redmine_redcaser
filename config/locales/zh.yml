@@ -8,7 +8,7 @@ zh:
   field_status_obsolete: 废弃
   field_test_suite: 测试集
   field_preconditions: 前置条件
-  field_steps: 步骤
+  field_steps: 测试步骤
   field_expected_results: 期望结果
   field_comment_placeholder: 添加备注信息
 
