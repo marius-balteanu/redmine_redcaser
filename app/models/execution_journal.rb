@@ -4,7 +4,6 @@ class ExecutionJournal < ActiveRecord::Base
   belongs_to :test_case
   belongs_to :result, class_name: 'ExecutionResult'
   belongs_to :executor, class_name: 'User'
-  belongs_to :environment, class_name: 'ExecutionEnvironment'
   attr_protected :id
 
   def self.find_by_issue_id(issue_id)

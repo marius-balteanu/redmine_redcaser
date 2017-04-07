@@ -225,6 +225,10 @@ Redcaser.ExecutionEvents = (function () {
             context.body.removeChild(context.body.firstChild)
           }
 
+          while (context.suiteActions.firstChild) {
+            context.suiteActions.removeChild(context.suiteActions.firstChild)
+          }
+
           context.select.value = ''
         },
         fail: function (response) { alert(response.responseJSON.errors) }
@@ -244,7 +248,7 @@ Redcaser.ExecutionEvents = (function () {
     var test_case = context.testCases[id]
 
     if (test_case.status) {
-      params.id = event.target.dataset.id
+      params.id = event.target.dataset.testCaseStatusId
       Redcaser.API.testSuiteStatuses.update(params)
     }
     else {

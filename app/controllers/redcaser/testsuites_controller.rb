@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Redcaser::TestsuitesController < RedcaserBaseController
   before_action :find_test_suite,         only: [:edit, :update, :destroy]
   before_action :find_all_test_suites,    only: [:new, :edit]
@@ -17,13 +15,13 @@ class Redcaser::TestsuitesController < RedcaserBaseController
   end
 
   def new
-    render json: {test_suites: @test_suites.map(&:to_json)}
+    render json: {test_suites: @test_suites.to_a.map(&:to_json)}
   end
 
   def edit
     result = {
       test_suite:  @test_suite.to_json,
-      test_suites: @test_suites.map(&:to_json)
+      test_suites: @test_suites.where("#{TestSuite.table_name}.parent_id != ? OR #{TestSuite.table_name}.parent_id IS NULL", @test_suite.id).to_a.map(&:to_json)
     }
 
     render json: result
@@ -78,7 +76,7 @@ class Redcaser::TestsuitesController < RedcaserBaseController
   end
 
   def find_all_test_suites
-    @test_suites = TestSuite.where(project: @project).to_a
+    @test_suites = TestSuite.where(project: @project)
   end
 
   def provided_parent_exists?
