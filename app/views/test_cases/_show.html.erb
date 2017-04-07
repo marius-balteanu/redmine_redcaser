@@ -68,29 +68,6 @@
 
 <% if @relations.present? %>
   <div id="tab-content-relations" style="display: none" class="tab-content">
-    <form>
-      <table class="list issues">
-      <% @relations.each do |relation| %>
-        <% other_issue = relation.other_issue(@test_case.issue) -%>
-        <tr class="issue hascontextmenu <%= other_issue.css_classes %>" id="relation-<%= relation.id %>">
-        <td class="checkbox"><%= check_box_tag("ids[]", other_issue.id, false, :id => nil) %></td>
-        <td class="subject" style="width: 50%">
-          <%= relation.to_s(@test_case.issue) {|other| link_to_issue(other, :project => Setting.cross_project_issue_relations?)}.html_safe %>
-        </td>
-        <td class="status"><%= other_issue.status.name %></td>
-        <td class="start_date"><%= format_date(other_issue.start_date) %></td>
-        <td class="due_date"><%= format_date(other_issue.due_date) %></td>
-        <td class="buttons"><%= link_to(l(:label_relation_delete),
-                                        relation_path(relation),
-                                        :remote => true,
-                                        :method => :delete,
-                                        :data => {:confirm => l(:text_are_you_sure)},
-                                        :title => l(:label_relation_delete),
-                                        :class => 'icon-only icon-link-break'
-                                       ) if User.current.allowed_to?(:manage_issue_relations, @project) %></td>
-        </tr>
-      <% end %>
-      </table>
-    </form>
+    <%= render_issue_relations(@test_case.issue, @relations) %>
   </div>
 <% end %>
