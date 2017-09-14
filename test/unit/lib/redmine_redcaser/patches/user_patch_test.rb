@@ -1,4 +1,4 @@
-require_relative '../../test_helper.rb'
+require_relative '../../../../test_helper.rb'
 
 class UserPatchTest < ActiveSupport::TestCase
   def test_patch_is_included
