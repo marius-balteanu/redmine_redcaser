@@ -1,5 +1,3 @@
-require_relative '../../../test/test_helper.rb'
-
 # Code coverage setup.
 require 'simplecov'
 
@@ -16,6 +14,8 @@ SimpleCov.start 'rails' do
   coverage_dir File.join(plugin_directory, 'tmp', 'coverage')
   root         plugin_directory
 end
+
+require_relative '../../../test/test_helper.rb'
 
 # Show the entire stack trace on error (a real life saver!).
 Rails.backtrace_cleaner.remove_silencers!
