@@ -51,3 +51,20 @@ Run tests for the current plugin:
 ```bash
 bundle exec rake redmine:plugins:test NAME=redmine_redcaser
 ```
+
+## Guard
+
+Make sure to have the test database set up:
+```bash
+bundle exec rake db:create db:migrate RAILS_ENV=test
+```
+
+Start guard from the plugin directory:
+```bash
+cd plusing/redmine_redcaser
+
+guard
+```
+
+> **NOTE:** If you intrerupt guard and the database is no longer present just
+> execute the command to create it again.
