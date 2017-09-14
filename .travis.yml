@@ -20,6 +20,10 @@ env:
   - REDMINE_VER=3.3.4 DB=postgresql
   - REDMINE_VER=3.4.2 DB=postgresql
 
+matrix:
+  allow_failures:
+    - rvm: 2.4.1
+
 before_install:
   - export PLUGIN_NAME=redmine_redcaser
   - export REDMINE_PATH=$HOME/redmine
