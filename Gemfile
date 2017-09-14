@@ -3,3 +3,7 @@ group :development do
   gem 'guard'
   gem 'guard-rake'
 end
+
+group :test do
+  gem 'coveralls', require: false
+end

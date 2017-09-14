@@ -1,6 +1,7 @@
 # Redmine Redcaser
 
 [![Build Status](https://travis-ci.org/marius-balteanu/redmine_redcaser.svg?branch=master)](https://travis-ci.org/marius-balteanu/redmine_redcaser)
+[![Coverage Status](https://coveralls.io/repos/github/marius-balteanu/redmine_redcaser/badge.svg?branch=master)](https://coveralls.io/github/marius-balteanu/redmine_redcaser?branch=master)
 
 A fork of [Redcase](https://bitbucket.org/bugzinga/redcase).
 

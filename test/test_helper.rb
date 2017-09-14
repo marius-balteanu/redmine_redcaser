@@ -15,6 +15,14 @@ SimpleCov.start 'rails' do
   root         plugin_directory
 end
 
+# Run coveralls only on travis.
+if ENV.fetch('TRAVIS', false)
+  require 'coveralls'
+
+  Coveralls.wear!
+end
+
+# Redmine test helper.
 require_relative '../../../test/test_helper.rb'
 
 # Show the entire stack trace on error (a real life saver!).
