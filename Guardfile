@@ -14,3 +14,8 @@
 #  $ ln -s config/Guardfile .
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
+
+guard 'rake', task: 'redmine:plugins:test' do
+  watch(%r{lib/redmine_redcaser/patches/.*_patch.rb})
+  watch(%r{test/unit/.*_test.rb})
+end
