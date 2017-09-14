@@ -5,19 +5,19 @@ services:
   - postgresql
 
 rvm:
-  - 2.2.7
-  - 2.3.4
+  # - 2.2.7
+  # - 2.3.4
   - 2.4.1
 
 gemfile:
   - $REDMINE_PATH/Gemfile
 
 env:
-  - REDMINE_VER=3.2.7 DB=mysql
-  - REDMINE_VER=3.3.4 DB=mysql
-  - REDMINE_VER=3.4.2 DB=mysql
-  - REDMINE_VER=3.2.7 DB=postgresql
-  - REDMINE_VER=3.3.4 DB=postgresql
+  # - REDMINE_VER=3.2.7 DB=mysql
+  # - REDMINE_VER=3.3.4 DB=mysql
+  # - REDMINE_VER=3.4.2 DB=mysql
+  # - REDMINE_VER=3.2.7 DB=postgresql
+  # - REDMINE_VER=3.3.4 DB=postgresql
   - REDMINE_VER=3.4.2 DB=postgresql
 
 before_install:
@@ -33,4 +33,4 @@ before_script:
   - bundle exec rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
 
 script:
-  - rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
+  - bundle exec rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
