@@ -2,8 +2,9 @@
 
 [![Build Status](https://travis-ci.org/marius-balteanu/redmine_redcaser.svg?branch=master)](https://travis-ci.org/marius-balteanu/redmine_redcaser)
 
-
 A fork of [Redcase](https://bitbucket.org/bugzinga/redcase).
+
+***
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
@@ -13,8 +14,6 @@ A fork of [Redcase](https://bitbucket.org/bugzinga/redcase).
     - [Test](#test)
 
 <!-- markdown-toc end -->
-
-***
 
 ## Description
 
