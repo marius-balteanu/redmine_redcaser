@@ -43,9 +43,11 @@ The status of a testcase can be modified (to Failed, Passed, Blocked) either fro
 
 First create the test database:
 ```bash
-docker-compose -p redmine exec web /entry bundle exec rake db:create db:migrate RAILS_ENV=test
+bundle exec rake db:create db:migrate RAILS_ENV=test
 ```
 
+Run tests for the current plugin:
+
 ```bash
-docker-compose -p redmine exec web /entry bundle exec rake redmine:plugins:test NAME=redmine_redcaser
+bundle exec rake redmine:plugins:test NAME=redmine_redcaser
 ```
