@@ -1,7 +1,7 @@
 <%=
 execution_suites = ExecutionSuite.where(:version_id => version.id)
 
-if execution_suites
+if execution_suites.any?
  test_cases = ExecutionSuiteTestCase.where(execution_suite_id: execution_suites).to_a
 
  test_case_statuses = TestCaseStatus.where(execution_suite_id: execution_suites).to_a
