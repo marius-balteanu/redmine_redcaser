@@ -1,1 +1,5 @@
-require_relative '../../../test/test_helpeaaaar.rb'
+puts "-------------------------------------------------------------------------------------------------------------------"
+puts File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
+puts "-------------------------------------------------------------------------------------------------------------------"
+
+require File.expand_path(File.dirname(__FILE__) + '/../../../test/test_helper')
