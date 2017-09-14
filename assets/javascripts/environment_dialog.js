@@ -91,7 +91,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     this.validator
       .initialize()
-      .validateLength(name, 'Name', {min: 3, max:127})
+      .validateLength(name, 'Name', {min: 3, max: 128})
 
     var messages = this.validator.messages()
 
@@ -120,7 +120,7 @@ Redcaser.EnvironmentDialog = (function () {
 
     this.validator
       .initialize()
-      .validateLength(name, 'Name', {min: 3, max: 127})
+      .validateLength(name, 'Name', {min: 3, max: 128})
 
     var messages = this.validator.messages()
 

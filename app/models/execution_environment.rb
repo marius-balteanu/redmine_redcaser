@@ -8,8 +8,7 @@ class ExecutionEnvironment < ActiveRecord::Base
   )
   attr_protected :id
 
-  validates :name, length: { minimum: 3 }
-  validates :name, length: { maximum: 127 }
+  validates :name, length: { minimum: 3, maximum: 128 }
 
   def self.get_default_for_project(project)
     env = ExecutionEnvironment.where({ project_id: project.id }).first
