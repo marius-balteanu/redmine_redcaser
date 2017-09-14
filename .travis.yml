@@ -30,11 +30,7 @@ before_install:
   - cd $REDMINE_PATH
 
 before_script:
-  - pwd
   - bundle exec rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
 
 script:
-  - pwd
-  - cd $REDMINE_PATH
-  - pwd
   - bundle exec rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
