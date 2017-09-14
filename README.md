@@ -13,6 +13,7 @@ A fork of [Redcase](https://bitbucket.org/bugzinga/redcase).
 - [Redmine Redcaser](#redmine-redcaser)
     - [Description](#description)
     - [Test](#test)
+    - [Guard](#guard)
 
 <!-- markdown-toc end -->
 
