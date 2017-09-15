@@ -5,5 +5,11 @@ group :development do
 end
 
 group :test do
+  # Code coverage reports generated from TravisCI.
   gem 'coveralls', require: false
+end
+
+group :development, :test do
+  # Assertions for rails specific resources.
+  gem 'minitest-rails', '~> 2.2'
 end

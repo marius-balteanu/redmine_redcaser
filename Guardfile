@@ -17,10 +17,14 @@
 
 guard 'rake', task: 'redmine:plugins:test' do
   # Code
-  watch(%r{app/controllers/redcaser/.*_controller.rb})
+  watch(%r{app/controllers/.*_controller.rb})
+  watch(%r{app/helpers/.*_helper.rb})
+  watch(%r{app/models/.*.rb})
+
   watch(%r{lib/redmine_redcaser/patches/.*_patch.rb})
 
   # Tests
   watch(%r{test/functional/.*_test.rb})
+  watch(%r{test/integration/.*_test.rb})
   watch(%r{test/unit/.*_test.rb})
 end
