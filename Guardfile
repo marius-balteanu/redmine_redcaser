@@ -15,6 +15,8 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
+clearing :on
+
 guard 'rake', task: 'redmine:plugins:test' do
   # Code
   watch(%r{app/controllers/.*_controller.rb})
@@ -27,4 +29,9 @@ guard 'rake', task: 'redmine:plugins:test' do
   watch(%r{test/functional/.*_test.rb})
   watch(%r{test/integration/.*_test.rb})
   watch(%r{test/unit/.*_test.rb})
+
+  watch(%r{test/support/.*_support.rb})
+
+  # Guardfile
+  watch(%r{Guardfile})
 end
