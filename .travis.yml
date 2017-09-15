@@ -37,4 +37,4 @@ before_script:
   - bundle exec rake db:create db:migrate redmine:plugins:migrate RAILS_ENV=test
 
 script:
-  - bundle exec rake redmine:plugins:test RAILS_ENV=test NAME=$PLUGIN_NAME
+  - bundle exec rake test
