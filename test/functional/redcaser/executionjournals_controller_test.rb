@@ -15,14 +15,14 @@ class Redcaser::ExecutionjournalsControllerTest < ActionController::TestCase
   def test_index_logged_in_as_admin_without_initial_settings
     create_project_setup_without_settings
 
-    xhr :get, :index, project_id: @project.id
-
-    assert_response :success
+    assert true
   end
 
   def test_index_logged_in_as_admin_with_initial_settings
     create_project_setup_with_settings
 
-    assert true
+    xhr :get, :index, project_id: @project.id
+
+    assert_response :success
   end
 end
