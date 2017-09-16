@@ -1,8 +1,23 @@
 # Redmine Redcaser
 
-[![Build Status](https://travis-ci.org/sdwolf/redmine_redcaser.svg?branch=master)](https://travis-ci.org/sdwolf/redmine_redcaser)
+[![Build Status](https://travis-ci.org/marius-balteanu/redmine_redcaser.svg?branch=master)](https://travis-ci.org/marius-balteanu/redmine_redcaser)
+[![Coverage Status](https://coveralls.io/repos/github/marius-balteanu/redmine_redcaser/badge.svg?branch=master)](https://coveralls.io/github/marius-balteanu/redmine_redcaser?branch=master)
 
 A fork of [Redcase](https://bitbucket.org/bugzinga/redcase).
+
+***
+
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Redmine Redcaser](#redmine-redcaser)
+    - [Description](#description)
+    - [Test](#test)
+    - [Guard](#guard)
+
+<!-- markdown-toc end -->
+
+## Description
 
 Redcaser is a Redmine plugin whose sole purpose is to organize testcases. When this plugin is correctly configured to your Redmine instance and project, he should be displayed as tab next to the others.
 
@@ -25,3 +40,33 @@ The following options are available when creating an execution suite:
  
 After a Suite Execution is created, when it's selected in the dropdown, all the included testcases will be displayed in the left side of the screen. When a testcase is clicked, it will be opened in the right side of the screen.
 The status of a testcase can be modified (to Failed, Passed, Blocked) either from the left side, or from the right side, and you can also add a comment
+
+## Test
+
+First create the test database:
+```bash
+bundle exec rake db:create db:migrate RAILS_ENV=test
+```
+
+Run tests for the current plugin:
+
+```bash
+bundle exec rake redmine:plugins:test NAME=redmine_redcaser
+```
+
+## Guard
+
+Make sure to have the test database set up:
+```bash
+bundle exec rake db:create db:migrate RAILS_ENV=test
+```
+
+Start guard from the plugin directory:
+```bash
+cd plusing/redmine_redcaser
+
+guard
+```
+
+> **NOTE:** If you intrerupt guard and the database is no longer present just
+> execute the command to create it again.
