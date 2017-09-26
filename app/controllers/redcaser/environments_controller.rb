@@ -2,6 +2,7 @@
 
 class Redcaser::EnvironmentsController < RedcaserBaseController
   before_action :find_environment, only: [:edit, :update, :destroy]
+  before_action :forbid_destroy,   only: [:destroy]
 
   def edit
     render json: {environment: @environment}
@@ -47,5 +48,15 @@ class Redcaser::EnvironmentsController < RedcaserBaseController
     return if @environment
 
     render json: {errors: ['Environment not found']}, status: 404
+  end
+
+  def forbid_destroy
+    exists = ExecutionSuite.where(environment_id: @environment.id).exists?
+    return unless exists
+
+    render(
+      json: {errors: ['Can not delete the execution suite since it is in use!']},
+      status: :forbidden
+    )
   end
 end
