@@ -17,7 +17,7 @@
 
 clearing :on
 
-guard 'rake', task: 'redmine:plugins:test' do
+guard 'rake', task: 'test' do
   # Code
   watch(%r{app/controllers/.*_controller.rb})
   watch(%r{app/helpers/.*_helper.rb})
@@ -30,8 +30,15 @@ guard 'rake', task: 'redmine:plugins:test' do
   watch(%r{test/integration/.*_test.rb})
   watch(%r{test/unit/.*_test.rb})
 
+  watch(%r{test/factories/.*.rb})
   watch(%r{test/support/.*_support.rb})
+
+  # Gemfile
+  watch(%r{Gemfile})
 
   # Guardfile
   watch(%r{Guardfile})
+
+  # Rakefile
+  watch(%r{Rakefile})
 end
