@@ -1,6 +1,5 @@
 class ExecutionEnvironment < ActiveRecord::Base
   belongs_to :project
-  attr_protected :id
 
   validates :name, length: { minimum: 3, maximum: 128 }
 

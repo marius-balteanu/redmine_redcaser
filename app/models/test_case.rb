@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class TestCase < ActiveRecord::Base
-  unloadable
   include ApplicationHelper
 
   belongs_to :test_suite, inverse_of: :test_cases

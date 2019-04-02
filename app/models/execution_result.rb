@@ -2,5 +2,4 @@
 # TODO: Really?
 
 class ExecutionResult < ActiveRecord::Base
-  attr_protected :id
 end

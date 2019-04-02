@@ -4,7 +4,6 @@ class TestSuite < ActiveRecord::Base
   acts_as_tree order: 'name'
   has_many :test_cases, dependent: :destroy
   belongs_to :project
-  attr_protected :id
 
   validates :name, length: { minimum: 3, maximum: 128 }
   validates_uniqueness_of :name, scope: [:project_id]
