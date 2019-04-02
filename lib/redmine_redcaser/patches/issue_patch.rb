@@ -8,12 +8,12 @@ module RedmineRedcaser
       def self.included(base)
         base.send :include, InstanceMethods
         base.class_eval do
-          unloadable
           has_one :test_case, dependent: :destroy
 
           safe_attributes 'test_case_attributes'
           accepts_nested_attributes_for :test_case, :allow_destroy => true
-          alias_method_chain :test_case, :default
+          alias_method :test_case_without_default, :test_case
+          alias_method :test_case, :test_case_with_default
         end
       end
 

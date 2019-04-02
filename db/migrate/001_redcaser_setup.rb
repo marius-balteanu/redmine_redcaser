@@ -1,4 +1,4 @@
-class RedcaserSetup < ActiveRecord::Migration
+class RedcaserSetup < ActiveRecord::Migration[4.2]
   def change
     create_table :test_suites do |column|
       column.string  :name, null: false, limit: 128

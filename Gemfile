@@ -11,7 +11,7 @@ end
 
 group :development, :test do
   # Assertions for rails specific resources.
-  gem 'minitest-rails', '~> 2.2'
+  gem 'minitest-rails'
 
   # Factories.
   gem 'factory_girl_rails'
